@@ -1,0 +1,12 @@
+
+# dependencies
+node_modules/
+
+# misc
+processed/
+__pyache__/
+.DS_Store
+.env
+npm-debug.log
+package-lock.json
+_site
