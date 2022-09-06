@@ -9,6 +9,7 @@ class Player {
     let coordinator = SessionCoordinator()
     let pedometer = Pedometer()
     var location = Location()
+    var workout = Workout()
     var channels: [[String]] = []
     var playerLabels: [String: AVAudioPlayer] = [:]
     var players: [AVAudioPlayer?] = []

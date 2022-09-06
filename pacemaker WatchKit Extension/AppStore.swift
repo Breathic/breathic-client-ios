@@ -7,7 +7,7 @@ struct AppState {
     var ui: UI = UI()
     var history: [Int] = []
     var seedInputs: [SeedInput] = [
-        SeedInput(durationRange: [0, 8], interval: [1, 1, 1, 1, 1, 1, 1, 1] ** 1, isPanning: true),
+        SeedInput(durationRange: [0, 8], interval: [1, 1, 1, 1, 1, 1, 1, 1] ** 8, isPanning: true),
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []
@@ -21,15 +21,18 @@ struct AppState {
     var selectedInRhythm: Int = 10
     var selectedOutRhythm: Int = 10
     var rhythmTypes: [RhythmType] = [
+        RhythmType(unit: "heartbeat/s", key: "averageHeartRatePerSecond", reversed: false, selectedRhythm: 10),
         RhythmType(unit: "step/s", key: "averageStepsPerSecond", reversed: false, selectedRhythm: 10),
         RhythmType(unit: "m/s", key: "averageMetersPerSecond", reversed: true, selectedRhythm: 10),
     ]
-    var selectedRhythmTypeIndex = 1
+    var selectedRhythmTypeIndex = 0
+    var averageHeartRatePerSecond: Double = 1
     var averageStepsPerSecond: Double = 1
     var averageMetersPerSecond: Double = 1
     
     func valueByKey(key: String) -> Double {
         switch key {
+            case "averageHeartRatePerSecond": return averageHeartRatePerSecond
             case "averageStepsPerSecond": return averageStepsPerSecond
             case "averageMetersPerSecond": return averageMetersPerSecond
             default: fatalError("Key is undefined")
