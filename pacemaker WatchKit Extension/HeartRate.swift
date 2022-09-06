@@ -2,11 +2,12 @@ import Foundation
 import SwiftUI
 import HealthKit
 
-class Workout: ObservableObject {
+class HeartRate: ObservableObject {
     @ObservedObject private var store: AppStore = .shared
 
     private var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
+    var heartRates: [Double] = []
 
     init() {
         autorizeHealthKit()
@@ -27,9 +28,18 @@ class Workout: ObservableObject {
             guard let samples = samples as? [HKQuantitySample] else {
                 return
             }
-            self.process(samples, type: quantityTypeIdentifier)
+
+            DispatchQueue.main.async {
+                self.process(samples, type: quantityTypeIdentifier)
+            }
         }
-        let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
+        let query = HKAnchoredObjectQuery(
+            type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!,
+            predicate: devicePredicate,
+            anchor: nil,
+            limit: HKObjectQueryNoLimit,
+            resultsHandler: updateHandler
+        )
         query.updateHandler = updateHandler
         healthStore.execute(query)
     }
@@ -37,7 +47,19 @@ class Workout: ObservableObject {
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
         for sample in samples {
             if type == .heartRate {
-                store.state.averageHeartRatePerSecond = sample.quantity.doubleValue(for: heartRateQuantity) / 60
+                let heartRate = sample.quantity.doubleValue(for: heartRateQuantity) / 60
+
+                if (heartRate >= 0) {
+                    let minValue = 0.1
+
+                    heartRates.append(heartRate)
+                    heartRates = Array(heartRates.suffix(MAX_INTERVALS))
+                    store.state.averageHeartRatePerSecond = heartRates.reduce(0) { $0 + $1 } / Double(heartRates.count)
+
+                    if store.state.averageMetersPerSecond < minValue {
+                        store.state.averageHeartRatePerSecond = minValue
+                    }
+                }
             }
         }
     }

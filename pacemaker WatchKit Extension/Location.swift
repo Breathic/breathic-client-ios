@@ -51,21 +51,21 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    func processLocation(current: CLLocation) {
+    func process(current: CLLocation) {
         guard last != nil else {
             last = current
             return
         }
         
         if (current.speed >= 0) {
-            let minSpeed = 0.1
+            let minValue = 0.1
             
             speeds.append(current.speed)
             speeds = Array(speeds.suffix(MAX_INTERVALS))
             store.state.averageMetersPerSecond = speeds.reduce(0) { $0 + $1 } / Double(speeds.count)
             
-            if store.state.averageMetersPerSecond < minSpeed {
-                store.state.averageMetersPerSecond = minSpeed
+            if store.state.averageMetersPerSecond < minValue {
+                store.state.averageMetersPerSecond = minValue
             }
         }
         
@@ -87,7 +87,7 @@ extension Location {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
             DispatchQueue.main.async {
-                self.processLocation(current: location)
+                self.process(current: location)
             }
         }
     }

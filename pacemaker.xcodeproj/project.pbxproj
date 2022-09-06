@@ -24,8 +24,8 @@
 		FD2D395028BBDFEE009F1861 /* FS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394F28BBDFEE009F1861 /* FS.swift */; };
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
-		FD54540028C748AB002E24C1 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5453FF28C748AB002E24C1 /* Workout.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
+		FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54540428C78E56002E24C1 /* HeartRate.swift */; };
 		FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */; };
 		FDFB458728BE241C00ED7F49 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDFB458628BE241C00ED7F49 /* data */; };
 /* End PBXBuildFile section */
@@ -91,9 +91,9 @@
 		FD2D394F28BBDFEE009F1861 /* FS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FS.swift; sourceTree = "<group>"; };
 		FD2D395128BBE012009F1861 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		FD5453FF28C748AB002E24C1 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		FD54540128C74BD6002E24C1 /* pacemaker WatchKit ExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "pacemaker WatchKit ExtensionDebug.entitlements"; sourceTree = "<group>"; };
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FD54540428C78E56002E24C1 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCoordinator.swift; sourceTree = "<group>"; };
 		FDFB458628BE241C00ED7F49 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,7 +159,7 @@
 				FD2D392D28BBDD9A009F1861 /* Preview Content */,
 				FD2D393E28BBDE4A009F1861 /* AppStore.swift */,
 				FD2D394728BBDF5B009F1861 /* Pedometer.swift */,
-				FD5453FF28C748AB002E24C1 /* Workout.swift */,
+				FD54540428C78E56002E24C1 /* HeartRate.swift */,
 			);
 			path = "pacemaker WatchKit Extension";
 			sourceTree = "<group>";
@@ -320,7 +320,7 @@
 				FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */,
 				FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */,
 				FD2D392828BBDD99009F1861 /* pacemakerApp.swift in Sources */,
-				FD54540028C748AB002E24C1 /* Workout.swift in Sources */,
+				FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */,
 				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
 				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
 				FD2D394E28BBDFC9009F1861 /* Location.swift in Sources */,
