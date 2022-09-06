@@ -9,7 +9,7 @@ class HeartRate: ObservableObject {
     let heartRateQuantity = HKUnit(from: "count/min")
     var heartRates: [Double] = []
 
-    init() {
+    func start() {
         autorizeHealthKit()
         startHeartRateQuery(quantityTypeIdentifier: .heartRate)
     }

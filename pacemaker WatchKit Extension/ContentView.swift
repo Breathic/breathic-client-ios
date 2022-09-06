@@ -53,8 +53,11 @@ struct ContentView: View {
         .disabled(!isEnabled)
     }
         
-    func returnToMainDetail(geometry: GeometryProxy) -> some View {
-        Button(action: { store.state.activeSubView = SubView.main }) {
+    func returnToMainDetail(
+        geometry: GeometryProxy,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
             Text("⏎")
                 .frame(width: 33)
         }
@@ -217,7 +220,13 @@ struct ContentView: View {
     func rhythmView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
-                returnToMainDetail(geometry: geometry)
+                returnToMainDetail(
+                    geometry: geometry,
+                    action: {
+                        store.state.activeSubView = SubView.main
+                        player.setChannels()
+                    }
+                )
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
         
@@ -242,7 +251,6 @@ struct ContentView: View {
                 .onChange(of: store.state.selectedInRhythm) { value in
                     store.state.selectedInRhythm = value
                     store.state.selectedOutRhythm = value
-                    player.setChannels()
                 }
                 
                 Picker("", selection: $store.state.selectedOutRhythm) {
@@ -264,7 +272,6 @@ struct ContentView: View {
                 .clipped()
                 .onChange(of: store.state.selectedOutRhythm) { value in
                     store.state.selectedOutRhythm = value
-                    player.setChannels()
                 }
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
@@ -274,7 +281,10 @@ struct ContentView: View {
     func volumeView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
-                returnToMainDetail(geometry: geometry)
+                returnToMainDetail(
+                    geometry: geometry,
+                    action: { store.state.activeSubView = SubView.main }
+                )
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
 

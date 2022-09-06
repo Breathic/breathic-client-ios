@@ -23,7 +23,7 @@ struct AppState {
     var rhythmTypes: [RhythmType] = [
         RhythmType(unit: "heartbeat/s", key: "averageHeartRatePerSecond", reversed: false, selectedRhythm: 10),
         RhythmType(unit: "step/s", key: "averageStepsPerSecond", reversed: false, selectedRhythm: 10),
-        RhythmType(unit: "m/s", key: "averageMetersPerSecond", reversed: true, selectedRhythm: 10),
+        //RhythmType(unit: "m/s", key: "averageMetersPerSecond", reversed: true, selectedRhythm: 10),
     ]
     var selectedRhythmTypeIndex = 0
     var averageHeartRatePerSecond: Double = 1

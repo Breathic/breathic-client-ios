@@ -8,7 +8,7 @@ class Player {
     
     let coordinator = SessionCoordinator()
     let pedometer = Pedometer()
-    var location = Location()
+    //var location = Location()
     var heartRate = HeartRate()
     var channels: [[String]] = []
     var playerLabels: [String: AVAudioPlayer] = [:]
@@ -224,7 +224,8 @@ class Player {
             }
             coordinator.start()
             pedometer.start()
-            location.start()
+            heartRate.start()
+            //location.start()
             loop()
         }
     }
