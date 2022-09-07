@@ -13,7 +13,7 @@ struct AppState {
     var likesIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var selectedVolume: Int = 50
+    var selectedVolume: Int = 25
     var isDiscoveryEnabled = true
     var playerIndex: Int = -1
     var currentSampleIndex = 0
@@ -24,7 +24,7 @@ struct AppState {
     var rhythmTypes: [RhythmType] = [
         RhythmType(unit: "heartbeat / s", key: "averageHeartRatePerSecond"),
         RhythmType(unit: "step / s", key: "averageStepsPerSecond"),
-        //RhythmType(unit: "m/s", key: "averageMetersPerSecond"),
+        //RhythmType(unit: "m / s", key: "averageMetersPerSecond"),
     ]
     var selectedRhythmTypeIndex = 0
     var averageHeartRatePerSecond: Double = 1

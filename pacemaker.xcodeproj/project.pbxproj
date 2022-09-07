@@ -26,6 +26,7 @@
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
 		FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54540428C78E56002E24C1 /* HeartRate.swift */; };
+		FD54540928C8CA67002E24C1 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FD54540828C8CA67002E24C1 /* Sentry */; };
 		FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */; };
 		FDFB458728BE241C00ED7F49 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDFB458628BE241C00ED7F49 /* data */; };
 /* End PBXBuildFile section */
@@ -105,6 +106,7 @@
 			files = (
 				FD2D394628BBDF24009F1861 /* Easing in Frameworks */,
 				FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */,
+				FD54540928C8CA67002E24C1 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +200,7 @@
 			name = pacemaker;
 			packageProductDependencies = (
 				FD2D394328BBDEE1009F1861 /* Easing */,
+				FD54540728C8CA2E002E24C1 /* Sentry */,
 			);
 			productName = pacemaker;
 			productReference = FD2D391128BBDD97009F1861 /* pacemaker.app */;
@@ -235,6 +238,7 @@
 			name = "pacemaker WatchKit Extension";
 			packageProductDependencies = (
 				FD2D394528BBDF24009F1861 /* Easing */,
+				FD54540828C8CA67002E24C1 /* Sentry */,
 			);
 			productName = "pacemaker WatchKit Extension";
 			productReference = FD2D392028BBDD99009F1861 /* pacemaker WatchKit Extension.appex */;
@@ -272,6 +276,7 @@
 			mainGroup = FD2D390A28BBDD97009F1861;
 			packageReferences = (
 				FD2D394228BBDEE1009F1861 /* XCRemoteSwiftPackageReference "Easing" */,
+				FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = FD2D391228BBDD97009F1861 /* Products */;
 			projectDirPath = "";
@@ -656,6 +661,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -668,6 +681,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FD2D394228BBDEE1009F1861 /* XCRemoteSwiftPackageReference "Easing" */;
 			productName = Easing;
+		};
+		FD54540728C8CA2E002E24C1 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+		FD54540828C8CA67002E24C1 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
