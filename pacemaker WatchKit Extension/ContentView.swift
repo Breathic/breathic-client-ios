@@ -109,7 +109,7 @@ struct ContentView: View {
                     HStack {
                         menuButton(
                             geometry: geometry,
-                            label: "Pace (" + store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].unit + ")",
+                            label: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].unit,
                             value: String(format:"%.1f", store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)),
                             action: {
                                 store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
@@ -122,7 +122,7 @@ struct ContentView: View {
                         
                         menuButton(
                             geometry: geometry,
-                            label: "Breathing",
+                            label: "breath / pace",
                             value: "\(String(format:"%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format:"%.1f", Double(store.state.selectedOutRhythm) / 10))",
                             action: { store.state.activeSubView = SubView.rhythm }
                         )

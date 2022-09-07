@@ -22,8 +22,8 @@ struct AppState {
     var selectedOutRhythm: Int = 10
     var selectedRhythmIndex: Int = 0
     var rhythmTypes: [RhythmType] = [
-        RhythmType(unit: "heartbeat/s", key: "averageHeartRatePerSecond"),
-        RhythmType(unit: "step/s", key: "averageStepsPerSecond"),
+        RhythmType(unit: "heartbeat / s", key: "averageHeartRatePerSecond"),
+        RhythmType(unit: "step / s", key: "averageStepsPerSecond"),
         //RhythmType(unit: "m/s", key: "averageMetersPerSecond"),
     ]
     var selectedRhythmTypeIndex = 0
