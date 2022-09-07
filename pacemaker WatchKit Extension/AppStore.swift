@@ -13,7 +13,7 @@ struct AppState {
     var likesIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var selectedVolume: Int = 5
+    var selectedVolume: Int = 50
     var isDiscoveryEnabled = true
     var playerIndex: Int = -1
     var currentSampleIndex = 0

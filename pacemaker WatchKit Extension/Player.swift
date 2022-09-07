@@ -114,7 +114,7 @@ class Player {
             if playerLabels[forResource] == nil {
                 let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
                 player?.prepareToPlay()
-                player?.volume = Float(store.state.selectedVolume) / 20
+                player?.volume = Float(store.state.selectedVolume) / 10
                 playerLabels[forResource] = player
             }
             

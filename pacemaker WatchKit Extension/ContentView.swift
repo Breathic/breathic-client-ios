@@ -162,7 +162,7 @@ struct ContentView: View {
                         menuButton(
                             geometry: geometry,
                             label: "Volume",
-                            value: String(store.state.selectedVolume * 2),
+                            value: String(store.state.selectedVolume),
                             action: {
                                 store.state.activeSubView = SubView.volume
                             }
@@ -288,14 +288,14 @@ struct ContentView: View {
             .font(.system(size: store.state.ui.secondaryTextSize))
 
             Picker("", selection: $store.state.selectedVolume) {
-                ForEach(Array(0...50), id: \.self) {
+                ForEach(Array(0...100), id: \.self) {
                     if $0 == store.state.selectedVolume {
-                        Text(String($0 * 2))
+                        Text(String($0))
                         .font(.system(size: 18))
                         .fontWeight(.bold)
                     }
                     else {
-                        Text(String($0 * 2))
+                        Text(String($0))
                         .font(.system(size: 12))
                     }
                 }
