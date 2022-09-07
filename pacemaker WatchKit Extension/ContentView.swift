@@ -115,7 +115,6 @@ struct ContentView: View {
                                 store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
                                         ? store.state.selectedRhythmTypeIndex + 1
                                         : 0
-                                player.resetSelectedRhythm()
                             }
                         )
                         

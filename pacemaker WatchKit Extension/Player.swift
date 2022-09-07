@@ -23,12 +23,6 @@ class Player {
         //UserDefaults.standard.set("", forKey: "likes")
         store.state.likes = getLikes()
         store.state.likesIds = parseLikes(likes: store.state.likes)
-        resetSelectedRhythm()
-    }
-    
-    func resetSelectedRhythm() {
-        //store.state.selectedInRhythm = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].selectedRhythm
-        //store.state.selectedOutRhythm = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].selectedRhythm
     }
     
     func startAudioSession() async {
@@ -164,9 +158,8 @@ class Player {
         }
     }
 
-    // 1pulse/s / 0.2/pulse￼ = 5s of delay
     func loop() {
-        let value = store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)
+        let pace = store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)
         let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let selectedRhythm: Int = selectedRhythms[store.state.selectedRhythmIndex]
 
@@ -175,7 +168,7 @@ class Player {
             store.state.selectedRhythmIndex = 0
         }
 
-        var loopInterval: TimeInterval = value / Double(selectedRhythm) * 10
+        var loopInterval: TimeInterval = Double(selectedRhythm) / pace / 10
         loopInterval = loopInterval > 0 ? loopInterval : 1
 
         Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
