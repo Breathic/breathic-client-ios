@@ -1,5 +1,15 @@
 import Foundation
 
+/*
+import Sentry
+
+SentrySDK.start { options in
+     options.dsn = SENTRY_DSN
+     options.debug = true
+     options.tracesSampleRate = 1.0
+ }
+ */
+
 struct AppState {
     var activeSubView: SubView = .main
     var seeds: [Seed] = []

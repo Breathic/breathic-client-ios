@@ -169,7 +169,8 @@ struct ContentView: View {
                         )
                         
                         Spacer(minLength: 8)
-                        
+
+                    /*
                         menuButton(
                             geometry: geometry,
                             label: store.state.likesIds.contains(String(store.state.seeds[0].rhythms[0].id)) ? "Liked" : "Like",
@@ -181,6 +182,8 @@ struct ContentView: View {
                                     : player.like()
                             }
                         )
+                     */
+
                     }
                     
                     Spacer(minLength: 8)
