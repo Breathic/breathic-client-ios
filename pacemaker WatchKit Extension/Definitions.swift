@@ -47,6 +47,4 @@ class Step {
 struct RhythmType {
     var unit: String = ""
     var key: String = ""
-    var reversed: Bool = false
-    var selectedRhythm: Int = 1
 }

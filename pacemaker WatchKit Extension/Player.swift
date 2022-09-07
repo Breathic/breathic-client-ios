@@ -27,8 +27,8 @@ class Player {
     }
     
     func resetSelectedRhythm() {
-        store.state.selectedInRhythm = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].selectedRhythm
-        store.state.selectedOutRhythm = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].selectedRhythm
+        //store.state.selectedInRhythm = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].selectedRhythm
+        //store.state.selectedOutRhythm = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].selectedRhythm
     }
     
     func startAudioSession() async {
@@ -104,14 +104,8 @@ class Player {
             let samples: [String] = seed.rhythms[0].samples
             var channel: [String] = []
 
-            for (i, sample) in samples.enumerated() {
-                let extendedRhythm = i % 2 == 0 ? store.state.selectedInRhythm : store.state.selectedOutRhythm
-                var extendedSample = [String](repeating: "", count: extendedRhythm)
-                extendedSample[0] = sample
-                
-                for path in extendedSample {
-                    channel.append(path)
-                }
+            for sample in samples {
+                channel.append(sample)
             }
 
             channels.append(channel)
@@ -169,14 +163,20 @@ class Player {
             }
         }
     }
-    
+
+    // 1pulse/s / 0.2/pulse￼ = 5s of delay
     func loop() {
-        let divisor = 10.0
-        let reversed = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].reversed
-        var value = store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)
-        value = reversed ? 1 / value : value
-        value = value / divisor
-        let loopInterval: TimeInterval = value > 0 ? value : 1
+        let value = store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)
+        let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
+        let selectedRhythm: Int = selectedRhythms[store.state.selectedRhythmIndex]
+
+        store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
+        if store.state.selectedRhythmIndex == selectedRhythms.count {
+            store.state.selectedRhythmIndex = 0
+        }
+
+        var loopInterval: TimeInterval = value / Double(selectedRhythm) * 10
+        loopInterval = loopInterval > 0 ? loopInterval : 1
 
         Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
             if self.store.state.isAudioPlaying {
