@@ -48,3 +48,8 @@ struct RhythmType {
     var unit: String = ""
     var key: String = ""
 }
+
+class Track {
+    var sampleIndex: Int = 0
+    var channels: [[String]] = []
+}

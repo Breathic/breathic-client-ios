@@ -16,7 +16,8 @@ class HeartRate: ObservableObject {
 
     func autorizeHealthKit() {
         let healthKitTypes: Set = [
-        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!]
+            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
+        ]
 
         healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
     }

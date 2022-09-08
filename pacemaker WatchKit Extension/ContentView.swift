@@ -82,13 +82,11 @@ struct ContentView: View {
                 value: like,
                 isWide: true,
                 isTall: false,
-                isActive: !store.state.isDiscoveryEnabled && store.state.playerIndex == index && store.state.isAudioPlaying,
                 action: {
                     let lastIndex = store.state.playerIndex
                     let wasPlaying = store.state.isAudioPlaying
                     
                     store.state.playerIndex = index
-                    store.state.isDiscoveryEnabled = false
                     player.setLikedPlay(playerIndex: index)
                     
                     player.pause()
@@ -144,15 +142,9 @@ struct ContentView: View {
                         
                         menuButton(
                             geometry: geometry,
-                            label: "Skip",
+                            label: "Next",
                             value: "▶|",
-                            action: {
-                                player.pause()
-                                store.state.isDiscoveryEnabled
-                                    ? store.state.seeds = player.getAllSeeds(seedInputs: store.state.seedInputs)
-                                    : player.setPlayerIndex()
-                                player.play()
-                            }
+                            action: { player.next() }
                         )
                     }
                     
@@ -174,12 +166,12 @@ struct ContentView: View {
                         menuButton(
                             geometry: geometry,
                             label: store.state.likesIds.contains(String(store.state.seeds[0].rhythms[0].id)) ? "Liked" : "Like",
-                            value: store.state.playerIndex > -1 && !store.state.isDiscoveryEnabled ? "♡" : "♥",
+                            value: store.state.playerIndex > -1 ? "♡" : "♥",
                             isEnabled: store.state.isAudioSessionLoaded,
                             action: {
-                                store.state.playerIndex > -1 && !store.state.isDiscoveryEnabled
-                                    ? player.dislike()
-                                    : player.like()
+                                //store.state.playerIndex > -1
+                                    //? player.dislike()
+                                    //: player.like()
                             }
                         )
                      */
@@ -187,31 +179,6 @@ struct ContentView: View {
                     }
                     
                     Spacer(minLength: 8)
-                    
-                    if store.state.likesIds.count > 0 {
-                        Spacer(minLength: 8)
-                        
-                        menuButton(
-                            geometry: geometry,
-                            label: "Playing mode",
-                            value: store.state.isDiscoveryEnabled ? "Explore" : "Likes",
-                            isWide: true,
-                            action: {
-                                store.state.isDiscoveryEnabled = !store.state.isDiscoveryEnabled
-                                
-                                if store.state.isDiscoveryEnabled {
-                                    store.state.playerIndex = -1
-                                    store.state.seeds = player.getAllSeeds(seedInputs: store.state.seedInputs)
-                                    player.pause()
-                                }
-                                else {
-                                    store.state.playerIndex = 0
-                                }
-                            }
-                        )
-                        
-                        Spacer(minLength: 8)
-                    }
                     
                     likesDetail(geometry: geometry)
                 }

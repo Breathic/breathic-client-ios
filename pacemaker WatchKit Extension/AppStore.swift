@@ -3,6 +3,8 @@ import Foundation
 /*
 import Sentry
 
+let SENTRY_DSN = "https://104bfdd0d1f9498bba4cbaca12988611@o1399372.ingest.sentry.io/6726680"
+
 SentrySDK.start { options in
      options.dsn = SENTRY_DSN
      options.debug = true
@@ -17,19 +19,19 @@ struct AppState {
     var ui: UI = UI()
     var history: [Int] = []
     var seedInputs: [SeedInput] = [
-        SeedInput(durationRange: [0, 8], interval: [1, 1, 1, 1, 1, 1, 1, 1] ** 8, isPanning: true),
+        SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0] ** 16, isPanning: true),
+        //SeedInput(durationRange: [0, 8], interval: [1, 1, 1, 1, 1, 1, 1, 1] ** 16, isPanning: false),
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var selectedVolume: Int = 25
-    var isDiscoveryEnabled = true
     var playerIndex: Int = -1
     var currentSampleIndex = 0
     var rhythmRange: [Int] = Array(1...50)
-    var selectedInRhythm: Int = 10
-    var selectedOutRhythm: Int = 10
+    var selectedInRhythm: Int = 25
+    var selectedOutRhythm: Int = 25
     var selectedRhythmIndex: Int = 0
     var rhythmTypes: [RhythmType] = [
         RhythmType(unit: "heartbeat / s", key: "averageHeartRatePerSecond"),
@@ -37,7 +39,7 @@ struct AppState {
         //RhythmType(unit: "m / s", key: "averageMetersPerSecond"),
     ]
     var selectedRhythmTypeIndex = 0
-    var averageHeartRatePerSecond: Double = 1
+    var averageHeartRatePerSecond: Double = 2.5
     var averageStepsPerSecond: Double = 1
     var averageMetersPerSecond: Double = 1
     

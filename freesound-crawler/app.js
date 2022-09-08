@@ -20,7 +20,7 @@ const puppeteer = require("puppeteer");
     return pagePaginationCount;
   });
 
-  let pageIndex = 603;
+  let pageIndex = 1144;
   while (pageIndex != pagePaginationCount && pageIndex < MAX_PAGES) {
     await page.goto(`https://freesound.org/browse/packs/?order=-num_downloads&page=${pageIndex + 1}#pack`);
     const { packUrlsPerPage } = await page.evaluate(async () => {

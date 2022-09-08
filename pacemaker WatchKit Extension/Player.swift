@@ -16,6 +16,7 @@ class Player {
     var isPanningReversed: Bool = true
     var panScaleLeft: [Float] = []
     var panScaleRight: [Float] = []
+    var tracks: [Track] = []
     
     init() {
         flush()
@@ -45,12 +46,14 @@ class Player {
     
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
         do {
-            let url = Bundle.main.url(
+            guard let url = Bundle.main.url(
                 forResource: forResource.replacingOccurrences(of: "." + withExtension, with: ""),
                 withExtension: withExtension
-            )
+            ) else {
+                return nil
+            }
             
-            return try AVAudioPlayer(contentsOf: url!)
+            return try AVAudioPlayer(contentsOf: url)
         }
         catch {
             print(error)
@@ -104,6 +107,10 @@ class Player {
 
             channels.append(channel)
         }
+
+        //let track = Track()
+        //track.channels = channels
+        //self.tracks.append(track)
     }
     
     func setPlayer(channelIndex: Int, sampleIndex: Int) {
@@ -158,7 +165,7 @@ class Player {
         }
     }
 
-    func loop() {
+    func getLoopInterval() -> TimeInterval {
         let pace = store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)
         let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let selectedRhythm: Int = selectedRhythms[store.state.selectedRhythmIndex]
@@ -169,71 +176,45 @@ class Player {
         }
 
         var loopInterval: TimeInterval = Double(selectedRhythm) / pace / 10
+        loopInterval = loopInterval / 8
         loopInterval = loopInterval > 0 ? loopInterval : 1
+
+        return loopInterval
+    }
+
+    func loopedPlay(loopInterval: TimeInterval) {
+        for (channelIndex, channel) in self.channels.enumerated() {
+            if channel.count - 1 >= self.store.state.currentSampleIndex && channel[self.store.state.currentSampleIndex] != "" {
+                if channelIndex == 0 {
+                    self.isPanningReversed = !self.isPanningReversed
+                }
+
+                self.setPlayer(channelIndex: channelIndex, sampleIndex: self.store.state.currentSampleIndex)
+
+                if self.store.state.seeds[channelIndex].isPanning {
+                    self.ease(loopInterval: loopInterval, channelIndex: channelIndex)
+                }
+            }
+
+            if channelIndex == self.channels.count - 1 {
+                self.store.state.currentSampleIndex = self.store.state.currentSampleIndex + 1
+            }
+
+            if self.store.state.currentSampleIndex == channel.count - 1 {
+                self.next()
+            }
+        }
+    }
+
+    func loop() {
+        let loopInterval: TimeInterval = getLoopInterval()
 
         Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
             if self.store.state.isAudioPlaying {
-                for (channelIndex, channel) in self.channels.enumerated() {
-                    if channel.count - 1 >= self.store.state.currentSampleIndex && channel[self.store.state.currentSampleIndex] != "" {
-                        if channelIndex == 0 {
-                            self.isPanningReversed = !self.isPanningReversed
-                        }
-                        
-                        self.setPlayer(channelIndex: channelIndex, sampleIndex: self.store.state.currentSampleIndex)
+                self.loopedPlay(loopInterval: loopInterval)
+            }
 
-                        if self.store.state.seeds[channelIndex].isPanning {
-                            self.ease(loopInterval: loopInterval, channelIndex: channelIndex)
-                        }
-                    }
-                    
-                    if channelIndex == self.channels.count - 1 {
-                        self.store.state.currentSampleIndex = self.store.state.currentSampleIndex + 1
-                    }
-                    
-                    if self.store.state.currentSampleIndex == channel.count - 1 {
-                        self.next()
-                        self.setChannels()
-                    }
-                }
-            }
-            
             self.loop()
-        }
-    }
-    
-    func play() {
-        flush()
-        setChannels()
-        store.state.isAudioPlaying = true
-        
-        for (channelIndex, _) in store.state.seeds.enumerated() {
-            setPlayer(channelIndex: channelIndex, sampleIndex: 0)
-        }
-        
-        if !store.state.isAudioSessionLoaded {
-            store.state.isAudioSessionLoaded = true
-            Task {
-                await startAudioSession()
-            }
-            coordinator.start()
-            pedometer.start()
-            heartRate.start()
-            //location.start()
-            loop()
-        }
-    }
-    
-    func pause() {
-        store.state.isAudioPlaying = false
-        
-        for player in players {
-            player?.pause()
-        }
-    }
-    
-    func stop() {
-        for player in players {
-            player?.stop()
         }
     }
     
@@ -277,7 +258,7 @@ class Player {
     
     func setVolume(volume: Float) {
         for player in players {
-            player?.volume = volume / 20
+            player?.volume = volume / 10
         }
     }
     
@@ -325,25 +306,37 @@ class Player {
         store.state.likesIds = parseLikes(likes: likes)
     }
     
-    func dislike() {
-        store.state.likes.remove(at: store.state.playerIndex)
-        setLikes(likes: store.state.likes)
-
-        if store.state.isAudioPlaying && store.state.likes.count > 0 {
-            pause()
-            store.state.playerIndex = store.state.playerIndex - 1
-            next()
-            setLikedPlay(playerIndex: store.state.playerIndex)
-            play()
+    func play() {
+        if !store.state.isAudioSessionLoaded {
+            store.state.isAudioSessionLoaded = true
+            Task {
+                await startAudioSession()
+            }
+            coordinator.start()
+            pedometer.start()
+            heartRate.start()
+            //location.start()
+            loop()
+            setChannels()
         }
-        else {
-            pause()
-            store.state.isDiscoveryEnabled = true
-            store.state.playerIndex = -1
-            store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
+
+        store.state.isAudioPlaying = true
+    }
+
+    func pause() {
+        store.state.isAudioPlaying = false
+
+        for player in players {
+            player?.pause()
         }
     }
-    
+
+    func stop() {
+        for player in players {
+            player?.stop()
+        }
+    }
+
     func flush() {
         stop()
         playerLabels = [:]
@@ -353,48 +346,45 @@ class Player {
         }
         store.state.currentSampleIndex = 0
     }
-    
+
     func next() {
-        flush()
-        
-        if store.state.isDiscoveryEnabled {
-            for (channelIndex, _) in store.state.seeds.enumerated() {
-                let lastRhythm = store.state.seeds[channelIndex].rhythms[0]
-                store.state.history.append(lastRhythm.id)
-                let distances: [Distance] = store.state.distances[lastRhythm.id] ?? []
-                var summary: [Int: Double] = [:]
+        for (channelIndex, _) in store.state.seeds.enumerated() {
+            let lastRhythm = store.state.seeds[channelIndex].rhythms[0]
+            store.state.history.append(lastRhythm.id)
+            let distances: [Distance] = store.state.distances[lastRhythm.id] ?? []
+            var summary: [Int: Double] = [:]
 
-                for distance in distances {
-                    let nextDistances: [Distance] = (store.state.distances[distance.rightId] ?? [])
-                        .filter { $0.duration > lastRhythm.durationRange[0] && $0.duration < lastRhythm.durationRange[1] }
+            for distance in distances {
+                let nextDistances: [Distance] = (store.state.distances[distance.rightId] ?? [])
+                    .filter { $0.duration > lastRhythm.durationRange[0] && $0.duration < lastRhythm.durationRange[1] }
 
-                    for nextDistance in nextDistances {
-                        summary[nextDistance.rightId] = distance.value + nextDistance.value
-                    }
-                }
-
-                let sortedSummary = summary
-                    .filter { !store.state.history.contains($0.key) }
-                    .sorted { Double($0.value) < Double($1.value) }
-                
-                if sortedSummary.count == 0 {
-                    let element = store.state.seeds[channelIndex].rhythms
-                        .remove(at: 0)
-                    store.state.seeds[channelIndex].rhythms.append(element)
-                }
-                else {
-                    let index = store.state.seeds[channelIndex].rhythms
-                        .firstIndex(where: {$0.id == sortedSummary[0].key}) ?? 0
-                    let element = store.state.seeds[channelIndex].rhythms
-                        .remove(at: index)
-                    store.state.seeds[channelIndex].rhythms
-                        .insert(element, at: 0)
-                    print(sortedSummary[0].value)
+                for nextDistance in nextDistances {
+                    summary[nextDistance.rightId] = distance.value + nextDistance.value
                 }
             }
+
+            let sortedSummary = summary
+                .filter { !store.state.history.contains($0.key) }
+                .sorted { Double($0.value) < Double($1.value) }
+
+            if sortedSummary.count == 0 {
+                let element = store.state.seeds[channelIndex].rhythms
+                    .remove(at: 0)
+                store.state.seeds[channelIndex].rhythms.append(element)
+            }
+            else {
+                let index = store.state.seeds[channelIndex].rhythms
+                    .firstIndex(where: {$0.id == sortedSummary[0].key}) ?? 0
+                let element = store.state.seeds[channelIndex].rhythms
+                    .remove(at: index)
+                store.state.seeds[channelIndex].rhythms
+                    .insert(element, at: 0)
+                print(sortedSummary[0].value)
+            }
         }
-        else {
-            setPlayerIndex()
-        }
+
+        flush()
+        setChannels()
+        play()
     }
 }
