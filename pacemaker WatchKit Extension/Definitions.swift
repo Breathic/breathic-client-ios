@@ -1,4 +1,5 @@
 import Foundation
+import AVFAudio
 
 enum SubView {
     case main
@@ -49,7 +50,25 @@ struct RhythmType {
     var key: String = ""
 }
 
-class Track {
+class Audio {
     var sampleIndex: Int = 0
     var channels: [[String]] = []
+    var playerLabels: [String: AVAudioPlayer] = [:]
+    var players: [AVAudioPlayer?] = []
+
+    init(sampleIndex: Int, channels: [[String]], playerLabels: [String: AVAudioPlayer], players: [AVAudioPlayer?]) {
+        self.sampleIndex = sampleIndex
+        self.channels = channels
+        self.playerLabels = playerLabels
+        self.players = players
+    }
+
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Audio(
+            sampleIndex: sampleIndex,
+            channels: channels,
+            playerLabels: playerLabels,
+            players: players)
+        return copy
+    }
 }

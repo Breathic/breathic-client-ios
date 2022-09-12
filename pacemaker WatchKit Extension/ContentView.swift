@@ -99,7 +99,7 @@ struct ContentView: View {
             Spacer(minLength: 8)
         }
     }
-    
+
     func mainView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
@@ -115,9 +115,9 @@ struct ContentView: View {
                                         : 0
                             }
                         )
-                        
+
                         Spacer(minLength: 8)
-                        
+
                         menuButton(
                             geometry: geometry,
                             label: "breath / pace",
@@ -125,9 +125,9 @@ struct ContentView: View {
                             action: { store.state.activeSubView = SubView.rhythm }
                         )
                     }
-                    
+
                     Spacer(minLength: 8)
-                    
+
                     HStack {
                         menuButton(
                             geometry: geometry,
@@ -137,19 +137,29 @@ struct ContentView: View {
                                 player.togglePlay()
                             }
                         )
-                        
+
                         Spacer(minLength: 8)
-                        
+
                         menuButton(
                             geometry: geometry,
                             label: "Next",
                             value: "▶|",
-                            action: { player.next() }
+                            action: {
+                                player.pause()
+                                store.state.seeds = player.getAllSeeds(seedInputs: store.state.seedInputs)
+
+                                for (audioIndex, _) in player.audios.enumerated() {
+                                    player.flush(audioIndex: audioIndex)
+                                    player.next(audioIndex: audioIndex)
+                                }
+
+                                player.play()
+                            }
                         )
                     }
-                    
+
                     Spacer(minLength: 8)
-            
+
                     HStack {
                         menuButton(
                             geometry: geometry,
@@ -159,7 +169,7 @@ struct ContentView: View {
                                 store.state.activeSubView = SubView.volume
                             }
                         )
-                        
+
                         Spacer(minLength: 8)
 
                     /*
@@ -177,15 +187,15 @@ struct ContentView: View {
                      */
 
                     }
-                    
+
                     Spacer(minLength: 8)
-                    
+
                     likesDetail(geometry: geometry)
                 }
             }
         }
     }
-    
+
     func rhythmView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
@@ -193,12 +203,15 @@ struct ContentView: View {
                     geometry: geometry,
                     action: {
                         store.state.activeSubView = SubView.main
-                        player.setChannels()
+
+                        for (audioIndex, _) in player.audios.enumerated() {
+                            player.setChannels(audioIndex: audioIndex)
+                        }
                     }
                 )
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
-        
+
             HStack {
                 Picker("", selection: $store.state.selectedInRhythm) {
                     ForEach(store.state.rhythmRange, id: \.self) {
@@ -246,7 +259,7 @@ struct ContentView: View {
             .font(.system(size: store.state.ui.secondaryTextSize))
         }
     }
-    
+
     func volumeView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
@@ -274,9 +287,6 @@ struct ContentView: View {
             .padding(.vertical, store.state.ui.verticalPadding)
             .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
             .clipped()
-            .onChange(of: store.state.selectedVolume) { value in
-                player.setVolume(volume: Float(value))
-            }
             .font(.system(size: store.state.ui.secondaryTextSize))
         }
     }
