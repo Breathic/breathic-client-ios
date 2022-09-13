@@ -150,9 +150,9 @@ struct ContentView: View {
 
                                 for (audioIndex, _) in player.audios.enumerated() {
                                     player.flush(audioIndex: audioIndex)
-                                    player.next(audioIndex: audioIndex)
                                 }
 
+                                player.create()
                                 player.play()
                             }
                         )

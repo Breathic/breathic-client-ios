@@ -10,7 +10,6 @@ class Player {
     let pedometer = Pedometer()
     //var location = Location()
     var heartRate = HeartRate()
-    var players: [AVAudioPlayer?] = []
     var isPanningReversed: Bool = true
     var panScaleLeft: [Float] = []
     var panScaleRight: [Float] = []
@@ -21,7 +20,11 @@ class Player {
         //UserDefaults.standard.set("", forKey: "likes")
         store.state.likes = getLikes()
         store.state.likesIds = parseLikes(likes: store.state.likes)
-        create()
+        
+        for (audioIndex, _) in audios.enumerated() {
+            flush(audioIndex: audioIndex)
+            next(audioIndex: audioIndex)
+        }
     }
     
     func startAudioSession() async {
@@ -116,7 +119,7 @@ class Player {
                 if audios[audioIndex].playerLabels[forResource] == nil {
                     let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
                     player?.prepareToPlay()
-                    player?.volume = Float(store.state.selectedVolume) / 100
+                    player?.volume = 0
                     audios[audioIndex].playerLabels[forResource] = player
                 }
 
@@ -199,14 +202,11 @@ class Player {
                     oldRange: [upscaledFadeDuration, channelCount - DOWN_SCALE],
                     newRange: [Int(minFadeRange), Int(maxFadeRange)]
                 ))
-                var positiveVolume = selectedVolume / fadeUp / 10
-                var negativeVolume = selectedVolume / (Float(maxFadeRange) - fadeUp) / 10
+                var positiveVolume = selectedVolume / fadeUp
+                var negativeVolume = selectedVolume / (maxFadeRange - fadeUp)
 
                 positiveVolume = positiveVolume > selectedVolume / 100 ? selectedVolume / 100 : positiveVolume
                 negativeVolume = negativeVolume > selectedVolume / 100 ? selectedVolume / 100 : negativeVolume
-
-                positiveVolume = positiveVolume > 1 ? 1 : positiveVolume
-                negativeVolume = negativeVolume > 1 ? 1 : negativeVolume
 
                 if fadeUp == minFadeRange {
                     next(audioIndex: 1)
@@ -216,13 +216,13 @@ class Player {
                 if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
                     for player in audios[0].players {
                         if audios[0].sampleIndex > -1 {
-                            player?.volume = negativeVolume
+                            player?.volume = positiveVolume
                         }
                     }
 
                     for player in audios[1].players {
                         if audios[1].sampleIndex > -1 {
-                            player?.volume = positiveVolume
+                            player?.volume = negativeVolume
                         }
                     }
                 }
@@ -358,7 +358,7 @@ class Player {
 
     func create() {
         let firstAudio = Audio(
-            sampleIndex: FADE_DURATION * DOWN_SCALE - DOWN_SCALE,
+            sampleIndex: FADE_DURATION * DOWN_SCALE,
             channels: [],
             playerLabels: [:],
             players: []
