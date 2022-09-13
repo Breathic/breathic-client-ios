@@ -145,15 +145,13 @@ struct ContentView: View {
                             label: "Next",
                             value: "▶|",
                             action: {
-                                player.pause()
-                                store.state.seeds = player.getAllSeeds(seedInputs: store.state.seedInputs)
-
-                                for (audioIndex, _) in player.audios.enumerated() {
-                                    player.flush(audioIndex: audioIndex)
+                                var channels: [Seed] = []
+                                for channel in store.state.seeds {
+                                    channel.rhythms = channel.rhythms.shuffled()
+                                    channels.append(channel)
                                 }
-
+                                store.state.seeds = channels
                                 player.create()
-                                player.play()
                             }
                         )
                     }
