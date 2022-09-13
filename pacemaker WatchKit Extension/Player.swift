@@ -111,23 +111,21 @@ class Player {
     }
     
     func setPlayer(audioIndex: Int, channelIndex: Int, sampleIndex: Int) {
-        if audios.count - 1 >= audioIndex {
-            let channel = audios[audioIndex].channels[channelIndex]
-            let forResource = channel[sampleIndex]
+        let channel = audios[audioIndex].channels[channelIndex]
+        let forResource = channel[sampleIndex]
 
-            if forResource.count > 0 {
-                if audios[audioIndex].playerLabels[forResource] == nil {
-                    let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
-                    player?.prepareToPlay()
-                    player?.volume = 0
-                    audios[audioIndex].playerLabels[forResource] = player
-                }
+        if forResource.count > 0 {
+            if audios[audioIndex].playerLabels[forResource] == nil {
+                let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
+                player?.prepareToPlay()
+                player?.volume = 0
+                audios[audioIndex].playerLabels[forResource] = player
+            }
 
-                if audios[audioIndex].playerLabels[forResource] != nil {
-                    audios[audioIndex].players.insert(audios[audioIndex].playerLabels[forResource]!, at: channelIndex)
-                    audios[audioIndex].players[channelIndex]?.currentTime = 0
-                    audios[audioIndex].players[channelIndex]?.play()
-                }
+            if audios[audioIndex].playerLabels[forResource] != nil {
+                audios[audioIndex].players.insert(audios[audioIndex].playerLabels[forResource]!, at: channelIndex)
+                audios[audioIndex].players[channelIndex]?.currentTime = 0
+                audios[audioIndex].players[channelIndex]?.play()
             }
         }
     }
