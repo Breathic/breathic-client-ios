@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		FD1FC9BB28D4A06100E0BF72 /* Easing in Frameworks */ = {isa = PBXBuildFile; productRef = FDA08A8028D49F2C001FE337 /* Easing */; };
 		FD1FC9BC28D4A06100E0BF72 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FDA08A8128D49F2C001FE337 /* Sentry */; };
-		FD1FC9BE28D4A7C300E0BF72 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD1FC9BD28D4A7C300E0BF72 /* data */; };
+		FD1FC9C228D4B71900E0BF72 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD1FC9C128D4B71900E0BF72 /* data */; };
 		FD2D391628BBDD98009F1861 /* Pacemaker.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Pacemaker.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
 		FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392528BBDD99009F1861 /* ContentView.swift */; };
@@ -57,7 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FD1FC9BD28D4A7C300E0BF72 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		FD1FC9C128D4B71900E0BF72 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FD2D391128BBDD97009F1861 /* pacemaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pacemaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391528BBDD98009F1861 /* Pacemaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pacemaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391A28BBDD99009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 				FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD2D392728BBDD99009F1861 /* pacemakerApp.swift */,
-				FD1FC9BD28D4A7C300E0BF72 /* data */,
+				FD1FC9C128D4B71900E0BF72 /* data */,
 				FD2D394D28BBDFC9009F1861 /* Location.swift */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
 				FD2D394F28BBDFEE009F1861 /* FS.swift */,
@@ -267,7 +267,7 @@
 			files = (
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
-				FD1FC9BE28D4A7C300E0BF72 /* data in Resources */,
+				FD1FC9C228D4B71900E0BF72 /* data in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

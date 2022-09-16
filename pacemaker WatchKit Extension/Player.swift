@@ -206,12 +206,14 @@ class Player {
                 positiveVolume = positiveVolume > selectedVolume / 100 ? selectedVolume / 100 : positiveVolume
                 negativeVolume = negativeVolume > selectedVolume / 100 ? selectedVolume / 100 : negativeVolume
 
-                if fadeUp == minFadeRange {
-                    next(audioIndex: 1)
-                    audios[1].sampleIndex = 0
-                }
-
                 if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
+                    if fadeUp == minFadeRange {
+                        Task {
+                            next(audioIndex: 1)
+                            audios[1].sampleIndex = 0
+                        }
+                    }
+                    
                     for player in audios[0].players {
                         if audios[0].sampleIndex > -1 {
                             player?.volume = positiveVolume
@@ -223,10 +225,12 @@ class Player {
                             player?.volume = negativeVolume
                         }
                     }
-                }
-
-                if fadeUp == maxFadeRange {
-                    audios = audios.reversed()
+                    
+                    if fadeUp == maxFadeRange {
+                        Task {
+                            audios = audios.reversed()
+                        }
+                    }
                 }
             }
         }
