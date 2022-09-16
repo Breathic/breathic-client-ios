@@ -123,7 +123,12 @@ class Player {
             }
 
             if audios[audioIndex].playerLabels[forResource] != nil {
-                audios[audioIndex].players.insert(audios[audioIndex].playerLabels[forResource]!, at: channelIndex)
+                // Fill previously unfilled channel.
+                while audios[audioIndex].players.count < channelIndex {
+                    audios[audioIndex].players.append(nil)
+                }
+
+                audios[audioIndex].players.insert(audios[audioIndex].playerLabels[forResource], at: channelIndex)
                 audios[audioIndex].players[channelIndex]?.currentTime = 0
                 audios[audioIndex].players[channelIndex]?.play()
             }
