@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD1FC9BB28D4A06100E0BF72 /* Easing in Frameworks */ = {isa = PBXBuildFile; productRef = FDA08A8028D49F2C001FE337 /* Easing */; };
+		FD1FC9BC28D4A06100E0BF72 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FDA08A8128D49F2C001FE337 /* Sentry */; };
+		FD1FC9BE28D4A7C300E0BF72 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD1FC9BD28D4A7C300E0BF72 /* data */; };
 		FD2D391628BBDD98009F1861 /* Pacemaker.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Pacemaker.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
 		FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392528BBDD99009F1861 /* ContentView.swift */; };
@@ -27,7 +30,6 @@
 		FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54540428C78E56002E24C1 /* HeartRate.swift */; };
 		FD54540928C8CA67002E24C1 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FD54540828C8CA67002E24C1 /* Sentry */; };
 		FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */; };
-		FDA08A7F28D49EA2001FE337 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A7E28D49EA2001FE337 /* data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FD1FC9BD28D4A7C300E0BF72 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FD2D391128BBDD97009F1861 /* pacemaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pacemaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391528BBDD98009F1861 /* Pacemaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pacemaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391A28BBDD99009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,7 +79,6 @@
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD54540428C78E56002E24C1 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCoordinator.swift; sourceTree = "<group>"; };
-		FDA08A7E28D49EA2001FE337 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* pacemaker-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pacemaker-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -85,6 +87,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD1FC9BC28D4A06100E0BF72 /* Sentry in Frameworks */,
+				FD1FC9BB28D4A06100E0BF72 /* Easing in Frameworks */,
 				FD2D394628BBDF24009F1861 /* Easing in Frameworks */,
 				FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */,
 				FD54540928C8CA67002E24C1 /* Sentry in Frameworks */,
@@ -127,10 +131,10 @@
 			children = (
 				FD54540128C74BD6002E24C1 /* pacemaker WatchKit ExtensionDebug.entitlements */,
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
-				FDA08A7E28D49EA2001FE337 /* data */,
 				FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD2D392728BBDD99009F1861 /* pacemakerApp.swift */,
+				FD1FC9BD28D4A7C300E0BF72 /* data */,
 				FD2D394D28BBDFC9009F1861 /* Location.swift */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
 				FD2D394F28BBDFEE009F1861 /* FS.swift */,
@@ -262,8 +266,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
-				FDA08A7F28D49EA2001FE337 /* data in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
+				FD1FC9BE28D4A7C300E0BF72 /* data in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

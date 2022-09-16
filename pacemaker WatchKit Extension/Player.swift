@@ -209,7 +209,6 @@ class Player {
                 if fadeUp == minFadeRange {
                     next(audioIndex: 1)
                     audios[1].sampleIndex = 0
-                    print("next")
                 }
 
                 if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
@@ -228,7 +227,6 @@ class Player {
 
                 if fadeUp == maxFadeRange {
                     audios = audios.reversed()
-                    print("reverse")
                 }
             }
         }
