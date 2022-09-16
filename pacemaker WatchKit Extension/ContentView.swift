@@ -108,7 +108,7 @@ struct ContentView: View {
                         menuButton(
                             geometry: geometry,
                             label: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].unit,
-                            value: String(format:"%.1f", store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)),
+                            value: String(format:"%.2f", store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)),
                             action: {
                                 store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
                                         ? store.state.selectedRhythmTypeIndex + 1

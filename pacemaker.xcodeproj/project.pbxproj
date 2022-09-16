@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FD2D391628BBDD98009F1861 /* Pacemaker.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Pacemaker.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
-		FD2D392128BBDD99009F1861 /* pacemaker WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FD2D392028BBDD99009F1861 /* pacemaker WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392528BBDD99009F1861 /* ContentView.swift */; };
 		FD2D392828BBDD99009F1861 /* pacemakerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392728BBDD99009F1861 /* pacemakerApp.swift */; };
 		FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392928BBDD99009F1861 /* ComplicationController.swift */; };
@@ -28,7 +27,7 @@
 		FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54540428C78E56002E24C1 /* HeartRate.swift */; };
 		FD54540928C8CA67002E24C1 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FD54540828C8CA67002E24C1 /* Sentry */; };
 		FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */; };
-		FDFB458728BE241C00ED7F49 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDFB458628BE241C00ED7F49 /* data */; };
+		FDA08A7F28D49EA2001FE337 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A7E28D49EA2001FE337 /* data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,27 +38,9 @@
 			remoteGlobalIDString = FD2D391428BBDD98009F1861;
 			remoteInfo = "pacemaker WatchKit App";
 		};
-		FD2D392228BBDD99009F1861 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD2D390B28BBDD97009F1861 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FD2D391F28BBDD99009F1861;
-			remoteInfo = "pacemaker WatchKit Extension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FD2D393628BBDD9A009F1861 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				FD2D392128BBDD99009F1861 /* pacemaker WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FD2D393A28BBDD9A009F1861 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -77,7 +58,6 @@
 		FD2D391128BBDD97009F1861 /* pacemaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pacemaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391528BBDD98009F1861 /* Pacemaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pacemaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391A28BBDD99009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FD2D392028BBDD99009F1861 /* pacemaker WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "pacemaker WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D392528BBDD99009F1861 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD2D392728BBDD99009F1861 /* pacemakerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pacemakerApp.swift; sourceTree = "<group>"; };
 		FD2D392928BBDD99009F1861 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -96,7 +76,8 @@
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD54540428C78E56002E24C1 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCoordinator.swift; sourceTree = "<group>"; };
-		FDFB458628BE241C00ED7F49 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		FDA08A7E28D49EA2001FE337 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		FDA08A8228D49F2C001FE337 /* pacemaker-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pacemaker-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +109,6 @@
 			children = (
 				FD2D391128BBDD97009F1861 /* pacemaker.app */,
 				FD2D391528BBDD98009F1861 /* Pacemaker.app */,
-				FD2D392028BBDD99009F1861 /* pacemaker WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,6 +116,7 @@
 		FD2D391928BBDD98009F1861 /* pacemaker WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
+				FDA08A8228D49F2C001FE337 /* pacemaker-WatchKit-App-Info.plist */,
 				FD2D391A28BBDD99009F1861 /* Assets.xcassets */,
 			);
 			path = "pacemaker WatchKit App";
@@ -146,11 +127,11 @@
 			children = (
 				FD54540128C74BD6002E24C1 /* pacemaker WatchKit ExtensionDebug.entitlements */,
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
+				FDA08A7E28D49EA2001FE337 /* data */,
 				FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD2D392728BBDD99009F1861 /* pacemakerApp.swift */,
 				FD2D394D28BBDFC9009F1861 /* Location.swift */,
-				FDFB458628BE241C00ED7F49 /* data */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
 				FD2D394F28BBDFEE009F1861 /* FS.swift */,
 				FD2D395128BBE012009F1861 /* Extensions.swift */,
@@ -211,38 +192,21 @@
 			buildConfigurationList = FD2D393728BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "pacemaker WatchKit App" */;
 			buildPhases = (
 				FD2D391328BBDD98009F1861 /* Resources */,
-				FD2D393628BBDD9A009F1861 /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FD2D392328BBDD99009F1861 /* PBXTargetDependency */,
-			);
-			name = "pacemaker WatchKit App";
-			productName = "pacemaker WatchKit App";
-			productReference = FD2D391528BBDD98009F1861 /* Pacemaker.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		FD2D391F28BBDD99009F1861 /* pacemaker WatchKit Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FD2D393328BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "pacemaker WatchKit Extension" */;
-			buildPhases = (
 				FD2D391C28BBDD99009F1861 /* Sources */,
 				FD2D391D28BBDD99009F1861 /* Frameworks */,
-				FD2D391E28BBDD99009F1861 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "pacemaker WatchKit Extension";
+			name = "pacemaker WatchKit App";
 			packageProductDependencies = (
-				FD2D394528BBDF24009F1861 /* Easing */,
-				FD54540828C8CA67002E24C1 /* Sentry */,
+				FDA08A8028D49F2C001FE337 /* Easing */,
+				FDA08A8128D49F2C001FE337 /* Sentry */,
 			);
-			productName = "pacemaker WatchKit Extension";
-			productReference = FD2D392028BBDD99009F1861 /* pacemaker WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
+			productName = "pacemaker WatchKit App";
+			productReference = FD2D391528BBDD98009F1861 /* Pacemaker.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -252,15 +216,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					FD2D391028BBDD97009F1861 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
 					FD2D391428BBDD98009F1861 = {
-						CreatedOnToolsVersion = 13.4.1;
-					};
-					FD2D391F28BBDD99009F1861 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
@@ -284,7 +245,6 @@
 			targets = (
 				FD2D391028BBDD97009F1861 /* pacemaker */,
 				FD2D391428BBDD98009F1861 /* pacemaker WatchKit App */,
-				FD2D391F28BBDD99009F1861 /* pacemaker WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -301,17 +261,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FD2D391E28BBDD99009F1861 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
-				FDFB458728BE241C00ED7F49 /* data in Resources */,
+				FDA08A7F28D49EA2001FE337 /* data in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
+				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,11 +298,6 @@
 			isa = PBXTargetDependency;
 			target = FD2D391428BBDD98009F1861 /* pacemaker WatchKit App */;
 			targetProxy = FD2D391728BBDD98009F1861 /* PBXContainerItemProxy */;
-		};
-		FD2D392328BBDD99009F1861 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FD2D391F28BBDD99009F1861 /* pacemaker WatchKit Extension */;
-			targetProxy = FD2D392228BBDD99009F1861 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -466,89 +414,33 @@
 			};
 			name = Release;
 		};
-		FD2D393428BBDD9A009F1861 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "pacemaker WatchKit Extension/pacemaker WatchKit ExtensionDebug.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"pacemaker WatchKit Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = FRDNTT895P;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "pacemaker WatchKit Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Pacemaker;
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = pacemaker_WatchKit_Extension.ComplicationController;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.pacemaker.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.5;
-			};
-			name = Debug;
-		};
-		FD2D393528BBDD9A009F1861 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"pacemaker WatchKit Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = FRDNTT895P;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "pacemaker WatchKit Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Pacemaker;
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = pacemaker_WatchKit_Extension.ComplicationController;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.pacemaker.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.5;
-			};
-			name = Release;
-		};
 		FD2D393828BBDD9A009F1861 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "pacemaker WatchKit Extension/pacemaker WatchKit ExtensionDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
-				IBSC_MODULE = pacemaker_WatchKit_Extension;
+				INFOPLIST_FILE = "pacemaker-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Make sure the description is longer than 12 characters for all locales.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Make sure the description is longer than 12 characters for all locales.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = fringe.pacemaker.watchkitapp;
 				PRODUCT_NAME = Pacemaker;
@@ -566,13 +458,28 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "pacemaker WatchKit Extension/pacemaker WatchKit ExtensionDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
-				IBSC_MODULE = pacemaker_WatchKit_Extension;
+				INFOPLIST_FILE = "pacemaker-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Make sure the description is longer than 12 characters for all locales.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Make sure the description is longer than 12 characters for all locales.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = fringe.pacemaker.watchkitapp;
 				PRODUCT_NAME = Pacemaker;
@@ -619,15 +526,6 @@
 			buildConfigurations = (
 				FD2D393128BBDD9A009F1861 /* Debug */,
 				FD2D393228BBDD9A009F1861 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FD2D393328BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "pacemaker WatchKit Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FD2D393428BBDD9A009F1861 /* Debug */,
-				FD2D393528BBDD9A009F1861 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -688,6 +586,16 @@
 			productName = Sentry;
 		};
 		FD54540828C8CA67002E24C1 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+		FDA08A8028D49F2C001FE337 /* Easing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD2D394228BBDEE1009F1861 /* XCRemoteSwiftPackageReference "Easing" */;
+			productName = Easing;
+		};
+		FDA08A8128D49F2C001FE337 /* Sentry */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;

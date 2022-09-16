@@ -184,8 +184,8 @@ class Player {
     }
 
     func convertRange(value: Int, oldRange: [Int], newRange: [Int]) -> Int {
-       return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0];
-     }
+       return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
+    }
 
     func fade(channelCount: Int) {
         let selectedVolume = Float(store.state.selectedVolume)
@@ -209,6 +209,7 @@ class Player {
                 if fadeUp == minFadeRange {
                     next(audioIndex: 1)
                     audios[1].sampleIndex = 0
+                    print("next")
                 }
 
                 if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
@@ -227,29 +228,30 @@ class Player {
 
                 if fadeUp == maxFadeRange {
                     audios = audios.reversed()
+                    print("reverse")
                 }
             }
         }
     }
 
     func loopedPlay(loopInterval: TimeInterval) {
-        for (audioIndex, audio) in self.audios.enumerated() {
+        for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
                 if channel.count - 1 >= audio.sampleIndex && audio.sampleIndex > -1 && channel[audio.sampleIndex] != "" {
-                    self.setPlayer(
+                    setPlayer(
                         audioIndex: audioIndex,
                         channelIndex: channelIndex,
                         sampleIndex: audio.sampleIndex
                     )
 
                     if audioIndex == 0 && channelIndex == 0 {
-                        self.isPanningReversed = !self.isPanningReversed
+                        isPanningReversed = !isPanningReversed
                     }
 
                     fade(channelCount: channel.count)
 
-                    if self.store.state.seeds[channelIndex].isPanning {
-                        self.ease(loopInterval: loopInterval, channelIndex: channelIndex)
+                    if store.state.seeds[channelIndex].isPanning {
+                        ease(loopInterval: loopInterval, channelIndex: channelIndex)
                     }
                 }
 
