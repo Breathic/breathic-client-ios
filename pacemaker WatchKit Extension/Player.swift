@@ -241,7 +241,7 @@ class Player {
         for (collectionIndex, collection) in collections.enumerated() {
             for (audioIndex, audio) in collection.enumerated() {
                 for (channelIndex, channel) in audio.channels.enumerated() {
-                    if channel.count - 1 >= audio.sampleIndex && channel[audio.sampleIndex] != "" {
+                    if channel[audio.sampleIndex] != "" {
                         setPlayer(
                             collectionIndex: collectionIndex,
                             audioIndex: audioIndex,
@@ -380,7 +380,9 @@ class Player {
             playerLabels: [:],
             players: []
         )
-        let audios: [Audio] = [audio, audio.copy() as! Audio]
+        let audio2 = audio.copy() as! Audio
+        audio2.channelRepeatIndex = 0
+        let audios: [Audio] = [audio, audio2]
         collections.append(audios)
         setChannels(collectionIndex: collections.count - 1, audioIndex: 0)
         setChannels(collectionIndex: collections.count - 1, audioIndex: 1)
