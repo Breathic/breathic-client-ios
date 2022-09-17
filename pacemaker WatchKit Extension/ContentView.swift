@@ -203,8 +203,10 @@ struct ContentView: View {
                     action: {
                         store.state.activeSubView = SubView.main
 
-                        for (audioIndex, _) in player.audios.enumerated() {
-                            player.setChannels(audioIndex: audioIndex)
+                        for (collectionIndex, _) in player.collections.enumerated() {
+                            for (audioIndex, _) in player.collections[collectionIndex].enumerated() {
+                                player.setChannels(collectionIndex: collectionIndex, audioIndex: audioIndex)
+                            }
                         }
                     }
                 )

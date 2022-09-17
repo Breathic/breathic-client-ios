@@ -3,7 +3,6 @@ import Foundation
 let SAMPLE_PATH = "data/samples"
 let SAMPLE_EXTENSION = "m4a"
 let MAX_INTERVALS: Int = 10
-let BREEDING_QUOTA: Int = 2
-let RHYTHM_LENGTH: Int = 8 * 4
 let DOWN_SCALE: Int = 8
-let FADE_DURATION: Int = 128
+let CHANNEL_REPEAT_COUNT: Int = 128
+let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 2

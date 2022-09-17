@@ -51,12 +51,20 @@ struct RhythmType {
 }
 
 class Audio {
+    var channelRepeatIndex: Int = 0
     var sampleIndex: Int = 0
     var channels: [[String]] = []
     var playerLabels: [String: AVAudioPlayer] = [:]
     var players: [AVAudioPlayer?] = []
 
-    init(sampleIndex: Int, channels: [[String]], playerLabels: [String: AVAudioPlayer], players: [AVAudioPlayer?]) {
+    init(
+        channelRepeatIndex: Int,
+        sampleIndex: Int,
+        channels: [[String]],
+        playerLabels: [String: AVAudioPlayer],
+        players: [AVAudioPlayer?]
+    ) {
+        self.channelRepeatIndex = channelRepeatIndex
         self.sampleIndex = sampleIndex
         self.channels = channels
         self.playerLabels = playerLabels
@@ -65,6 +73,7 @@ class Audio {
 
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = Audio(
+            channelRepeatIndex: channelRepeatIndex,
             sampleIndex: sampleIndex,
             channels: channels,
             playerLabels: playerLabels,

@@ -19,14 +19,14 @@ struct AppState {
     var ui: UI = UI()
     var history: [Int] = []
     var seedInputs: [SeedInput] = [
-        SeedInput(durationRange: [0, 8], interval: [0, 0, 0, 0, 0, 0, 0, 1] ** (FADE_DURATION * 2), isPanning: true),
-        SeedInput(durationRange: [0, 1], interval: [1, 0, 1, 0, 1, 0, 1, 0] ** (FADE_DURATION * 2), isPanning: false),
+        SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], isPanning: true),
+        SeedInput(durationRange: [0, 1], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], isPanning: false),
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var selectedVolume: Int = 25
+    var selectedVolume: Int = 50
     var playerIndex: Int = -1
     var rhythmRange: [Int] = Array(1...50)
     var selectedInRhythm: Int = 25
