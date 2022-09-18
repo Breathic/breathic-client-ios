@@ -1,7 +1,12 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
 
 const MAX_PAGES = 10000
 const downloadPath = '/Volumes/LaCie/freesound-crawler/downloads';
+const metadataPath = '/Volumes/LaCie/freesound-crawler/metadata';
+
+const downloadedIds = fs.readdirSync(downloadPath).map(downloadUrl => downloadUrl.split("__")[0]);
 
 const logIn = async () => {
   const browser = await puppeteer.launch({ devtools: false });
@@ -105,8 +110,27 @@ const download = async (page, soundUrls) => {
   while (soundIndex != soundUrls.length) {
     const soundUrl = soundUrls[soundIndex];
     await page.goto(soundUrl);
-    await page._client.send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: downloadPath });
-    await page.click('#download_button');
+    const { tags, downloads, rating } = await page.evaluate(async () => {
+      let downloads = $('#download_text a')[0].text;
+      downloads = parseInt(downloads.split("Downloaded")[1].split(" ")[0])
+      let rating = parseInt($('.current-rating')[0].style.width.split('%')[0]);
+      const tags = $('.tags li a').toArray().map(a => a.text.replace(",", "")).join(",");
+      return { tags, downloads, rating };
+    });
+
+    const downloadId = soundUrl.split("/")[soundUrl.split("/").length - 2];
+    const canDownload = !downloadedIds.includes(downloadId);
+
+    if (canDownload) {
+      await page._client.send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: downloadPath });
+      await page.click('#download_button');
+    }
+
+    const separator = "|";
+    const metadata = `downloads:${downloads}${separator}rating:${rating}${separator}tags:${tags.replace(separator, "")}`;
+    console.log(metadata)
+
+    fs.writeFileSync(path.join(metadataPath, downloadId), metadata);
     soundIndex = soundIndex + 1;
   }
 };
