@@ -20,17 +20,17 @@ struct AppState {
     var history: [Int] = []
     var seedInputs: [SeedInput] = [
         SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], isPanning: true),
-        SeedInput(durationRange: [0, 1], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], isPanning: false),
+        //SeedInput(durationRange: [0, 1], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], isPanning: false),
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var selectedVolume: Int = 50
+    var selectedVolume: Int = 100
     var playerIndex: Int = -1
     var rhythmRange: [Int] = Array(1...50)
-    var selectedInRhythm: Int = 14
-    var selectedOutRhythm: Int = 14
+    var selectedInRhythm: Int = 15
+    var selectedOutRhythm: Int = 15
     var selectedRhythmIndex: Int = 0
     var rhythmTypes: [RhythmType] = [
         RhythmType(unit: "heartbeat / s", key: "averageHeartRatePerSecond"),

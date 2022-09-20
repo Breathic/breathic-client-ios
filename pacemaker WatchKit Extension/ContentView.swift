@@ -128,7 +128,19 @@ struct ContentView: View {
 
                     Spacer(minLength: 8)
 
+
                     HStack {
+                        menuButton(
+                            geometry: geometry,
+                            label: "Volume",
+                            value: String(store.state.selectedVolume),
+                            action: {
+                                store.state.activeSubView = SubView.volume
+                            }
+                        )
+
+                        Spacer(minLength: 8)
+                        
                         menuButton(
                             geometry: geometry,
                             label: store.state.isAudioPlaying ? "Playing" : "Paused",
@@ -137,9 +149,8 @@ struct ContentView: View {
                                 player.togglePlay()
                             }
                         )
-
-                        Spacer(minLength: 8)
-
+                        
+                        /*
                         menuButton(
                             geometry: geometry,
                             label: "Next",
@@ -155,23 +166,13 @@ struct ContentView: View {
                                 player.create()
                             }
                         )
+                         */
                     }
 
                     Spacer(minLength: 8)
-
-                    HStack {
-                        menuButton(
-                            geometry: geometry,
-                            label: "Volume",
-                            value: String(store.state.selectedVolume),
-                            action: {
-                                store.state.activeSubView = SubView.volume
-                            }
-                        )
-
-                        Spacer(minLength: 8)
-
+                    
                     /*
+                    HStack {
                         menuButton(
                             geometry: geometry,
                             label: store.state.likesIds.contains(String(store.state.seeds[0].rhythms[0].id)) ? "Liked" : "Like",
@@ -183,13 +184,14 @@ struct ContentView: View {
                                     //: player.like()
                             }
                         )
-                     */
+                     
 
                     }
 
                     Spacer(minLength: 8)
 
                     likesDetail(geometry: geometry)
+                     */
                 }
             }
         }
