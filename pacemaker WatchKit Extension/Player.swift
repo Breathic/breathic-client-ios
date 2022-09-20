@@ -260,7 +260,11 @@ class Player {
                         )
 
                         if store.state.seeds[channelIndex].isPanning {
-                            ease(loopInterval: loopInterval, collectionIndex: collectionIndex, channelIndex: channelIndex)
+                            ease(
+                                loopInterval: loopInterval,
+                                collectionIndex: collectionIndex,
+                                channelIndex: channelIndex
+                            )
                         }
                     }
 
