@@ -103,97 +103,93 @@ struct ContentView: View {
     func mainView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
-                ScrollView(showsIndicators: false) {
-                    HStack {
-                        menuButton(
-                            geometry: geometry,
-                            label: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].unit,
-                            value: String(format:"%.2f", store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)),
-                            action: {
-                                store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
-                                        ? store.state.selectedRhythmTypeIndex + 1
-                                        : 0
-                            }
-                        )
-
-                        Spacer(minLength: 8)
-
-                        menuButton(
-                            geometry: geometry,
-                            label: "breath / pace",
-                            value: "\(String(format:"%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format:"%.1f", Double(store.state.selectedOutRhythm) / 10))",
-                            action: { store.state.activeSubView = SubView.rhythm }
-                        )
+                menuButton(
+                    geometry: geometry,
+                    label: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].unit,
+                    value: String(format:"%.2f", store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)),
+                    action: {
+                        store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
+                                ? store.state.selectedRhythmTypeIndex + 1
+                                : 0
                     }
+                )
 
-                    Spacer(minLength: 8)
+                Spacer(minLength: 8)
 
-
-                    HStack {
-                        menuButton(
-                            geometry: geometry,
-                            label: "Volume",
-                            value: String(store.state.selectedVolume),
-                            action: {
-                                store.state.activeSubView = SubView.volume
-                            }
-                        )
-
-                        Spacer(minLength: 8)
-                        
-                        menuButton(
-                            geometry: geometry,
-                            label: store.state.isAudioPlaying ? "Playing" : "Paused",
-                            value: store.state.isAudioPlaying ? "||" : "▶",
-                            action: {
-                                player.togglePlay()
-                            }
-                        )
-                        
-                        /*
-                        menuButton(
-                            geometry: geometry,
-                            label: "Next",
-                            value: "▶|",
-                            action: {
-                                player.play()
-                                var channels: [Seed] = []
-                                for channel in store.state.seeds {
-                                    channel.rhythms = channel.rhythms.shuffled()
-                                    channels.append(channel)
-                                }
-                                store.state.seeds = channels
-                                player.create()
-                            }
-                        )
-                         */
-                    }
-
-                    Spacer(minLength: 8)
-                    
-                    /*
-                    HStack {
-                        menuButton(
-                            geometry: geometry,
-                            label: store.state.likesIds.contains(String(store.state.seeds[0].rhythms[0].id)) ? "Liked" : "Like",
-                            value: store.state.playerIndex > -1 ? "♡" : "♥",
-                            isEnabled: store.state.isAudioSessionLoaded,
-                            action: {
-                                //store.state.playerIndex > -1
-                                    //? player.dislike()
-                                    //: player.like()
-                            }
-                        )
-                     
-
-                    }
-
-                    Spacer(minLength: 8)
-
-                    likesDetail(geometry: geometry)
-                     */
-                }
+                menuButton(
+                    geometry: geometry,
+                    label: "breath / pace",
+                    value: "\(String(format:"%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format:"%.1f", Double(store.state.selectedOutRhythm) / 10))",
+                    action: { store.state.activeSubView = SubView.rhythm }
+                )
             }
+
+            Spacer(minLength: 8)
+
+
+            HStack {
+                menuButton(
+                    geometry: geometry,
+                    label: "Volume",
+                    value: String(store.state.selectedVolume),
+                    action: {
+                        store.state.activeSubView = SubView.volume
+                    }
+                )
+
+                Spacer(minLength: 8)
+                
+                menuButton(
+                    geometry: geometry,
+                    label: store.state.isAudioPlaying ? "Playing" : "Paused",
+                    value: store.state.isAudioPlaying ? "||" : "▶",
+                    action: {
+                        player.togglePlay()
+                    }
+                )
+                
+                /*
+                menuButton(
+                    geometry: geometry,
+                    label: "Next",
+                    value: "▶|",
+                    action: {
+                        player.play()
+                        var channels: [Seed] = []
+                        for channel in store.state.seeds {
+                            channel.rhythms = channel.rhythms.shuffled()
+                            channels.append(channel)
+                        }
+                        store.state.seeds = channels
+                        player.create()
+                    }
+                )
+                 */
+            }
+
+            Spacer(minLength: 8)
+            
+            /*
+            HStack {
+                menuButton(
+                    geometry: geometry,
+                    label: store.state.likesIds.contains(String(store.state.seeds[0].rhythms[0].id)) ? "Liked" : "Like",
+                    value: store.state.playerIndex > -1 ? "♡" : "♥",
+                    isEnabled: store.state.isAudioSessionLoaded,
+                    action: {
+                        //store.state.playerIndex > -1
+                            //? player.dislike()
+                            //: player.like()
+                    }
+                )
+             
+
+            }
+
+            Spacer(minLength: 8)
+
+            likesDetail(geometry: geometry)
+             */
         }
     }
 
