@@ -110,16 +110,23 @@ const download = async (page, soundUrls) => {
   while (soundIndex != soundUrls.length) {
     const soundUrl = soundUrls[soundIndex];
     await page.goto(soundUrl);
-    const { tags, downloads, rating } = await page.evaluate(async () => {
+    const { durationStr, tags, downloads, rating, numratingsStr } = await page.evaluate(async () => {
+      const durationStr = $('#sound_information_box dd').toArray()[1].innerText;
       let downloads = $('#download_text a')[0].text;
       downloads = parseInt(downloads.split("Downloaded")[1].split(" ")[0])
       let rating = parseInt($('.current-rating')[0].style.width.split('%')[0]);
       const tags = $('.tags li a').toArray().map(a => a.text.replace(",", "")).join(",");
-      return { tags, downloads, rating };
+      const numratingsStr = $('.numratings')[0].innerText;
+      return { durationStr, tags, downloads, rating, numratingsStr };
     });
 
     const downloadId = soundUrl.split("/")[soundUrl.split("/").length - 2];
     const canDownload = !downloadedIds.includes(downloadId);
+    const minutes = parseInt(durationStr.split(':')[0]);
+    const seconds = parseInt(durationStr.split(':')[1].split('.')[0]);
+    const milliseconds = parseInt(durationStr.split(':')[1].split('.')[1]);
+    const duration = (minutes * 60 * 1000) + (seconds * 1000) + milliseconds;
+    const numratings = parseInt(numratingsStr.split('(')[1].split(')')[0]);
 
     if (canDownload) {
       await page._client.send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: downloadPath });
@@ -127,8 +134,8 @@ const download = async (page, soundUrls) => {
     }
 
     const separator = "|";
-    const metadata = `downloads:${downloads}${separator}rating:${rating}${separator}tags:${tags.replace(separator, "")}`;
-    console.log(metadata)
+    const metadata = `duration:${duration}${separator}downloads:${downloads}${separator}rating:${rating}${separator}numratings:${numratings}${separator}tags:${tags.replace(separator, "")}`;
+    console.log(downloadId, metadata);
 
     fs.writeFileSync(path.join(metadataPath, downloadId), metadata);
     soundIndex = soundIndex + 1;
