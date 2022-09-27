@@ -9,8 +9,11 @@ const metadataPath = '/Volumes/LaCie/freesound-crawler/metadata';
 const downloadedIds = fs.readdirSync(downloadPath).map(downloadUrl => downloadUrl.split("__")[0]);
 
 const logIn = async () => {
-  const browser = await puppeteer.launch({ devtools: false });
+  const browser = await puppeteer.launch({ devtools: false, headless: true });
   const page = await browser.newPage();
+  await page.setRequestInterception(true);
+  page.on('request', (req) => (req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image') ? req.abort() : req.continue());
+
   await page.goto('https://freesound.org/home/login/?next=/');
   await page.evaluate(async () => {
     $("#id_username").val("andrus.asumets@gmail.com");
