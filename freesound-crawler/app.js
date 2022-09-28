@@ -12,7 +12,7 @@ const logIn = async () => {
   const browser = await puppeteer.launch({ devtools: false, headless: true });
   const page = await browser.newPage();
   await page.setRequestInterception(true);
-  page.on('request', (req) => (req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image') ? req.abort() : req.continue());
+  page.on('request', (req) => (req.resourceType() == 'font' || req.resourceType() == 'image') ? req.abort() : req.continue());
 
   await page.goto('https://freesound.org/home/login/?next=/');
   await page.evaluate(async () => {
@@ -38,7 +38,7 @@ const getPaginationCount = async (page) => {
 const loadPages = async (page, pagePaginationCount) => {
   let pageIndex = 0;
 
-  while (pageIndex != pagePaginationCount && pageIndex < MAX_PAGES) {
+  while (pageIndex != pagePaginationCount || pageIndex < MAX_PAGES) {
     await page.goto(`https://freesound.org/browse/packs/?order=-num_downloads&page=${pageIndex + 1}#pack`);
     const { packUrlsPerPage } = await page.evaluate(async () => {
       const packUrlsPerPage = $('.pack_description h4 a')
