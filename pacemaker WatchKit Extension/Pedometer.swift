@@ -20,8 +20,8 @@ class Pedometer {
         step.count = Int(truncating: data.numberOfSteps)
         steps.append(step)
         
-        if steps.count > MAX_INTERVALS {
-            steps = Array(steps.suffix(MAX_INTERVALS))
+        if steps.count > MAX_READING_COUNT {
+            steps = Array(steps.suffix(MAX_READING_COUNT))
         }
 
         if steps.count > 1 {

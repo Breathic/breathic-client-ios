@@ -19,8 +19,8 @@ struct AppState {
     var ui: UI = UI()
     var history: [Int] = []
     var seedInputs: [SeedInput] = [
-        SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], isPanning: true),
-        //SeedInput(durationRange: [0, 1], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], isPanning: false),
+        SeedInput(durationRange: [0.25, 0.5], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]),
+        SeedInput(durationRange: [0, 0.25], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]),
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []

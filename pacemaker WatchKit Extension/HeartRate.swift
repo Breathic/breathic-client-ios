@@ -54,7 +54,7 @@ class HeartRate: ObservableObject {
                     let minValue = 0.1
 
                     heartRates.append(heartRate)
-                    heartRates = Array(heartRates.suffix(MAX_INTERVALS))
+                    heartRates = Array(heartRates.suffix(MAX_READING_COUNT))
                     store.state.averageHeartRatePerSecond = heartRates.reduce(0) { $0 + $1 } / Double(heartRates.count)
 
                     if store.state.averageMetersPerSecond < minValue {

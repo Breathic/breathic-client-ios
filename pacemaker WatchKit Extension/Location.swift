@@ -61,7 +61,7 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
             let minValue = 0.1
             
             speeds.append(current.speed)
-            speeds = Array(speeds.suffix(MAX_INTERVALS))
+            speeds = Array(speeds.suffix(MAX_READING_COUNT))
             store.state.averageMetersPerSecond = speeds.reduce(0) { $0 + $1 } / Double(speeds.count)
             
             if store.state.averageMetersPerSecond < minValue {

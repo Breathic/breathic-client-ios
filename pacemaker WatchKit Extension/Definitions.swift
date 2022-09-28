@@ -37,7 +37,6 @@ class UI {
 struct SeedInput {
     var durationRange: [Double] = []
     var interval: [Float] = []
-    var isPanning: Bool = false
 }
 
 class Step {
