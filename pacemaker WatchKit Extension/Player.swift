@@ -127,7 +127,6 @@ class Player {
                 let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
                 player?.prepareToPlay()
                 player?.volume = 0
-                player?.volume = 1
                 collections[collectionIndex][audioIndex].playerLabels[forResource] = player
             }
 
