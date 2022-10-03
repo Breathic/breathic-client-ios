@@ -7,6 +7,12 @@ enum SubView {
     case volume
 }
 
+struct RhythmType {
+    var unit: String = ""
+    var key: String = ""
+    var isReversed: Bool = false
+}
+
 class Rhythm: Codable {
     var id: Int = 0
     var samples: [String] = []
@@ -42,11 +48,6 @@ struct SeedInput {
 class Step {
     var time: DispatchTime = .now()
     var count: Int = 0
-}
-
-struct RhythmType {
-    var unit: String = ""
-    var key: String = ""
 }
 
 class Audio {

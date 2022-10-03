@@ -29,12 +29,12 @@ struct AppState {
     var selectedVolume: Int = 50
     var playerIndex: Int = -1
     var rhythmRange: [Int] = Array(1...50)
-    var selectedInRhythm: Int = 15
-    var selectedOutRhythm: Int = 15
+    var selectedInRhythm: Int = 20
+    var selectedOutRhythm: Int = 20
     var selectedRhythmIndex: Int = 0
     var rhythmTypes: [RhythmType] = [
-        RhythmType(unit: "heartbeat / s", key: "averageHeartRatePerSecond"),
-        RhythmType(unit: "step / s", key: "averageStepsPerSecond"),
+        RhythmType(unit: "heartbeat / s", key: "averageHeartRatePerSecond", isReversed: false),
+        RhythmType(unit: "step / s", key: "averageStepsPerSecond", isReversed: true),
         //RhythmType(unit: "m / s", key: "averageMetersPerSecond"),
     ]
     var selectedRhythmTypeIndex = 0

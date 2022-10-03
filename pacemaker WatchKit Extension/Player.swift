@@ -127,6 +127,7 @@ class Player {
                 let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
                 player?.prepareToPlay()
                 player?.volume = 0
+                player?.volume = 1
                 collections[collectionIndex][audioIndex].playerLabels[forResource] = player
             }
 
@@ -160,18 +161,20 @@ class Player {
     }
 
     func getLoopInterval() -> TimeInterval {
-        let pace = store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)
+        let rhythmType = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex]
+        let pace = store.state.valueByKey(key: rhythmType.key)
+        let isReversed = rhythmType.isReversed
         let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
-        let selectedRhythm: Int = selectedRhythms[store.state.selectedRhythmIndex]
+        let selectedRhythm: Double = Double(selectedRhythms[store.state.selectedRhythmIndex]) / 10
 
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
         if store.state.selectedRhythmIndex == selectedRhythms.count {
             store.state.selectedRhythmIndex = 0
         }
 
-        var loopInterval: TimeInterval = Double(selectedRhythm) / pace / 10
+        var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / pace : selectedRhythm / pace
         loopInterval = loopInterval / Double(DOWN_SCALE)
-        loopInterval = loopInterval > 0 ? loopInterval : 1
+        loopInterval = loopInterval <= 0 ? 1 : loopInterval
 
         return loopInterval
     }
@@ -227,7 +230,7 @@ class Player {
             for (audioIndex, audio) in collection.enumerated() {
                 for (channelIndex, channel) in audio.channels.enumerated() {
                     if collectionIndex == 0 && audioIndex == 0 && channelIndex == 0 && (
-                        audio.sampleIndex == 0 || audio.sampleIndex == 7) {
+                        audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                         isPanningReversed = !isPanningReversed
                     }
 
