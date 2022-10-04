@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import AVFAudio
+import MediaPlayer
 
 class Player {
     @ObservedObject private var store: AppStore = .shared
@@ -9,6 +10,7 @@ class Player {
     let pedometer = Pedometer()
     //var location = Location()
     var heartRate = HeartRate()
+    let commandCenter = MPRemoteCommandCenter.shared()
     var isPanningReversed: Bool = true
     var panScale: [Float] = []
     var collections: [[Audio]] = []
@@ -23,11 +25,26 @@ class Player {
         for (collectionIndex, collection) in collections.enumerated() {
             for (audioIndex, _) in collection.enumerated() {
                 flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
-                next(collectionIndex: collectionIndex, audioIndex: audioIndex)
+                pick(collectionIndex: collectionIndex, audioIndex: audioIndex)
             }
         }
+
+        commandCenter.playCommand.addTarget { [unowned self] event in
+            self.play()
+            return .success
+        }
+
+        commandCenter.pauseCommand.addTarget { [unowned self] event in
+            self.pause()
+            return .success
+        }
+
+        commandCenter.nextTrackCommand.addTarget { [unowned self] event in
+            self.next()
+            return .success
+        }
     }
-    
+
     func startAudioSession() async {
         let session = AVAudioSession.sharedInstance()
 
@@ -212,7 +229,7 @@ class Player {
                     }
 
                     if fadeUp == minFadeRange {
-                        next(collectionIndex: collectionIndex, audioIndex: 1)
+                        pick(collectionIndex: collectionIndex, audioIndex: 1)
                         collections[collectionIndex][1].channelRepeatIndex = 0
                     }
 
@@ -378,12 +395,12 @@ class Player {
             Task {
                 await startAudioSession()
             }
-            coordinator.start()
             //location.start()
             create()
             loop()
         }
 
+        coordinator.start()
         heartRate.start()
         pedometer.start()
 
@@ -405,6 +422,17 @@ class Player {
         pedometer.stop()
     }
 
+    func next() {
+        play()
+        var channels: [Seed] = []
+        for channel in store.state.seeds {
+            channel.rhythms = channel.rhythms.shuffled()
+            channels.append(channel)
+        }
+        store.state.seeds = channels
+        create()
+    }
+
     func flush(collectionIndex: Int, audioIndex: Int) {
         let audio = collections[collectionIndex][audioIndex]
         for player in audio.players {
@@ -420,7 +448,7 @@ class Player {
         }
     }
 
-    func next(collectionIndex: Int, audioIndex: Int) {
+    func pick(collectionIndex: Int, audioIndex: Int) {
         for (channelIndex, _) in store.state.seeds.enumerated() {
             let lastRhythm = store.state.seeds[channelIndex].rhythms[0]
             store.state.history.append(lastRhythm.id)

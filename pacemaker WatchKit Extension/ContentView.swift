@@ -160,14 +160,7 @@ struct ContentView: View {
                             label: "Next",
                             value: "▶|",
                             action: {
-                                player.play()
-                                var channels: [Seed] = []
-                                for channel in store.state.seeds {
-                                    channel.rhythms = channel.rhythms.shuffled()
-                                    channels.append(channel)
-                                }
-                                store.state.seeds = channels
-                                player.create()
+                                player.next()
                             }
                         )
                     }
