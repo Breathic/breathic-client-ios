@@ -64,6 +64,7 @@ class HeartRate: ObservableObject {
 
                 if (heartRate >= 0) {
                     let minValue = 0.1
+                    let prevAverageHeartRatePerSecond = store.state.averageHeartRatePerSecond
 
                     heartRates.append(heartRate)
                     heartRates = Array(heartRates.suffix(MAX_READING_COUNT))
@@ -71,6 +72,10 @@ class HeartRate: ObservableObject {
 
                     if store.state.averageMetersPerSecond < minValue {
                         store.state.averageHeartRatePerSecond = minValue
+                    }
+
+                    if (store.state.averageHeartRatePerSecond != prevAverageHeartRatePerSecond) {
+                        store.state.lastDataChangeTime = .now()
                     }
                 }
             }

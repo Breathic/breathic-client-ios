@@ -26,6 +26,7 @@ struct AppState {
     var likesIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
+    var lastDataChangeTime: DispatchTime = .now()
     var selectedVolume: Int = 50
     var playerIndex: Int = -1
     var rhythmRange: [Int] = Array(1...50)

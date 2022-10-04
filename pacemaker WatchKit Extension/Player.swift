@@ -29,6 +29,11 @@ class Player {
             }
         }
 
+        initCommandCenter()
+        initInactivityTimer()
+    }
+
+    func initCommandCenter() {
         commandCenter.playCommand.addTarget { [unowned self] event in
             self.play()
             return .success
@@ -42,6 +47,15 @@ class Player {
         commandCenter.nextTrackCommand.addTarget { [unowned self] event in
             self.next()
             return .success
+        }
+    }
+
+    func initInactivityTimer() {
+        Timer.scheduledTimer(withTimeInterval: DATA_INACTIVITY_S, repeats: true) { timer in
+            if self.store.state.lastDataChangeTime.distance(to: .now()).toDouble() > DATA_INACTIVITY_S {
+                self.store.state.lastDataChangeTime = .now()
+                self.pause()
+            }
         }
     }
 
@@ -390,6 +404,8 @@ class Player {
     }
 
     func play() {
+        self.store.state.lastDataChangeTime = .now()
+
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
             Task {
