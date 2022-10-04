@@ -30,7 +30,6 @@ class Player {
         }
 
         initCommandCenter()
-        initInactivityTimer()
     }
 
     func initCommandCenter() {
@@ -51,6 +50,8 @@ class Player {
     }
 
     func initInactivityTimer() {
+        store.state.lastDataChangeTime = .now()
+
         Timer.scheduledTimer(withTimeInterval: DATA_INACTIVITY_S, repeats: true) { timer in
             if self.store.state.lastDataChangeTime.distance(to: .now()).toDouble() > DATA_INACTIVITY_S {
                 self.store.state.lastDataChangeTime = .now()
@@ -404,8 +405,6 @@ class Player {
     }
 
     func play() {
-        self.store.state.lastDataChangeTime = .now()
-
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
             Task {
@@ -414,6 +413,7 @@ class Player {
             //location.start()
             create()
             loop()
+            initInactivityTimer()
         }
 
         coordinator.start()
