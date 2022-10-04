@@ -8,10 +8,21 @@ class HeartRate: ObservableObject {
     private var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     var heartRates: [Double] = []
+    var query: HKAnchoredObjectQuery? = nil
 
     func start() {
         autorizeHealthKit()
-        startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+        stop()
+        heartRates = []
+        query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
+        healthStore.execute(query!)
+    }
+
+    func stop() {
+        if (query != nil) {
+            healthStore.stop(query!)
+            query = nil
+        }
     }
 
     func autorizeHealthKit() {
@@ -22,7 +33,7 @@ class HeartRate: ObservableObject {
         healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
     }
 
-    private func startHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
+    private func createHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) -> HKAnchoredObjectQuery {
         let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
         let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
             query, samples, deletedObjects, queryAnchor, error in
@@ -34,15 +45,16 @@ class HeartRate: ObservableObject {
                 self.process(samples, type: quantityTypeIdentifier)
             }
         }
-        let query = HKAnchoredObjectQuery(
+        let q = HKAnchoredObjectQuery(
             type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!,
             predicate: devicePredicate,
             anchor: nil,
             limit: HKObjectQueryNoLimit,
             resultsHandler: updateHandler
         )
-        query.updateHandler = updateHandler
-        healthStore.execute(query)
+        q.updateHandler = updateHandler
+
+        return q
     }
 
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {

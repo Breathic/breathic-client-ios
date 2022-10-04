@@ -379,12 +379,13 @@ class Player {
                 await startAudioSession()
             }
             coordinator.start()
-            pedometer.start()
-            heartRate.start()
             //location.start()
             create()
             loop()
         }
+
+        heartRate.start()
+        pedometer.start()
 
         store.state.isAudioPlaying = true
     }
@@ -399,6 +400,9 @@ class Player {
                 }
             }
         }
+
+        heartRate.stop()
+        pedometer.stop()
     }
 
     func flush(collectionIndex: Int, audioIndex: Int) {

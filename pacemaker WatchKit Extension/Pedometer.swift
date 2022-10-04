@@ -31,8 +31,15 @@ class Pedometer {
         }
     }
     
+    func stop() {
+        pedometer.stopUpdates()
+    }
+
     func start() {
         if self.isStepCountingAvailable {
+            stop()
+            steps = []
+
             pedometer.startUpdates(from: Date(), withHandler: { (data, error) in
                 if data != nil {
                     DispatchQueue.main.async {
