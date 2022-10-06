@@ -245,7 +245,7 @@ struct ContentView: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button(
                     action: { store.state.activeSubView = toolbarAction },
-                    label: { Text("←   " + toolbarAction) }
+                    label: { Text("←   " + store.state.activeSubView) }
                 )
             }
         })
