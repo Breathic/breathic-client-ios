@@ -6,7 +6,7 @@ struct ContentView: View {
     @ObservedObject private var store: AppStore = .shared
     
     let player = Player()
-    
+
     func menuButton(
         geometry: GeometryProxy,
         label: String = "",
@@ -83,7 +83,7 @@ struct ContentView: View {
         }
     }
 
-    func mainView(geometry: GeometryProxy) -> some View {
+    func controlsView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
                 menuButton(
@@ -92,8 +92,8 @@ struct ContentView: View {
                     value: String(format:"%.2f", store.state.valueByKey(key: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].key)),
                     action: {
                         store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
-                                ? store.state.selectedRhythmTypeIndex + 1
-                                : 0
+                            ? store.state.selectedRhythmTypeIndex + 1
+                            : 0
                     }
                 )
 
@@ -130,6 +130,12 @@ struct ContentView: View {
                     }
                 )
             }
+        }
+    }
+
+    func progressView(geometry: GeometryProxy) -> some View {
+        Group {
+            Text("progress")
         }
     }
 
@@ -207,14 +213,21 @@ struct ContentView: View {
     }
 
     var body: some View {
+        let toolbarAction = store.state.activeSubView == "controls"
+            ? "progress"
+            : "controls"
+
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
 
             GeometryReader { geometry in
                 VStack() {
                     switch(store.state.activeSubView) {
-                        case "main":
-                            mainView(geometry: geometry)
+                        case "controls":
+                            controlsView(geometry: geometry)
+
+                        case "progress":
+                            progressView(geometry: geometry)
 
                         case "rhythm":
                             rhythmView(geometry: geometry)
@@ -223,14 +236,17 @@ struct ContentView: View {
                             volumeView(geometry: geometry)
 
                         default:
-                            mainView(geometry: geometry)
+                            controlsView(geometry: geometry)
                     }
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
             }
         }.toolbar(content: {
             ToolbarItem(placement: .cancellationAction) {
-                Button(store.state.activeSubView) { store.state.activeSubView = "main" }
+                Button(
+                    action: { store.state.activeSubView = toolbarAction },
+                    label: { Text("←   " + toolbarAction) }
+                )
             }
         })
     }

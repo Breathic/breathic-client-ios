@@ -13,7 +13,7 @@ SentrySDK.start { options in
  */
 
 struct AppState {
-    var activeSubView: String = "main"
+    var activeSubView: String = "controls"
     var seeds: [Seed] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
@@ -64,5 +64,5 @@ struct AppState {
 final class AppStore: ObservableObject {
     static let shared: AppStore = AppStore()
 
-    @Published var state = AppState(activeSubView: "main")
+    @Published var state = AppState(activeSubView: "controls")
 }
