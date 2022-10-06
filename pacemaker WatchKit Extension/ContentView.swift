@@ -83,7 +83,7 @@ struct ContentView: View {
         }
     }
 
-    func controlsView(geometry: GeometryProxy) -> some View {
+    func pacemakerView(geometry: GeometryProxy) -> some View {
         Group {
             HStack {
                 menuButton(
@@ -103,7 +103,7 @@ struct ContentView: View {
                     geometry: geometry,
                     label: "breath / pace",
                     value: "\(String(format:"%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format:"%.1f", Double(store.state.selectedOutRhythm) / 10))",
-                    action: { store.state.activeSubView = "rhythm" }
+                    action: { store.state.activeSubView = "Rhythm" }
                 )
             }
 
@@ -115,7 +115,7 @@ struct ContentView: View {
                     label: "Volume",
                     value: String(store.state.selectedVolume),
                     action: {
-                        store.state.activeSubView = "volume"
+                        store.state.activeSubView = "Volume"
                     }
                 )
 
@@ -213,9 +213,9 @@ struct ContentView: View {
     }
 
     var body: some View {
-        let toolbarAction = store.state.activeSubView == "controls"
-            ? "progress"
-            : "controls"
+        let toolbarAction = store.state.activeSubView == "Pacemaker"
+            ? "Progress"
+            : "Pacemaker"
 
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -223,20 +223,20 @@ struct ContentView: View {
             GeometryReader { geometry in
                 VStack() {
                     switch(store.state.activeSubView) {
-                        case "controls":
-                            controlsView(geometry: geometry)
+                        case "Pacemaker":
+                            pacemakerView(geometry: geometry)
 
-                        case "progress":
+                        case "Progress":
                             progressView(geometry: geometry)
 
-                        case "rhythm":
+                        case "Rhythm":
                             rhythmView(geometry: geometry)
 
-                        case "volume":
+                        case "Volume":
                             volumeView(geometry: geometry)
 
                         default:
-                            controlsView(geometry: geometry)
+                            pacemakerView(geometry: geometry)
                     }
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
