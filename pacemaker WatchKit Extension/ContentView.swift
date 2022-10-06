@@ -52,23 +52,6 @@ struct ContentView: View {
         .opacity(isEnabled ? 1 : 0.33)
         .disabled(!isEnabled)
     }
-        
-    func returnToMainDetail(
-        geometry: GeometryProxy,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            Text("⏎")
-                .frame(width: 33)
-        }
-        .frame(height: geometry.size.height / 3)
-        .foregroundColor(.white)
-        .tint(.black)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-            .stroke(.gray, lineWidth: 1)
-        )
-    }
     
     func titleDetail(text: String, alignment: Alignment) -> some View {
         Text(text)
@@ -120,7 +103,7 @@ struct ContentView: View {
                     geometry: geometry,
                     label: "breath / pace",
                     value: "\(String(format:"%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format:"%.1f", Double(store.state.selectedOutRhythm) / 10))",
-                    action: { store.state.activeSubView = SubView.rhythm }
+                    action: { store.state.activeSubView = "rhythm" }
                 )
             }
 
@@ -132,7 +115,7 @@ struct ContentView: View {
                     label: "Volume",
                     value: String(store.state.selectedVolume),
                     action: {
-                        store.state.activeSubView = SubView.volume
+                        store.state.activeSubView = "volume"
                     }
                 )
 
@@ -140,54 +123,18 @@ struct ContentView: View {
 
                 menuButton(
                     geometry: geometry,
-                    label: store.state.isAudioPlaying ? "Playing" : "Paused",
-                    value: store.state.isAudioPlaying ? "||" : "▶",
+                    label: store.state.isAudioPlaying ? "Started" : "Stopped",
+                    value: store.state.isAudioPlaying ? "■" : "▶",
                     action: {
                         player.togglePlay()
                     }
                 )
             }
-
-            /*
-            HStack {
-                menuButton(
-                    geometry: geometry,
-                    label: store.state.likesIds.contains(String(store.state.seeds[0].rhythms[0].id)) ? "Liked" : "Like",
-                    value: store.state.playerIndex > -1 ? "♡" : "♥",
-                    isEnabled: store.state.isAudioSessionLoaded,
-                    action: {
-                        //store.state.playerIndex > -1
-                            //? player.dislike()
-                            //: player.like()
-                    }
-                )
-            }
-
-            Spacer(minLength: 8)
-
-            likesDetail(geometry: geometry)
-             */
         }
     }
 
     func rhythmView(geometry: GeometryProxy) -> some View {
         Group {
-            HStack {
-                returnToMainDetail(
-                    geometry: geometry,
-                    action: {
-                        store.state.activeSubView = SubView.main
-
-                        for (collectionIndex, _) in player.collections.enumerated() {
-                            for (audioIndex, _) in player.collections[collectionIndex].enumerated() {
-                                player.setChannels(collectionIndex: collectionIndex, audioIndex: audioIndex)
-                            }
-                        }
-                    }
-                )
-            }
-            .font(.system(size: store.state.ui.secondaryTextSize))
-
             HStack {
                 Picker("", selection: $store.state.selectedInRhythm) {
                     ForEach(store.state.rhythmRange, id: \.self) {
@@ -237,57 +184,54 @@ struct ContentView: View {
     }
 
     func volumeView(geometry: GeometryProxy) -> some View {
-        Group {
-            HStack {
-                returnToMainDetail(
-                    geometry: geometry,
-                    action: { store.state.activeSubView = SubView.main }
-                )
-            }
-            .font(.system(size: store.state.ui.secondaryTextSize))
-
-            Picker("", selection: $store.state.selectedVolume) {
-                ForEach(Array(0...100), id: \.self) {
-                    if $0 == store.state.selectedVolume {
-                        Text(String($0))
-                        .font(.system(size: 18))
-                        .fontWeight(.bold)
-                    }
-                    else {
-                        Text(String($0))
-                        .font(.system(size: 12))
+            Group {
+                Picker("", selection: $store.state.selectedVolume) {
+                    ForEach(Array(0...100), id: \.self) {
+                        if $0 == store.state.selectedVolume {
+                            Text(String($0))
+                                .font(.system(size: 18))
+                                .fontWeight(.bold)
+                        }
+                        else {
+                            Text(String($0))
+                                .font(.system(size: 12))
+                        }
                     }
                 }
+                .padding(.horizontal, store.state.ui.horizontalPadding)
+                .padding(.vertical, store.state.ui.verticalPadding)
+                .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
+                .clipped()
+                .font(.system(size: store.state.ui.secondaryTextSize))
             }
-            .padding(.horizontal, store.state.ui.horizontalPadding)
-            .padding(.vertical, store.state.ui.verticalPadding)
-            .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
-            .clipped()
-            .font(.system(size: store.state.ui.secondaryTextSize))
-        }
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack() {
-                switch(store.state.activeSubView) {
-                    case SubView.main:
-                        mainView(geometry: geometry)
-                    
-                    case SubView.rhythm:
-                        rhythmView(geometry: geometry)
-                    
-                    case SubView.volume:
-                        volumeView(geometry: geometry)
-                }
-            }
-            .font(.system(size: store.state.ui.secondaryTextSize))
-        }
-    }
-}
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+            GeometryReader { geometry in
+                VStack() {
+                    switch(store.state.activeSubView) {
+                        case "main":
+                            mainView(geometry: geometry)
+
+                        case "rhythm":
+                            rhythmView(geometry: geometry)
+
+                        case "volume":
+                            volumeView(geometry: geometry)
+
+                        default:
+                            mainView(geometry: geometry)
+                    }
+                }
+                .font(.system(size: store.state.ui.secondaryTextSize))
+            }
+        }.toolbar(content: {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(store.state.activeSubView) { store.state.activeSubView = "main" }
+            }
+        })
     }
 }

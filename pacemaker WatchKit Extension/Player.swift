@@ -33,16 +33,6 @@ class Player {
     }
 
     func initCommandCenter() {
-        commandCenter.playCommand.addTarget { [unowned self] event in
-            self.play()
-            return .success
-        }
-
-        commandCenter.pauseCommand.addTarget { [unowned self] event in
-            self.pause()
-            return .success
-        }
-
         commandCenter.nextTrackCommand.addTarget { [unowned self] event in
             self.next()
             return .success
