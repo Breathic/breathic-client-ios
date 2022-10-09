@@ -73,10 +73,12 @@ class HeartRate: ObservableObject {
                         store.state.lastDataChangeTime = .now()
                     }
                     
+                    /*
                     let update = Update()
                     update.timestamp = Date()
                     update.value = store.state.averageHeartRatePerSecond * 60
                     store.state.averageHeartRatesPerMinute.append(update)
+                     */
                 }
             }
         }

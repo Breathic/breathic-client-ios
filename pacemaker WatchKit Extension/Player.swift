@@ -255,6 +255,13 @@ class Player {
         }
     }
 
+    func getUpdate(timestamp: Date, value: Float) -> Update {
+        let update = Update()
+        update.timestamp = timestamp
+        update.value = value
+        return update
+    }
+
     func loopedPlay(loopInterval: TimeInterval) {
         for (collectionIndex, collection) in collections.enumerated() {
             for (audioIndex, audio) in collection.enumerated() {
@@ -263,10 +270,19 @@ class Player {
                         audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                         isPanningReversed = !isPanningReversed
 
-                        let update = Update()
-                        update.timestamp = Date()
-                        update.value = Float(loopInterval) * Float(DOWN_SCALE)
-                        store.state.averageBreathIntervalPerMinute.append(update)
+                        let timestamp = Date()
+                        store.state.averageBreathIntervalPerMinute.append(
+                            getUpdate(
+                                timestamp: timestamp,
+                                value: Float(loopInterval) * Float(DOWN_SCALE)
+                            )
+                        )
+                        store.state.averageHeartRatesPerMinute.append(
+                            getUpdate(
+                                timestamp: timestamp,
+                                value: store.state.averageHeartRatePerSecond * 60
+                            )
+                        )
                     }
 
                     if channel[audio.sampleIndex] != "" {

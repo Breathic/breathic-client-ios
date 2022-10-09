@@ -37,36 +37,43 @@ struct ContentView: View {
                 return ProgressData(timestamp: timestamp, value: $0.value)
             }
     }
-    
-    func getSeriesData(updateCount: Int) -> ParsedData {
-        //let heartRatesPerMinute = parseProgressData(metricData: store.state.averageHeartRatesPerMinute)
-        let breathIntervalPerMinute = parseProgressData(metricData: store.state.averageBreathIntervalPerMinute)
+
+    func convert(data: [ProgressData], range: [Float]) -> [ProgressData] {
+        let min = data.map { Float($0.value) }.min() ?? Float(0)
+        let max = data.map { Float($0.value) }.max() ?? Float(0)
         
-        let result = ParsedData()
-        //result.min = heartRatesPerMinute.map { Float($0.value) }.min()!
-        //result.max = heartRatesPerMinute.map { Float($0.value) }.max()!
-        result.min = breathIntervalPerMinute.map { Float($0.value) }.min() ?? Float(0)
-        result.max = breathIntervalPerMinute.map { Float($0.value) }.max() ?? Float(0)
-        
-        let breathIntervalPerMinuteMin = breathIntervalPerMinute.map { Float($0.value) }.min() ?? Float(0)
-        let breathIntervalPerMinuteMax = breathIntervalPerMinute.map { Float($0.value) }.max() ?? Float(0)
-            
-        let convertedBreathIntervalPerMinute = breathIntervalPerMinute.map {
+        return data.map {
             let progressData = ProgressData(
                 timestamp: $0.timestamp,
                 value: convertRange(
                     value: $0.value,
-                    oldRange: [breathIntervalPerMinuteMin, breathIntervalPerMinuteMax],
-                    newRange: [result.min, result.max]
+                    oldRange: [min, max],
+                    newRange: [range[0], range[1]]
                 )
             )
             
             return progressData
         }
+    }
+
+    func getSeriesData(updateCount: Int) -> ParsedData {
+        let breathIntervalPerMinute: [ProgressData] = parseProgressData(metricData: store.state.averageBreathIntervalPerMinute)
+
+        let breathIntervalPerMinuteMin = breathIntervalPerMinute.map { Float($0.value) }.min() ?? Float(0)
+        let breathIntervalPerMinuteMax = breathIntervalPerMinute.map { Float($0.value) }.max() ?? Float(0)
+
+        let result = ParsedData()
+        result.min = breathIntervalPerMinuteMin
+        result.max = breathIntervalPerMinuteMax
+
+        let heartRatesPerMinute: [ProgressData] = convert(
+            data: parseProgressData(metricData: store.state.averageHeartRatesPerMinute),
+            range: [breathIntervalPerMinuteMin, breathIntervalPerMinuteMax]
+        )
         
         result.seriesData = [
-            //.init(metric: "avg hr / min", data: heartRatesPerMinute),
-            .init(metric: "avg breath sec", data: breathIntervalPerMinute),
+            .init(metric: "breathing time (s)", data: breathIntervalPerMinute),
+            .init(metric: "pulse", data: heartRatesPerMinute)
         ]
         
         parsedData.seriesData = result.seriesData
