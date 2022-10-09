@@ -195,9 +195,9 @@ class Player {
     }
 
     func getLoopInterval() -> TimeInterval {
-        let rhythmType = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex]
-        let pace = store.state.valueByMetric(metric: rhythmType.metric)
-        let isReversed = rhythmType.isReversed
+        let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
+        let pace = store.state.valueByMetric(metric: metricType.metric)
+        let isReversed = metricType.isReversed
         let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let selectedRhythm: Double = Double(selectedRhythms[store.state.selectedRhythmIndex]) / 10
 

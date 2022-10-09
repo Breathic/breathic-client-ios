@@ -33,24 +33,24 @@ struct AppState {
     var selectedInRhythm: Int = 20
     var selectedOutRhythm: Int = 20
     var selectedRhythmIndex: Int = 0
-    var rhythmTypes: [RhythmType] = [
-        RhythmType(
+    var metricTypes: [MetricType] = [
+        MetricType(
             metric: "averageHeartRatePerSecond",
             unit: "heartbeats / s",
             isReversed: false
         ),
-        RhythmType(
+        MetricType(
             metric: "averageStepsPerSecond",
             unit: "steps / s",
             isReversed: true
-        ),
-        RhythmType(
+        )/*,
+        MetricType(
             metric: "averageMeterPerSecond",
             unit: "m / s",
             isReversed: true
-        )
+        )*/
     ]
-    var selectedRhythmTypeIndex = 2
+    var selectedMetricTypeIndex = 0
     var averageHeartRatePerSecond: Float = 1
     var averageStepsPerSecond: Float = 1
     var averageMeterPerSecond: Float = 1

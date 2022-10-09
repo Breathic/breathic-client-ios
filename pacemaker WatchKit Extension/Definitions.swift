@@ -7,7 +7,7 @@ enum SubView {
     case volume
 }
 
-struct RhythmType {
+struct MetricType {
     var metric: String = ""
     var unit: String = ""
     var isReversed: Bool = false

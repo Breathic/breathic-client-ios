@@ -129,11 +129,11 @@ struct ContentView: View {
                 HStack {
                     menuButton(
                         geometry: geometry,
-                        label: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].unit,
-                        value: String(format:"%.2f", store.state.valueByMetric(metric: store.state.rhythmTypes[store.state.selectedRhythmTypeIndex].metric)),
+                        label: store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
+                        value: String(format:"%.2f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric)),
                         action: {
-                            store.state.selectedRhythmTypeIndex = store.state.selectedRhythmTypeIndex + 1 < store.state.rhythmTypes.count
-                            ? store.state.selectedRhythmTypeIndex + 1
+                            store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
+                            ? store.state.selectedMetricTypeIndex + 1
                             : 0
                         }
                     )
