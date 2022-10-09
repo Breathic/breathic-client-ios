@@ -44,20 +44,25 @@ struct AppState {
             unit: "steps / s",
             isReversed: true
         ),
-        //RhythmType(metric: "averageMetersPerSecond", unit: "m / s"),
+        RhythmType(
+            metric: "averageMeterPerSecond",
+            unit: "m / s",
+            isReversed: true
+        )
     ]
-    var selectedRhythmTypeIndex = 0
+    var selectedRhythmTypeIndex = 2
     var averageHeartRatePerSecond: Float = 1
     var averageStepsPerSecond: Float = 1
-    var averageMetersPerSecond: Float = 1
+    var averageMeterPerSecond: Float = 1
     var averageHeartRatesPerMinute: [Update] = []
     var averageBreathIntervalPerMinute: [Update] = []
+    var averageMetersPerSecond: [Update] = []
 
     func valueByMetric(metric: String) -> Float {
         switch metric {
             case "averageHeartRatePerSecond": return averageHeartRatePerSecond
             case "averageStepsPerSecond": return averageStepsPerSecond
-            case "averageMetersPerSecond": return averageMetersPerSecond
+            case "averageMeterPerSecond": return averageMeterPerSecond
             default: fatalError("Key is undefined")
         }
     }

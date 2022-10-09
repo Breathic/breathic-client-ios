@@ -70,7 +70,7 @@ class HeartRate: ObservableObject {
                     heartRates = Array(heartRates.suffix(MAX_READING_COUNT))
                     store.state.averageHeartRatePerSecond = heartRates.reduce(0) { Float($0) + Float($1) } / Float(heartRates.count)
 
-                    if store.state.averageMetersPerSecond < minValue {
+                    if store.state.averageHeartRatePerSecond < minValue {
                         store.state.averageHeartRatePerSecond = minValue
                     }
 

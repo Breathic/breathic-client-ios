@@ -91,7 +91,8 @@ struct ContentView: View {
                 Spacer(minLength: 4)
                 
                 if label.count > 0 {
-                    titleDetail(text: label, alignment: Alignment.topLeading)
+                    Text(label)
+                    .frame(maxWidth: .infinity, alignment: Alignment.topLeading)
                     .font(.system(size: store.state.ui.primaryTextSize))
                 }
                 
@@ -120,11 +121,6 @@ struct ContentView: View {
         )
         .opacity(isEnabled ? 1 : 0.33)
         .disabled(!isEnabled)
-    }
-    
-    func titleDetail(text: String, alignment: Alignment) -> some View {
-        Text(text)
-        .frame(maxWidth: .infinity, alignment: alignment)
     }
 
     func pacemakerView(geometry: GeometryProxy) -> some View {

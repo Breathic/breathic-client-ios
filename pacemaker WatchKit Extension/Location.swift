@@ -1,4 +1,3 @@
-/*
 import Foundation
 import CoreLocation
 import SwiftUI
@@ -9,6 +8,7 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var last: CLLocation?
     var speeds: [Double] = []
+    var timer: Timer?
     
     override init() {
         super.init()
@@ -44,32 +44,48 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func start() {
+        stop()
         locationManager.delegate = self
         requestAuthorisation()
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             self.locationManager.requestLocation()
         }
     }
     
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+    }
+
     func process(current: CLLocation) {
         guard last != nil else {
             last = current
             return
         }
-        
+
         if (current.speed >= 0) {
-            let minValue = 0.1
-            
+            let minValue: Float = 0.1
+            let prevAverageMeterPerSecond = store.state.averageMeterPerSecond
+
             speeds.append(current.speed)
             speeds = Array(speeds.suffix(MAX_READING_COUNT))
-            store.state.averageMetersPerSecond = speeds.reduce(0) { $0 + $1 } / Double(speeds.count)
-            
-            if store.state.averageMetersPerSecond < minValue {
-                store.state.averageMetersPerSecond = minValue
+            store.state.averageMeterPerSecond = speeds.reduce(0) { Float($0) + Float($1) } / Float(speeds.count)
+
+            if store.state.averageMeterPerSecond < minValue {
+                store.state.averageMeterPerSecond = minValue
             }
+
+            if (store.state.averageMeterPerSecond != prevAverageMeterPerSecond) {
+                store.state.lastDataChangeTime = .now()
+            }
+
+            let update = Update()
+            update.timestamp = Date()
+            update.value = store.state.averageMeterPerSecond
+            store.state.averageMetersPerSecond.append(update)
         }
-        
+
         last = current
     }
 }
@@ -93,4 +109,3 @@ extension Location {
         }
     }
 }
-*/

@@ -8,7 +8,7 @@ class Player {
     
     let coordinator = SessionCoordinator()
     let pedometer = Pedometer()
-    //var location = Location()
+    var location = Location()
     var heartRate = HeartRate()
     let commandCenter = MPRemoteCommandCenter.shared()
     var isPanningReversed: Bool = true
@@ -423,6 +423,7 @@ class Player {
         coordinator.start()
         heartRate.start()
         pedometer.start()
+        location.start()
 
         store.state.isAudioPlaying = true
     }
@@ -441,6 +442,7 @@ class Player {
 
         heartRate.stop()
         pedometer.stop()
+        location.stop()
     }
 
     func next() {
