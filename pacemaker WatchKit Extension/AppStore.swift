@@ -35,24 +35,26 @@ struct AppState {
     var selectedRhythmIndex: Int = 0
     var rhythmTypes: [RhythmType] = [
         RhythmType(
+            metric: "averageHeartRatePerSecond",
             unit: "heartbeats / s",
-            key: "averageHeartRatePerSecond",
             isReversed: false
         ),
         RhythmType(
+            metric: "averageStepsPerSecond",
             unit: "steps / s",
-            key: "averageStepsPerSecond",
             isReversed: true
         ),
-        //RhythmType(unit: "m / s", key: "averageMetersPerSecond"),
+        //RhythmType(metric: "averageMetersPerSecond", unit: "m / s"),
     ]
     var selectedRhythmTypeIndex = 0
-    var averageHeartRatePerSecond: Double = 1
-    var averageStepsPerSecond: Double = 1
-    var averageMetersPerSecond: Double = 1
+    var averageHeartRatePerSecond: Float = 1
+    var averageStepsPerSecond: Float = 1
+    var averageMetersPerSecond: Float = 1
+    var averageHeartRatesPerMinute: [Update] = []
+    var averageBreathIntervalPerMinute: [Update] = []
 
-    func valueByKey(key: String) -> Double {
-        switch key {
+    func valueByMetric(metric: String) -> Float {
+        switch metric {
             case "averageHeartRatePerSecond": return averageHeartRatePerSecond
             case "averageStepsPerSecond": return averageStepsPerSecond
             case "averageMetersPerSecond": return averageMetersPerSecond

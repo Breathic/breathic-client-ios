@@ -32,3 +32,7 @@ func readDistances(path: String) -> [Int: [Distance]] {
     }
     return res
 }
+
+func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
+   return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
+}

@@ -63,12 +63,12 @@ class HeartRate: ObservableObject {
                 let heartRate = sample.quantity.doubleValue(for: heartRateQuantity) / 60
 
                 if (heartRate >= 0) {
-                    let minValue = 0.1
+                    let minValue: Float = 0.1
                     let prevAverageHeartRatePerSecond = store.state.averageHeartRatePerSecond
 
                     heartRates.append(heartRate)
                     heartRates = Array(heartRates.suffix(MAX_READING_COUNT))
-                    store.state.averageHeartRatePerSecond = heartRates.reduce(0) { $0 + $1 } / Double(heartRates.count)
+                    store.state.averageHeartRatePerSecond = heartRates.reduce(0) { Float($0) + Float($1) } / Float(heartRates.count)
 
                     if store.state.averageMetersPerSecond < minValue {
                         store.state.averageHeartRatePerSecond = minValue
@@ -77,6 +77,11 @@ class HeartRate: ObservableObject {
                     if (store.state.averageHeartRatePerSecond != prevAverageHeartRatePerSecond) {
                         store.state.lastDataChangeTime = .now()
                     }
+                    
+                    let update = Update()
+                    update.timestamp = Date()
+                    update.value = store.state.averageHeartRatePerSecond * 60
+                    store.state.averageHeartRatesPerMinute.append(update)
                 }
             }
         }

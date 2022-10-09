@@ -30,6 +30,19 @@ class Player {
         }
 
         initCommandCenter()
+        
+        /*
+        let update = Update()
+        update.value = 60.0
+        update.timestamp = Date()
+        
+        for (index, _) in Array(1...10).enumerated() {
+            let update2 = Update()
+            update2.timestamp = update.timestamp.addingTimeInterval(5.0 * Double(index))
+            update2.value = update.value + Float(index)
+            store.state.averageHeartRatesPerMinute.append(update2)
+        }
+        */
     }
 
     func initCommandCenter() {
@@ -183,7 +196,7 @@ class Player {
 
     func getLoopInterval() -> TimeInterval {
         let rhythmType = store.state.rhythmTypes[store.state.selectedRhythmTypeIndex]
-        let pace = store.state.valueByKey(key: rhythmType.key)
+        let pace = store.state.valueByMetric(metric: rhythmType.metric)
         let isReversed = rhythmType.isReversed
         let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let selectedRhythm: Double = Double(selectedRhythms[store.state.selectedRhythmIndex]) / 10
@@ -193,15 +206,11 @@ class Player {
             store.state.selectedRhythmIndex = 0
         }
 
-        var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / pace : selectedRhythm / pace
+        var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
         loopInterval = loopInterval <= 0 ? 1 : loopInterval
 
         return loopInterval
-    }
-
-    func convertRange(value: Int, oldRange: [Int], newRange: [Int]) -> Int {
-       return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
     }
 
     func fade(collectionIndex: Int, channelIndex: Int, channelCount: Int) {
@@ -213,11 +222,11 @@ class Player {
             if index % DOWN_SCALE == 0 {
                 let minFadeRange = Float(0)
                 let maxFadeRange = Float(1000)
-                let fadeUp = Float(convertRange(
-                    value: index,
-                    oldRange: [upscaledFadeDuration, CHANNEL_REPEAT_COUNT * DOWN_SCALE],
-                    newRange: [Int(minFadeRange), Int(maxFadeRange)]
-                ))
+                let fadeUp = convertRange(
+                    value: Float(index),
+                    oldRange: [Float(upscaledFadeDuration), Float(CHANNEL_REPEAT_COUNT * DOWN_SCALE)],
+                    newRange: [minFadeRange, maxFadeRange]
+                )
                 var positiveVolume = selectedVolume / fadeUp
                 var negativeVolume = selectedVolume / (maxFadeRange - fadeUp)
 
@@ -253,6 +262,11 @@ class Player {
                     if collectionIndex == 0 && audioIndex == 0 && channelIndex == 0 && (
                         audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                         isPanningReversed = !isPanningReversed
+
+                        let update = Update()
+                        update.timestamp = Date()
+                        update.value = Float(loopInterval) * Float(DOWN_SCALE)
+                        store.state.averageBreathIntervalPerMinute.append(update)
                     }
 
                     if channel[audio.sampleIndex] != "" {
@@ -414,6 +428,7 @@ class Player {
     }
 
     func pause() {
+        next()
         store.state.isAudioPlaying = false
 
         for collection in collections {

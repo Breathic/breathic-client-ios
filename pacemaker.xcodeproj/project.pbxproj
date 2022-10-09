@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD1FC9BC28D4A06100E0BF72 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FDA08A8128D49F2C001FE337 /* Sentry */; };
 		FD2D391628BBDD98009F1861 /* Pacemaker.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Pacemaker.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
 		FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392528BBDD99009F1861 /* ContentView.swift */; };
@@ -20,13 +19,13 @@
 		FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394928BBDF7B009F1861 /* Definitions.swift */; };
 		FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394B28BBDF9E009F1861 /* Constants.swift */; };
 		FD2D394E28BBDFC9009F1861 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394D28BBDFC9009F1861 /* Location.swift */; };
-		FD2D395028BBDFEE009F1861 /* FS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394F28BBDFEE009F1861 /* FS.swift */; };
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
 		FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54540428C78E56002E24C1 /* HeartRate.swift */; };
 		FD585FE928E4C0EB006362DB /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD585FE828E4C0EB006362DB /* data */; };
 		FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */; };
+		FDC09FC328F0A58200F42253 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC09FC228F0A58200F42253 /* Library.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +67,6 @@
 		FD2D394928BBDF7B009F1861 /* Definitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definitions.swift; sourceTree = "<group>"; };
 		FD2D394B28BBDF9E009F1861 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FD2D394D28BBDFC9009F1861 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		FD2D394F28BBDFEE009F1861 /* FS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FS.swift; sourceTree = "<group>"; };
 		FD2D395128BBE012009F1861 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FD54540128C74BD6002E24C1 /* pacemaker WatchKit ExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "pacemaker WatchKit ExtensionDebug.entitlements"; sourceTree = "<group>"; };
@@ -77,6 +75,7 @@
 		FD585FE828E4C0EB006362DB /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCoordinator.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* pacemaker-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pacemaker-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FDC09FC228F0A58200F42253 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1FC9BC28D4A06100E0BF72 /* Sentry in Frameworks */,
 				FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,12 +124,12 @@
 				FD54540128C74BD6002E24C1 /* pacemaker WatchKit ExtensionDebug.entitlements */,
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
 				FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */,
+				FDC09FC228F0A58200F42253 /* Library.swift */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD585FE828E4C0EB006362DB /* data */,
 				FD2D392728BBDD99009F1861 /* pacemakerApp.swift */,
 				FD2D394D28BBDFC9009F1861 /* Location.swift */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
-				FD2D394F28BBDFEE009F1861 /* FS.swift */,
 				FD2D395128BBE012009F1861 /* Extensions.swift */,
 				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
@@ -178,8 +176,6 @@
 			);
 			name = pacemaker;
 			packageProductDependencies = (
-				FD2D394328BBDEE1009F1861 /* Easing */,
-				FD54540728C8CA2E002E24C1 /* Sentry */,
 			);
 			productName = pacemaker;
 			productReference = FD2D391128BBDD97009F1861 /* pacemaker.app */;
@@ -199,7 +195,6 @@
 			);
 			name = "pacemaker WatchKit App";
 			packageProductDependencies = (
-				FDA08A8128D49F2C001FE337 /* Sentry */,
 			);
 			productName = "pacemaker WatchKit App";
 			productReference = FD2D391528BBDD98009F1861 /* Pacemaker.app */;
@@ -233,8 +228,6 @@
 			);
 			mainGroup = FD2D390A28BBDD97009F1861;
 			packageReferences = (
-				FD2D394228BBDEE1009F1861 /* XCRemoteSwiftPackageReference "Easing" */,
-				FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = FD2D391228BBDD97009F1861 /* Products */;
 			projectDirPath = "";
@@ -273,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */,
+				FDC09FC328F0A58200F42253 /* Library.swift in Sources */,
 				FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */,
 				FD2D392828BBDD99009F1861 /* pacemakerApp.swift in Sources */,
 				FD54540528C78E56002E24C1 /* HeartRate.swift in Sources */,
@@ -282,7 +276,6 @@
 				FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */,
 				FD2D393F28BBDE4A009F1861 /* AppStore.swift in Sources */,
 				FD2D394828BBDF5B009F1861 /* Pedometer.swift in Sources */,
-				FD2D395028BBDFEE009F1861 /* FS.swift in Sources */,
 				FD2D395228BBE012009F1861 /* Extensions.swift in Sources */,
 				FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */,
 			);
@@ -355,6 +348,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -408,6 +402,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -446,7 +441,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -485,7 +480,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -546,43 +541,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FD2D394228BBDEE1009F1861 /* XCRemoteSwiftPackageReference "Easing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:manuelCarlos/Easing.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-		FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FD2D394328BBDEE1009F1861 /* Easing */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FD2D394228BBDEE1009F1861 /* XCRemoteSwiftPackageReference "Easing" */;
-			productName = Easing;
-		};
-		FD54540728C8CA2E002E24C1 /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
-		};
-		FDA08A8128D49F2C001FE337 /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FD54540628C8CA2D002E24C1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FD2D390B28BBDD97009F1861 /* Project object */;
 }
