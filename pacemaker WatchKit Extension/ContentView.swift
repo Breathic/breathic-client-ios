@@ -17,7 +17,6 @@ struct SeriesData: Identifiable {
 }
 
 class ParsedData {
-    var seriesData: [SeriesData] = []
     var min: Float = 0
     var max: Float = 0
 }
@@ -26,6 +25,7 @@ struct ContentView: View {
     @ObservedObject private var store: AppStore = .shared
 
     let player = Player()
+    let parsedData: ParsedData = ParsedData()
     
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
         return Array(metricData.suffix(60 * 10))
@@ -55,7 +55,7 @@ struct ContentView: View {
         }
     }
 
-    func getSeriesData() -> ParsedData {
+    func getSeriesData() -> [SeriesData] {
         let breathMetrics = store.state.updates["breath"] ?? []
         let pulseMetrics = store.state.updates["pulse"] ?? []
         let stepMetrics = store.state.updates["step"] ?? []
@@ -67,7 +67,6 @@ struct ContentView: View {
         let lastSpeedhMetricValue = String(speedMetrics.count > 0 ? String(format: "%.1f", speedMetrics[speedMetrics.count - 1].value) : "")
 
         let breath: [ProgressData] = parseProgressData(metricData: breathMetrics)
-        let parsedData: ParsedData = ParsedData()
 
         parsedData.min = breath.map { Float($0.value) }.min() ?? Float(0)
         parsedData.max = breath.map { Float($0.value) }.max() ?? Float(0)
@@ -85,14 +84,12 @@ struct ContentView: View {
             range: [parsedData.min, parsedData.max]
         )
 
-        parsedData.seriesData = [
+        return [
             .init(metric: lastBreathMetricValue + " breath (s)", data: breath),
             .init(metric: lastPulsehMetricValue + " pulse (s)", data: pulse),
             .init(metric: lastStepMetricValue + " steps (s)", data: step),
             .init(metric: lastSpeedhMetricValue + " speed (m/s)", data: speed)
         ]
-
-        return parsedData
     }
 
     func menuButton(
@@ -156,9 +153,9 @@ struct ContentView: View {
                             : 0
                         }
                     )
-                    
+
                     Spacer(minLength: 8)
-                    
+
                     menuButton(
                         geometry: geometry,
                         label: "breath / pace",
@@ -166,9 +163,9 @@ struct ContentView: View {
                         action: { store.state.activeSubView = "Rhythm" }
                     )
                 }
-                
+
                 Spacer(minLength: 8)
-                
+
                 HStack {
                     menuButton(
                         geometry: geometry,
@@ -178,9 +175,9 @@ struct ContentView: View {
                             store.state.activeSubView = "Volume"
                         }
                     )
-                    
+
                     Spacer(minLength: 8)
-                    
+
                     menuButton(
                         geometry: geometry,
                         label: store.state.isAudioPlaying ? "Playing" : "Paused",
@@ -191,10 +188,10 @@ struct ContentView: View {
                     )
                 }
             }
-            
+
             Spacer(minLength: 24)
-            
-            Chart(getSeriesData().seriesData) { series in
+
+            Chart(getSeriesData()) { series in
                 ForEach(series.data) { element in
                     LineMark(
                         x: .value("Time", element.timestamp),
@@ -204,7 +201,7 @@ struct ContentView: View {
                     //.symbol(by: .value("Metric", series.metric))
                 }
             }
-            .chartYScale(domain:getSeriesData().min...getSeriesData().max)
+            .chartYScale(domain: parsedData.min...parsedData.max)
             .chartXAxis(.hidden)
             .frame(height: geometry.size.height - 8)
         }
