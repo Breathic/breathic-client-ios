@@ -164,8 +164,8 @@ struct ContentView: View {
                     
                     menuButton(
                         geometry: geometry,
-                        label: store.state.isAudioPlaying ? "Started" : "Stopped",
-                        value: store.state.isAudioPlaying ? "■" : "▶",
+                        label: store.state.isAudioPlaying ? "Playing" : "Paused",
+                        value: store.state.isAudioPlaying ? "||" : "▶",
                         action: {
                             player.togglePlay()
                         }
@@ -182,17 +182,42 @@ struct ContentView: View {
                         y: .value("Value", element.value)
                     )
                     .foregroundStyle(by: .value("Metric", series.metric))
-                    .symbol(by: .value("Metric", series.metric))
+                    //.symbol(by: .value("Metric", series.metric))
                 }
             }
-            .chartYScale(domain: getSeriesData(updateCount: $store.state.averageHeartRatesPerMinute.count).min...getSeriesData(updateCount: $store.state.averageHeartRatesPerMinute.count).max)
+            .chartYScale(domain: getSeriesData(updateCount:
+                $store.state.averageHeartRatesPerMinute.count).min
+                ...
+                getSeriesData(updateCount: $store.state.averageHeartRatesPerMinute.count).max
+            )
             .chartXAxis(.hidden)
             .frame(height: geometry.size.height - 16)
         }
     }
 
     func progressView(geometry: GeometryProxy) -> some View {
-        Group {}
+        Group {
+            VStack {
+                if !store.state.isSessionActive {
+                    Button(action: { store.state.isSessionActive = true }) {
+                        Text("Start session")
+                    }
+                    .font(.system(size: 18))
+                    .fontWeight(.bold)
+                    .buttonStyle(.bordered)
+                    .tint(Color.green)
+                }
+                else {
+                    Button(action: { store.state.isSessionActive = false }) {
+                        Text("Finish session")
+                    }
+                    .font(.system(size: 18))
+                    .fontWeight(.bold)
+                    .buttonStyle(.bordered)
+                    .tint(Color.red)
+                }
+            }
+        }
     }
 
     func rhythmView(geometry: GeometryProxy) -> some View {

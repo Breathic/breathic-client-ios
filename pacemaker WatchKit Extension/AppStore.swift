@@ -24,12 +24,13 @@ struct AppState {
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []
+    var isSessionActive: Bool = false
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
     var selectedVolume: Int = 50
     var playerIndex: Int = -1
-    var rhythmRange: [Int] = Array(1...50)
+    var rhythmRange: [Int] = Array(10...50)
     var selectedInRhythm: Int = 20
     var selectedOutRhythm: Int = 20
     var selectedRhythmIndex: Int = 0
@@ -51,9 +52,9 @@ struct AppState {
         )*/
     ]
     var selectedMetricTypeIndex = 0
-    var averageHeartRatePerSecond: Float = 1
-    var averageStepsPerSecond: Float = 1
-    var averageMeterPerSecond: Float = 1
+    var averageHeartRatePerSecond: Float = 0
+    var averageStepsPerSecond: Float = 0
+    var averageMeterPerSecond: Float = 0
     var averageHeartRatesPerMinute: [Update] = []
     var averageBreathIntervalPerMinute: [Update] = []
     var averageMetersPerSecond: [Update] = []
@@ -63,7 +64,7 @@ struct AppState {
             case "averageHeartRatePerSecond": return averageHeartRatePerSecond
             case "averageStepsPerSecond": return averageStepsPerSecond
             case "averageMeterPerSecond": return averageMeterPerSecond
-            default: fatalError("Key is undefined")
+            default: fatalError("metric is undefined")
         }
     }
 }

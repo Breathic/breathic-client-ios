@@ -300,12 +300,19 @@ class Player {
     func loop() {
         let loopInterval: TimeInterval = getLoopInterval()
 
-        Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
-            if self.store.state.isAudioPlaying {
-                self.loopedPlay(loopInterval: loopInterval)
-            }
+        if !loopInterval.isInfinite {
+            Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
+                if self.store.state.isAudioPlaying {
+                    self.loopedPlay(loopInterval: loopInterval)
+                }
 
-            self.loop()
+                self.loop()
+            }
+        }
+        else {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                self.loop()
+            }
         }
     }
 
