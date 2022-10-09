@@ -55,9 +55,12 @@ struct AppState {
     var averageHeartRatePerSecond: Float = 0
     var averageStepsPerSecond: Float = 0
     var averageMeterPerSecond: Float = 0
-    var averageHeartRatesPerMinute: [Update] = []
-    var averageBreathIntervalPerMinute: [Update] = []
-    var averageMetersPerSecond: [Update] = []
+    var updates: [String: [Update]] = [
+        "breath": [],
+        "pulse": [],
+        "step": [],
+        "speed": []
+    ]
 
     func valueByMetric(metric: String) -> Float {
         switch metric {

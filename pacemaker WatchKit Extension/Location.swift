@@ -74,11 +74,6 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
             if (store.state.averageMeterPerSecond != prevAverageMeterPerSecond) {
                 store.state.lastDataChangeTime = .now()
             }
-
-            let update = Update()
-            update.timestamp = Date()
-            update.value = store.state.averageMeterPerSecond
-            store.state.averageMetersPerSecond.append(update)
         }
 
         last = current

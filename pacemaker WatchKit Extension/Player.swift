@@ -271,16 +271,29 @@ class Player {
                         isPanningReversed = !isPanningReversed
 
                         let timestamp = Date()
-                        store.state.averageBreathIntervalPerMinute.append(
+
+                        store.state.updates["breath"]?.append(
                             getUpdate(
                                 timestamp: timestamp,
                                 value: Float(loopInterval) * Float(DOWN_SCALE)
                             )
                         )
-                        store.state.averageHeartRatesPerMinute.append(
+                        store.state.updates["pulse"]?.append(
                             getUpdate(
                                 timestamp: timestamp,
-                                value: store.state.averageHeartRatePerSecond * 60
+                                value: store.state.averageHeartRatePerSecond
+                            )
+                        )
+                        store.state.updates["step"]?.append(
+                            getUpdate(
+                                timestamp: timestamp,
+                                value: store.state.averageStepsPerSecond
+                            )
+                        )
+                        store.state.updates["speed"]?.append(
+                            getUpdate(
+                                timestamp: timestamp,
+                                value: store.state.averageMeterPerSecond
                             )
                         )
                     }

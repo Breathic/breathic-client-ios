@@ -25,11 +25,10 @@ class ParsedData {
 struct ContentView: View {
     @ObservedObject private var store: AppStore = .shared
 
-    var parsedData: ParsedData = ParsedData()
     let player = Player()
     
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
-        return Array(metricData.suffix(60))
+        return Array(metricData.suffix(60 * 10))
             .map {
                 let minutes = Calendar.current.component(.minute, from: $0.timestamp)
                 let seconds = Calendar.current.component(.second, from: $0.timestamp)
@@ -56,31 +55,44 @@ struct ContentView: View {
         }
     }
 
-    func getSeriesData(updateCount: Int) -> ParsedData {
-        let breathIntervalPerMinute: [ProgressData] = parseProgressData(metricData: store.state.averageBreathIntervalPerMinute)
+    func getSeriesData() -> ParsedData {
+        let breathMetrics = store.state.updates["breath"] ?? []
+        let pulseMetrics = store.state.updates["pulse"] ?? []
+        let stepMetrics = store.state.updates["step"] ?? []
+        let speedMetrics = store.state.updates["speed"] ?? []
 
-        let breathIntervalPerMinuteMin = breathIntervalPerMinute.map { Float($0.value) }.min() ?? Float(0)
-        let breathIntervalPerMinuteMax = breathIntervalPerMinute.map { Float($0.value) }.max() ?? Float(0)
+        let lastBreathMetricValue = String(breathMetrics.count > 0 ? String(format: "%.1f", breathMetrics[breathMetrics.count - 1].value) : "")
+        let lastPulsehMetricValue = String(pulseMetrics.count > 0 ? String(format: "%.1f", pulseMetrics[pulseMetrics.count - 1].value) : "")
+        let lastStepMetricValue = String(stepMetrics.count > 0 ? String(format: "%.1f", stepMetrics[stepMetrics.count - 1].value) : "")
+        let lastSpeedhMetricValue = String(speedMetrics.count > 0 ? String(format: "%.1f", speedMetrics[speedMetrics.count - 1].value) : "")
 
-        let result = ParsedData()
-        result.min = breathIntervalPerMinuteMin
-        result.max = breathIntervalPerMinuteMax
+        let breath: [ProgressData] = parseProgressData(metricData: breathMetrics)
+        let parsedData: ParsedData = ParsedData()
 
-        let heartRatesPerMinute: [ProgressData] = convert(
-            data: parseProgressData(metricData: store.state.averageHeartRatesPerMinute),
-            range: [breathIntervalPerMinuteMin, breathIntervalPerMinuteMax]
+        parsedData.min = breath.map { Float($0.value) }.min() ?? Float(0)
+        parsedData.max = breath.map { Float($0.value) }.max() ?? Float(0)
+
+        let pulse: [ProgressData] = convert(
+            data: parseProgressData(metricData: pulseMetrics),
+            range: [parsedData.min, parsedData.max]
         )
-        
-        result.seriesData = [
-            .init(metric: "breathing time (s)", data: breathIntervalPerMinute),
-            .init(metric: "pulse", data: heartRatesPerMinute)
+        let step: [ProgressData] = convert(
+            data: parseProgressData(metricData: stepMetrics),
+            range: [parsedData.min, parsedData.max]
+        )
+        let speed: [ProgressData] = convert(
+            data: parseProgressData(metricData: speedMetrics),
+            range: [parsedData.min, parsedData.max]
+        )
+
+        parsedData.seriesData = [
+            .init(metric: lastBreathMetricValue + " breath (s)", data: breath),
+            .init(metric: lastPulsehMetricValue + " pulse (s)", data: pulse),
+            .init(metric: lastStepMetricValue + " steps (s)", data: step),
+            .init(metric: lastSpeedhMetricValue + " speed (m/s)", data: speed)
         ]
-        
-        parsedData.seriesData = result.seriesData
-        parsedData.min = result.min
-        parsedData.max = result.max
-        
-        return result
+
+        return parsedData
     }
 
     func menuButton(
@@ -137,7 +149,7 @@ struct ContentView: View {
                     menuButton(
                         geometry: geometry,
                         label: store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
-                        value: String(format:"%.2f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric)),
+                        value: String(format: "%.2f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric)),
                         action: {
                             store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
                             ? store.state.selectedMetricTypeIndex + 1
@@ -150,7 +162,7 @@ struct ContentView: View {
                     menuButton(
                         geometry: geometry,
                         label: "breath / pace",
-                        value: "\(String(format:"%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format:"%.1f", Double(store.state.selectedOutRhythm) / 10))",
+                        value: "\(String(format: "%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format: "%.1f", Double(store.state.selectedOutRhythm) / 10))",
                         action: { store.state.activeSubView = "Rhythm" }
                     )
                 }
@@ -182,7 +194,7 @@ struct ContentView: View {
             
             Spacer(minLength: 24)
             
-            Chart(getSeriesData(updateCount: $store.state.averageHeartRatesPerMinute.count).seriesData) { series in
+            Chart(getSeriesData().seriesData) { series in
                 ForEach(series.data) { element in
                     LineMark(
                         x: .value("Time", element.timestamp),
@@ -192,13 +204,9 @@ struct ContentView: View {
                     //.symbol(by: .value("Metric", series.metric))
                 }
             }
-            .chartYScale(domain: getSeriesData(updateCount:
-                $store.state.averageHeartRatesPerMinute.count).min
-                ...
-                getSeriesData(updateCount: $store.state.averageHeartRatesPerMinute.count).max
-            )
+            .chartYScale(domain:getSeriesData().min...getSeriesData().max)
             .chartXAxis(.hidden)
-            .frame(height: geometry.size.height - 16)
+            .frame(height: geometry.size.height - 8)
         }
     }
 
@@ -233,12 +241,12 @@ struct ContentView: View {
                 Picker("", selection: $store.state.selectedInRhythm) {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedInRhythm {
-                            Text(String(format:"%.1f", Double($0) / 10))
+                            Text(String(format: "%.1f", Double($0) / 10))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                         }
                         else {
-                            Text(String(format:"%.1f", Double($0) / 10))
+                            Text(String(format: "%.1f", Double($0) / 10))
                             .font(.system(size: 12))
                         }
                     }
@@ -255,12 +263,12 @@ struct ContentView: View {
                 Picker("", selection: $store.state.selectedOutRhythm) {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedOutRhythm {
-                            Text(String(format:"%.1f", Double($0) / 10))
+                            Text(String(format: "%.1f", Double($0) / 10))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                         }
                         else {
-                            Text(String(format:"%.1f", Double($0) / 10))
+                            Text(String(format: "%.1f", Double($0) / 10))
                             .font(.system(size: 12))
                         }
                     }
