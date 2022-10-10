@@ -36,37 +36,37 @@ struct AppState {
     var selectedRhythmIndex: Int = 0
     var metricTypes: [MetricType] = [
         MetricType(
-            metric: "averageHeartRatePerSecond",
+            metric: "heartRateMetric",
             unit: "heartbeats / s",
             isReversed: false
         ),
         MetricType(
-            metric: "averageStepsPerSecond",
+            metric: "stepMetric",
             unit: "steps / s",
             isReversed: true
         )/*,
         MetricType(
-            metric: "averageMeterPerSecond",
+            metric: "speedMetric",
             unit: "m / s",
             isReversed: true
         )*/
     ]
     var selectedMetricTypeIndex = 0
-    var averageHeartRatePerSecond: Float = 0
-    var averageStepsPerSecond: Float = 0
-    var averageMeterPerSecond: Float = 0
+    var heartRateMetric: Float = 0
+    var stepMetric: Float = 0
+    var speedMetric: Float = 0
     var updates: [String: [Update]] = [
         "breath": [],
-        "pulse": [],
+        "heartRate": [],
         "step": [],
         "speed": []
     ]
 
     func valueByMetric(metric: String) -> Float {
         switch metric {
-            case "averageHeartRatePerSecond": return averageHeartRatePerSecond
-            case "averageStepsPerSecond": return averageStepsPerSecond
-            case "averageMeterPerSecond": return averageMeterPerSecond
+            case "heartRateMetric": return heartRateMetric
+            case "stepMetric": return stepMetric
+            case "speedMetric": return speedMetric
             default: fatalError("metric is undefined")
         }
     }

@@ -25,12 +25,12 @@ class Pedometer {
         }
 
         if steps.count > 1 {
-            let prevAverageStepsPerSecond = store.state.averageStepsPerSecond
+            let prevStepMetric = store.state.stepMetric
             let intervalDuration: DispatchTimeInterval = steps[0].time.distance(to: step.time)
             let intervalSteps = Double(steps[steps.count - 1].count - steps[0].count)
-            store.state.averageStepsPerSecond = Float(intervalDuration.toDouble()) / Float(intervalSteps)
+            store.state.stepMetric = Float(intervalDuration.toDouble()) / Float(intervalSteps)
 
-            if (store.state.averageStepsPerSecond != prevAverageStepsPerSecond) {
+            if (store.state.stepMetric != prevStepMetric) {
                 store.state.lastDataChangeTime = .now()
             }
         }

@@ -57,12 +57,12 @@ struct ContentView: View {
 
     func getSeriesData() -> [SeriesData] {
         let breathMetrics = store.state.updates["breath"] ?? []
-        let pulseMetrics = store.state.updates["pulse"] ?? []
+        let heartRateMetrics = store.state.updates["heartRate"] ?? []
         let stepMetrics = store.state.updates["step"] ?? []
         let speedMetrics = store.state.updates["speed"] ?? []
 
         let lastBreathMetricValue = String(breathMetrics.count > 0 ? String(format: "%.1f", breathMetrics[breathMetrics.count - 1].value) : "")
-        let lastPulsehMetricValue = String(pulseMetrics.count > 0 ? String(format: "%.1f", pulseMetrics[pulseMetrics.count - 1].value) : "")
+        let lastHeartRateMetricValue = String(heartRateMetrics.count > 0 ? String(format: "%.1f", heartRateMetrics[heartRateMetrics.count - 1].value) : "")
         let lastStepMetricValue = String(stepMetrics.count > 0 ? String(format: "%.1f", stepMetrics[stepMetrics.count - 1].value) : "")
         let lastSpeedhMetricValue = String(speedMetrics.count > 0 ? String(format: "%.1f", speedMetrics[speedMetrics.count - 1].value) : "")
 
@@ -71,8 +71,8 @@ struct ContentView: View {
         parsedData.min = breath.map { Float($0.value) }.min() ?? Float(0)
         parsedData.max = breath.map { Float($0.value) }.max() ?? Float(0)
 
-        let pulse: [ProgressData] = convert(
-            data: parseProgressData(metricData: pulseMetrics),
+        let heartRate: [ProgressData] = convert(
+            data: parseProgressData(metricData: heartRateMetrics),
             range: [parsedData.min, parsedData.max]
         )
         let step: [ProgressData] = convert(
@@ -86,7 +86,7 @@ struct ContentView: View {
 
         return [
             .init(metric: lastBreathMetricValue + " breath (s)", data: breath),
-            .init(metric: lastPulsehMetricValue + " pulse (s)", data: pulse),
+            .init(metric: lastHeartRateMetricValue + " heart rate (s)", data: heartRate),
             .init(metric: lastStepMetricValue + " steps (s)", data: step),
             .init(metric: lastSpeedhMetricValue + " speed (m/s)", data: speed)
         ]

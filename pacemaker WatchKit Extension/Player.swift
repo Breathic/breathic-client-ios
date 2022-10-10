@@ -278,22 +278,22 @@ class Player {
                                 value: Float(loopInterval) * Float(DOWN_SCALE)
                             )
                         )
-                        store.state.updates["pulse"]?.append(
+                        store.state.updates["heartRate"]?.append(
                             getUpdate(
                                 timestamp: timestamp,
-                                value: store.state.averageHeartRatePerSecond
+                                value: store.state.heartRateMetric
                             )
                         )
                         store.state.updates["step"]?.append(
                             getUpdate(
                                 timestamp: timestamp,
-                                value: store.state.averageStepsPerSecond
+                                value: store.state.stepMetric
                             )
                         )
                         store.state.updates["speed"]?.append(
                             getUpdate(
                                 timestamp: timestamp,
-                                value: store.state.averageMeterPerSecond
+                                value: store.state.speedMetric
                             )
                         )
                     }

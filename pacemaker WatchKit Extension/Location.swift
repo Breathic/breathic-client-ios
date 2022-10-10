@@ -65,13 +65,13 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
 
         if (current.speed >= 0) {
-            let prevAverageMeterPerSecond = store.state.averageMeterPerSecond
+            let prevSpeedMetric = store.state.speedMetric
 
             speeds.append(current.speed)
             speeds = Array(speeds.suffix(MAX_READING_COUNT))
-            store.state.averageMeterPerSecond = speeds.reduce(0) { Float($0) + Float($1) } / Float(speeds.count)
+            store.state.speedMetric = speeds.reduce(0) { Float($0) + Float($1) } / Float(speeds.count)
 
-            if (store.state.averageMeterPerSecond != prevAverageMeterPerSecond) {
+            if (store.state.speedMetric != prevSpeedMetric) {
                 store.state.lastDataChangeTime = .now()
             }
         }
