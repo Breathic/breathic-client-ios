@@ -68,21 +68,11 @@ struct ContentView: View {
 
         let breath: [ProgressData] = parseProgressData(metricData: breathMetrics)
 
-        parsedData.min = breath.map { Float($0.value) }.min() ?? Float(0)
         parsedData.max = breath.map { Float($0.value) }.max() ?? Float(0)
 
-        let heartRate: [ProgressData] = convert(
-            data: parseProgressData(metricData: heartRateMetrics),
-            range: [parsedData.min, parsedData.max]
-        )
-        let step: [ProgressData] = convert(
-            data: parseProgressData(metricData: stepMetrics),
-            range: [parsedData.min, parsedData.max]
-        )
-        let speed: [ProgressData] = convert(
-            data: parseProgressData(metricData: speedMetrics),
-            range: [parsedData.min, parsedData.max]
-        )
+        let heartRate: [ProgressData] = parseProgressData(metricData: heartRateMetrics)
+        let step: [ProgressData] = parseProgressData(metricData: stepMetrics)
+        let speed: [ProgressData] = parseProgressData(metricData: speedMetrics)
 
         return [
             .init(metric: lastBreathMetricValue + " breath (s)", data: breath),
@@ -198,11 +188,10 @@ struct ContentView: View {
                         y: .value("Value", element.value)
                     )
                     .foregroundStyle(by: .value("Metric", series.metric))
-                    //.symbol(by: .value("Metric", series.metric))
                 }
             }
-            .chartYScale(domain: parsedData.min...parsedData.max)
             .chartXAxis(.hidden)
+            .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
             .frame(height: geometry.size.height - 8)
         }
     }
