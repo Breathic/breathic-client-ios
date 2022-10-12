@@ -87,6 +87,7 @@ struct ContentView: View {
         geometry: GeometryProxy,
         label: String = "",
         value: String = "",
+        unit: String = "",
         isWide: Bool = false,
         isTall: Bool = true,
         isActive: Bool = false,
@@ -102,15 +103,23 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, alignment: Alignment.topLeading)
                     .font(.system(size: store.state.ui.primaryTextSize))
                 }
-                
+
                 if value.count > 0 {
-                    Spacer(minLength: 10)
+                    Spacer(minLength: 8)
                     
                     Text(value)
                     .font(.system(size: 18))
                     .fontWeight(.bold)
                 }
-                
+
+                if unit.count > 0 {
+                    Spacer(minLength: 0)
+
+                    Text(unit)
+                    .frame(maxWidth: .infinity, alignment: Alignment.center)
+                    .font(.system(size: store.state.ui.tertiaryTextSize))
+                }
+
                 Rectangle()
                 .fill(isActive ? .white : .black)
                 .frame(width: geometry.size.width / 3 - 4, height: 2)
@@ -130,70 +139,74 @@ struct ContentView: View {
         .disabled(!isEnabled)
     }
 
-    func pacemakerView(geometry: GeometryProxy) -> some View {
-        ScrollView(showsIndicators: false) {
-            VStack {
-                HStack {
-                    menuButton(
-                        geometry: geometry,
-                        label: store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
-                        value: String(format: "%.2f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric)),
-                        action: {
-                            store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
-                            ? store.state.selectedMetricTypeIndex + 1
-                            : 0
-                        }
-                    )
-
-                    Spacer(minLength: 8)
-
-                    menuButton(
-                        geometry: geometry,
-                        label: "breath / pace",
-                        value: "\(String(format: "%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format: "%.1f", Double(store.state.selectedOutRhythm) / 10))",
-                        action: { store.state.activeSubView = "Rhythm" }
-                    )
-                }
+    func controllerView(geometry: GeometryProxy) -> some View {
+        VStack {
+            HStack {
+                menuButton(
+                    geometry: geometry,
+                    label: "Pace",
+                    value: String(format: "%.2f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric)),
+                    unit: store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
+                    action: {
+                        store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
+                        ? store.state.selectedMetricTypeIndex + 1
+                        : 0
+                    }
+                )
 
                 Spacer(minLength: 8)
 
-                HStack {
-                    menuButton(
-                        geometry: geometry,
-                        label: "Volume",
-                        value: String(store.state.selectedVolume),
-                        action: {
-                            store.state.activeSubView = "Volume"
-                        }
-                    )
-
-                    Spacer(minLength: 8)
-
-                    menuButton(
-                        geometry: geometry,
-                        label: store.state.isAudioPlaying ? "Playing" : "Paused",
-                        value: store.state.isAudioPlaying ? "||" : "▶",
-                        action: {
-                            player.togglePlay()
-                        }
-                    )
-                }
+                menuButton(
+                    geometry: geometry,
+                    label: "Rhythm",
+                    value: "\(String(format: "%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format: "%.1f", Double(store.state.selectedOutRhythm) / 10))",
+                    unit: "per pace",
+                    action: { store.state.activeSubView = "Rhythm" }
+                )
             }
 
-            Spacer(minLength: 24)
+            Spacer(minLength: 8)
 
-            Chart(getSeriesData()) { series in
-                ForEach(series.data) { element in
-                    LineMark(
-                        x: .value("Time", element.timestamp),
-                        y: .value("Value", element.value)
-                    )
-                    .foregroundStyle(by: .value("Metric", series.metric))
-                }
+            HStack {
+                menuButton(
+                    geometry: geometry,
+                    label: "Volume",
+                    value: String(store.state.selectedVolume),
+                    unit: store.state.selectedVolume == 0 ? "muted" : "",
+                    action: {
+                        store.state.activeSubView = "Volume"
+                    }
+                )
+
+                Spacer(minLength: 8)
+
+                menuButton(
+                    geometry: geometry,
+                    label: "Playback",
+                    value: store.state.isAudioPlaying ? "||" : "▶",
+                    unit: store.state.isAudioPlaying ? "Playing" : "Paused",
+                    action: {
+                        player.togglePlay()
+                    }
+                )
             }
-            .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
-            .frame(height: geometry.size.height - 8)
         }
+
+        /*
+        Spacer(minLength: 24)
+
+        Chart(getSeriesData()) { series in
+            ForEach(series.data) { element in
+                LineMark(
+                    x: .value("Time", element.timestamp),
+                    y: .value("Value", element.value)
+                )
+                .foregroundStyle(by: .value("Metric", series.metric))
+            }
+        }
+        .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
+        .frame(height: geometry.size.height - 8)
+         */
     }
 
     func progressView(geometry: GeometryProxy) -> some View {
@@ -295,9 +308,9 @@ struct ContentView: View {
     }
 
     var body: some View {
-        let toolbarAction = store.state.activeSubView == "Pacemaker"
+        let toolbarAction = store.state.activeSubView == "Controller"
             ? "Progress"
-            : "Pacemaker"
+            : "Controller"
 
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -305,8 +318,8 @@ struct ContentView: View {
             GeometryReader { geometry in
                 VStack() {
                     switch(store.state.activeSubView) {
-                        case "Pacemaker":
-                            pacemakerView(geometry: geometry)
+                        case "Controller":
+                            controllerView(geometry: geometry)
 
                         case "Progress":
                             progressView(geometry: geometry)
@@ -318,7 +331,7 @@ struct ContentView: View {
                             volumeView(geometry: geometry)
 
                         default:
-                            pacemakerView(geometry: geometry)
+                            controllerView(geometry: geometry)
                     }
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))

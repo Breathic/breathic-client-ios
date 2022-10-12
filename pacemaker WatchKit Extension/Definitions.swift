@@ -37,6 +37,7 @@ class UI {
     let height = 0.9
     let primaryTextSize = 8.0
     let secondaryTextSize = 14.0
+    let tertiaryTextSize = 6.0
     let borderLineWidth = 1.0
 }
 
@@ -76,7 +77,7 @@ class Audio {
         self.players = players
     }
 
-    func copy(with zone: NSZone? = nil) -> Any {
+    func copy() -> Any {
         let copy = Audio(
             channelRepeatIndex: channelRepeatIndex,
             sampleIndex: sampleIndex,

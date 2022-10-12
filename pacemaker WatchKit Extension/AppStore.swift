@@ -13,7 +13,7 @@ SentrySDK.start { options in
  */
 
 struct AppState {
-    var activeSubView: String = "Pacemaker"
+    var activeSubView: String = "Controller"
     var startHour = 0
     var seeds: [Seed] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
@@ -53,9 +53,9 @@ struct AppState {
         )*/
     ]
     var selectedMetricTypeIndex = 0
-    var heartRateMetric: Float = 0
-    var stepMetric: Float = 0
-    var speedMetric: Float = 0
+    var heartRateMetric: Float = Platform.isSimulator ? 1 : 0
+    var stepMetric: Float = Platform.isSimulator ? 1 : 0
+    var speedMetric: Float = Platform.isSimulator ? 1 : 0
     var updates: [String: [Update]] = [
         "breath": [],
         "heartRate": [],
