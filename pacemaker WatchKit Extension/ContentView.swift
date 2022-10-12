@@ -5,9 +5,9 @@ import AVFoundation
 import Foundation
 
 struct ProgressData: Identifiable {
-    let timestamp: String
+    let timestamp: Int
     let value: Float
-    var id: String { timestamp }
+    var id: Int { timestamp }
 }
 
 struct SeriesData: Identifiable {
@@ -30,9 +30,10 @@ struct ContentView: View {
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
         return Array(metricData.suffix(60 * 10))
             .map {
+                let hours = Calendar.current.component(.hour, from: $0.timestamp)
                 let minutes = Calendar.current.component(.minute, from: $0.timestamp)
                 let seconds = Calendar.current.component(.second, from: $0.timestamp)
-                let timestamp = String(minutes * 60 + seconds)
+                let timestamp = (Int(minutes * 60 + seconds) / 60) + ((hours - store.state.startHour) * 60)
                 return ProgressData(timestamp: timestamp, value: $0.value)
             }
     }
@@ -190,7 +191,6 @@ struct ContentView: View {
                     .foregroundStyle(by: .value("Metric", series.metric))
                 }
             }
-            .chartXAxis(.hidden)
             .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
             .frame(height: geometry.size.height - 8)
         }

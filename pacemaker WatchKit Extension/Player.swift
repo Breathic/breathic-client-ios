@@ -279,33 +279,6 @@ class Player {
                     if collectionIndex == 0 && audioIndex == 0 && channelIndex == 0 && (
                         audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                         isPanningReversed = !isPanningReversed
-
-                        let timestamp = Date()
-
-                        store.state.updates["breath"]?.append(
-                            getUpdate(
-                                timestamp: timestamp,
-                                value: Float(loopInterval) * Float(DOWN_SCALE)
-                            )
-                        )
-                        store.state.updates["heartRate"]?.append(
-                            getUpdate(
-                                timestamp: timestamp,
-                                value: store.state.heartRateMetric
-                            )
-                        )
-                        store.state.updates["step"]?.append(
-                            getUpdate(
-                                timestamp: timestamp,
-                                value: store.state.stepMetric
-                            )
-                        )
-                        store.state.updates["speed"]?.append(
-                            getUpdate(
-                                timestamp: timestamp,
-                                value: store.state.speedMetric
-                            )
-                        )
                     }
 
                     if channel[audio.sampleIndex] != "" {
@@ -332,6 +305,41 @@ class Player {
                         audio.sampleIndex = 0
                     }
                 }
+            }
+        }
+    }
+
+    func updateGraph() {
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
+            let loopInterval: TimeInterval = self.getLoopInterval()
+
+            if !loopInterval.isInfinite {
+                let timestamp = Date()
+
+                self.store.state.updates["breath"]?.append(
+                    self.getUpdate(
+                        timestamp: timestamp,
+                        value: Float(loopInterval) * Float(DOWN_SCALE)
+                    )
+                )
+                self.store.state.updates["heartRate"]?.append(
+                    self.getUpdate(
+                        timestamp: timestamp,
+                        value: self.store.state.heartRateMetric
+                    )
+                )
+                self.store.state.updates["step"]?.append(
+                    self.getUpdate(
+                        timestamp: timestamp,
+                        value: self.store.state.stepMetric
+                    )
+                )
+                self.store.state.updates["speed"]?.append(
+                    self.getUpdate(
+                        timestamp: timestamp,
+                        value: self.store.state.speedMetric
+                    )
+                )
             }
         }
     }
@@ -457,6 +465,7 @@ class Player {
     func play() {
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
+            //store.state.startHour = Calendar.current.component(.hour, from: Date())
             Task {
                 await startAudioSession()
             }
@@ -464,6 +473,7 @@ class Player {
             create()
             loop()
             initInactivityTimer()
+            //updateGraph()
         }
 
         coordinator.start()

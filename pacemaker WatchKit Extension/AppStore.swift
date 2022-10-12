@@ -14,6 +14,7 @@ SentrySDK.start { options in
 
 struct AppState {
     var activeSubView: String = "Pacemaker"
+    var startHour = 0
     var seeds: [Seed] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
