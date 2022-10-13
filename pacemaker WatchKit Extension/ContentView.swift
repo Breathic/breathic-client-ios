@@ -224,7 +224,7 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Pulse",
-                    value: String(format: "%.1f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
                     unit: "per minute",
                     isEnabled: false
                 )
@@ -234,7 +234,7 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Breath",
-                    value: String(format: "%.1f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
                     unit: "per minute",
                     isEnabled: false
                 )
@@ -246,7 +246,7 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Step",
-                    value: String(format: "%.1f", store.state.valueByMetric(metric: "stepMetric") * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
                     unit: "per minute",
                     isEnabled: false
                 )
