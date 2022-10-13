@@ -34,16 +34,19 @@ struct AppState {
     var rhythmRange: [Int] = Array(10...50)
     var selectedInRhythm: Int = 20
     var selectedOutRhythm: Int = 20
+    var selectedRhythms: [Int] = []
     var selectedRhythmIndex: Int = 0
     var metricTypes: [MetricType] = [
         MetricType(
             metric: "heartRateMetric",
-            unit: "heartbeats / s",
+            label: "pulse",
+            unit: "minute",
             isReversed: false
         ),
         MetricType(
             metric: "stepMetric",
-            unit: "steps / s",
+            label: "step",
+            unit: "minute",
             isReversed: true
         )/*,
         MetricType(
@@ -53,6 +56,7 @@ struct AppState {
         )*/
     ]
     var selectedMetricTypeIndex = 0
+    var breathRateMetric: Float = Platform.isSimulator ? 1 : 0
     var heartRateMetric: Float = Platform.isSimulator ? 1 : 0
     var stepMetric: Float = Platform.isSimulator ? 1 : 0
     var speedMetric: Float = Platform.isSimulator ? 1 : 0
@@ -65,6 +69,7 @@ struct AppState {
 
     func valueByMetric(metric: String) -> Float {
         switch metric {
+            case "breathRateMetric": return breathRateMetric
             case "heartRateMetric": return heartRateMetric
             case "stepMetric": return stepMetric
             case "speedMetric": return speedMetric

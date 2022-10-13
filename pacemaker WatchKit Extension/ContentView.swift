@@ -21,6 +21,22 @@ class ParsedData {
     var max: Float = 0
 }
 
+/*
+Spacer(minLength: 24)
+
+Chart(getSeriesData()) { series in
+    ForEach(series.data) { element in
+        LineMark(
+            x: .value("Time", element.timestamp),
+            y: .value("Value", element.value)
+        )
+        .foregroundStyle(by: .value("Metric", series.metric))
+    }
+}
+.chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
+.frame(height: geometry.size.height - 8)
+ */
+
 struct ContentView: View {
     @ObservedObject private var store: AppStore = .shared
 
@@ -62,16 +78,22 @@ struct ContentView: View {
         }
     }
 
+    func getCurrentMetricValue(metric: String) -> String {
+        let metrics = store.state.updates[metric] ?? []
+        let currentMetricValue = String(metrics.count > 0 ? String(format: "%.1f", metrics[metrics.count - 1].value) : "")
+        return currentMetricValue
+    }
+
     func getSeriesData() -> [SeriesData] {
         let breathMetrics = store.state.updates["breath"] ?? []
         let heartRateMetrics = store.state.updates["heartRate"] ?? []
         let stepMetrics = store.state.updates["step"] ?? []
         let speedMetrics = store.state.updates["speed"] ?? []
 
-        let lastBreathMetricValue = String(breathMetrics.count > 0 ? String(format: "%.1f", breathMetrics[breathMetrics.count - 1].value) : "")
-        let lastHeartRateMetricValue = String(heartRateMetrics.count > 0 ? String(format: "%.1f", heartRateMetrics[heartRateMetrics.count - 1].value) : "")
-        let lastStepMetricValue = String(stepMetrics.count > 0 ? String(format: "%.1f", stepMetrics[stepMetrics.count - 1].value) : "")
-        let lastSpeedhMetricValue = String(speedMetrics.count > 0 ? String(format: "%.1f", speedMetrics[speedMetrics.count - 1].value) : "")
+        let lastBreathMetricValue = getCurrentMetricValue(metric: "breath")
+        let lastHeartRateMetricValue = getCurrentMetricValue(metric: "heartRate")
+        let lastStepMetricValue = getCurrentMetricValue(metric: "step")
+        let lastSpeedhMetricValue = getCurrentMetricValue(metric: "speed")
 
         let breath: [ProgressData] = parseProgressData(metricData: breathMetrics)
 
@@ -98,7 +120,7 @@ struct ContentView: View {
         isTall: Bool = true,
         isActive: Bool = false,
         isEnabled: Bool = true,
-        action: @escaping () -> Void
+        action: @escaping () -> Void = {}
     ) -> some View {
         Button(action: action) {
             VStack {
@@ -137,9 +159,8 @@ struct ContentView: View {
         .tint(.black)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(.gray, lineWidth: store.state.ui.borderLineWidth)
+                .stroke(.gray, lineWidth: isEnabled ? store.state.ui.borderLineWidth : 0)
         )
-        .opacity(isEnabled ? 1 : 0.33)
         .disabled(!isEnabled)
     }
 
@@ -149,12 +170,12 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Pace",
-                    value: String(format: "%.2f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric)),
-                    unit: store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
+                    value: store.state.metricTypes[store.state.selectedMetricTypeIndex].label,
+                    unit: "per " + store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
                     action: {
                         store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
-                        ? store.state.selectedMetricTypeIndex + 1
-                        : 0
+                            ? store.state.selectedMetricTypeIndex + 1
+                            : 0
                     }
                 )
 
@@ -195,22 +216,52 @@ struct ContentView: View {
                 )
             }
         }
+    }
 
-        /*
-        Spacer(minLength: 24)
-
-        Chart(getSeriesData()) { series in
-            ForEach(series.data) { element in
-                LineMark(
-                    x: .value("Time", element.timestamp),
-                    y: .value("Value", element.value)
+    func detailView(geometry: GeometryProxy) -> some View {
+        VStack {
+            HStack {
+                menuButton(
+                    geometry: geometry,
+                    label: "Pulse",
+                    value: String(format: "%.1f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
+                    unit: "per minute",
+                    isEnabled: false
                 )
-                .foregroundStyle(by: .value("Metric", series.metric))
+
+                Spacer(minLength: 8)
+
+                menuButton(
+                    geometry: geometry,
+                    label: "Breath",
+                    value: String(format: "%.1f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
+                    unit: "per minute",
+                    isEnabled: false
+                )
+            }
+
+            Spacer(minLength: 8)
+
+            HStack {
+                menuButton(
+                    geometry: geometry,
+                    label: "Step",
+                    value: String(format: "%.1f", store.state.valueByMetric(metric: "stepMetric") * 60),
+                    unit: "per minute",
+                    isEnabled: false
+                )
+
+                Spacer(minLength: 8)
+
+                menuButton(
+                    geometry: geometry,
+                    label: "Speed",
+                    value: String(format: "%.1f", store.state.valueByMetric(metric: "speedMetric") * 3.6),
+                    unit: "km / h",
+                    isEnabled: false
+                )
             }
         }
-        .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
-        .frame(height: geometry.size.height - 8)
-         */
     }
 
     func progressView(geometry: GeometryProxy) -> some View {
@@ -325,7 +376,7 @@ struct ContentView: View {
                         case "Controller":
                             HStack {
                                 controllerView(geometry: geometry)
-                                controllerView(geometry: geometry)
+                                detailView(geometry: geometry)
                             }
                             .offset(x: Double(dragXOffset.width))
                             .highPriorityGesture(

@@ -16,6 +16,7 @@ class Player {
     var collections: [[Audio]] = []
     
     init() {
+        store.state.selectedRhythms = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
         panScale = getPanScale()
         //UserDefaults.standard.set("", forKey: "likes")
@@ -208,11 +209,10 @@ class Player {
         let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
         let pace = store.state.valueByMetric(metric: metricType.metric)
         let isReversed = metricType.isReversed
-        let selectedRhythms: [Int] = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
-        let selectedRhythm: Double = Double(selectedRhythms[store.state.selectedRhythmIndex]) / 10
+        let selectedRhythm: Double = Double(store.state.selectedRhythms[store.state.selectedRhythmIndex]) / 10
 
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
-        if store.state.selectedRhythmIndex == selectedRhythms.count {
+        if store.state.selectedRhythmIndex == store.state.selectedRhythms.count {
             store.state.selectedRhythmIndex = 0
         }
 
@@ -346,6 +346,7 @@ class Player {
 
     func loop() {
         let loopInterval: TimeInterval = getLoopInterval()
+        store.state.breathRateMetric = 1 / Float(loopInterval) / Float(DOWN_SCALE) / Float(store.state.selectedRhythms.count)
 
         if !loopInterval.isInfinite {
             Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
@@ -469,7 +470,6 @@ class Player {
             Task {
                 await startAudioSession()
             }
-            //location.start()
             create()
             loop()
             initInactivityTimer()

@@ -9,6 +9,7 @@ enum SubView {
 
 struct MetricType {
     var metric: String = ""
+    var label: String = ""
     var unit: String = ""
     var isReversed: Bool = false
 }
