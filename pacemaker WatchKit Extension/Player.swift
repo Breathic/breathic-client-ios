@@ -16,7 +16,6 @@ class Player {
     var collections: [[Audio]] = []
     
     init() {
-        store.state.selectedRhythms = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
         panScale = getPanScale()
         //UserDefaults.standard.set("", forKey: "likes")
@@ -206,6 +205,7 @@ class Player {
     }
 
     func getLoopInterval() -> TimeInterval {
+        store.state.selectedRhythms = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
         let pace = store.state.valueByMetric(metric: metricType.metric)
         let isReversed = metricType.isReversed

@@ -363,7 +363,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        let toolbarAction = store.state.activeSubView == "Controller"
+        let navbarAction = store.state.activeSubView == "Controller"
             ? "Progress"
             : "Controller"
 
@@ -389,11 +389,11 @@ struct ContentView: View {
                                         if width > minimumMovementThreshold { return }
                                         else if width < -geometry.size.width { return }
 
-                                        wasChanged = true
                                         dragXOffset = CGSize(
                                             width: width,
                                             height: 0
                                         )
+                                        wasChanged = true
                                     }
                                     .onEnded { _ in
                                         if !wasChanged { return }
@@ -436,7 +436,7 @@ struct ContentView: View {
         }.toolbar(content: {
             ToolbarItem(placement: .cancellationAction) {
                 Button(
-                    action: { store.state.activeSubView = toolbarAction },
+                    action: { store.state.activeSubView = navbarAction },
                     label: { Text("← " + store.state.activeSubView).font(.system(size: 14)) }
                 )
             }
