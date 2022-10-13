@@ -26,7 +26,13 @@ struct ContentView: View {
 
     let player = Player()
     let parsedData: ParsedData = ParsedData()
-    
+
+    @State private var dragIndex = 0
+    @State private var dragXOffset = CGSize.zero
+    @State private var wasChanged = false
+
+    let minimumMovementThreshold = CGFloat(10)
+
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
         return Array(metricData.suffix(60 * 10))
             .map {
@@ -101,7 +107,7 @@ struct ContentView: View {
                 if label.count > 0 {
                     Text(label)
                     .frame(maxWidth: .infinity, alignment: Alignment.topLeading)
-                    .font(.system(size: store.state.ui.primaryTextSize))
+                    .font(.system(size: 10))
                 }
 
                 if value.count > 0 {
@@ -113,11 +119,9 @@ struct ContentView: View {
                 }
 
                 if unit.count > 0 {
-                    Spacer(minLength: 0)
-
                     Text(unit)
                     .frame(maxWidth: .infinity, alignment: Alignment.center)
-                    .font(.system(size: store.state.ui.tertiaryTextSize))
+                    .font(.system(size: 8))
                 }
 
                 Rectangle()
@@ -172,7 +176,7 @@ struct ContentView: View {
                     geometry: geometry,
                     label: "Volume",
                     value: String(store.state.selectedVolume),
-                    unit: store.state.selectedVolume == 0 ? "muted" : "",
+                    unit: store.state.selectedVolume == 0 ? "muted" : "⠀", // Emtpy char for filling up space.
                     action: {
                         store.state.activeSubView = "Volume"
                     }
@@ -319,7 +323,49 @@ struct ContentView: View {
                 VStack() {
                     switch(store.state.activeSubView) {
                         case "Controller":
-                            controllerView(geometry: geometry)
+                            HStack {
+                                controllerView(geometry: geometry)
+                                controllerView(geometry: geometry)
+                            }
+                            .offset(x: Double(dragXOffset.width))
+                            .highPriorityGesture(
+                                DragGesture()
+                                    .onChanged { gesture in
+                                        wasChanged = false
+
+                                        let width = gesture.translation.width + (CGFloat(-dragIndex) * geometry.size.width)
+
+                                        if width > minimumMovementThreshold { return }
+                                        else if width < -geometry.size.width { return }
+
+                                        wasChanged = true
+                                        dragXOffset = CGSize(
+                                            width: width,
+                                            height: 0
+                                        )
+                                    }
+                                    .onEnded { _ in
+                                        if !wasChanged { return }
+
+                                        let padding = CGFloat(4)
+                                        let width = CGFloat(dragIndex) * geometry.size.width
+
+                                        if dragXOffset.width < -width {
+                                            dragXOffset = CGSize(width: -geometry.size.width - padding, height: 0)
+                                            dragIndex = 1
+                                        }
+                                        else if dragXOffset.width > -width {
+                                            dragXOffset = CGSize(width: 0, height: 0)
+                                            dragIndex = 0
+                                        }
+                                        else {
+                                            dragXOffset = CGSize(
+                                                width: width,
+                                                height: 0
+                                            )
+                                        }
+                                    }
+                            )
 
                         case "Progress":
                             progressView(geometry: geometry)
