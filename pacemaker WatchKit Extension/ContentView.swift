@@ -136,7 +136,7 @@ struct ContentView: View {
                     Spacer(minLength: 8)
                     
                     Text(value)
-                    .font(.system(size: 18))
+                    .font(.system(size: isTall ? 32 : 16))
                     .fontWeight(.bold)
                 }
 
@@ -154,7 +154,7 @@ struct ContentView: View {
             }
         }
         .fixedSize()
-        .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4, height: geometry.size.height / (isTall ? 2 : 3) - 4)
+        .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4, height: geometry.size.height / 2 - 4)
         .foregroundColor(.white)
         .tint(.black)
         .overlay(
@@ -172,6 +172,7 @@ struct ContentView: View {
                     label: "Pace",
                     value: store.state.metricTypes[store.state.selectedMetricTypeIndex].label,
                     unit: "per " + store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
+                    isTall: false,
                     action: {
                         store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
                             ? store.state.selectedMetricTypeIndex + 1
@@ -186,6 +187,7 @@ struct ContentView: View {
                     label: "Rhythm",
                     value: "\(String(format: "%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format: "%.1f", Double(store.state.selectedOutRhythm) / 10))",
                     unit: "per pace",
+                    isTall: false,
                     action: { store.state.activeSubView = "Rhythm" }
                 )
             }
@@ -198,6 +200,7 @@ struct ContentView: View {
                     label: "Volume",
                     value: String(store.state.selectedVolume),
                     unit: store.state.selectedVolume == 0 ? "muted" : "⠀", // Emtpy char for filling up space.
+                    isTall: false,
                     action: {
                         store.state.activeSubView = "Volume"
                     }
@@ -210,6 +213,7 @@ struct ContentView: View {
                     label: "Playback",
                     value: store.state.isAudioPlaying ? "||" : "▶",
                     unit: store.state.isAudioPlaying ? "Playing" : "Paused",
+                    isTall: false,
                     action: {
                         player.togglePlay()
                     }
