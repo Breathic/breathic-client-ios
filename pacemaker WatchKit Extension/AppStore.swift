@@ -39,13 +39,13 @@ struct AppState {
     var metricTypes: [MetricType] = [
         MetricType(
             metric: "heartRateMetric",
-            label: "pulse",
+            label: "heart rate",
             unit: "minute",
             isReversed: false
         ),
         MetricType(
             metric: "stepMetric",
-            label: "step",
+            label: "step rate",
             unit: "minute",
             isReversed: true
         )/*,

@@ -125,7 +125,7 @@ struct ContentView: View {
         Button(action: action) {
             VStack {
                 Spacer(minLength: 4)
-                
+
                 if label.count > 0 {
                     Text(label)
                     .frame(maxWidth: .infinity, alignment: Alignment.topLeading)
@@ -134,9 +134,9 @@ struct ContentView: View {
 
                 if value.count > 0 {
                     Spacer(minLength: 8)
-                    
+
                     Text(value)
-                    .font(.system(size: isTall ? 32 : 16))
+                    .font(.system(size: isTall ? 32 : 14))
                     .fontWeight(.bold)
                 }
 
@@ -149,7 +149,7 @@ struct ContentView: View {
                 Rectangle()
                 .fill(isActive ? .white : .black)
                 .frame(width: geometry.size.width / 3 - 4, height: 2)
-                
+
                 Spacer(minLength: 4)
             }
         }
@@ -227,7 +227,7 @@ struct ContentView: View {
             HStack {
                 menuButton(
                     geometry: geometry,
-                    label: "Pulse",
+                    label: "Heart rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
                     unit: "per minute",
                     isEnabled: false
@@ -237,7 +237,7 @@ struct ContentView: View {
 
                 menuButton(
                     geometry: geometry,
-                    label: "Breath",
+                    label: "Breath rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
                     unit: "per minute",
                     isEnabled: false
@@ -249,7 +249,7 @@ struct ContentView: View {
             HStack {
                 menuButton(
                     geometry: geometry,
-                    label: "Step",
+                    label: "Step rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
                     unit: "per minute",
                     isEnabled: false
