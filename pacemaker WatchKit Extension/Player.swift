@@ -204,17 +204,19 @@ class Player {
         return left + right
     }
 
+    func incrementSelectedRhythmIndex() {
+        store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
+        if store.state.selectedRhythmIndex == store.state.selectedRhythms.count {
+            store.state.selectedRhythmIndex = 0
+        }
+    }
+
     func getLoopInterval() -> TimeInterval {
         store.state.selectedRhythms = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
         let pace = store.state.valueByMetric(metric: metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = Double(store.state.selectedRhythms[store.state.selectedRhythmIndex]) / 10
-
-        store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
-        if store.state.selectedRhythmIndex == store.state.selectedRhythms.count {
-            store.state.selectedRhythmIndex = 0
-        }
 
         var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
@@ -279,6 +281,7 @@ class Player {
                     if collectionIndex == 0 && audioIndex == 0 && channelIndex == 0 && (
                         audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                         isPanningReversed = !isPanningReversed
+                        incrementSelectedRhythmIndex()
                     }
 
                     if channel[audio.sampleIndex] != "" {
