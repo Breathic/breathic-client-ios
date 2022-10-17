@@ -211,18 +211,28 @@ class Player {
         }
     }
 
-    func getLoopInterval() -> TimeInterval {
+    func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
         store.state.selectedRhythms = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
         let pace = store.state.valueByMetric(metric: metricType.metric)
         let isReversed = metricType.isReversed
-        let selectedRhythm: Double = Double(store.state.selectedRhythms[store.state.selectedRhythmIndex]) / 10
+        let selectedRhythm: Double = Double(store.state.selectedRhythms[selectedRhythmIndex]) / 10
 
         var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
         loopInterval = loopInterval <= 0 ? 1 : loopInterval
 
         return loopInterval
+    }
+
+    func getLoopIntervalSum() -> TimeInterval {
+        let loopIntervalSum: TimeInterval = store.state.selectedRhythms.enumerated()
+            .map { (index, _) in
+                return getLoopInterval(selectedRhythmIndex: index)
+            }
+            .reduce(0, +)
+
+        return loopIntervalSum
     }
 
     func fade(collectionIndex: Int, channelIndex: Int, channelCount: Int) {
@@ -314,7 +324,7 @@ class Player {
 
     func updateGraph() {
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
-            let loopInterval: TimeInterval = self.getLoopInterval()
+            let loopInterval = self.getLoopIntervalSum()
 
             if !loopInterval.isInfinite {
                 let timestamp = Date()
@@ -348,9 +358,9 @@ class Player {
     }
 
     func loop() {
-        let loopInterval: TimeInterval = getLoopInterval()
-        store.state.breathRateMetric = 1 / Float(loopInterval) / Float(DOWN_SCALE) / Float(store.state.selectedRhythms.count)
+        store.state.breathRateMetric = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE)
 
+        let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
         if !loopInterval.isInfinite {
             Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
                 if self.store.state.isAudioPlaying {
