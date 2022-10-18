@@ -61,21 +61,18 @@ class Audio {
     var channelRepeatIndex: Int = 0
     var sampleIndex: Int = 0
     var channels: [[String]] = []
-    var playerLabels: [String: AVAudioPlayer] = [:]
-    var players: [AVAudioPlayer?] = []
+    var forResources: [String] = []
 
     init(
         channelRepeatIndex: Int,
         sampleIndex: Int,
         channels: [[String]],
-        playerLabels: [String: AVAudioPlayer],
-        players: [AVAudioPlayer?]
+        forResources: [String]
     ) {
         self.channelRepeatIndex = channelRepeatIndex
         self.sampleIndex = sampleIndex
         self.channels = channels
-        self.playerLabels = playerLabels
-        self.players = players
+        self.forResources = forResources
     }
 
     func copy() -> Any {
@@ -83,8 +80,8 @@ class Audio {
             channelRepeatIndex: channelRepeatIndex,
             sampleIndex: sampleIndex,
             channels: channels,
-            playerLabels: playerLabels,
-            players: players)
+            forResources: forResources
+        )
         return copy
     }
 }

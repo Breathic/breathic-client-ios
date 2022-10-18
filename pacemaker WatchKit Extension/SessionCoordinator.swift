@@ -14,7 +14,7 @@ class SessionCoordinator {
         session?.start()
     }
 
-    func invalidate() {
+    func stop() {
         session?.invalidate()
     }
 }

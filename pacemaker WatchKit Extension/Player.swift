@@ -14,6 +14,7 @@ class Player {
     var isPanningReversed: Bool = true
     var panScale: [Float] = []
     var collections: [[Audio]] = []
+    var players: [String: AVAudioPlayer] = [:]
     
     init() {
         store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
@@ -22,12 +23,7 @@ class Player {
         store.state.likes = getLikes()
         store.state.likesIds = parseLikes(likes: store.state.likes)
 
-        for (collectionIndex, collection) in collections.enumerated() {
-            for (audioIndex, _) in collection.enumerated() {
-                flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
-                pick(collectionIndex: collectionIndex, audioIndex: audioIndex)
-            }
-        }
+        flushAll()
 
         initCommandCenter()
         
@@ -154,7 +150,11 @@ class Player {
             collections[collectionIndex][audioIndex].channels.append(channel)
         }
     }
-    
+
+    func getPlayerId(channelIndex: Int, forResource: String) -> String {
+        return String(channelIndex) + forResource
+    }
+
     func setPlayer(
         collectionIndex: Int,
         audioIndex: Int,
@@ -166,26 +166,25 @@ class Player {
         let pansScaleIndex = !isPanningReversed
             ? sampleIndex
             : panScale.count - 1 - sampleIndex
+        let hasResources: Bool = forResource.count > 0
 
-        if forResource.count > 0 {
-            if collections[collectionIndex][audioIndex].playerLabels[forResource] == nil {
+        if hasResources {
+            let playerId = getPlayerId(channelIndex: channelIndex, forResource: forResource)
+
+            if players[playerId] == nil {
                 let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
                 player?.prepareToPlay()
                 player?.volume = 0
-                collections[collectionIndex][audioIndex].playerLabels[forResource] = player
+                players[playerId] = player
+                collections[collectionIndex][audioIndex].forResources.append(forResource)
             }
 
-            if collections[collectionIndex][audioIndex].playerLabels[forResource] != nil {
-                // Fill previously unfilled channel.
-                while collections[collectionIndex][audioIndex].players.count < channelIndex {
-                    collections[collectionIndex][audioIndex].players.append(nil)
-                }
-
-                collections[collectionIndex][audioIndex].players.insert(collections[collectionIndex][audioIndex].playerLabels[forResource], at: channelIndex)
-                collections[collectionIndex][audioIndex].players[channelIndex]?.currentTime = 0
-                collections[collectionIndex][audioIndex].players[channelIndex]?.pan = panScale[pansScaleIndex]
-                collections[collectionIndex][audioIndex].players[channelIndex]?.play()
+            if players[playerId] != nil {
+                players[playerId]?.currentTime = 0
+                players[playerId]?.pan = panScale[pansScaleIndex]
+                players[playerId]?.play()
             }
+
         }
     }
 
@@ -256,12 +255,21 @@ class Player {
                 negativeVolume = negativeVolume > selectedVolume / 100 ? selectedVolume / 100 : negativeVolume
 
                 if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
-                    for player in collections[collectionIndex][0].players {
-                        player?.volume = positiveVolume
+                    for forResource in collections[collectionIndex][0].forResources {
+                        let playerId = getPlayerId(
+                            channelIndex: channelIndex,
+                            forResource: forResource
+                        )
+                        players[playerId]?.volume = positiveVolume
                     }
 
-                    for player in collections[collectionIndex][1].players {
-                        player?.volume = negativeVolume
+                    for forResource in collections[collectionIndex][1].forResources {
+                        let playerId = getPlayerId(
+                            channelIndex: channelIndex,
+                            forResource: forResource
+                        )
+
+                        players[playerId]?.volume = negativeVolume
                     }
 
                     if fadeUp == minFadeRange {
@@ -465,8 +473,7 @@ class Player {
             channelRepeatIndex: FADE_DURATION / 2,
             sampleIndex: 0,
             channels: [],
-            playerLabels: [:],
-            players: []
+            forResources: []
         )
         let audio2 = audio.copy() as! Audio
         audio2.channelRepeatIndex = 0
@@ -487,31 +494,26 @@ class Player {
             loop()
             initInactivityTimer()
             //updateGraph()
-        }
 
-        coordinator.start()
-        heartRate.start()
-        pedometer.start()
-        location.start()
+            heartRate.start()
+            pedometer.start()
+            location.start()
+            coordinator.start()
+        }
 
         store.state.isAudioPlaying = true
     }
 
     func pause() {
-        next()
         store.state.isAudioPlaying = false
 
         for collection in collections {
             for audio in collection {
-                for player in audio.players {
-                    player?.pause()
+                audio.forResources.forEach {
+                    players[$0]?.pause()
                 }
             }
         }
-
-        heartRate.stop()
-        pedometer.stop()
-        location.stop()
     }
 
     func next() {
@@ -525,19 +527,25 @@ class Player {
         create()
     }
 
+    func flushAll() {
+        for (collectionIndex, collection) in collections.enumerated() {
+            for (audioIndex, _) in collection.enumerated() {
+                flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
+                pick(collectionIndex: collectionIndex, audioIndex: audioIndex)
+            }
+        }
+
+        players = [:]
+    }
+
     func flush(collectionIndex: Int, audioIndex: Int) {
-        let audio = collections[collectionIndex][audioIndex]
-        for player in audio.players {
-            player?.stop()
+        collections[collectionIndex][audioIndex].channelRepeatIndex = 0
+        collections[collectionIndex][audioIndex].sampleIndex = 0
+        collections[collectionIndex][audioIndex].forResources.forEach {
+            players[$0]?.stop()
+            players[$0] = nil
         }
-
-        audio.playerLabels = [:]
-        audio.players = []
-        audio.sampleIndex = 0
-
-        for _ in store.state.seeds {
-            audio.players.append(nil)
-        }
+        collections[collectionIndex][audioIndex].forResources = []
     }
 
     func pick(collectionIndex: Int, audioIndex: Int) {
@@ -572,7 +580,7 @@ class Player {
                     .remove(at: index)
                 store.state.seeds[channelIndex].rhythms
                     .insert(element, at: 0)
-                print(sortedSummary[0].value)
+                //print(sortedSummary[0].value)
             }
         }
 

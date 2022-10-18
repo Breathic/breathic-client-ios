@@ -116,6 +116,7 @@ struct ContentView: View {
         label: String = "",
         value: String = "",
         unit: String = "",
+        valueColor: Color = Color.white,
         isWide: Bool = false,
         isTall: Bool = true,
         isActive: Bool = false,
@@ -138,6 +139,7 @@ struct ContentView: View {
                     Text(value)
                     .font(.system(size: isTall ? 32 : 14))
                     .fontWeight(.bold)
+                    .foregroundColor(valueColor)
                 }
 
                 if unit.count > 0 {
@@ -230,6 +232,7 @@ struct ContentView: View {
                     label: "Heart rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
                     unit: "per minute",
+                    valueColor: Color(red: 242 / 255, green: 16 / 255, blue: 75 / 255),
                     isEnabled: false
                 )
 
@@ -240,6 +243,7 @@ struct ContentView: View {
                     label: "Breath rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
                     unit: "per minute",
+                    valueColor: Color(red: 161 / 255, green: 249 / 255, blue: 2 / 255),
                     isEnabled: false
                 )
             }
@@ -252,6 +256,7 @@ struct ContentView: View {
                     label: "Step rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
                     unit: "per minute",
+                    valueColor: Color(red: 3 / 255, green: 221 / 255, blue: 238 / 255),
                     isEnabled: false
                 )
 
@@ -260,7 +265,7 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Speed",
-                    value: String(format: "%.1f", store.state.valueByMetric(metric: "speedMetric") * 3.6),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: "speedMetric") * 3.6),
                     unit: "km / h",
                     isEnabled: false
                 )
@@ -376,6 +381,8 @@ struct ContentView: View {
 
             GeometryReader { geometry in
                 VStack() {
+                    Spacer(minLength: 4)
+
                     switch(store.state.activeSubView) {
                         case "Controller":
                             HStack {
