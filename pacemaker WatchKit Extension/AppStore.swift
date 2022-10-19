@@ -42,14 +42,14 @@ struct AppState {
             metric: "heartRateMetric",
             label: "heart rate",
             unit: "minute",
-            valueColor: COLORS["red"] ?? Color.white,
+            valueColor: colorize(color: "red"),
             isReversed: false
         ),
         MetricType(
             metric: "stepMetric",
             label: "step rate",
             unit: "minute",
-            valueColor: COLORS["blue"] ?? Color.white,
+            valueColor: colorize(color: "blue"),
             isReversed: true
         )/*,
         MetricType(

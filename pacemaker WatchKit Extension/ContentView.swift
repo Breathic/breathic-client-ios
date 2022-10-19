@@ -128,9 +128,15 @@ struct ContentView: View {
                 Spacer(minLength: 4)
 
                 if label.count > 0 {
-                    Text(label)
-                    .frame(maxWidth: .infinity, alignment: Alignment.topLeading)
-                    .font(.system(size: 10))
+                    HStack {
+                        Text(label)
+                        .font(.system(size: 10))
+                    }
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .topLeading
+                    )
                 }
 
                 if value.count > 0 {
@@ -155,7 +161,6 @@ struct ContentView: View {
                 Spacer(minLength: 4)
             }
         }
-        .fixedSize()
         .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4, height: geometry.size.height / 2 - 4)
         .foregroundColor(.white)
         .tint(.black)
@@ -233,7 +238,7 @@ struct ContentView: View {
                     label: "Heart rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
                     unit: "per minute",
-                    valueColor: COLORS["red"] ?? Color.white,
+                    valueColor: colorize(color: "red"),
                     isEnabled: false
                 )
 
@@ -244,7 +249,7 @@ struct ContentView: View {
                     label: "Breath rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
                     unit: "per minute",
-                    valueColor: COLORS["green"] ?? Color.white,
+                    valueColor: colorize(color: "green"),
                     isEnabled: false
                 )
             }
@@ -257,7 +262,7 @@ struct ContentView: View {
                     label: "Step rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
                     unit: "per minute",
-                    valueColor: COLORS["blue"] ?? Color.white,
+                    valueColor: colorize(color: "blue"),
                     isEnabled: false
                 )
 
@@ -306,12 +311,12 @@ struct ContentView: View {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedInRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 18))
+                            .font(.system(size: 32))
                             .fontWeight(.bold)
                         }
                         else {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 12))
+                            .font(.system(size: 24))
                         }
                     }
                 }
@@ -328,12 +333,12 @@ struct ContentView: View {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedOutRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 18))
+                            .font(.system(size: 32))
                             .fontWeight(.bold)
                         }
                         else {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 12))
+                            .font(.system(size: 24))
                         }
                     }
                 }
@@ -355,12 +360,12 @@ struct ContentView: View {
                     ForEach(Array(0...100), id: \.self) {
                         if $0 == store.state.selectedVolume {
                             Text(String($0))
-                                .font(.system(size: 18))
+                                .font(.system(size: 32))
                                 .fontWeight(.bold)
                         }
                         else {
                             Text(String($0))
-                                .font(.system(size: 12))
+                                .font(.system(size: 24))
                         }
                     }
                 }
