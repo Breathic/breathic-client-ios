@@ -4,7 +4,7 @@ import CoreMotion
 
 class Pedometer {
     @ObservedObject private var store: AppStore = .shared
-    
+
     var pedometer = CMPedometer()
     var steps = [Step]()
 
@@ -13,7 +13,7 @@ class Pedometer {
             return CMPedometer.isStepCountingAvailable()
         }
     }
-    
+
     func setPedometerData(data: CMPedometerData) {
         let step = Step()
         step.time = .now()
@@ -28,14 +28,17 @@ class Pedometer {
             let prevStepMetric = store.state.stepMetric
             let intervalDuration: DispatchTimeInterval = steps[0].time.distance(to: step.time)
             let intervalSteps = Double(steps[steps.count - 1].count - steps[0].count)
-            store.state.stepMetric = Float(intervalDuration.toDouble()) / Float(intervalSteps)
 
-            if (store.state.stepMetric != prevStepMetric) {
-                store.state.lastDataChangeTime = .now()
+            if intervalSteps >= 0 {
+                store.state.stepMetric = Float(intervalDuration.toDouble()) / Float(intervalSteps)
+
+                if (store.state.stepMetric != prevStepMetric) {
+                    store.state.lastDataChangeTime = .now()
+                }
             }
         }
     }
-    
+
     func stop() {
         pedometer.stopUpdates()
     }
