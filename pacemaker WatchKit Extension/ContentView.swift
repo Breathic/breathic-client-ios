@@ -118,6 +118,7 @@ struct ContentView: View {
         unit: String = "",
         valueColor: Color = Color.white,
         isWide: Bool = false,
+        isShort: Bool = false,
         isTall: Bool = true,
         isActive: Bool = false,
         isEnabled: Bool = true,
@@ -143,7 +144,7 @@ struct ContentView: View {
                     Spacer(minLength: 8)
 
                     Text(value)
-                    .font(.system(size: isTall ? 32 : 14))
+                    .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
                     .fontWeight(.bold)
                     .foregroundColor(valueColor)
                 }
@@ -180,6 +181,7 @@ struct ContentView: View {
                     value: store.state.metricTypes[store.state.selectedMetricTypeIndex].label,
                     unit: "per " + store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
                     valueColor: store.state.metricTypes[store.state.selectedMetricTypeIndex].valueColor,
+                    isShort: true,
                     isTall: false,
                     action: {
                         store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
