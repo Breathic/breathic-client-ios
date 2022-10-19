@@ -1,5 +1,5 @@
 import Foundation
-import AVFAudio
+import SwiftUI
 
 enum SubView {
     case main
@@ -11,6 +11,7 @@ struct MetricType {
     var metric: String = ""
     var label: String = ""
     var unit: String = ""
+    var valueColor: Color = Color.white
     var isReversed: Bool = false
 }
 

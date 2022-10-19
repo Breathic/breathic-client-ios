@@ -174,6 +174,7 @@ struct ContentView: View {
                     label: "Pace",
                     value: store.state.metricTypes[store.state.selectedMetricTypeIndex].label,
                     unit: "per " + store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
+                    valueColor: store.state.metricTypes[store.state.selectedMetricTypeIndex].valueColor,
                     isTall: false,
                     action: {
                         store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
@@ -232,7 +233,7 @@ struct ContentView: View {
                     label: "Heart rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
                     unit: "per minute",
-                    valueColor: Color(red: 242 / 255, green: 16 / 255, blue: 75 / 255),
+                    valueColor: COLORS["red"] ?? Color.white,
                     isEnabled: false
                 )
 
@@ -243,7 +244,7 @@ struct ContentView: View {
                     label: "Breath rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
                     unit: "per minute",
-                    valueColor: Color(red: 161 / 255, green: 249 / 255, blue: 2 / 255),
+                    valueColor: COLORS["green"] ?? Color.white,
                     isEnabled: false
                 )
             }
@@ -256,7 +257,7 @@ struct ContentView: View {
                     label: "Step rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
                     unit: "per minute",
-                    valueColor: Color(red: 3 / 255, green: 221 / 255, blue: 238 / 255),
+                    valueColor: COLORS["blue"] ?? Color.white,
                     isEnabled: false
                 )
 

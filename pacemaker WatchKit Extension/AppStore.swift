@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 /*
 import Sentry
@@ -41,12 +42,14 @@ struct AppState {
             metric: "heartRateMetric",
             label: "heart rate",
             unit: "minute",
+            valueColor: COLORS["red"] ?? Color.white,
             isReversed: false
         ),
         MetricType(
             metric: "stepMetric",
             label: "step rate",
             unit: "minute",
+            valueColor: COLORS["blue"] ?? Color.white,
             isReversed: true
         )/*,
         MetricType(
