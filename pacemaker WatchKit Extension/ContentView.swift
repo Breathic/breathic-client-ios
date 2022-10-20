@@ -392,7 +392,7 @@ struct ContentView: View {
                     Spacer(minLength: 4)
 
                     switch(store.state.activeSubView) {
-                        case "Controller":
+                        case "Controller", "Metrics":
                             HStack {
                                 controllerView(geometry: geometry)
                                 detailView(geometry: geometry)
@@ -433,6 +433,15 @@ struct ContentView: View {
                                                 width: width,
                                                 height: 0
                                             )
+                                        }
+
+                                        switch(dragIndex) {
+                                            case 0:
+                                                store.state.activeSubView = "Controller"
+                                            case 1:
+                                                store.state.activeSubView = "Metrics"
+                                            default:
+                                                return
                                         }
                                     }
                             )
