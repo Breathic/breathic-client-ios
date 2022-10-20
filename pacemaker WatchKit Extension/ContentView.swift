@@ -232,7 +232,7 @@ struct ContentView: View {
         }
     }
 
-    func detailView(geometry: GeometryProxy) -> some View {
+    func metricsView(geometry: GeometryProxy) -> some View {
         VStack {
             HStack {
                 menuButton(
@@ -395,7 +395,7 @@ struct ContentView: View {
                         case "Controller", "Metrics":
                             HStack {
                                 controllerView(geometry: geometry)
-                                detailView(geometry: geometry)
+                                metricsView(geometry: geometry)
                             }
                             .offset(x: Double(dragXOffset.width))
                             .highPriorityGesture(
