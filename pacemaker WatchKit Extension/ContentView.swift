@@ -116,6 +116,8 @@ struct ContentView: View {
         label: String = "",
         value: String = "",
         unit: String = "",
+        index: Int = -1,
+        maxIndex: Int = -1,
         valueColor: Color = Color.white,
         isWide: Bool = false,
         isShort: Bool = false,
@@ -128,32 +130,46 @@ struct ContentView: View {
             VStack {
                 Spacer(minLength: 4)
 
-                if label.count > 0 {
-                    HStack {
-                        Text(label)
-                        .font(.system(size: 10))
+                HStack {
+                    VStack {
+                        if label.count > 0 {
+                            HStack {
+                                Text(label)
+                                    .font(.system(size: 10))
+                            }
+                            .frame(
+                                maxWidth: .infinity,
+                                maxHeight: .infinity,
+                                alignment: .topLeading
+                            )
+                        }
+
+                        if value.count > 0 {
+                            Spacer(minLength: 8)
+
+                            Text(value)
+                                .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
+                                .fontWeight(.bold)
+                                .foregroundColor(valueColor)
+                        }
+
+                        if unit.count > 0 {
+                            Text(unit)
+                                .frame(maxWidth: .infinity, alignment: Alignment.center)
+                                .font(.system(size: 8))
+                        }
                     }
-                    .frame(
-                        maxWidth: .infinity,
-                        maxHeight: .infinity,
-                        alignment: .topLeading
-                    )
-                }
 
-                if value.count > 0 {
-                    Spacer(minLength: 8)
-
-                    Text(value)
-                    .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
-                    .fontWeight(.bold)
-                    .foregroundColor(valueColor)
+                    if maxIndex > 0 {
+                        if index >= 0 {
+                            DottedIndicator(index: index, maxIndex: maxIndex, direction: "vertical")
+                        }
+                        else {
+                            Spacer(minLength: 7)
+                        }
+                    }
                 }
-
-                if unit.count > 0 {
-                    Text(unit)
-                    .frame(maxWidth: .infinity, alignment: Alignment.center)
-                    .font(.system(size: 8))
-                }
+                .frame(alignment: .center)
 
                 Rectangle()
                 .fill(isActive ? .white : .black)
@@ -173,7 +189,7 @@ struct ContentView: View {
     }
 
     func controllerView(geometry: GeometryProxy) -> some View {
-        VStack {
+        VStack() {
             HStack {
                 menuButton(
                     geometry: geometry,
@@ -208,12 +224,12 @@ struct ContentView: View {
             HStack {
                 menuButton(
                     geometry: geometry,
-                    label: "Volume",
-                    value: String(store.state.selectedVolume),
-                    unit: store.state.selectedVolume == 0 ? "muted" : "⠀", // Emtpy char for filling up space.
+                    label: "Session",
+                    value: store.state.isSessionActive ? "⚑" : "◴",
+                    unit: store.state.isSessionActive ? "Started" : "Stopped",
                     isTall: false,
                     action: {
-                        store.state.activeSubView = "Volume"
+                        store.state.isSessionActive = !store.state.isSessionActive
                     }
                 )
 
@@ -224,6 +240,20 @@ struct ContentView: View {
                     label: "Playback",
                     value: store.state.isAudioPlaying ? "||" : "▶",
                     unit: store.state.isAudioPlaying ? "Playing" : "Paused",
+                    index: Int(ceil(
+                        convertRange(
+                            value: Float(store.state.selectedVolume),
+                            oldRange: [Float(AUDIO_RANGE[0]), Float(AUDIO_RANGE[1])],
+                            newRange: [Float(0), Float(10)]
+                        )) - 1
+                    ),
+                    maxIndex: Int(ceil(
+                        convertRange(
+                            value: Float(AUDIO_RANGE[1]),
+                            oldRange: [Float(AUDIO_RANGE[0]), Float(AUDIO_RANGE[1])],
+                            newRange: [Float(0), Float(10)]
+                        )) - 1
+                    ),
                     isTall: false,
                     action: {
                         player.togglePlay()
@@ -231,6 +261,8 @@ struct ContentView: View {
                 )
             }
         }
+        .focusable()
+        .digitalCrownRotation($store.state.selectedVolume, from: AUDIO_RANGE[0], through: AUDIO_RANGE[1], by: AUDIO_RANGE[1] / 100, sensitivity: .high, isContinuous: false, isHapticFeedbackEnabled: true)
     }
 
     func metricsView(geometry: GeometryProxy) -> some View {
@@ -282,29 +314,8 @@ struct ContentView: View {
         }
     }
 
-    func progressView(geometry: GeometryProxy) -> some View {
-        Group {
-            VStack {
-                if !store.state.isSessionActive {
-                    Button(action: { store.state.isSessionActive = true }) {
-                        Text("Start session")
-                    }
-                    .font(.system(size: 18))
-                    .fontWeight(.bold)
-                    .buttonStyle(.bordered)
-                    .tint(Color.green)
-                }
-                else {
-                    Button(action: { store.state.isSessionActive = false }) {
-                        Text("Finish session")
-                    }
-                    .font(.system(size: 18))
-                    .fontWeight(.bold)
-                    .buttonStyle(.bordered)
-                    .tint(Color.red)
-                }
-            }
-        }
+    func logView(geometry: GeometryProxy) -> some View {
+        Group {}
     }
 
     func rhythmView(geometry: GeometryProxy) -> some View {
@@ -357,48 +368,37 @@ struct ContentView: View {
         }
     }
 
-    func volumeView(geometry: GeometryProxy) -> some View {
-            Group {
-                Picker("", selection: $store.state.selectedVolume) {
-                    ForEach(Array(0...100), id: \.self) {
-                        if $0 == store.state.selectedVolume {
-                            Text(String($0))
-                                .font(.system(size: 32))
-                                .fontWeight(.bold)
-                        }
-                        else {
-                            Text(String($0))
-                                .font(.system(size: 24))
-                        }
-                    }
-                }
-                .padding(.horizontal, store.state.ui.horizontalPadding)
-                .padding(.vertical, store.state.ui.verticalPadding)
-                .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
-                .clipped()
-                .font(.system(size: store.state.ui.secondaryTextSize))
-            }
-    }
-
-    struct PageControl: View {
+    struct DottedIndicator: View {
         var index: Int
         let maxIndex: Int
+        let direction: String
+
+        func circles(size: CGFloat) -> some View {
+            return ForEach(0...maxIndex, id: \.self) { index in
+                Circle()
+                .fill(index <= self.index ? direction == "horizontal" ? Color.white : colorize(color: "green") : Color.gray)
+                .frame(width: size, height: size)
+            }
+        }
 
         var body: some View {
-            HStack(spacing: 8) {
-                ForEach(0...maxIndex, id: \.self) { index in
-                    Circle()
-                        .fill(index == self.index ? Color.white : Color.gray)
-                        .frame(width: 8, height: 8)
+            if direction == "horizontal" {
+                HStack(spacing: 4) {
+                    circles(size: CGFloat(8))
                 }
             }
-            .padding(15)
+            else if direction == "vertical" {
+                VStack(spacing: 1) {
+                    circles(size: CGFloat(2))
+                }
+                .rotationEffect(.degrees(-180))
+            }
         }
     }
 
     var body: some View {
         let navbarAction = store.state.activeSubView == "Controller" || store.state.activeSubView == "Metrics"
-            ? "Progress"
+            ? "Log"
             : "Controller"
 
         ZStack {
@@ -463,14 +463,11 @@ struct ContentView: View {
                                     }
                             )
 
-                        case "Progress":
-                            progressView(geometry: geometry)
+                        case "Log":
+                            logView(geometry: geometry)
 
                         case "Rhythm":
                             rhythmView(geometry: geometry)
-
-                        case "Volume":
-                            volumeView(geometry: geometry)
 
                         default:
                             controllerView(geometry: geometry)
@@ -480,9 +477,9 @@ struct ContentView: View {
 
                 ZStack {
                     HStack {
-                        PageControl(index: dragIndex, maxIndex: 1)
+                        DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")
                     }
-                    .frame(height: geometry.size.height + 40, alignment: .bottom)
+                    .frame(height: geometry.size.height + 16, alignment: .bottom)
                 }
                 .frame(width: geometry.size.width, alignment: .center)
             }

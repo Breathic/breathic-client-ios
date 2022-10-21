@@ -30,7 +30,7 @@ struct AppState {
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
-    var selectedVolume: Int = 50
+    var selectedVolume: Float = AUDIO_RANGE[1] / 2
     var playerIndex: Int = -1
     var rhythmRange: [Int] = Array(10...50)
     var selectedInRhythm: Int = 20
