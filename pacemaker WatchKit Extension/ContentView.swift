@@ -197,6 +197,7 @@ struct ContentView: View {
                     label: "Rhythm",
                     value: "\(String(format: "%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format: "%.1f", Double(store.state.selectedOutRhythm) / 10))",
                     unit: "per pace",
+                    valueColor: store.state.metricTypes[store.state.selectedMetricTypeIndex].valueColor,
                     isTall: false,
                     action: { store.state.activeSubView = "Rhythm" }
                 )
@@ -380,7 +381,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        let navbarAction = store.state.activeSubView == "Controller"
+        let navbarAction = store.state.activeSubView == "Controller" || store.state.activeSubView == "Metrics"
             ? "Progress"
             : "Controller"
 
