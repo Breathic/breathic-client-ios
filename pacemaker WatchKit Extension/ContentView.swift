@@ -380,6 +380,22 @@ struct ContentView: View {
             }
     }
 
+    struct PageControl: View {
+        var index: Int
+        let maxIndex: Int
+
+        var body: some View {
+            HStack(spacing: 8) {
+                ForEach(0...maxIndex, id: \.self) { index in
+                    Circle()
+                        .fill(index == self.index ? Color.white : Color.gray)
+                        .frame(width: 8, height: 8)
+                }
+            }
+            .padding(15)
+        }
+    }
+
     var body: some View {
         let navbarAction = store.state.activeSubView == "Controller" || store.state.activeSubView == "Metrics"
             ? "Progress"
@@ -461,6 +477,14 @@ struct ContentView: View {
                     }
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
+
+                ZStack {
+                    HStack {
+                        PageControl(index: dragIndex, maxIndex: 1)
+                    }
+                    .frame(height: geometry.size.height + 40, alignment: .bottom)
+                }
+                .frame(width: geometry.size.width, alignment: .center)
             }
         }.toolbar(content: {
             ToolbarItem(placement: .cancellationAction) {
