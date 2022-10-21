@@ -161,12 +161,7 @@ struct ContentView: View {
                     }
 
                     if maxIndex > 0 {
-                        if index >= 0 {
-                            DottedIndicator(index: index, maxIndex: maxIndex, direction: "vertical")
-                        }
-                        else {
-                            Spacer(minLength: 7)
-                        }
+                        DottedIndicator(index: index, maxIndex: maxIndex, direction: "vertical")
                     }
                 }
                 .frame(alignment: .center)
@@ -373,23 +368,23 @@ struct ContentView: View {
         let maxIndex: Int
         let direction: String
 
-        func circles(size: CGFloat) -> some View {
-            return ForEach(0...maxIndex, id: \.self) { index in
-                Circle()
-                .fill(index <= self.index ? direction == "horizontal" ? Color.white : colorize(color: "green") : Color.gray)
-                .frame(width: size, height: size)
-            }
-        }
-
         var body: some View {
             if direction == "horizontal" {
                 HStack(spacing: 4) {
-                    circles(size: CGFloat(8))
+                    ForEach(0...maxIndex, id: \.self) { index in
+                        Circle()
+                        .fill(index == self.index ? Color.white : Color.gray)
+                        .frame(width: 8, height: 8)
+                    }
                 }
             }
             else if direction == "vertical" {
                 VStack(spacing: 1) {
-                    circles(size: CGFloat(2))
+                    ForEach(0...maxIndex, id: \.self) { index in
+                        Circle()
+                        .fill(index <= self.index ? Color.white : Color.gray)
+                        .frame(width: 2, height: 2)
+                    }
                 }
                 .rotationEffect(.degrees(-180))
             }
