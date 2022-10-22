@@ -232,9 +232,12 @@ struct ContentView: View {
                         : "Stopped",
                     isTall: false,
                     action: {
-                        !store.state.isSessionActive
-                            ? player.startSession()
-                            : player.stopSession()
+                        if !store.state.isSessionActive {
+                            player.startSession()
+                        }
+                        else {
+                            store.state.activeSubView = "Confirm"
+                        }
                     }
                 )
 
@@ -390,6 +393,33 @@ struct ContentView: View {
         }
     }
 
+    func sessionStopConfirmationView(geometry: GeometryProxy) -> some View {
+        HStack {
+            Button(action: {
+                player.stopSession()
+                store.state.activeSubView = ""
+            }) {
+                Text("Discard")
+            }
+            .font(.system(size: 12))
+            .fontWeight(.bold)
+            .buttonStyle(.bordered)
+            .tint(colorize(color: "red"))
+
+            Button(action: {
+                player.stopSession()
+                store.state.activeSubView = ""
+            }) {
+                Text("Save")
+            }
+            .font(.system(size: 12))
+            .fontWeight(.bold)
+            .buttonStyle(.bordered)
+            .tint(colorize(color: "green"))
+        }
+        .frame(height: geometry.size.height, alignment: .top)
+    }
+
     struct DottedIndicator: View {
         var index: Int
         let maxIndex: Int
@@ -491,19 +521,24 @@ struct ContentView: View {
                         case "Rhythm":
                             rhythmView(geometry: geometry)
 
+                        case "Confirm":
+                            sessionStopConfirmationView(geometry: geometry)
+
                         default:
                             controllerView(geometry: geometry)
                     }
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
 
-                ZStack {
-                    HStack {
-                        DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")
+                if store.state.activeSubView == "Controller" || store.state.activeSubView == "Metrics" {
+                    ZStack {
+                        HStack {
+                            DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")
+                        }
+                        .frame(height: geometry.size.height + 20, alignment: .bottom)
                     }
-                    .frame(height: geometry.size.height + 20, alignment: .bottom)
+                    .frame(width: geometry.size.width, alignment: .center)
                 }
-                .frame(width: geometry.size.width, alignment: .center)
             }
         }.toolbar(content: {
             ToolbarItem(placement: .cancellationAction) {
