@@ -47,6 +47,8 @@ struct ContentView: View {
     @State private var dragXOffset = CGSize.zero
     @State private var wasChanged = false
 
+    let crownMultiplier: Float = 2
+
     let minimumMovementThreshold = CGFloat(10)
 
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
@@ -257,7 +259,23 @@ struct ContentView: View {
             }
         }
         .focusable()
-        .digitalCrownRotation($store.state.selectedVolume, from: AUDIO_RANGE[0], through: AUDIO_RANGE[1], by: AUDIO_RANGE[1] / 100, sensitivity: .high, isContinuous: false, isHapticFeedbackEnabled: true)
+        .digitalCrownRotation(
+            $store.state.selectedVolume,
+            from: AUDIO_RANGE[0] - (AUDIO_RANGE[1] * crownMultiplier),
+            through: AUDIO_RANGE[1] + (AUDIO_RANGE[1] * crownMultiplier),
+            by: AUDIO_RANGE[1] / 100 * 3 * crownMultiplier,
+            sensitivity: .high,
+            isContinuous: true,
+            isHapticFeedbackEnabled: true
+        )
+        .onChange(of: store.state.selectedVolume) { value in
+            if value < AUDIO_RANGE[0] {
+                store.state.selectedVolume = AUDIO_RANGE[0]
+            }
+            else if value > AUDIO_RANGE[1] {
+                store.state.selectedVolume = AUDIO_RANGE[1]
+            }
+         }
     }
 
     func metricsView(geometry: GeometryProxy) -> some View {
