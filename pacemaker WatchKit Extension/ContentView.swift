@@ -394,30 +394,44 @@ struct ContentView: View {
     }
 
     func sessionStopConfirmationView(geometry: GeometryProxy) -> some View {
-        HStack {
-            Button(action: {
-                player.stopSession()
-                store.state.activeSubView = ""
-            }) {
-                Text("Discard")
-            }
-            .font(.system(size: 12))
-            .fontWeight(.bold)
-            .buttonStyle(.bordered)
-            .tint(colorize(color: "red"))
+        VStack {
+            HStack {
+                Button(action: {
+                    player.stopSession()
+                    store.state.activeSubView = ""
+                }) {
+                    Text("Discard")
+                }
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .tint(colorize(color: "red"))
 
-            Button(action: {
-                player.stopSession()
-                store.state.activeSubView = ""
-            }) {
-                Text("Save")
+                Button(action: {
+                    player.stopSession()
+                    store.state.activeSubView = ""
+                }) {
+                    Text("Save")
+                }
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .tint(colorize(color: "green"))
             }
-            .font(.system(size: 12))
-            .fontWeight(.bold)
-            .buttonStyle(.bordered)
-            .tint(colorize(color: "green"))
+
+            HStack {
+                Button(action: {
+                    store.state.activeSubView = ""
+                }) {
+                    Text("Cancel")
+                }
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .tint(colorize(color: "blue"))
+            }
+            .frame(maxHeight: .infinity, alignment: .bottom)
         }
-        .frame(height: geometry.size.height, alignment: .top)
     }
 
     struct DottedIndicator: View {
