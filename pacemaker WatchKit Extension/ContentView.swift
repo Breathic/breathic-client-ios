@@ -398,7 +398,7 @@ struct ContentView: View {
             HStack {
                 Button(action: {
                     player.stopSession()
-                    store.state.activeSubView = ""
+                    store.state.activeSubView = "Controller"
                 }) {
                     Text("Discard")
                 }
@@ -409,7 +409,7 @@ struct ContentView: View {
 
                 Button(action: {
                     player.stopSession()
-                    store.state.activeSubView = ""
+                    store.state.activeSubView = "Controller"
                 }) {
                     Text("Save")
                 }
@@ -421,7 +421,7 @@ struct ContentView: View {
 
             HStack {
                 Button(action: {
-                    store.state.activeSubView = ""
+                    store.state.activeSubView = "Controller"
                 }) {
                     Text("Cancel")
                 }
