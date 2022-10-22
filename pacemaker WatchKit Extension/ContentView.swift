@@ -52,12 +52,14 @@ struct ContentView: View {
     let minimumMovementThreshold = CGFloat(10)
 
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
+        let startHour = Calendar.current.component(.hour, from: store.state.sessionStartTime)
+
         return Array(metricData.suffix(60 * 10))
             .map {
                 let hours = Calendar.current.component(.hour, from: $0.timestamp)
                 let minutes = Calendar.current.component(.minute, from: $0.timestamp)
                 let seconds = Calendar.current.component(.second, from: $0.timestamp)
-                let timestamp = (Int(minutes * 60 + seconds) / 60) + ((hours - store.state.startHour) * 60)
+                let timestamp = (Int(minutes * 60 + seconds) / 60) + ((hours - startHour) * 60)
                 return ProgressData(timestamp: timestamp, value: $0.value)
             }
     }
@@ -222,11 +224,17 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Session",
-                    value: store.state.isSessionActive ? "⚑" : "◴",
-                    unit: store.state.isSessionActive ? "Started" : "Stopped",
+                    value: store.state.isSessionActive
+                        ? "⚑"
+                        : "◴",
+                    unit: store.state.isSessionActive
+                        ? store.state.sessionElapsedTime
+                        : "Stopped",
                     isTall: false,
                     action: {
-                        store.state.isSessionActive = !store.state.isSessionActive
+                        !store.state.isSessionActive
+                            ? player.startSession()
+                            : player.stopSession()
                     }
                 )
 
@@ -252,6 +260,7 @@ struct ContentView: View {
                         )) - 1
                     ),
                     isTall: false,
+                    isEnabled: store.state.isSessionActive,
                     action: {
                         player.togglePlay()
                     }
@@ -492,7 +501,7 @@ struct ContentView: View {
                     HStack {
                         DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")
                     }
-                    .frame(height: geometry.size.height + 16, alignment: .bottom)
+                    .frame(height: geometry.size.height + 20, alignment: .bottom)
                 }
                 .frame(width: geometry.size.width, alignment: .center)
             }

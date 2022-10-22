@@ -15,7 +15,8 @@ SentrySDK.start { options in
 
 struct AppState {
     var activeSubView: String = "Controller"
-    var startHour = 0
+    var sessionStartTime = Date()
+    var sessionElapsedTime = ""
     var seeds: [Seed] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
@@ -65,7 +66,7 @@ struct AppState {
     var speedMetric: Float = Platform.isSimulator ? 1 : 0
     var updates: [String: [Update]] = [
         "breath": [],
-        "heartRate": [],
+        "heart": [],
         "step": [],
         "speed": []
     ]

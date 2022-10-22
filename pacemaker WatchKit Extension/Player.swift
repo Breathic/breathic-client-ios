@@ -86,7 +86,36 @@ class Player {
             print(error)
         }
     }
-    
+
+    func startSession() {
+        store.state.sessionStartTime = Date()
+        store.state.isSessionActive = true
+
+        if !store.state.isAudioSessionLoaded {
+            store.state.isAudioSessionLoaded = true
+            Task {
+                await startAudioSession()
+            }
+            create()
+            loop()
+            initInactivityTimer()
+            //updateGraph()
+
+            heartRate.start()
+            pedometer.start()
+            location.start()
+            coordinator.start()
+        }
+
+        play()
+    }
+
+    func stopSession() {
+        pause()
+
+        store.state.isSessionActive = false
+    }
+
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
         do {
             guard let url = Bundle.main.url(
@@ -95,16 +124,16 @@ class Player {
             ) else {
                 return nil
             }
-            
+
             return try AVAudioPlayer(contentsOf: url)
         }
         catch {
             print(error)
         }
-        
+
         return nil
     }
-    
+
     func getRhythm(sample: String, seedInput: SeedInput) -> Rhythm {
         let durationRange = seedInput.durationRange
         let interval = seedInput.interval
@@ -112,14 +141,14 @@ class Player {
         let rhythm = Rhythm()
         rhythm.id = Int(sample.split(separator: ".")[0])!
         rhythm.durationRange = durationRange
-        
+
         for space in interval {
             rhythm.samples.append(space > 0 ? sampleDir + "/" + sample : "")
         }
-        
+
         return rhythm
     }
-    
+
     func getAllSeeds(seedInputs: [SeedInput]) -> [Seed] {
         var seeds: [Seed] = []
         
@@ -135,7 +164,7 @@ class Player {
         
         return seeds
     }
-    
+
     func setChannels(collectionIndex: Int, audioIndex: Int) {
         collections[collectionIndex][audioIndex].channels = []
 
@@ -184,7 +213,6 @@ class Player {
                 players[playerId]?.pan = panScale[pansScaleIndex]
                 players[playerId]?.play()
             }
-
         }
     }
 
@@ -343,7 +371,7 @@ class Player {
                         value: Float(loopInterval) * Float(DOWN_SCALE)
                     )
                 )
-                self.store.state.updates["heartRate"]?.append(
+                self.store.state.updates["heart"]?.append(
                     self.getUpdate(
                         timestamp: timestamp,
                         value: self.store.state.heartRateMetric
@@ -367,6 +395,7 @@ class Player {
 
     func loop() {
         store.state.breathRateMetric = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE)
+        store.state.sessionElapsedTime = getElapsedTime(from: store.state.sessionStartTime, to: Date())
 
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
         if !loopInterval.isInfinite {
@@ -484,23 +513,6 @@ class Player {
     }
 
     func play() {
-        if !store.state.isAudioSessionLoaded {
-            store.state.isAudioSessionLoaded = true
-            //store.state.startHour = Calendar.current.component(.hour, from: Date())
-            Task {
-                await startAudioSession()
-            }
-            create()
-            loop()
-            initInactivityTimer()
-            //updateGraph()
-
-            heartRate.start()
-            pedometer.start()
-            location.start()
-            coordinator.start()
-        }
-
         store.state.isAudioPlaying = true
     }
 

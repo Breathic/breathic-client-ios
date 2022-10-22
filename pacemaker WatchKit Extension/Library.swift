@@ -46,3 +46,9 @@ func colorize(color: String) -> Color {
         default: return Color.white
     }
 }
+
+func getElapsedTime(from: Date, to: Date) -> String {
+    let difference = Calendar.current.dateComponents([.hour, .minute, .second], from: from, to: to)
+    let elapsedTime = String(format: "%02ld:%02ld:%02ld", difference.hour!, difference.minute!, difference.second!)
+    return elapsedTime
+}
