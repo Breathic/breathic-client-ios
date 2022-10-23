@@ -105,12 +105,7 @@ struct ContentView: View {
     }
 
     func slide(geometry: GeometryProxy) {
-        if dragIndex == 0 {
-            dragXOffset = CGSize(width: 0, height: 0)
-        }
-        else if dragIndex == 1 {
-            dragXOffset = CGSize(width: -geometry.size.width - slidePadding, height: 0)
-        }
+        dragXOffset = CGSize(width: (-geometry.size.width - slidePadding) * CGFloat(dragIndex), height: 0)
     }
 
     func onMenuSelect(geometry: GeometryProxy) {
@@ -437,11 +432,9 @@ struct ContentView: View {
 
                                         if dragXOffset.width < -width {
                                             dragIndex = 1
-                                            slide(geometry: geometry)
                                         }
                                         else if dragXOffset.width > -width {
                                             dragIndex = 0
-                                            slide(geometry: geometry)
                                         }
                                         else {
                                             dragXOffset = CGSize(
@@ -458,6 +451,8 @@ struct ContentView: View {
                                             default:
                                                 return
                                         }
+
+                                        slide(geometry: geometry)
                                     }
                             )
 
