@@ -26,12 +26,17 @@ struct ContentView: View {
     let player = Player()
     let parsedData: ParsedData = ParsedData()
 
-    @State private var dragIndex = 0
+    @State private var dragIndex: Int = 0
     @State private var dragXOffset = CGSize.zero
     @State private var wasChanged = false
 
+    let dragIndexes: [String: Int] = [
+        "Controller": 0,
+        "Metrics": 1,
+        "Log": 0
+    ]
+    let views: [String] = ["Controller", "Metrics", "Log"]
     let crownMultiplier: Float = 2
-
     let minimumMovementThreshold = CGFloat(10)
 
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
@@ -96,6 +101,33 @@ struct ContentView: View {
             .init(metric: lastStepMetricValue + " steps (s)", data: step),
             .init(metric: lastSpeedhMetricValue + " speed (m/s)", data: speed)
         ]
+    }
+
+    func menuView(geometry: GeometryProxy) -> some View {
+        Picker("", selection: $store.state.tempActiveSubView) {
+            ForEach(views, id: \.self) {
+                if $0 == store.state.tempActiveSubView {
+                    Text($0)
+                    .font(.system(size: 32))
+                    .fontWeight(.bold)
+                }
+                else {
+                    Text($0)
+                    .font(.system(size: 24))
+                }
+            }
+        }
+        .padding(.horizontal, store.state.ui.horizontalPadding)
+        .padding(.vertical, store.state.ui.verticalPadding)
+        .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
+        .clipped()
+        .onTapGesture {
+            if store.state.tempActiveSubView == "" {
+                store.state.tempActiveSubView = views[0]
+            }
+            store.state.activeSubView = store.state.tempActiveSubView
+            dragIndex = dragIndexes[store.state.activeSubView] ?? 0
+        }
     }
 
     func controllerView(geometry: GeometryProxy) -> some View {
@@ -346,10 +378,6 @@ struct ContentView: View {
     }
 
     var body: some View {
-        let navbarAction = store.state.activeSubView == "Controller" || store.state.activeSubView == "Metrics"
-            ? "Log"
-            : "Controller"
-
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
 
@@ -358,6 +386,9 @@ struct ContentView: View {
                     Spacer(minLength: 4)
 
                     switch(store.state.activeSubView) {
+                        case "Menu":
+                            menuView(geometry: geometry)
+
                         case "Controller", "Metrics":
                             HStack {
                                 controllerView(geometry: geometry)
@@ -440,8 +471,12 @@ struct ContentView: View {
         }.toolbar(content: {
             ToolbarItem(placement: .cancellationAction) {
                 Button(
-                    action: { store.state.activeSubView = navbarAction },
-                    label: { Text("← " + store.state.activeSubView).font(.system(size: 14)) }
+                    action: {
+                        store.state.activeSubView = store.state.activeSubView != "Menu"
+                            ? "Menu"
+                            : views[0]
+                    },
+                    label: { Text("☰ " + store.state.activeSubView).font(.system(size: 14)) }
                 )
             }
         })

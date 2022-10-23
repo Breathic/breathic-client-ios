@@ -15,6 +15,7 @@ SentrySDK.start { options in
 
 struct AppState {
     var activeSubView: String = "Controller"
+    var tempActiveSubView: String = ""
     var sessionStartTime = Date()
     var sessionElapsedTime = ""
     var seeds: [Seed] = []
