@@ -38,6 +38,7 @@ struct ContentView: View {
     let views: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
+    let slidePadding = CGFloat(4)
 
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
         let startHour = Calendar.current.component(.hour, from: store.state.sessionStartTime)
@@ -103,30 +104,46 @@ struct ContentView: View {
         ]
     }
 
-    func menuView(geometry: GeometryProxy) -> some View {
-        Picker("", selection: $store.state.tempActiveSubView) {
-            ForEach(views, id: \.self) {
-                if $0 == store.state.tempActiveSubView {
-                    Text($0)
-                    .font(.system(size: 32))
-                    .fontWeight(.bold)
-                }
-                else {
-                    Text($0)
-                    .font(.system(size: 24))
-                }
-            }
+    func slide(geometry: GeometryProxy) {
+        if dragIndex == 0 {
+            dragXOffset = CGSize(width: 0, height: 0)
         }
-        .padding(.horizontal, store.state.ui.horizontalPadding)
-        .padding(.vertical, store.state.ui.verticalPadding)
-        .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
-        .clipped()
-        .onTapGesture {
-            if store.state.tempActiveSubView == "" {
-                store.state.tempActiveSubView = views[0]
+        else if dragIndex == 1 {
+            dragXOffset = CGSize(width: -geometry.size.width - slidePadding, height: 0)
+        }
+    }
+
+    func onMenuSelect(geometry: GeometryProxy) {
+        if store.state.tempActiveSubView == "" {
+            store.state.tempActiveSubView = views[0]
+        }
+        store.state.activeSubView = store.state.tempActiveSubView
+        dragIndex = dragIndexes[store.state.activeSubView] ?? 0
+        slide(geometry: geometry)
+    }
+
+    func menuView(geometry: GeometryProxy) -> some View {
+        VStack {
+            Picker("", selection: $store.state.tempActiveSubView) {
+                ForEach(views, id: \.self) {
+                    if $0 == store.state.tempActiveSubView {
+                        Text($0)
+                            .font(.system(size: 32))
+                            .fontWeight(.bold)
+                    }
+                    else {
+                        Text($0)
+                            .font(.system(size: 24))
+                    }
+                }
             }
-            store.state.activeSubView = store.state.tempActiveSubView
-            dragIndex = dragIndexes[store.state.activeSubView] ?? 0
+            .padding(.horizontal, store.state.ui.horizontalPadding)
+            .padding(.vertical, store.state.ui.verticalPadding)
+            .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
+            .clipped()
+            .onTapGesture { onMenuSelect(geometry: geometry) }
+
+            secondaryButton(text: "Select", action: { onMenuSelect(geometry: geometry) })
         }
     }
 
@@ -287,18 +304,18 @@ struct ContentView: View {
     }
 
     func rhythmView(geometry: GeometryProxy) -> some View {
-        Group {
+        VStack {
             HStack {
                 Picker("", selection: $store.state.selectedInRhythm) {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedInRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 32))
-                            .fontWeight(.bold)
+                                .font(.system(size: 32))
+                                .fontWeight(.bold)
                         }
                         else {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 24))
+                                .font(.system(size: 24))
                         }
                     }
                 }
@@ -315,12 +332,12 @@ struct ContentView: View {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedOutRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 32))
-                            .fontWeight(.bold)
+                                .font(.system(size: 32))
+                                .fontWeight(.bold)
                         }
                         else {
                             Text(String(format: "%.1f", Double($0) / 10))
-                            .font(.system(size: 24))
+                                .font(.system(size: 24))
                         }
                     }
                 }
@@ -333,6 +350,8 @@ struct ContentView: View {
                 }
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
+
+            secondaryButton(text: "Set", action: { store.state.activeSubView = views[0] })
         }
     }
 
@@ -414,16 +433,15 @@ struct ContentView: View {
                                     .onEnded { _ in
                                         if !wasChanged { return }
 
-                                        let padding = CGFloat(4)
                                         let width = CGFloat(dragIndex) * geometry.size.width
 
                                         if dragXOffset.width < -width {
-                                            dragXOffset = CGSize(width: -geometry.size.width - padding, height: 0)
                                             dragIndex = 1
+                                            slide(geometry: geometry)
                                         }
                                         else if dragXOffset.width > -width {
-                                            dragXOffset = CGSize(width: 0, height: 0)
                                             dragIndex = 0
+                                            slide(geometry: geometry)
                                         }
                                         else {
                                             dragXOffset = CGSize(

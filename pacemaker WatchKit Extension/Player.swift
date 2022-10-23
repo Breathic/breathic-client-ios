@@ -97,7 +97,7 @@ class Player {
         }
     }
 
-    func saveSessionLogs(sessionLogs: [SessionLog]) {
+    func writeSessionLogs(sessionLogs: [SessionLog]) {
         let data = try! JSONEncoder().encode(sessionLogs)
         let json = String(data: data, encoding: .utf8) ?? ""
         UserDefaults.standard.set(json, forKey: "SessionLogs")
@@ -127,7 +127,7 @@ class Player {
 
         let sessionLog = SessionLog()
         store.state.sessionLogs.append(sessionLog)
-        saveSessionLogs(sessionLogs: store.state.sessionLogs)
+        writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func stopSession() {
