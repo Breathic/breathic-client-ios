@@ -102,3 +102,9 @@ class ParsedData {
     var min: Float = 0
     var max: Float = 0
 }
+
+class SessionLog: Codable {
+    var uuid: String = UUID().uuidString
+    var startTime: Date = Date()
+    var endTime: Date = Date()
+}

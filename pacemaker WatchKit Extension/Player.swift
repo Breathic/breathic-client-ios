@@ -20,11 +20,10 @@ class Player {
         store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
         panScale = getPanScale()
         //UserDefaults.standard.set("", forKey: "likes")
-        store.state.likes = getLikes()
-        store.state.likesIds = parseLikes(likes: store.state.likes)
-
+        //store.state.likes = getLikes()
+        //store.state.likesIds = parseLikes(likes: store.state.likes)
+        store.state.sessionLogs = readSessionLogs()
         flushAll()
-
         initCommandCenter()
         
         /*
@@ -87,6 +86,23 @@ class Player {
         }
     }
 
+    func readSessionLogs() -> [SessionLog] {
+        do {
+            let outData = UserDefaults.standard.string(forKey: "SessionLogs") ?? ""
+            let jsonData = outData.data(using: .utf8)!
+            return try JSONDecoder().decode([SessionLog].self, from: jsonData)
+        }
+        catch {
+            return []
+        }
+    }
+
+    func saveSessionLogs(sessionLogs: [SessionLog]) {
+        let data = try! JSONEncoder().encode(sessionLogs)
+        let json = String(data: data, encoding: .utf8) ?? ""
+        UserDefaults.standard.set(json, forKey: "SessionLogs")
+    }
+
     func startSession() {
         store.state.sessionStartTime = Date()
         store.state.isSessionActive = true
@@ -108,6 +124,10 @@ class Player {
         }
 
         play()
+
+        let sessionLog = SessionLog()
+        store.state.sessionLogs.append(sessionLog)
+        saveSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func stopSession() {

@@ -28,6 +28,7 @@ struct AppState {
     ]
     var likes: [[Seed]] = []
     var likesIds: [String] = []
+    var sessionLogs: [SessionLog] = []
     var isSessionActive: Bool = false
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
