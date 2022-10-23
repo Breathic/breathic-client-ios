@@ -32,10 +32,10 @@ struct ContentView: View {
 
     let dragIndexes: [String: Int] = [
         "Controller": 0,
-        "Metrics": 1,
+        "Status": 1,
         "Log": 0
     ]
-    let views: [String] = ["Controller", "Metrics", "Log"]
+    let views: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
 
@@ -233,7 +233,7 @@ struct ContentView: View {
          }
     }
 
-    func metricsView(geometry: GeometryProxy) -> some View {
+    func statusView(geometry: GeometryProxy) -> some View {
         VStack {
             HStack {
                 menuButton(
@@ -389,10 +389,10 @@ struct ContentView: View {
                         case "Menu":
                             menuView(geometry: geometry)
 
-                        case "Controller", "Metrics":
+                        case "Controller", "Status":
                             HStack {
                                 controllerView(geometry: geometry)
-                                metricsView(geometry: geometry)
+                                statusView(geometry: geometry)
                             }
                             .offset(x: Double(dragXOffset.width))
                             .highPriorityGesture(
@@ -436,7 +436,7 @@ struct ContentView: View {
                                             case 0:
                                                 store.state.activeSubView = "Controller"
                                             case 1:
-                                                store.state.activeSubView = "Metrics"
+                                                store.state.activeSubView = "Status"
                                             default:
                                                 return
                                         }
@@ -458,7 +458,7 @@ struct ContentView: View {
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
 
-                if store.state.activeSubView == "Controller" || store.state.activeSubView == "Metrics" {
+                if store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
                     ZStack {
                         HStack {
                             DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")
