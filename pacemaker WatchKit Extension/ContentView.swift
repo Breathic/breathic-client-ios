@@ -4,23 +4,6 @@ import AVFAudio
 import AVFoundation
 import Foundation
 
-struct ProgressData: Identifiable {
-    let timestamp: Int
-    let value: Float
-    var id: Int { timestamp }
-}
-
-struct SeriesData: Identifiable {
-    let metric: String
-    let data: [ProgressData]
-    var id: String { metric }
-}
-
-class ParsedData {
-    var min: Float = 0
-    var max: Float = 0
-}
-
 /*
 Spacer(minLength: 24)
 
@@ -113,78 +96,6 @@ struct ContentView: View {
             .init(metric: lastStepMetricValue + " steps (s)", data: step),
             .init(metric: lastSpeedhMetricValue + " speed (m/s)", data: speed)
         ]
-    }
-
-    func menuButton(
-        geometry: GeometryProxy,
-        label: String = "",
-        value: String = "",
-        unit: String = "",
-        index: Int = -1,
-        maxIndex: Int = -1,
-        valueColor: Color = Color.white,
-        isWide: Bool = false,
-        isShort: Bool = false,
-        isTall: Bool = true,
-        isActive: Bool = false,
-        isEnabled: Bool = true,
-        action: @escaping () -> Void = {}
-    ) -> some View {
-        Button(action: action) {
-            VStack {
-                Spacer(minLength: 4)
-
-                HStack {
-                    VStack {
-                        if label.count > 0 {
-                            HStack {
-                                Text(label)
-                                    .font(.system(size: 10))
-                            }
-                            .frame(
-                                maxWidth: .infinity,
-                                maxHeight: .infinity,
-                                alignment: .topLeading
-                            )
-                        }
-
-                        if value.count > 0 {
-                            Spacer(minLength: 8)
-
-                            Text(value)
-                                .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
-                                .fontWeight(.bold)
-                                .foregroundColor(valueColor)
-                        }
-
-                        if unit.count > 0 {
-                            Text(unit)
-                                .frame(maxWidth: .infinity, alignment: Alignment.center)
-                                .font(.system(size: 8))
-                        }
-                    }
-
-                    if maxIndex > 0 {
-                        DottedIndicator(index: index, maxIndex: maxIndex, direction: "vertical")
-                    }
-                }
-                .frame(alignment: .center)
-
-                Rectangle()
-                .fill(isActive ? .white : .black)
-                .frame(width: geometry.size.width / 3 - 4, height: 2)
-
-                Spacer(minLength: 4)
-            }
-        }
-        .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4, height: geometry.size.height / 2 - 4)
-        .foregroundColor(.white)
-        .tint(.black)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.gray, lineWidth: isEnabled ? store.state.ui.borderLineWidth : 0)
-        )
-        .disabled(!isEnabled)
     }
 
     func controllerView(geometry: GeometryProxy) -> some View {
@@ -431,34 +342,6 @@ struct ContentView: View {
                 .tint(colorize(color: "blue"))
             }
             .frame(maxHeight: .infinity, alignment: .bottom)
-        }
-    }
-
-    struct DottedIndicator: View {
-        var index: Int
-        let maxIndex: Int
-        let direction: String
-
-        var body: some View {
-            if direction == "horizontal" {
-                HStack(spacing: 4) {
-                    ForEach(0...maxIndex, id: \.self) { index in
-                        Circle()
-                        .fill(index == self.index ? Color.white : Color.gray)
-                        .frame(width: 8, height: 8)
-                    }
-                }
-            }
-            else if direction == "vertical" {
-                VStack(spacing: 1) {
-                    ForEach(0...maxIndex, id: \.self) { index in
-                        Circle()
-                        .fill(index <= self.index ? Color.white : Color.gray)
-                        .frame(width: 2, height: 2)
-                    }
-                }
-                .rotationEffect(.degrees(-180))
-            }
         }
     }
 

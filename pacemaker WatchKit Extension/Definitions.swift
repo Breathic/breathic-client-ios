@@ -40,7 +40,6 @@ class UI {
     let primaryTextSize = 8.0
     let secondaryTextSize = 14.0
     let tertiaryTextSize = 6.0
-    let borderLineWidth = 1.0
 }
 
 struct SeedInput {
@@ -85,4 +84,21 @@ class Audio {
         )
         return copy
     }
+}
+
+struct ProgressData: Identifiable {
+    let timestamp: Int
+    let value: Float
+    var id: Int { timestamp }
+}
+
+struct SeriesData: Identifiable {
+    let metric: String
+    let data: [ProgressData]
+    var id: String { metric }
+}
+
+class ParsedData {
+    var min: Float = 0
+    var max: Float = 0
 }
