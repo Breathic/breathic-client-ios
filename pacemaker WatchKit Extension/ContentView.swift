@@ -138,7 +138,7 @@ struct ContentView: View {
             .clipped()
             .onTapGesture { onMenuSelect(geometry: geometry) }
 
-            secondaryButton(text: "Select", action: { onMenuSelect(geometry: geometry) })
+            secondaryButton(text: "Select", color: "green", action: { onMenuSelect(geometry: geometry) })
         }
     }
 
@@ -294,8 +294,63 @@ struct ContentView: View {
         }
     }
 
+    func hasSessionLogs() -> Bool {
+        return getSessionLogIds(sessionLogs: store.state.sessionLogs).count > 0
+    }
+
+    func onDeleteActiveSession(sessionId: String) {
+        var index = -1
+
+        for (_index, item) in getSessionLogIds(sessionLogs: store.state.sessionLogs).enumerated() {
+            if item == sessionId {
+                index = _index
+            }
+        }
+
+        if index > -1 {
+            store.state.sessionLogs.remove(at: index)
+            store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+        }
+
+        if !hasSessionLogs() {
+            store.state.activeSubView = views[0]
+        }
+    }
+
+    func selectFirstLogItem() {
+        let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+        store.state.activeSessionId = sessionLogIds[sessionLogIds.count - 1]
+    }
+
     func logView(geometry: GeometryProxy) -> some View {
-        Group {}
+        VStack {
+            Picker("", selection: $store.state.activeSessionId) {
+                ForEach(store.state.sessionLogIds.reversed(), id: \.self) {
+                    if $0 == store.state.activeSessionId {
+                        Text($0)
+                            .font(.system(size: 32))
+                            .fontWeight(.bold)
+                    }
+                    else {
+                        Text($0)
+                            .font(.system(size: 24))
+                    }
+                }
+            }
+            .padding(.horizontal, store.state.ui.horizontalPadding)
+            .padding(.vertical, store.state.ui.verticalPadding)
+            .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
+            .clipped()
+            .onAppear() { selectFirstLogItem() }
+            .onTapGesture { onMenuSelect(geometry: geometry) }
+
+            if hasSessionLogs() {
+                HStack {
+                    secondaryButton(text: "Delete", color: "red", action: { onDeleteActiveSession(sessionId: store.state.activeSessionId) })
+                    secondaryButton(text: "Select", color: "green", action: { onMenuSelect(geometry: geometry) })
+                }
+            }
+        }
     }
 
     func rhythmView(geometry: GeometryProxy) -> some View {
@@ -322,7 +377,7 @@ struct ContentView: View {
                     store.state.selectedInRhythm = value
                     store.state.selectedOutRhythm = value
                 }
-                
+
                 Picker("", selection: $store.state.selectedOutRhythm) {
                     ForEach(store.state.rhythmRange, id: \.self) {
                         if $0 == store.state.selectedOutRhythm {
@@ -346,7 +401,7 @@ struct ContentView: View {
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
 
-            secondaryButton(text: "Set", action: { store.state.activeSubView = views[0] })
+            secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = views[0] })
         }
     }
 
@@ -388,6 +443,7 @@ struct ContentView: View {
                 .tint(colorize(color: "blue"))
             }
             .frame(maxHeight: .infinity, alignment: .bottom)
+            .edgesIgnoringSafeArea(.all)
         }
     }
 
@@ -416,8 +472,8 @@ struct ContentView: View {
 
                                         let width = gesture.translation.width + (CGFloat(-dragIndex) * geometry.size.width)
 
-                                        if width > minimumMovementThreshold { return }
-                                        else if width < -geometry.size.width { return }
+                                        if width > minimumMovementThreshold { return }  // Stop drag from the left.
+                                        else if width < -geometry.size.width { return } // Stop drag from the right.
 
                                         dragXOffset = CGSize(
                                             width: width,
@@ -432,24 +488,17 @@ struct ContentView: View {
 
                                         if dragXOffset.width < -width {
                                             dragIndex = 1
+                                            store.state.activeSubView = "Status"
                                         }
                                         else if dragXOffset.width > -width {
                                             dragIndex = 0
+                                            store.state.activeSubView = "Controller"
                                         }
                                         else {
                                             dragXOffset = CGSize(
                                                 width: width,
                                                 height: 0
                                             )
-                                        }
-
-                                        switch(dragIndex) {
-                                            case 0:
-                                                store.state.activeSubView = "Controller"
-                                            case 1:
-                                                store.state.activeSubView = "Status"
-                                            default:
-                                                return
                                         }
 
                                         slide(geometry: geometry)

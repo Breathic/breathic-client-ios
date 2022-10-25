@@ -52,3 +52,35 @@ func getElapsedTime(from: Date, to: Date) -> String {
     let elapsedTime = String(format: "%02ld:%02ld:%02ld", difference.hour!, difference.minute!, difference.second!)
     return elapsedTime
 }
+
+func readSessionLogs() -> [SessionLog] {
+    do {
+        let outData = UserDefaults.standard.string(forKey: "SessionLogs") ?? ""
+        let jsonData = outData.data(using: .utf8)!
+        return try JSONDecoder().decode([SessionLog].self, from: jsonData)
+    }
+    catch {
+        return []
+    }
+}
+
+func writeSessionLogs(sessionLogs: [SessionLog]) {
+    let data = try! JSONEncoder().encode(sessionLogs)
+    let json = String(data: data, encoding: .utf8) ?? ""
+    UserDefaults.standard.set(json, forKey: "SessionLogs")
+}
+
+func getMonthLabel(index: Int) -> String {
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    return months[index]
+}
+
+func getSessionLogIds(sessionLogs: [SessionLog]) -> [String] {
+    sessionLogs
+        .map {
+            return getMonthLabel(index: Calendar.current.component(.month, from: $0.startTime) - 1) + " " +
+                String(Calendar.current.component(.day, from: $0.startTime)) + " - " +
+                String($0.startTime.formatted(.dateTime.hour().minute()))
+                .components(separatedBy: " ")[0]
+        }
+}

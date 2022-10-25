@@ -101,12 +101,16 @@ struct DottedIndicator: View {
     }
 }
 
-func secondaryButton(text: String, action: @escaping () -> Void = {})  -> some View {
+func secondaryButton(
+    text: String,
+    color: String,
+    action: @escaping () -> Void = {}
+)  -> some View {
     Button(action: action) {
         Text(text)
     }
     .font(.system(size: 12))
     .fontWeight(.bold)
     .buttonStyle(.bordered)
-    .tint(colorize(color: "green"))
+    .tint(colorize(color: color))
 }

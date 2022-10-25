@@ -23,6 +23,7 @@ class Player {
         //store.state.likes = getLikes()
         //store.state.likesIds = parseLikes(likes: store.state.likes)
         store.state.sessionLogs = readSessionLogs()
+        store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
         flushAll()
         initCommandCenter()
         
@@ -84,23 +85,6 @@ class Player {
         catch {
             print(error)
         }
-    }
-
-    func readSessionLogs() -> [SessionLog] {
-        do {
-            let outData = UserDefaults.standard.string(forKey: "SessionLogs") ?? ""
-            let jsonData = outData.data(using: .utf8)!
-            return try JSONDecoder().decode([SessionLog].self, from: jsonData)
-        }
-        catch {
-            return []
-        }
-    }
-
-    func writeSessionLogs(sessionLogs: [SessionLog]) {
-        let data = try! JSONEncoder().encode(sessionLogs)
-        let json = String(data: data, encoding: .utf8) ?? ""
-        UserDefaults.standard.set(json, forKey: "SessionLogs")
     }
 
     func startSession() {
@@ -503,7 +487,7 @@ class Player {
     func like() {
         var likes: [[Seed]] = getLikes()
         var like: [Seed] = []
-        
+
         for seed in store.state.seeds {
             let tempSeed = seed
             tempSeed.rhythms = [seed.rhythms[0]]

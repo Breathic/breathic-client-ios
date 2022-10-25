@@ -14,7 +14,8 @@ SentrySDK.start { options in
  */
 
 struct AppState {
-    var activeSubView: String = "Controller"
+    var activeSubView: String = "Log"
+    var activeSessionId: String = ""
     var tempActiveSubView: String = ""
     var sessionStartTime = Date()
     var sessionElapsedTime = ""
@@ -29,6 +30,7 @@ struct AppState {
     var likes: [[Seed]] = []
     var likesIds: [String] = []
     var sessionLogs: [SessionLog] = []
+    var sessionLogIds: [String] = []
     var isSessionActive: Bool = false
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
