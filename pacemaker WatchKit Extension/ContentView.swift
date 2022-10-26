@@ -123,12 +123,12 @@ struct ContentView: View {
                 ForEach(views, id: \.self) {
                     if $0 == store.state.tempActiveSubView {
                         Text($0)
-                            .font(.system(size: 32))
+                            .font(.system(size: 24))
                             .fontWeight(.bold)
                     }
                     else {
                         Text($0)
-                            .font(.system(size: 24))
+                            .font(.system(size: 16))
                     }
                 }
             }
@@ -327,8 +327,10 @@ struct ContentView: View {
         if !hasSessionLogs() {
             store.state.activeSubView = views[0]
         }
-
-        highlightFirstLogItem()
+        else {
+            store.state.activeSubView = "Log"
+            highlightFirstLogItem()
+        }
     }
 
     func logView(geometry: GeometryProxy) -> some View {
@@ -337,12 +339,12 @@ struct ContentView: View {
                 ForEach(store.state.sessionLogIds.reversed(), id: \.self) {
                     if $0 == store.state.activeSessionId {
                         Text($0)
-                            .font(.system(size: 32))
+                            .font(.system(size: 24))
                             .fontWeight(.bold)
                     }
                     else {
                         Text($0)
-                            .font(.system(size: 24))
+                            .font(.system(size: 16))
                     }
                 }
             }
@@ -355,7 +357,7 @@ struct ContentView: View {
 
             if hasSessionLogs() {
                 HStack {
-                    secondaryButton(text: "Delete", color: "red", action: { deleteSession(sessionId: store.state.activeSessionId) })
+                    secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
                     secondaryButton(text: "Select", color: "green", action: { })
                 }
             }
@@ -444,9 +446,47 @@ struct ContentView: View {
                 .tint(colorize(color: "green"))
             }
 
+            Text("Finish session?")
+            .font(.system(size: 16))
+            .frame(maxHeight: .infinity, alignment: .center)
+
             HStack {
                 Button(action: {
                     store.state.activeSubView = "Controller"
+                }) {
+                    Text("Cancel")
+                }
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .tint(colorize(color: "blue"))
+            }
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .edgesIgnoringSafeArea(.all)
+        }
+    }
+
+    func deleteSessionConfirmationView(geometry: GeometryProxy) -> some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    deleteSession(sessionId: store.state.activeSessionId)
+                }) {
+                    Text("Delete")
+                }
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .tint(colorize(color: "red"))
+            }
+
+            Text("Delete session from " + store.state.activeSessionId + "?")
+            .font(.system(size: 16))
+            .frame(maxHeight: .infinity, alignment: .center)
+
+            HStack {
+                Button(action: {
+                    store.state.activeSubView = "Log"
                 }) {
                     Text("Cancel")
                 }
@@ -526,6 +566,9 @@ struct ContentView: View {
 
                         case "Confirm":
                             sessionStopConfirmationView(geometry: geometry)
+
+                        case "Delete":
+                            deleteSessionConfirmationView(geometry: geometry)
 
                         default:
                             controllerView(geometry: geometry)
