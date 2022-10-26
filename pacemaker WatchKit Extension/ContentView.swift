@@ -298,7 +298,7 @@ struct ContentView: View {
     }
 
     func hasSessionLogs() -> Bool {
-        return getSessionLogIds(sessionLogs: store.state.sessionLogs).count > 0
+        return store.state.sessionLogs.count > 0
     }
 
     func highlightFirstLogItem() {

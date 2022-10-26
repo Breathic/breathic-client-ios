@@ -14,7 +14,7 @@ SentrySDK.start { options in
  */
 
 struct AppState {
-    var activeSubView: String = "Log"
+    var activeSubView: String = "Controller"
     var activeSessionId: String = ""
     var tempActiveSubView: String = ""
     var sessionStartTime = Date()
