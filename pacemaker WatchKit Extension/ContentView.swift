@@ -108,7 +108,7 @@ struct ContentView: View {
         dragXOffset = CGSize(width: (-geometry.size.width - slidePadding) * CGFloat(dragIndex), height: 0)
     }
 
-    func onMenuSelect(geometry: GeometryProxy) {
+    func selectMainMenu(geometry: GeometryProxy) {
         if store.state.tempActiveSubView == "" {
             store.state.tempActiveSubView = views[0]
         }
@@ -136,9 +136,12 @@ struct ContentView: View {
             .padding(.vertical, store.state.ui.verticalPadding)
             .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
             .clipped()
-            .onTapGesture { onMenuSelect(geometry: geometry) }
+            .onAppear() {
+                store.state.tempActiveSubView = views[0]
+            }
+            .onTapGesture { selectMainMenu(geometry: geometry) }
 
-            secondaryButton(text: "Select", color: "green", action: { onMenuSelect(geometry: geometry) })
+            secondaryButton(text: "Select", color: "green", action: { selectMainMenu(geometry: geometry) })
         }
     }
 
@@ -298,28 +301,34 @@ struct ContentView: View {
         return getSessionLogIds(sessionLogs: store.state.sessionLogs).count > 0
     }
 
-    func onDeleteActiveSession(sessionId: String) {
-        var index = -1
+    func highlightFirstLogItem() {
+        let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
 
-        for (_index, item) in getSessionLogIds(sessionLogs: store.state.sessionLogs).enumerated() {
+        if sessionLogIds.count > 0 {
+            store.state.activeSessionId = sessionLogIds[sessionLogIds.count - 1]
+        }
+    }
+
+    func deleteSession(sessionId: String) {
+        var sessionIndex = -1
+
+        for (index, item) in getSessionLogIds(sessionLogs: store.state.sessionLogs).enumerated() {
             if item == sessionId {
-                index = _index
+                sessionIndex = index
             }
         }
 
-        if index > -1 {
-            store.state.sessionLogs.remove(at: index)
+        if sessionIndex > -1 {
+            store.state.sessionLogs.remove(at: sessionIndex)
+            writeSessionLogs(sessionLogs: store.state.sessionLogs)
             store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
         }
 
         if !hasSessionLogs() {
             store.state.activeSubView = views[0]
         }
-    }
 
-    func selectFirstLogItem() {
-        let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
-        store.state.activeSessionId = sessionLogIds[sessionLogIds.count - 1]
+        highlightFirstLogItem()
     }
 
     func logView(geometry: GeometryProxy) -> some View {
@@ -341,13 +350,13 @@ struct ContentView: View {
             .padding(.vertical, store.state.ui.verticalPadding)
             .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
             .clipped()
-            .onAppear() { selectFirstLogItem() }
-            .onTapGesture { onMenuSelect(geometry: geometry) }
+            .onAppear() { highlightFirstLogItem() }
+            .onTapGesture { }
 
             if hasSessionLogs() {
                 HStack {
-                    secondaryButton(text: "Delete", color: "red", action: { onDeleteActiveSession(sessionId: store.state.activeSessionId) })
-                    secondaryButton(text: "Select", color: "green", action: { onMenuSelect(geometry: geometry) })
+                    secondaryButton(text: "Delete", color: "red", action: { deleteSession(sessionId: store.state.activeSessionId) })
+                    secondaryButton(text: "Select", color: "green", action: { })
                 }
             }
         }
@@ -410,6 +419,9 @@ struct ContentView: View {
             HStack {
                 Button(action: {
                     player.stopSession()
+
+                    let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+                    deleteSession(sessionId: sessionLogIds[sessionLogIds.count - 1])
                     store.state.activeSubView = "Controller"
                 }) {
                     Text("Discard")
@@ -421,6 +433,7 @@ struct ContentView: View {
 
                 Button(action: {
                     player.stopSession()
+                    store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
                     store.state.activeSubView = "Controller"
                 }) {
                     Text("Save")
