@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-let SAMPLE_PATH = "data/samples"
+let SAMPLE_PATH = "/data/samples/"
 let SAMPLE_EXTENSION = "m4a"
 let MAX_READING_COUNT: Int = 30
 let DOWN_SCALE: Int = 8

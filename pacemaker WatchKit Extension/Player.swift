@@ -98,7 +98,10 @@ class Player {
             }
             create()
             loop()
-            initInactivityTimer()
+
+            if !Platform.isSimulator {
+                initInactivityTimer()
+            }
             //updateGraph()
 
             heartRate.start()
@@ -141,13 +144,13 @@ class Player {
     func getRhythm(sample: String, seedInput: SeedInput) -> Rhythm {
         let durationRange = seedInput.durationRange
         let interval = seedInput.interval
-        let sampleDir = "/" + SAMPLE_PATH
+        let sampleDir = SAMPLE_PATH
         let rhythm = Rhythm()
         rhythm.id = Int(sample.split(separator: ".")[0])!
         rhythm.durationRange = durationRange
 
         for space in interval {
-            rhythm.samples.append(space > 0 ? sampleDir + "/" + sample : "")
+            rhythm.samples.append(space > 0 ? sampleDir + sample : "")
         }
 
         return rhythm

@@ -222,6 +222,7 @@ struct ContentView: View {
                     ),
                     isTall: false,
                     isEnabled: store.state.isSessionActive,
+                    opacity: store.state.isSessionActive ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }
@@ -424,7 +425,7 @@ struct ContentView: View {
 
                     let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
                     deleteSession(sessionId: sessionLogIds[sessionLogIds.count - 1])
-                    store.state.activeSubView = "Controller"
+                    store.state.activeSubView = views[0]
                 }) {
                     Text("Discard")
                 }
@@ -436,7 +437,7 @@ struct ContentView: View {
                 Button(action: {
                     player.stopSession()
                     store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
-                    store.state.activeSubView = "Controller"
+                    store.state.activeSubView = views[0]
                 }) {
                     Text("Save")
                 }
@@ -452,7 +453,7 @@ struct ContentView: View {
 
             HStack {
                 Button(action: {
-                    store.state.activeSubView = "Controller"
+                    store.state.activeSubView = views[0]
                 }) {
                     Text("Cancel")
                 }
@@ -512,7 +513,7 @@ struct ContentView: View {
                         case "Menu":
                             menuView(geometry: geometry)
 
-                        case "Controller", "Status":
+                        case views[0], "Controller", "Status":
                             HStack {
                                 controllerView(geometry: geometry)
                                 statusView(geometry: geometry)
@@ -545,7 +546,7 @@ struct ContentView: View {
                                         }
                                         else if dragXOffset.width > -width {
                                             dragIndex = 0
-                                            store.state.activeSubView = "Controller"
+                                            store.state.activeSubView = views[0]
                                         }
                                         else {
                                             dragXOffset = CGSize(
@@ -576,7 +577,7 @@ struct ContentView: View {
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
 
-                if store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
+                if store.state.activeSubView == views[0] || store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
                     ZStack {
                         HStack {
                             DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")

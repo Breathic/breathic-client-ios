@@ -14,6 +14,7 @@ func menuButton(
     isTall: Bool = true,
     isActive: Bool = false,
     isEnabled: Bool = true,
+    opacity: Double = 1,
     action: @escaping () -> Void = {}
 ) -> some View {
     Button(action: action) {
@@ -70,6 +71,7 @@ func menuButton(
         RoundedRectangle(cornerRadius: 10)
             .stroke(.gray, lineWidth: isEnabled ? 1 : 0)
     )
+    .opacity(opacity)
     .disabled(!isEnabled)
 }
 
