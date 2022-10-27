@@ -5,7 +5,7 @@ import MediaPlayer
 
 class Player {
     @ObservedObject private var store: AppStore = .shared
-    
+
     let coordinator = SessionCoordinator()
     let pedometer = Pedometer()
     var location = Location()
@@ -15,7 +15,7 @@ class Player {
     var panScale: [Float] = []
     var collections: [[Audio]] = []
     var players: [String: AVAudioPlayer] = [:]
-    
+
     init() {
         store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
         panScale = getPanScale()
@@ -23,7 +23,6 @@ class Player {
         store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
         flushAll()
         initCommandCenter()
-        
         /*
         let update = Update()
         update.value = 60.0
@@ -96,9 +95,9 @@ class Player {
             create()
             loop()
 
-            if !Platform.isSimulator {
-                initInactivityTimer()
-            }
+            //if !Platform.isSimulator {
+            //    initInactivityTimer()
+            //}
             //updateGraph()
 
             heartRate.start()
@@ -139,15 +138,15 @@ class Player {
     }
 
     func getRhythm(sample: String, seedInput: SeedInput) -> Rhythm {
-        let durationRange = seedInput.durationRange
+        //let durationRange = seedInput.durationRange
         let interval = seedInput.interval
-        let sampleDir = SAMPLE_PATH
         let rhythm = Rhythm()
+
         rhythm.id = Int(sample.split(separator: ".")[0])!
-        rhythm.durationRange = durationRange
+        //rhythm.durationRange = durationRange
 
         for space in interval {
-            rhythm.samples.append(space > 0 ? sampleDir + sample : "")
+            rhythm.samples.append(space > 0 ? SAMPLE_PATH + sample : "")
         }
 
         return rhythm
@@ -158,6 +157,7 @@ class Player {
         
         for seedInput in seedInputs {
             let seed = Seed()
+
             seed.rhythms = store.state.distances
                 .map {
                     getRhythm(sample: String($0.key) + "." + SAMPLE_EXTENSION, seedInput: seedInput)
@@ -173,7 +173,7 @@ class Player {
         collections[collectionIndex][audioIndex].channels = []
 
         for seed in store.state.seeds {
-            let samples: [String] = seed.rhythms[0].samples
+            let samples: [String] = seed.rhythms[store.state.queueIndex].samples
             var channel: [String] = []
 
             for sample in samples {
@@ -237,6 +237,7 @@ class Player {
 
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
+
         if store.state.selectedRhythmIndex == store.state.selectedRhythms.count {
             store.state.selectedRhythmIndex = 0
         }
@@ -490,40 +491,45 @@ class Player {
         collections[collectionIndex][audioIndex].forResources = []
     }
 
+    func incrementQueueIndex() {
+        store.state.queueIndex = store.state.queueIndex + 1
+
+        if store.state.queueIndex == store.state.distances.count {
+            store.state.queueIndex = 0
+        }
+    }
+
     func pick(collectionIndex: Int, audioIndex: Int) {
-        for (channelIndex, _) in store.state.seeds.enumerated() {
-            let lastRhythm = store.state.seeds[channelIndex].rhythms[0]
-            store.state.history.append(lastRhythm.id)
-            let distances: [Distance] = store.state.distances[lastRhythm.id] ?? []
-            var summary: [Int: Double] = [:]
+        if store.state.scenePhase == .active {
+            for (channelIndex, _) in store.state.seeds.enumerated() {
+                store.state.queueIndex = 0
 
-            for distance in distances {
-                let nextDistances: [Distance] = (store.state.distances[distance.rightId] ?? [])
-                    .filter { $0.duration > lastRhythm.durationRange[0] && $0.duration < lastRhythm.durationRange[1] }
+                for (rhythmIndex, _) in store.state.seeds[channelIndex].rhythms.enumerated() {
+                    let lastRhythm = store.state.seeds[channelIndex].rhythms[rhythmIndex]
+                    let distances: [Distance] = store.state.distances[lastRhythm.id] ?? []
+                    var summary: [Int: Double] = [:]
 
-                for nextDistance in nextDistances {
-                    summary[nextDistance.rightId] = distance.value + nextDistance.value
+                    for distance in distances {
+                        let nextDistances: [Distance] = store.state.distances[distance.rightId] ?? []
+
+                        for nextDistance in nextDistances {
+                            summary[nextDistance.rightId] = distance.value + nextDistance.value
+                        }
+                    }
+
+                    let sortedSummary = summary
+                        .sorted { Double($0.value) < Double($1.value) }
+                    let index = store.state.seeds[channelIndex].rhythms
+                        .firstIndex(where: { $0.id == sortedSummary[0].key }) ?? 0
+                    let element = store.state.seeds[channelIndex].rhythms
+                        .remove(at: index)
+                    store.state.seeds[channelIndex].rhythms
+                        .insert(element, at: rhythmIndex)
                 }
             }
-
-            let sortedSummary = summary
-                .filter { !store.state.history.contains($0.key) }
-                .sorted { Double($0.value) < Double($1.value) }
-
-            if sortedSummary.count == 0 {
-                let element = store.state.seeds[channelIndex].rhythms
-                    .remove(at: 0)
-                store.state.seeds[channelIndex].rhythms.append(element)
-            }
-            else {
-                let index = store.state.seeds[channelIndex].rhythms
-                    .firstIndex(where: {$0.id == sortedSummary[0].key}) ?? 0
-                let element = store.state.seeds[channelIndex].rhythms
-                    .remove(at: index)
-                store.state.seeds[channelIndex].rhythms
-                    .insert(element, at: 0)
-                //print(sortedSummary[0].value)
-            }
+        }
+        else {
+            incrementQueueIndex()
         }
 
         flush(collectionIndex: collectionIndex, audioIndex: audioIndex)

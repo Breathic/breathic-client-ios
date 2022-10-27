@@ -56,7 +56,7 @@ struct ContentView: View {
     func convert(data: [ProgressData], range: [Float]) -> [ProgressData] {
         let min = data.map { Float($0.value) }.min() ?? Float(0)
         let max = data.map { Float($0.value) }.max() ?? Float(0)
-        
+
         return data.map {
             let progressData = ProgressData(
                 timestamp: $0.timestamp,
@@ -66,7 +66,7 @@ struct ContentView: View {
                     newRange: [range[0], range[1]]
                 )
             )
-            
+
             return progressData
         }
     }
