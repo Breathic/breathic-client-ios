@@ -27,8 +27,6 @@ struct AppState {
         SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]),
         //SeedInput(durationRange: [0, 0.25], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]),
     ]
-    var likes: [[Seed]] = []
-    var likesIds: [String] = []
     var sessionLogs: [SessionLog] = []
     var sessionLogIds: [String] = []
     var isSessionActive: Bool = false

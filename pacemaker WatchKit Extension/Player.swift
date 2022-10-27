@@ -19,9 +19,6 @@ class Player {
     init() {
         store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
         panScale = getPanScale()
-        //UserDefaults.standard.set("", forKey: "likes")
-        //store.state.likes = getLikes()
-        //store.state.likesIds = parseLikes(likes: store.state.likes)
         store.state.sessionLogs = readSessionLogs()
         store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
         flushAll()
@@ -425,82 +422,8 @@ class Player {
         store.state.isAudioPlaying ? pause() : play()
     }
 
-    func setLikedPlay(playerIndex: Int) {
-        if store.state.likes.count >= playerIndex {
-            store.state.seeds = store.state.likes[playerIndex]
-        }
-    }
-
-    func setLikes(likes: [[Seed]]) {
-        let data = try! JSONEncoder().encode(likes)
-        let json = String(data: data, encoding: .utf8) ?? ""
-        UserDefaults.standard.set(json, forKey: "likes")
-    }
-
-    func getLikes() -> [[Seed]] {
-        do {
-            let outData = UserDefaults.standard.string(forKey: "likes") ?? ""
-            let jsonData = outData.data(using: .utf8)!
-            return try JSONDecoder().decode([[Seed]].self, from: jsonData)
-        }
-        catch {
-            return []
-        }
-    }
-
     func setPlayerIndex() {
-        if store.state.playerIndex + 1 == store.state.likes.count {
-            store.state.playerIndex = 0
-        }
-        else {
-            store.state.playerIndex = store.state.playerIndex + 1
-        }
-
-        setLikedPlay(playerIndex: store.state.playerIndex)
-    }
-
-    func parseLikes(likes: [[Seed]]) -> [String] {
-        var res: [String] = []
-
-        likes
-            .forEach {
-                var track: [String] = []
-                
-                $0.forEach {
-                    $0.rhythms.forEach {
-                        $0.samples.forEach {
-                            if $0 != "" {
-                                let partial = String($0.split(separator: "/")[2])
-                                let id = String(partial.split(separator: ".")[0])
-                                
-                                if !track.contains(id) {
-                                    track.append(id)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                res.append(track.joined(separator: "."))
-            }
-
-        return res
-    }
-
-    func like() {
-        var likes: [[Seed]] = getLikes()
-        var like: [Seed] = []
-
-        for seed in store.state.seeds {
-            let tempSeed = seed
-            tempSeed.rhythms = [seed.rhythms[0]]
-            like.append(tempSeed)
-        }
-
-        likes.append(like)
-        setLikes(likes: likes)
-        store.state.likes = likes
-        store.state.likesIds = parseLikes(likes: likes)
+        store.state.playerIndex = store.state.playerIndex + 1
     }
 
     func create() {
