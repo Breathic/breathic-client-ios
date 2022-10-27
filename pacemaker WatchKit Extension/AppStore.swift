@@ -40,8 +40,8 @@ struct AppState {
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var rhythmRange: [Int] = Array(10...50)
-    var selectedInRhythm: Int = 10
-    var selectedOutRhythm: Int = 10
+    var selectedInRhythm: Int = 20
+    var selectedOutRhythm: Int = 20
     var selectedRhythms: [Int] = []
     var selectedRhythmIndex: Int = 0
     var metricTypes: [MetricType] = [
