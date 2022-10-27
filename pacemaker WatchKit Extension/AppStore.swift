@@ -39,9 +39,9 @@ struct AppState {
     var selectedVolume: Float = AUDIO_RANGE[1] / 2
     var playerIndex: Int = -1
     var queueIndex: Int = 0
-    var rhythmRange: [Int] = Array(4...50)
-    var selectedInRhythm: Int = 4
-    var selectedOutRhythm: Int = 4
+    var rhythmRange: [Int] = Array(10...50)
+    var selectedInRhythm: Int = 10
+    var selectedOutRhythm: Int = 10
     var selectedRhythms: [Int] = []
     var selectedRhythmIndex: Int = 0
     var metricTypes: [MetricType] = [
