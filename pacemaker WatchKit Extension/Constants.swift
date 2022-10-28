@@ -14,3 +14,24 @@ let RHYTHMS: [Int] = [20, 20]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
 ]
+let METRIC_TYPES = [
+    MetricType(
+        metric: "heartRateMetric",
+        label: "heart rate",
+        unit: "minute",
+        valueColor: colorize(color: "red"),
+        isReversed: false
+    ),
+    MetricType(
+        metric: "stepMetric",
+        label: "step rate",
+        unit: "minute",
+        valueColor: colorize(color: "blue"),
+        isReversed: true
+    )/*,
+    MetricType(
+        metric: "speedMetric",
+        unit: "m / s",
+        isReversed: true
+    )*/
+]

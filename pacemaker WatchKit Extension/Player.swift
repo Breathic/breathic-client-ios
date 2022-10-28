@@ -22,6 +22,13 @@ class Player {
         store.state.sessionLogs = readSessionLogs()
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         initCommandCenter()
+        store.state.session = readActiveSession()
+        store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
+        if store.state.session.isActive {
+            start()
+        }
+
+        //UserDefaults.standard.set("", forKey: "ActiveSession")
         /*
         let update = Update()
         update.value = 60.0
@@ -82,12 +89,12 @@ class Player {
         }
     }
 
-    func startSession() {
+    func start() {
         if !store.state.isAudioSessionLoaded {
-            store.state.isAudioSessionLoaded = true
             Task {
                 await startAudioSession()
             }
+            store.state.isAudioSessionLoaded = true
             loop()
 
             //if !Platform.isSimulator {
@@ -103,10 +110,15 @@ class Player {
 
         create()
         play()
-        store.state.session = Session()
         store.state.session.start()
         //store.state.sessionLogs.append(session)
         //writeSessionLogs(sessionLogs: store.state.sessionLogs)
+    }
+
+    func stop() {
+        pause()
+        store.state.session.stop()
+        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
@@ -234,7 +246,7 @@ class Player {
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
-        let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
+        let metricType = store.state.metricType
         let pace = store.state.valueByMetric(metric: metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = Double(store.state.session.getRhythms()[selectedRhythmIndex]) / 10
@@ -257,7 +269,7 @@ class Player {
     }
 
     func fade(collectionIndex: Int, channelIndex: Int, channelCount: Int) {
-        let selectedVolume = Float(store.state.selectedVolume)
+        let volume = Float(store.state.session.volume)
         let upscaledFadeDuration = FADE_DURATION * DOWN_SCALE
         let index = collections[collectionIndex][0].channelRepeatIndex * collections[collectionIndex][0].channels[channelIndex].count + collections[collectionIndex][0].sampleIndex
 
@@ -270,11 +282,11 @@ class Player {
                     oldRange: [Float(upscaledFadeDuration), Float(CHANNEL_REPEAT_COUNT * DOWN_SCALE)],
                     newRange: [minFadeRange, maxFadeRange]
                 )
-                var positiveVolume = selectedVolume / fadeUp
-                var negativeVolume = selectedVolume / (maxFadeRange - fadeUp)
+                var positiveVolume = volume / fadeUp
+                var negativeVolume = volume / (maxFadeRange - fadeUp)
 
-                positiveVolume = positiveVolume > selectedVolume / 100 ? selectedVolume / 100 : positiveVolume
-                negativeVolume = negativeVolume > selectedVolume / 100 ? selectedVolume / 100 : negativeVolume
+                positiveVolume = positiveVolume > volume / 100 ? volume / 100 : positiveVolume
+                negativeVolume = negativeVolume > volume / 100 ? volume / 100 : negativeVolume
 
                 if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
                     for forResource in collections[collectionIndex][0].forResources {

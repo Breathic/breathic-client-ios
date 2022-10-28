@@ -151,15 +151,16 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Pace",
-                    value: store.state.metricTypes[store.state.selectedMetricTypeIndex].label,
-                    unit: "per " + store.state.metricTypes[store.state.selectedMetricTypeIndex].unit,
-                    valueColor: store.state.metricTypes[store.state.selectedMetricTypeIndex].valueColor,
+                    value: store.state.metricType.label,
+                    unit: "per " + store.state.metricType.unit,
+                    valueColor: store.state.metricType.valueColor,
                     isShort: true,
                     isTall: false,
                     action: {
-                        store.state.selectedMetricTypeIndex = store.state.selectedMetricTypeIndex + 1 < store.state.metricTypes.count
-                            ? store.state.selectedMetricTypeIndex + 1
+                        store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < METRIC_TYPES.count
+                            ? store.state.session.metricTypeIndex + 1
                             : 0
+                        store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
                     }
                 )
 
@@ -170,7 +171,7 @@ struct ContentView: View {
                     label: "Rhythm",
                     value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
                     unit: "per pace",
-                    valueColor: store.state.metricTypes[store.state.selectedMetricTypeIndex].valueColor,
+                    valueColor: store.state.metricType.valueColor,
                     isTall: false,
                     action: { store.state.activeSubView = "Rhythm" }
                 )
@@ -182,19 +183,19 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Session",
-                    value: store.state.session.isActive
+                    value: store.state.isAudioSessionLoaded && store.state.session.isActive
                         ? "⚑"
                         : "◴",
-                    unit: store.state.session.isActive
+                    unit: store.state.isAudioSessionLoaded && store.state.session.isActive
                         ? store.state.session.elapsedTime
                         : "Stopped",
                     isTall: false,
                     action: {
-                        if !store.state.session.isActive {
-                            player.startSession()
+                        if store.state.isAudioSessionLoaded && store.state.session.isActive {
+                            store.state.activeSubView = "Confirm"
                         }
                         else {
-                            store.state.activeSubView = "Confirm"
+                            player.start()
                         }
                     }
                 )
@@ -208,7 +209,7 @@ struct ContentView: View {
                     unit: store.state.isAudioPlaying ? "Playing" : "Paused",
                     index: Int(ceil(
                         convertRange(
-                            value: Float(store.state.selectedVolume),
+                            value: Float(store.state.session.volume),
                             oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
                             newRange: [Float(0), Float(10)]
                         )) - 1
@@ -221,8 +222,8 @@ struct ContentView: View {
                         )) - 1
                     ),
                     isTall: false,
-                    isEnabled: store.state.session.isActive,
-                    opacity: store.state.session.isActive ? 1 : 0.33,
+                    isEnabled: store.state.isAudioSessionLoaded && store.state.session.isActive,
+                    opacity: store.state.isAudioSessionLoaded && store.state.session.isActive ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }
@@ -231,7 +232,7 @@ struct ContentView: View {
         }
         .focusable()
         .digitalCrownRotation(
-            $store.state.selectedVolume,
+            $store.state.session.volume,
             from: VOLUME_RANGE[0] - (VOLUME_RANGE[1] * crownMultiplier),
             through: VOLUME_RANGE[1] + (VOLUME_RANGE[1] * crownMultiplier),
             by: VOLUME_RANGE[1] / 100 * 3 * crownMultiplier,
@@ -239,12 +240,12 @@ struct ContentView: View {
             isContinuous: true,
             isHapticFeedbackEnabled: true
         )
-        .onChange(of: store.state.selectedVolume) { value in
+        .onChange(of: store.state.session.volume) { value in
             if value < VOLUME_RANGE[0] {
-                store.state.selectedVolume = VOLUME_RANGE[0]
+                store.state.session.volume = VOLUME_RANGE[0]
             }
             else if value > VOLUME_RANGE[1] {
-                store.state.selectedVolume = VOLUME_RANGE[1]
+                store.state.session.volume = VOLUME_RANGE[1]
             }
          }
     }
@@ -255,7 +256,7 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Heart rate",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricTypes[store.state.selectedMetricTypeIndex].metric) * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric) * 60),
                     unit: "per minute",
                     valueColor: colorize(color: "red"),
                     isEnabled: false
@@ -436,9 +437,7 @@ struct ContentView: View {
                 .tint(colorize(color: "red"))
 
                 Button(action: {
-                    player.pause()
-                    store.state.session.stop()
-                    store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+                    player.stop()
                     store.state.activeSubView = views[0]
                 }) {
                     Text("Save")

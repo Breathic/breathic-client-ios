@@ -14,10 +14,9 @@ SentrySDK.start { options in
  */
 
 struct AppState {
-    var scenePhase: ScenePhase = .inactive
     var activeSubView: String = "Controller"
     var tempActiveSubView: String = ""
-    var session: Session = Session()
+    var session: Session = readActiveSession()
     var selectedSessionId: String = ""
     var seeds: [Seed] = []
     var rhythms: [Rhythm] = []
@@ -28,32 +27,10 @@ struct AppState {
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
-    var selectedVolume: Float = VOLUME_RANGE[1] / 2
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
-    var metricTypes: [MetricType] = [
-        MetricType(
-            metric: "heartRateMetric",
-            label: "heart rate",
-            unit: "minute",
-            valueColor: colorize(color: "red"),
-            isReversed: false
-        ),
-        MetricType(
-            metric: "stepMetric",
-            label: "step rate",
-            unit: "minute",
-            valueColor: colorize(color: "blue"),
-            isReversed: true
-        )/*,
-        MetricType(
-            metric: "speedMetric",
-            unit: "m / s",
-            isReversed: true
-        )*/
-    ]
-    var selectedMetricTypeIndex = 0
+    var metricType: MetricType = METRIC_TYPES[0]
     var breathRateMetric: Float = Platform.isSimulator ? 1 : 0
     var heartRateMetric: Float = Platform.isSimulator ? 1 : 0
     var stepMetric: Float = Platform.isSimulator ? 1 : 0

@@ -104,20 +104,66 @@ class ParsedData {
 }
 
 class Session: Codable {
-    var isActive: Bool = false
-    var uuid: String = UUID().uuidString
-    var id: String = ""
-    var startTime: Date = Date()
-    var endTime: Date = Date()
-    var elapsedTime: String = ""
-    var inRhythm: Int = RHYTHMS[0]
-    var outRhythm: Int = RHYTHMS[1]
+    var isActive: Bool = false {
+        didSet {
+            save()
+        }
+    }
+    var uuid: String = UUID().uuidString {
+        didSet {
+            save()
+        }
+    }
+    var id: String = "" {
+        didSet {
+            save()
+        }
+    }
+    var startTime: Date = Date() {
+        didSet {
+            save()
+        }
+    }
+    var endTime: Date = Date() {
+        didSet {
+            save()
+        }
+    }
+    var elapsedTime: String = "" {
+        didSet {
+            save()
+        }
+    }
+    var inRhythm: Int = RHYTHMS[0] {
+        didSet {
+            save()
+        }
+    }
+    var outRhythm: Int = RHYTHMS[1] {
+        didSet {
+            save()
+        }
+    }
+    var volume: Float = VOLUME_RANGE[1] / 2 {
+        didSet {
+            save()
+        }
+    }
+    var metricTypeIndex: Int = 0 {
+        didSet {
+            save()
+        }
+    }
 
     func start() {
-        isActive = true
-        uuid = UUID().uuidString
-        id = generateSessionId(session: self)
-        startTime = Date()
+        if !isActive {
+            isActive = true
+            startTime = Date()
+            endTime = startTime
+            elapsedTime = ""
+            uuid = UUID().uuidString
+            id = generateSessionId(session: self)
+        }
     }
 
     func stop() {
@@ -127,5 +173,9 @@ class Session: Codable {
 
     func getRhythms() -> [Int] {
         return [inRhythm, outRhythm]
+    }
+
+    func save() {
+        writeActiveSession(session: self)
     }
 }

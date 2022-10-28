@@ -70,6 +70,24 @@ func writeSessionLogs(sessionLogs: [Session]) {
     UserDefaults.standard.set(json, forKey: "SessionLogs")
 }
 
+func readActiveSession() -> Session {
+    do {
+        let outData = UserDefaults.standard.string(forKey: "ActiveSession") ?? ""
+        let jsonData = outData.data(using: .utf8)!
+        let session = try JSONDecoder().decode(Session.self, from: jsonData)
+        return session
+    }
+    catch {
+        return Session()
+    }
+}
+
+func writeActiveSession(session: Session) {
+    let data = try! JSONEncoder().encode(session)
+    let json = String(data: data, encoding: .utf8) ?? ""
+    UserDefaults.standard.set(json, forKey: "ActiveSession")
+}
+
 func getMonthLabel(index: Int) -> String {
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     return months[index]
