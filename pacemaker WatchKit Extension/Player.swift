@@ -21,7 +21,6 @@ class Player {
         panScale = getPanScale()
         store.state.sessionLogs = readSessionLogs()
         store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
-        flushAll()
         initCommandCenter()
         /*
         let update = Update()
@@ -49,7 +48,7 @@ class Player {
         }
 
         commandCenter.nextTrackCommand.addTarget { [unowned self] event in
-            self.next()
+            self.create()
             return .success
         }
     }
@@ -92,7 +91,6 @@ class Player {
             Task {
                 await startAudioSession()
             }
-            create()
             loop()
 
             //if !Platform.isSimulator {
@@ -106,16 +104,14 @@ class Player {
             coordinator.start()
         }
 
+        create()
         play()
-
-        let sessionLog = SessionLog()
-        store.state.sessionLogs.append(sessionLog)
+        store.state.sessionLogs.append(SessionLog())
         writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func stopSession() {
         pause()
-
         store.state.isSessionActive = false
     }
 
@@ -306,7 +302,7 @@ class Player {
                     }
 
                     if fadeUp == minFadeRange {
-                        pick(collectionIndex: collectionIndex, audioIndex: 1)
+                        pick(collectionIndex: collectionIndex, audioIndex: 1, regenerate: false)
                         collections[collectionIndex][1].channelRepeatIndex = 0
                     }
 
@@ -428,6 +424,8 @@ class Player {
     }
 
     func create() {
+        shuffle()
+        flushAll()
         collections = []
         let audio = Audio(
             channelRepeatIndex: FADE_DURATION / 2,
@@ -459,22 +457,20 @@ class Player {
         }
     }
 
-    func next() {
-        play()
+    func shuffle() {
         var channels: [Seed] = []
         for channel in store.state.seeds {
             channel.rhythms = channel.rhythms.shuffled()
             channels.append(channel)
         }
         store.state.seeds = channels
-        create()
     }
 
     func flushAll() {
         for (collectionIndex, collection) in collections.enumerated() {
             for (audioIndex, _) in collection.enumerated() {
                 flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
-                pick(collectionIndex: collectionIndex, audioIndex: audioIndex)
+                pick(collectionIndex: collectionIndex, audioIndex: audioIndex, regenerate: true)
             }
         }
 
@@ -499,8 +495,8 @@ class Player {
         }
     }
 
-    func pick(collectionIndex: Int, audioIndex: Int) {
-        if store.state.scenePhase == .active {
+    func pick(collectionIndex: Int, audioIndex: Int, regenerate: Bool) {
+        if regenerate {
             for (channelIndex, _) in store.state.seeds.enumerated() {
                 store.state.queueIndex = 0
 
