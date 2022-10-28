@@ -17,10 +17,10 @@ class Player {
     var players: [String: AVAudioPlayer] = [:]
 
     init() {
-        store.state.seeds = getAllSeeds(seedInputs: store.state.seedInputs)
+        store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
         panScale = getPanScale()
         store.state.sessionLogs = readSessionLogs()
-        store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         initCommandCenter()
         /*
         let update = Update()
@@ -83,8 +83,6 @@ class Player {
     }
 
     func startSession() {
-        store.state.sessionStartTime = Date()
-
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
             Task {
@@ -105,15 +103,11 @@ class Player {
 
         create()
         play()
-        let sessionLog = SessionLog()
-        store.state.sessionLogs.append(sessionLog)
-        store.state.activeSessionId = getSessionLogIds(sessionLogs: [sessionLog])[0]
-        writeSessionLogs(sessionLogs: store.state.sessionLogs)
-    }
-
-    func stopSession() {
-        pause()
-        store.state.activeSessionId = ""
+        store.state.session = Session()
+        store.state.session.start()
+        print(store.state.session.id)
+        //store.state.sessionLogs.append(session)
+        //writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
@@ -235,17 +229,16 @@ class Player {
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
 
-        if store.state.selectedRhythmIndex == store.state.selectedRhythms.count {
+        if store.state.selectedRhythmIndex == store.state.session.getRhythms().count {
             store.state.selectedRhythmIndex = 0
         }
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
-        store.state.selectedRhythms = [store.state.selectedInRhythm, store.state.selectedOutRhythm]
         let metricType = store.state.metricTypes[store.state.selectedMetricTypeIndex]
         let pace = store.state.valueByMetric(metric: metricType.metric)
         let isReversed = metricType.isReversed
-        let selectedRhythm: Double = Double(store.state.selectedRhythms[selectedRhythmIndex]) / 10
+        let selectedRhythm: Double = Double(store.state.session.getRhythms()[selectedRhythmIndex]) / 10
 
         var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
@@ -255,7 +248,7 @@ class Player {
     }
 
     func getLoopIntervalSum() -> TimeInterval {
-        let loopIntervalSum: TimeInterval = store.state.selectedRhythms.enumerated()
+        let loopIntervalSum: TimeInterval = store.state.session.getRhythms().enumerated()
             .map { (index, _) in
                 return getLoopInterval(selectedRhythmIndex: index)
             }
@@ -397,7 +390,7 @@ class Player {
 
     func loop() {
         store.state.breathRateMetric = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE)
-        store.state.sessionElapsedTime = getElapsedTime(from: store.state.sessionStartTime, to: Date())
+        store.state.session.elapsedTime = getElapsedTime(from: store.state.session.startTime, to: Date())
 
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
         if !loopInterval.isInfinite {

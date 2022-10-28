@@ -41,7 +41,7 @@ struct ContentView: View {
     let slidePadding = CGFloat(4)
 
     func parseProgressData(metricData: [Update]) -> [ProgressData] {
-        let startHour = Calendar.current.component(.hour, from: store.state.sessionStartTime)
+        let startHour = Calendar.current.component(.hour, from: store.state.session.startTime)
 
         return Array(metricData.suffix(60 * 10))
             .map {
@@ -168,7 +168,7 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Rhythm",
-                    value: "\(String(format: "%.1f", Double(store.state.selectedInRhythm) / 10)):\(String(format: "%.1f", Double(store.state.selectedOutRhythm) / 10))",
+                    value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
                     unit: "per pace",
                     valueColor: store.state.metricTypes[store.state.selectedMetricTypeIndex].valueColor,
                     isTall: false,
@@ -182,15 +182,15 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Session",
-                    value: store.state.activeSessionId.count > 0
+                    value: store.state.session.isActive
                         ? "⚑"
                         : "◴",
-                    unit: store.state.activeSessionId.count > 0
-                        ? store.state.sessionElapsedTime
+                    unit: store.state.session.isActive
+                        ? store.state.session.elapsedTime
                         : "Stopped",
                     isTall: false,
                     action: {
-                        if store.state.activeSessionId.count == 0 {
+                        if !store.state.session.isActive {
                             player.startSession()
                         }
                         else {
@@ -209,20 +209,20 @@ struct ContentView: View {
                     index: Int(ceil(
                         convertRange(
                             value: Float(store.state.selectedVolume),
-                            oldRange: [Float(AUDIO_RANGE[0]), Float(AUDIO_RANGE[1])],
+                            oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
                             newRange: [Float(0), Float(10)]
                         )) - 1
                     ),
                     maxIndex: Int(ceil(
                         convertRange(
-                            value: Float(AUDIO_RANGE[1]),
-                            oldRange: [Float(AUDIO_RANGE[0]), Float(AUDIO_RANGE[1])],
+                            value: Float(VOLUME_RANGE[1]),
+                            oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
                             newRange: [Float(0), Float(10)]
                         )) - 1
                     ),
                     isTall: false,
-                    isEnabled: store.state.activeSessionId.count > 0,
-                    opacity: store.state.activeSessionId.count > 0 ? 1 : 0.33,
+                    isEnabled: store.state.session.isActive,
+                    opacity: store.state.session.isActive ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }
@@ -232,19 +232,19 @@ struct ContentView: View {
         .focusable()
         .digitalCrownRotation(
             $store.state.selectedVolume,
-            from: AUDIO_RANGE[0] - (AUDIO_RANGE[1] * crownMultiplier),
-            through: AUDIO_RANGE[1] + (AUDIO_RANGE[1] * crownMultiplier),
-            by: AUDIO_RANGE[1] / 100 * 3 * crownMultiplier,
+            from: VOLUME_RANGE[0] - (VOLUME_RANGE[1] * crownMultiplier),
+            through: VOLUME_RANGE[1] + (VOLUME_RANGE[1] * crownMultiplier),
+            by: VOLUME_RANGE[1] / 100 * 3 * crownMultiplier,
             sensitivity: .high,
             isContinuous: true,
             isHapticFeedbackEnabled: true
         )
         .onChange(of: store.state.selectedVolume) { value in
-            if value < AUDIO_RANGE[0] {
-                store.state.selectedVolume = AUDIO_RANGE[0]
+            if value < VOLUME_RANGE[0] {
+                store.state.selectedVolume = VOLUME_RANGE[0]
             }
-            else if value > AUDIO_RANGE[1] {
-                store.state.selectedVolume = AUDIO_RANGE[1]
+            else if value > VOLUME_RANGE[1] {
+                store.state.selectedVolume = VOLUME_RANGE[1]
             }
          }
     }
@@ -303,7 +303,7 @@ struct ContentView: View {
     }
 
     func highlightFirstLogItem() {
-        let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+        let sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
 
         if sessionLogIds.count > 0 {
             store.state.selectedSessionId = sessionLogIds[sessionLogIds.count - 1]
@@ -313,7 +313,7 @@ struct ContentView: View {
     func deleteSession(sessionId: String) {
         var sessionIndex = -1
 
-        for (index, item) in getSessionLogIds(sessionLogs: store.state.sessionLogs).enumerated() {
+        for (index, item) in getSessionIds(sessions: store.state.sessionLogs).enumerated() {
             if item == sessionId {
                 sessionIndex = index
             }
@@ -322,7 +322,7 @@ struct ContentView: View {
         if sessionIndex > -1 {
             store.state.sessionLogs.remove(at: sessionIndex)
             writeSessionLogs(sessionLogs: store.state.sessionLogs)
-            store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+            store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         }
 
         if !hasSessionLogs() {
@@ -368,9 +368,9 @@ struct ContentView: View {
     func rhythmView(geometry: GeometryProxy) -> some View {
         VStack {
             HStack {
-                Picker("", selection: $store.state.selectedInRhythm) {
-                    ForEach(store.state.rhythmRange, id: \.self) {
-                        if $0 == store.state.selectedInRhythm {
+                Picker("", selection: $store.state.session.inRhythm) {
+                    ForEach(RHYTHM_RANGE, id: \.self) {
+                        if $0 == store.state.session.inRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
                                 .font(.system(size: 32))
                                 .fontWeight(.bold)
@@ -385,14 +385,14 @@ struct ContentView: View {
                 .padding(.vertical, store.state.ui.verticalPadding)
                 .frame(width: geometry.size.width * store.state.ui.width, height: geometry.size.height * store.state.ui.height)
                 .clipped()
-                .onChange(of: store.state.selectedInRhythm) { value in
-                    store.state.selectedInRhythm = value
-                    store.state.selectedOutRhythm = value
+                .onChange(of: store.state.session.inRhythm) { value in
+                    store.state.session.inRhythm = value
+                    store.state.session.outRhythm = value
                 }
 
-                Picker("", selection: $store.state.selectedOutRhythm) {
-                    ForEach(store.state.rhythmRange, id: \.self) {
-                        if $0 == store.state.selectedOutRhythm {
+                Picker("", selection: $store.state.session.outRhythm) {
+                    ForEach(RHYTHM_RANGE, id: \.self) {
+                        if $0 == store.state.session.outRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
                                 .font(.system(size: 32))
                                 .fontWeight(.bold)
@@ -407,8 +407,8 @@ struct ContentView: View {
                 .padding(.vertical, store.state.ui.verticalPadding)
                 .frame(width: geometry.size.width * store.state.ui.width, height: geometry.size.height * store.state.ui.height)
                 .clipped()
-                .onChange(of: store.state.selectedOutRhythm) { value in
-                    store.state.selectedOutRhythm = value
+                .onChange(of: store.state.session.outRhythm) { value in
+                    store.state.session.outRhythm = value
                 }
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
@@ -421,10 +421,11 @@ struct ContentView: View {
         VStack {
             HStack {
                 Button(action: {
-                    player.stopSession()
+                    player.pause()
+                    store.state.session.stop()
 
-                    let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
-                    deleteSession(sessionId: sessionLogIds[sessionLogIds.count - 1])
+                    //let sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+                    //deleteSession(sessionId: sessionLogIds[sessionLogIds.count - 1])
                     store.state.activeSubView = views[0]
                 }) {
                     Text("Discard")
@@ -435,8 +436,9 @@ struct ContentView: View {
                 .tint(colorize(color: "red"))
 
                 Button(action: {
-                    player.stopSession()
-                    store.state.sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
+                    player.pause()
+                    store.state.session.stop()
+                    store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
                     store.state.activeSubView = views[0]
                 }) {
                     Text("Save")

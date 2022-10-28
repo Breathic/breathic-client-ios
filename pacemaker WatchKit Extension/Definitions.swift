@@ -103,8 +103,29 @@ class ParsedData {
     var max: Float = 0
 }
 
-class SessionLog: Codable {
+class Session: Codable {
+    var isActive: Bool = false
     var uuid: String = UUID().uuidString
+    var id: String = ""
     var startTime: Date = Date()
     var endTime: Date = Date()
+    var elapsedTime: String = ""
+    var inRhythm: Int = 20
+    var outRhythm: Int = 20
+
+    func start() {
+        isActive = true
+        uuid = UUID().uuidString
+        id = generateSessionId(session: self)
+        startTime = Date()
+    }
+
+    func stop() {
+        isActive = false
+        endTime = Date()
+    }
+
+    func getRhythms() -> [Int] {
+        return [inRhythm, outRhythm]
+    }
 }

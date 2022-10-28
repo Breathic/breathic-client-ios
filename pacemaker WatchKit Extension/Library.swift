@@ -53,18 +53,18 @@ func getElapsedTime(from: Date, to: Date) -> String {
     return elapsedTime
 }
 
-func readSessionLogs() -> [SessionLog] {
+func readSessionLogs() -> [Session] {
     do {
         let outData = UserDefaults.standard.string(forKey: "SessionLogs") ?? ""
         let jsonData = outData.data(using: .utf8)!
-        return try JSONDecoder().decode([SessionLog].self, from: jsonData)
+        return try JSONDecoder().decode([Session].self, from: jsonData)
     }
     catch {
         return []
     }
 }
 
-func writeSessionLogs(sessionLogs: [SessionLog]) {
+func writeSessionLogs(sessionLogs: [Session]) {
     let data = try! JSONEncoder().encode(sessionLogs)
     let json = String(data: data, encoding: .utf8) ?? ""
     UserDefaults.standard.set(json, forKey: "SessionLogs")
@@ -75,12 +75,13 @@ func getMonthLabel(index: Int) -> String {
     return months[index]
 }
 
-func getSessionLogIds(sessionLogs: [SessionLog]) -> [String] {
-    sessionLogs
-        .map {
-            return getMonthLabel(index: Calendar.current.component(.month, from: $0.startTime) - 1) + " " +
-                String(Calendar.current.component(.day, from: $0.startTime)) + " - " +
-                String($0.startTime.formatted(.dateTime.hour().minute()))
-                .components(separatedBy: " ")[0]
-        }
+func generateSessionId(session: Session) -> String {
+    return getMonthLabel(index: Calendar.current.component(.month, from: session.startTime) - 1) + " " +
+        String(Calendar.current.component(.day, from: session.startTime)) + " - " +
+        String(session.startTime.formatted(.dateTime.hour().minute()))
+        .components(separatedBy: " ")[0]
+}
+
+func getSessionIds(sessions: [Session]) -> [String] {
+    sessions.map { $0.id }
 }

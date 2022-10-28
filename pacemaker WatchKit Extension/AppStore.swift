@@ -16,33 +16,21 @@ SentrySDK.start { options in
 struct AppState {
     var scenePhase: ScenePhase = .inactive
     var activeSubView: String = "Controller"
-    var activeSessionId: String = ""
-    var selectedSessionId: String = ""
     var tempActiveSubView: String = ""
-    var sessionStartTime = Date()
-    var sessionElapsedTime = ""
+    var session: Session = Session()
+    var selectedSessionId: String = ""
     var seeds: [Seed] = []
     var rhythms: [Rhythm] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
-    var history: [Int] = []
-    var seedInputs: [SeedInput] = [
-        SeedInput(durationRange: [0, 8], interval: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]),
-        //SeedInput(durationRange: [0, 0.25], interval: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]),
-        //SeedInput(durationRange: [0, 0.25], interval: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]),
-    ]
-    var sessionLogs: [SessionLog] = []
+    var sessionLogs: [Session] = []
     var sessionLogIds: [String] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
-    var selectedVolume: Float = AUDIO_RANGE[1] / 2
+    var selectedVolume: Float = VOLUME_RANGE[1] / 2
     var playerIndex: Int = -1
     var queueIndex: Int = 0
-    var rhythmRange: [Int] = Array(10...50)
-    var selectedInRhythm: Int = 20
-    var selectedOutRhythm: Int = 20
-    var selectedRhythms: [Int] = []
     var selectedRhythmIndex: Int = 0
     var metricTypes: [MetricType] = [
         MetricType(
