@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-func menuButton(
+func primaryButton(
     geometry: GeometryProxy,
     label: String = "",
     value: String = "",

@@ -148,7 +148,7 @@ struct ContentView: View {
     func controllerView(geometry: GeometryProxy) -> some View {
         VStack() {
             HStack {
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Pace",
                     value: store.state.metricType.label,
@@ -166,7 +166,7 @@ struct ContentView: View {
 
                 Spacer(minLength: 8)
 
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Rhythm",
                     value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
@@ -180,7 +180,7 @@ struct ContentView: View {
             Spacer(minLength: 8)
 
             HStack {
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Session",
                     value: store.state.isAudioSessionLoaded && store.state.session.isActive
@@ -202,7 +202,7 @@ struct ContentView: View {
 
                 Spacer(minLength: 8)
 
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Playback",
                     value: store.state.isAudioPlaying ? "||" : "▶",
@@ -253,7 +253,7 @@ struct ContentView: View {
     func statusView(geometry: GeometryProxy) -> some View {
         VStack {
             HStack {
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Heart rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric) * 60),
@@ -264,7 +264,7 @@ struct ContentView: View {
 
                 Spacer(minLength: 8)
 
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Breath rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
@@ -277,7 +277,7 @@ struct ContentView: View {
             Spacer(minLength: 8)
 
             HStack {
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Step rate",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
@@ -288,7 +288,7 @@ struct ContentView: View {
 
                 Spacer(minLength: 8)
 
-                menuButton(
+                primaryButton(
                     geometry: geometry,
                     label: "Speed",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "speedMetric") * 3.6),
