@@ -424,7 +424,6 @@ class Player {
     }
 
     func create() {
-        shuffle()
         flushAll()
         collections = []
         let audio = Audio(
@@ -497,6 +496,8 @@ class Player {
 
     func pick(collectionIndex: Int, audioIndex: Int, regenerate: Bool) {
         if regenerate {
+            shuffle()
+
             for (channelIndex, _) in store.state.seeds.enumerated() {
                 store.state.queueIndex = 0
 
@@ -523,12 +524,13 @@ class Player {
                         .insert(element, at: rhythmIndex)
                 }
             }
+
+            flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
         }
         else {
             incrementQueueIndex()
         }
 
-        flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
         setChannels(collectionIndex: collectionIndex, audioIndex: audioIndex)
         play()
     }
