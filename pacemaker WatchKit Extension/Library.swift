@@ -101,5 +101,25 @@ func generateSessionId(session: Session) -> String {
 }
 
 func getSessionIds(sessions: [Session]) -> [String] {
-    sessions.map { $0.id }
+    var result: [String] = []
+    var prevId = ""
+    var repeats = 1
+
+    for session in sessions {
+        var id = generateSessionId(session: session)
+        let isDuplicate = prevId == id
+
+        prevId = id
+        repeats = isDuplicate
+            ? repeats + 1
+            : 1
+
+        if repeats > 1 {
+            id = id + " - " + String(repeats)
+        }
+
+        result.append(id)
+    }
+
+    return result
 }

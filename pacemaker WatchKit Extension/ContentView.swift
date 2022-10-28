@@ -123,12 +123,12 @@ struct ContentView: View {
                 ForEach(views, id: \.self) {
                     if $0 == store.state.tempActiveSubView {
                         Text($0)
-                            .font(.system(size: 24))
+                            .font(.system(size: 18))
                             .fontWeight(.bold)
                     }
                     else {
                         Text($0)
-                            .font(.system(size: 16))
+                            .font(.system(size: 14))
                     }
                 }
             }
@@ -341,12 +341,12 @@ struct ContentView: View {
                 ForEach(store.state.sessionLogIds.reversed(), id: \.self) {
                     if $0 == store.state.selectedSessionId {
                         Text($0)
-                            .font(.system(size: 24))
+                            .font(.system(size: 18))
                             .fontWeight(.bold)
                     }
                     else {
                         Text($0)
-                            .font(.system(size: 16))
+                            .font(.system(size: 14))
                     }
                 }
             }

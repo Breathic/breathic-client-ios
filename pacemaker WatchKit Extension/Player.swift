@@ -111,14 +111,14 @@ class Player {
         create()
         play()
         store.state.session.start()
-        //store.state.sessionLogs.append(session)
-        //writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func stop() {
         pause()
         store.state.session.stop()
+        store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+        writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {

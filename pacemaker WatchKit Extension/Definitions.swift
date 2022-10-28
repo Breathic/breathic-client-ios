@@ -159,7 +159,7 @@ class Session: Codable {
         if !isActive {
             isActive = true
             startTime = Date()
-            endTime = startTime
+            endTime = Date()
             elapsedTime = ""
             uuid = UUID().uuidString
             id = generateSessionId(session: self)
