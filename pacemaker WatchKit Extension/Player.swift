@@ -105,7 +105,6 @@ class Player {
         play()
         store.state.session = Session()
         store.state.session.start()
-        print(store.state.session.id)
         //store.state.sessionLogs.append(session)
         //writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }

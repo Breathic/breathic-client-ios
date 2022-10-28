@@ -110,8 +110,8 @@ class Session: Codable {
     var startTime: Date = Date()
     var endTime: Date = Date()
     var elapsedTime: String = ""
-    var inRhythm: Int = 20
-    var outRhythm: Int = 20
+    var inRhythm: Int = RHYTHMS[0]
+    var outRhythm: Int = RHYTHMS[1]
 
     func start() {
         isActive = true
