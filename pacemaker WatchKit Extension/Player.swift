@@ -84,7 +84,6 @@ class Player {
 
     func startSession() {
         store.state.sessionStartTime = Date()
-        store.state.isSessionActive = true
 
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
@@ -106,13 +105,15 @@ class Player {
 
         create()
         play()
-        store.state.sessionLogs.append(SessionLog())
+        let sessionLog = SessionLog()
+        store.state.sessionLogs.append(sessionLog)
+        store.state.activeSessionId = getSessionLogIds(sessionLogs: [sessionLog])[0]
         writeSessionLogs(sessionLogs: store.state.sessionLogs)
     }
 
     func stopSession() {
         pause()
-        store.state.isSessionActive = false
+        store.state.activeSessionId = ""
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {

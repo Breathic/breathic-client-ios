@@ -182,15 +182,15 @@ struct ContentView: View {
                 menuButton(
                     geometry: geometry,
                     label: "Session",
-                    value: store.state.isSessionActive
+                    value: store.state.activeSessionId.count > 0
                         ? "⚑"
                         : "◴",
-                    unit: store.state.isSessionActive
+                    unit: store.state.activeSessionId.count > 0
                         ? store.state.sessionElapsedTime
                         : "Stopped",
                     isTall: false,
                     action: {
-                        if !store.state.isSessionActive {
+                        if store.state.activeSessionId.count == 0 {
                             player.startSession()
                         }
                         else {
@@ -221,8 +221,8 @@ struct ContentView: View {
                         )) - 1
                     ),
                     isTall: false,
-                    isEnabled: store.state.isSessionActive,
-                    opacity: store.state.isSessionActive ? 1 : 0.33,
+                    isEnabled: store.state.activeSessionId.count > 0,
+                    opacity: store.state.activeSessionId.count > 0 ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }
@@ -306,7 +306,7 @@ struct ContentView: View {
         let sessionLogIds = getSessionLogIds(sessionLogs: store.state.sessionLogs)
 
         if sessionLogIds.count > 0 {
-            store.state.activeSessionId = sessionLogIds[sessionLogIds.count - 1]
+            store.state.selectedSessionId = sessionLogIds[sessionLogIds.count - 1]
         }
     }
 
@@ -336,9 +336,9 @@ struct ContentView: View {
 
     func logView(geometry: GeometryProxy) -> some View {
         VStack {
-            Picker("", selection: $store.state.activeSessionId) {
+            Picker("", selection: $store.state.selectedSessionId) {
                 ForEach(store.state.sessionLogIds.reversed(), id: \.self) {
-                    if $0 == store.state.activeSessionId {
+                    if $0 == store.state.selectedSessionId {
                         Text($0)
                             .font(.system(size: 24))
                             .fontWeight(.bold)
@@ -471,7 +471,7 @@ struct ContentView: View {
         VStack {
             HStack {
                 Button(action: {
-                    deleteSession(sessionId: store.state.activeSessionId)
+                    deleteSession(sessionId: store.state.selectedSessionId)
                 }) {
                     Text("Delete")
                 }
@@ -481,7 +481,7 @@ struct ContentView: View {
                 .tint(colorize(color: "red"))
             }
 
-            Text("Delete session from " + store.state.activeSessionId + "?")
+            Text("Delete session from " + store.state.selectedSessionId + "?")
             .font(.system(size: 16))
             .frame(maxHeight: .infinity, alignment: .center)
 

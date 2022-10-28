@@ -17,6 +17,7 @@ struct AppState {
     var scenePhase: ScenePhase = .inactive
     var activeSubView: String = "Controller"
     var activeSessionId: String = ""
+    var selectedSessionId: String = ""
     var tempActiveSubView: String = ""
     var sessionStartTime = Date()
     var sessionElapsedTime = ""
@@ -32,7 +33,6 @@ struct AppState {
     ]
     var sessionLogs: [SessionLog] = []
     var sessionLogIds: [String] = []
-    var isSessionActive: Bool = false
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()

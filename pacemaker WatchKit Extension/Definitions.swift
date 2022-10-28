@@ -18,7 +18,7 @@ struct MetricType {
 class Rhythm: Codable {
     var id: Int = 0
     var samples: [String] = []
-    var durationRange: [Double] = []
+    //var durationRange: [Double] = []
 }
 
 class Seed: Codable {
