@@ -58,18 +58,18 @@ class Timeserie: Codable {
 }
 
 class Audio {
-    var channelRepeatIndex: Int = 0
+    var fadeIndex: Int = 0
     var sampleIndex: Int = 0
     var channels: [[String]] = []
     var forResources: [String] = []
 
     init(
-        channelRepeatIndex: Int,
+        fadeIndex: Int,
         sampleIndex: Int,
         channels: [[String]],
         forResources: [String]
     ) {
-        self.channelRepeatIndex = channelRepeatIndex
+        self.fadeIndex = fadeIndex
         self.sampleIndex = sampleIndex
         self.channels = channels
         self.forResources = forResources
@@ -77,7 +77,7 @@ class Audio {
 
     func copy() -> Any {
         let copy = Audio(
-            channelRepeatIndex: channelRepeatIndex,
+            fadeIndex: fadeIndex,
             sampleIndex: sampleIndex,
             channels: channels,
             forResources: forResources
