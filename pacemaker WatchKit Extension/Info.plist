@@ -32,9 +32,9 @@
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-    <key>NSHealthUpdateUsageDescription</key>
-    <string>Make sure the description is longer than 12 characters for all locales.</string>
-    <key>NSHealthShareUsageDescription</key>
-    <string>Make sure the description is longer than 12 characters for all locales.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Make sure the description is longer than 12 characters for all locales.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Make sure the description is longer than 12 characters for all locales.</string>
 </dict>
 </plist>

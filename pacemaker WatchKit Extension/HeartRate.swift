@@ -7,13 +7,13 @@ class HeartRate: ObservableObject {
 
     private var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
-    var heartRates: [Double] = []
+    var hearts: [Double] = []
     var query: HKAnchoredObjectQuery? = nil
 
     func start() {
         autorizeHealthKit()
         stop()
-        heartRates = []
+        hearts = []
         query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
         healthStore.execute(query!)
     }
@@ -60,16 +60,16 @@ class HeartRate: ObservableObject {
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
         for sample in samples {
             if type == .heartRate {
-                let heartRate = sample.quantity.doubleValue(for: heartRateQuantity) / 60
+                let heart = sample.quantity.doubleValue(for: heartRateQuantity) / 60
 
-                if (heartRate > 0) {
-                    let prevHeartRateMetric = store.state.heartRateMetric
+                if (heart > 0) {
+                    let prevHeart = store.state.heart
 
-                    heartRates.append(heartRate)
-                    heartRates = Array(heartRates.suffix(MAX_READING_COUNT))
-                    store.state.heartRateMetric = heartRates.reduce(0) { Float($0) + Float($1) } / Float(heartRates.count)
+                    hearts.append(heart)
+                    hearts = Array(hearts.suffix(MAX_READING_COUNT))
+                    store.state.heart = hearts.reduce(0) { Float($0) + Float($1) } / Float(hearts.count) * 60
 
-                    if (store.state.heartRateMetric != prevHeartRateMetric) {
+                    if (store.state.heart != prevHeart) {
                         store.state.lastDataChangeTime = .now()
                     }
                 }

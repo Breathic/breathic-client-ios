@@ -1,6 +1,8 @@
 import Foundation
 import SwiftUI
 
+var filestore = NSUbiquitousKeyValueStore()
+
 func readDistances(path: String) -> [Int: [Distance]] {
     var res: [Int: [Distance]] = [:]
     let forResource = String(path.split(separator: ".")[0])
@@ -55,7 +57,7 @@ func getElapsedTime(from: Date, to: Date) -> String {
 
 func readSessionLogs() -> [Session] {
     do {
-        let outData = UserDefaults.standard.string(forKey: "SessionLogs") ?? ""
+        let outData = filestore.string(forKey: "SessionLogs") ?? ""
         let jsonData = outData.data(using: .utf8)!
         return try JSONDecoder().decode([Session].self, from: jsonData)
     }
@@ -67,12 +69,13 @@ func readSessionLogs() -> [Session] {
 func writeSessionLogs(sessionLogs: [Session]) {
     let data = try! JSONEncoder().encode(sessionLogs)
     let json = String(data: data, encoding: .utf8) ?? ""
-    UserDefaults.standard.set(json, forKey: "SessionLogs")
+    filestore.set(json, forKey: "SessionLogs")
+    filestore.synchronize()
 }
 
 func readActiveSession() -> Session {
     do {
-        let outData = UserDefaults.standard.string(forKey: "ActiveSession") ?? ""
+        let outData = filestore.string(forKey: "ActiveSession") ?? ""
         let jsonData = outData.data(using: .utf8)!
         let session = try JSONDecoder().decode(Session.self, from: jsonData)
         return session
@@ -85,7 +88,27 @@ func readActiveSession() -> Session {
 func writeActiveSession(session: Session) {
     let data = try! JSONEncoder().encode(session)
     let json = String(data: data, encoding: .utf8) ?? ""
-    UserDefaults.standard.set(json, forKey: "ActiveSession")
+    filestore.set(json, forKey: "ActiveSession")
+    filestore.synchronize()
+}
+
+func writeTimeseries(key: String, timeseries: [String: [Timeserie]]) {
+    let data = try! JSONEncoder().encode(timeseries)
+    let json = String(data: data, encoding: .utf8) ?? ""
+    filestore.set(json, forKey: key)
+    filestore.synchronize()
+}
+
+func readTimeseries(key: String) -> [String: [Timeserie]] {
+    do {
+        let outData = filestore.string(forKey: key) ?? ""
+        let jsonData = outData.data(using: .utf8)!
+        let session = try JSONDecoder().decode([String: [Timeserie]].self, from: jsonData)
+        return session
+    }
+    catch {
+        return [:]
+    }
 }
 
 func getMonthLabel(index: Int) -> String {
@@ -122,4 +145,12 @@ func getSessionIds(sessions: [Session]) -> [String] {
     }
 
     return result
+}
+
+func getTimeseriesUpdateId(uuid: String, date: Date) -> String {
+    return "Timeseries-" +
+        uuid + "-" +
+        String(Calendar.current.component(.day, from: date)) + "-" +
+        String(Calendar.current.component(.hour, from: date)) + "-" +
+        String(Calendar.current.component(.minute, from: date))
 }

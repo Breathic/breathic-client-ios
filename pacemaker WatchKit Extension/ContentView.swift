@@ -4,22 +4,6 @@ import AVFAudio
 import AVFoundation
 import Foundation
 
-/*
-Spacer(minLength: 24)
-
-Chart(getSeriesData()) { series in
-    ForEach(series.data) { element in
-        LineMark(
-            x: .value("Time", element.timestamp),
-            y: .value("Value", element.value)
-        )
-        .foregroundStyle(by: .value("Metric", series.metric))
-    }
-}
-.chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
-.frame(height: geometry.size.height - 8)
- */
-
 struct ContentView: View {
     @ObservedObject private var store: AppStore = .shared
 
@@ -33,14 +17,15 @@ struct ContentView: View {
     let dragIndexes: [String: Int] = [
         "Controller": 0,
         "Status": 1,
-        "Log": 0
+        "Log": 0,
+        "Graph": 0,
     ]
     let views: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
     let slidePadding = CGFloat(4)
 
-    func parseProgressData(metricData: [Update]) -> [ProgressData] {
+    func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
         let startHour = Calendar.current.component(.hour, from: store.state.session.startTime)
 
         return Array(metricData.suffix(60 * 10))
@@ -72,36 +57,23 @@ struct ContentView: View {
     }
 
     func getCurrentMetricValue(metric: String) -> String {
-        let metrics = store.state.updates[metric] ?? []
-        let currentMetricValue = String(metrics.count > 0 ? String(format: "%.1f", metrics[metrics.count - 1].value) : "")
+        let metrics = store.state.timeseries[metric] ?? []
+        let currentMetricValue = String(metrics.count > 0 ? String(format: "%.0f", metrics[metrics.count - 1].value) : "")
         return currentMetricValue
     }
 
     func getSeriesData() -> [SeriesData] {
-        let breathMetrics = store.state.updates["breath"] ?? []
-        let heartRateMetrics = store.state.updates["heartRate"] ?? []
-        let stepMetrics = store.state.updates["step"] ?? []
-        let speedMetrics = store.state.updates["speed"] ?? []
+        return store.state.timeseries.keys.map {
+            let timeseries = store.state.timeseries[$0] ?? []
+            let lastValue = getCurrentMetricValue(metric: $0)
+            let progressData: [ProgressData] = parseProgressData(metricData: timeseries)
 
-        let lastBreathMetricValue = getCurrentMetricValue(metric: "breath")
-        let lastHeartRateMetricValue = getCurrentMetricValue(metric: "heartRate")
-        let lastStepMetricValue = getCurrentMetricValue(metric: "step")
-        let lastSpeedhMetricValue = getCurrentMetricValue(metric: "speed")
+            if $0 == "heart" {
+                parsedData.max = progressData.map { Float($0.value) }.max() ?? Float(0)
+            }
 
-        let breath: [ProgressData] = parseProgressData(metricData: breathMetrics)
-
-        parsedData.max = breath.map { Float($0.value) }.max() ?? Float(0)
-
-        let heartRate: [ProgressData] = parseProgressData(metricData: heartRateMetrics)
-        let step: [ProgressData] = parseProgressData(metricData: stepMetrics)
-        let speed: [ProgressData] = parseProgressData(metricData: speedMetrics)
-
-        return [
-            .init(metric: lastBreathMetricValue + " breath (s)", data: breath),
-            .init(metric: lastHeartRateMetricValue + " heart rate (s)", data: heartRate),
-            .init(metric: lastStepMetricValue + " steps (s)", data: step),
-            .init(metric: lastSpeedhMetricValue + " speed (m/s)", data: speed)
-        ]
+            return .init(metric: lastValue + " " + $0, data: progressData)
+        }
     }
 
     func slide(geometry: GeometryProxy) {
@@ -112,6 +84,7 @@ struct ContentView: View {
         if store.state.tempActiveSubView == "" {
             store.state.tempActiveSubView = views[0]
         }
+
         store.state.activeSubView = store.state.tempActiveSubView
         dragIndex = dragIndexes[store.state.activeSubView] ?? 0
         slide(geometry: geometry)
@@ -158,8 +131,8 @@ struct ContentView: View {
                     isTall: false,
                     action: {
                         store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < METRIC_TYPES.count
-                            ? store.state.session.metricTypeIndex + 1
-                            : 0
+                        ? store.state.session.metricTypeIndex + 1
+                        : 0
                         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
                     }
                 )
@@ -184,11 +157,11 @@ struct ContentView: View {
                     geometry: geometry,
                     label: "Session",
                     value: store.state.isAudioSessionLoaded && store.state.session.isActive
-                        ? "⚑"
-                        : "◴",
+                    ? "⚑"
+                    : "◴",
                     unit: store.state.isAudioSessionLoaded && store.state.session.isActive
-                        ? store.state.session.elapsedTime
-                        : "Stopped",
+                    ? store.state.elapsedTime
+                    : "Stopped",
                     isTall: false,
                     action: {
                         if store.state.isAudioSessionLoaded && store.state.session.isActive {
@@ -247,7 +220,7 @@ struct ContentView: View {
             else if value > VOLUME_RANGE[1] {
                 store.state.session.volume = VOLUME_RANGE[1]
             }
-         }
+        }
     }
 
     func statusView(geometry: GeometryProxy) -> some View {
@@ -256,7 +229,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Heart rate",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric) * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric)),
                     unit: "per minute",
                     valueColor: colorize(color: "red"),
                     isEnabled: false
@@ -267,7 +240,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Breath rate",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: "breathRateMetric") * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: "breath")),
                     unit: "per minute",
                     valueColor: colorize(color: "green"),
                     isEnabled: false
@@ -280,7 +253,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Step rate",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: "stepMetric") * 60),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: "step")),
                     unit: "per minute",
                     valueColor: colorize(color: "blue"),
                     isEnabled: false
@@ -291,7 +264,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Speed",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: "speedMetric") * 3.6),
+                    value: String(format: "%.0f", store.state.valueByMetric(metric: "speed")),
                     unit: "km / h",
                     isEnabled: false
                 )
@@ -360,7 +333,30 @@ struct ContentView: View {
             if hasSessionLogs() {
                 HStack {
                     secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
-                    secondaryButton(text: "Select", color: "green", action: { })
+                    secondaryButton(text: "Select", color: "green", action: {
+                        let index = store.state.sessionLogIds
+                            .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
+
+                        if index > -1 {
+                            let session = store.state.sessionLogs[index]
+                            var addedMinutes = 0
+
+                            while(session.startTime.adding(minutes: addedMinutes) <= session.endTime) {
+                                let id = getTimeseriesUpdateId(uuid: session.uuid, date: session.startTime.adding(minutes: addedMinutes))
+                                let timeseries = readTimeseries(key: id)
+
+                                store.state.timeseries.keys.forEach {
+                                    if timeseries[$0] != nil {
+                                        store.state.timeseries[$0] = store.state.timeseries[$0]! + timeseries[$0]!
+                                    }
+                                }
+
+                                addedMinutes = addedMinutes + 1
+                            }
+
+                            store.state.activeSubView = "Graph"
+                        }
+                    })
                 }
             }
         }
@@ -424,9 +420,6 @@ struct ContentView: View {
                 Button(action: {
                     player.pause()
                     store.state.session.stop()
-
-                    //let sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-                    //deleteSession(sessionId: sessionLogIds[sessionLogIds.count - 1])
                     store.state.activeSubView = views[0]
                 }) {
                     Text("Discard")
@@ -449,8 +442,8 @@ struct ContentView: View {
             }
 
             Text("Finish session?")
-            .font(.system(size: 16))
-            .frame(maxHeight: .infinity, alignment: .center)
+                .font(.system(size: 16))
+                .frame(maxHeight: .infinity, alignment: .center)
 
             HStack {
                 Button(action: {
@@ -465,6 +458,24 @@ struct ContentView: View {
             }
             .frame(maxHeight: .infinity, alignment: .bottom)
             .edgesIgnoringSafeArea(.all)
+        }
+    }
+
+    func graphView(geometry: GeometryProxy) -> some View {
+        VStack {
+            Spacer(minLength: 24)
+
+            Chart(getSeriesData()) { series in
+                ForEach(series.data) { element in
+                    LineMark(
+                        x: .value("Time", element.timestamp),
+                        y: .value("Value", element.value)
+                    )
+                    .foregroundStyle(by: .value("Metric", series.metric))
+                }
+            }
+            .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
+            .frame(height: geometry.size.height - 8)
         }
     }
 
@@ -571,6 +582,9 @@ struct ContentView: View {
 
                         case "Delete":
                             deleteSessionConfirmationView(geometry: geometry)
+
+                        case "Graph":
+                            graphView(geometry: geometry)
 
                         default:
                             controllerView(geometry: geometry)

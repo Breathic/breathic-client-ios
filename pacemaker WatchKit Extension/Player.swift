@@ -27,6 +27,7 @@ class Player {
         if store.state.session.isActive {
             start()
         }
+        initTimeseriesWriter()
 
         //UserDefaults.standard.set("", forKey: "ActiveSession")
         /*
@@ -41,6 +42,26 @@ class Player {
             store.state.averageHeartRatesPerMinute.append(update2)
         }
         */
+    }
+
+    func initTimeseriesWriter() {
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
+            DispatchQueue.main.async {
+                if self.store.state.session.isActive {
+                    self.saveTimeseries()
+                }
+            }
+        }
+    }
+
+    func saveTimeseries() {
+        let id = getTimeseriesUpdateId(uuid: self.store.state.session.uuid, date: Date())
+
+        writeTimeseries(key: id, timeseries: self.store.state.timeseries)
+
+        self.store.state.timeseries.keys.forEach {
+            self.store.state.timeseries[$0] = []
+        }
     }
 
     func initCommandCenter() {
@@ -100,7 +121,6 @@ class Player {
             //if !Platform.isSimulator {
             //    initInactivityTimer()
             //}
-            //updateGraph()
 
             heartRate.start()
             pedometer.start()
@@ -116,6 +136,8 @@ class Player {
     func stop() {
         pause()
         store.state.session.stop()
+        saveTimeseries()
+        store.state.elapsedTime = ""
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         writeSessionLogs(sessionLogs: store.state.sessionLogs)
@@ -254,7 +276,7 @@ class Player {
         var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
         loopInterval = loopInterval <= 0 ? 1 : loopInterval
-
+        loopInterval = loopInterval * 60
         return loopInterval
     }
 
@@ -319,11 +341,11 @@ class Player {
         }
     }
 
-    func getUpdate(timestamp: Date, value: Float) -> Update {
-        let update = Update()
-        update.timestamp = timestamp
-        update.value = value
-        return update
+    func getTimeserie(timestamp: Date, value: Float) -> Timeserie {
+        let timeserie = Timeserie()
+        timeserie.timestamp = timestamp
+        timeserie.value = value
+        return timeserie
     }
 
     func loopedPlay(loopInterval: TimeInterval) {
@@ -365,34 +387,16 @@ class Player {
     }
 
     func updateGraph() {
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
-            let loopInterval = self.getLoopIntervalSum()
+        let loopInterval = self.getLoopIntervalSum()
 
-            if !loopInterval.isInfinite {
-                let timestamp = Date()
+        if !loopInterval.isInfinite {
+            let timestamp = Date()
 
-                self.store.state.updates["breath"]?.append(
-                    self.getUpdate(
+            self.store.state.timeseries.keys.forEach {
+                self.store.state.timeseries[$0]?.append(
+                    self.getTimeserie(
                         timestamp: timestamp,
-                        value: Float(loopInterval) * Float(DOWN_SCALE)
-                    )
-                )
-                self.store.state.updates["heart"]?.append(
-                    self.getUpdate(
-                        timestamp: timestamp,
-                        value: self.store.state.heartRateMetric
-                    )
-                )
-                self.store.state.updates["step"]?.append(
-                    self.getUpdate(
-                        timestamp: timestamp,
-                        value: self.store.state.stepMetric
-                    )
-                )
-                self.store.state.updates["speed"]?.append(
-                    self.getUpdate(
-                        timestamp: timestamp,
-                        value: self.store.state.speedMetric
+                        value: self.store.state.valueByMetric(metric: $0)
                     )
                 )
             }
@@ -400,17 +404,21 @@ class Player {
     }
 
     func loop() {
-        store.state.breathRateMetric = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE)
-        store.state.session.elapsedTime = getElapsedTime(from: store.state.session.startTime, to: Date())
+        store.state.breath = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE) * 60
+        store.state.elapsedTime = getElapsedTime(from: store.state.session.startTime, to: Date())
 
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
         if !loopInterval.isInfinite {
-            Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
+            DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
                 if self.store.state.isAudioPlaying {
                     self.loopedPlay(loopInterval: loopInterval)
                 }
 
                 self.loop()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.updateGraph()
             }
         }
         else {

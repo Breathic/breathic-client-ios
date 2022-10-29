@@ -52,7 +52,7 @@ class Step {
     var count: Int = 0
 }
 
-class Update {
+class Timeserie: Codable {
     var timestamp: Date = Date()
     var value: Float = 0
 }
@@ -129,11 +129,6 @@ class Session: Codable {
             save()
         }
     }
-    var elapsedTime: String = "" {
-        didSet {
-            save()
-        }
-    }
     var inRhythm: Int = RHYTHMS[0] {
         didSet {
             save()
@@ -160,7 +155,6 @@ class Session: Codable {
             isActive = true
             startTime = Date()
             endTime = Date()
-            elapsedTime = ""
             uuid = UUID().uuidString
             id = generateSessionId(session: self)
         }

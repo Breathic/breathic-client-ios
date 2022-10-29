@@ -27,15 +27,16 @@ struct AppState {
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
+    var elapsedTime: String = ""
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
     var metricType: MetricType = METRIC_TYPES[0]
-    var breathRateMetric: Float = Platform.isSimulator ? 1 : 0
-    var heartRateMetric: Float = Platform.isSimulator ? 1 : 0
-    var stepMetric: Float = Platform.isSimulator ? 1 : 0
-    var speedMetric: Float = Platform.isSimulator ? 1 : 0
-    var updates: [String: [Update]] = [
+    var breath: Float = Platform.isSimulator ? 60 : 0
+    var heart: Float = Platform.isSimulator ? 60 : 0
+    var step: Float = Platform.isSimulator ? 60 : 0
+    var speed: Float = Platform.isSimulator ? 3.6 : 0
+    var timeseries: [String: [Timeserie]] = [
         "breath": [],
         "heart": [],
         "step": [],
@@ -44,10 +45,10 @@ struct AppState {
 
     func valueByMetric(metric: String) -> Float {
         switch metric {
-            case "breathRateMetric": return breathRateMetric
-            case "heartRateMetric": return heartRateMetric
-            case "stepMetric": return stepMetric
-            case "speedMetric": return speedMetric
+            case "breath": return breath
+            case "heart": return heart
+            case "step": return step
+            case "speed": return speed
             default: fatalError("metric is undefined")
         }
     }

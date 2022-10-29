@@ -29,3 +29,9 @@ struct Platform {
         return TARGET_OS_SIMULATOR != 0
     }
 }
+
+extension Date {
+    func adding(minutes: Int) -> Date {
+        return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
+    }
+}
