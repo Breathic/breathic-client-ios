@@ -366,7 +366,7 @@ struct ContentView: View {
         VStack {
             HStack {
                 Picker("", selection: $store.state.session.inRhythm) {
-                    ForEach(RHYTHM_RANGE, id: \.self) {
+                    ForEach(Array(RHYTHM_RANGE[0]...RHYTHM_RANGE[1]), id: \.self) {
                         if $0 == store.state.session.inRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
                                 .font(.system(size: 32))
@@ -388,7 +388,7 @@ struct ContentView: View {
                 }
 
                 Picker("", selection: $store.state.session.outRhythm) {
-                    ForEach(RHYTHM_RANGE, id: \.self) {
+                    ForEach(Array(RHYTHM_RANGE[0]...RHYTHM_RANGE[1]), id: \.self) {
                         if $0 == store.state.session.outRhythm {
                             Text(String(format: "%.1f", Double($0) / 10))
                                 .font(.system(size: 32))
