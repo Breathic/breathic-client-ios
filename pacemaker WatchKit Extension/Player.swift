@@ -18,6 +18,7 @@ class Player {
 
     init() {
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
+        initPlayers()
         panScale = getPanScale()
         store.state.sessionLogs = readSessionLogs()
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
@@ -42,6 +43,16 @@ class Player {
             store.state.averageHeartRatesPerMinute.append(update2)
         }
         */
+    }
+
+    func initPlayers() {
+        for key in store.state.distances.keys {
+            let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
+            let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
+            player?.prepareToPlay()
+            player?.volume = 0
+            players[forResource] = player
+        }
     }
 
     func initTimeseriesWriter() {
@@ -105,7 +116,7 @@ class Player {
             try await session.activate()
         }
         catch {
-            print(error)
+            print("startAudioSession()", error)
         }
     }
 
@@ -154,7 +165,7 @@ class Player {
             return try AVAudioPlayer(contentsOf: url)
         }
         catch {
-            print(error)
+            print("load()", error)
         }
 
         return nil
@@ -196,12 +207,7 @@ class Player {
         collections[collectionIndex][audioIndex].channels = []
 
         for seed in store.state.seeds {
-            let samples: [String] = seed.rhythms[store.state.queueIndex].samples
-            var channel: [String] = []
-
-            for sample in samples {
-                channel.append(sample)
-            }
+            let channel: [String] = seed.rhythms[store.state.queueIndex].samples
 
             collections[collectionIndex][audioIndex].channels.append(channel)
         }
@@ -225,21 +231,13 @@ class Player {
         let hasResources: Bool = forResource.count > 0
 
         if hasResources {
-            let playerId = getPlayerId(channelIndex: channelIndex, forResource: forResource)
+            let playerId = forResource
 
-            if players[playerId] == nil {
-                let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
-                player?.prepareToPlay()
-                player?.volume = 0
-                players[playerId] = player
-                collections[collectionIndex][audioIndex].forResources.append(forResource)
-            }
-
-            if players[playerId] != nil {
-                players[playerId]?.currentTime = 0
-                players[playerId]?.pan = panScale[pansScaleIndex]
-                players[playerId]?.play()
-            }
+            collections[collectionIndex][audioIndex].forResources.append(forResource)
+            players[playerId]?.currentTime = 0
+            players[playerId]?.pan = panScale[pansScaleIndex]
+            players[playerId]?.volume = store.state.session.volume / 100
+            players[playerId]?.play()
         }
     }
 
@@ -289,57 +287,6 @@ class Player {
         return loopIntervalSum
     }
 
-    func fade(collectionIndex: Int, channelIndex: Int, channelCount: Int) {
-        let volume = Float(store.state.session.volume)
-        let upscaledFadeDuration = FADE_DURATION * DOWN_SCALE
-        let index = collections[collectionIndex][0].channelRepeatIndex * collections[collectionIndex][0].channels[channelIndex].count + collections[collectionIndex][0].sampleIndex
-
-        if index >= upscaledFadeDuration {
-            if index % DOWN_SCALE == 0 {
-                let minFadeRange = Float(0)
-                let maxFadeRange = Float(1000)
-                let fadeUp = convertRange(
-                    value: Float(index),
-                    oldRange: [Float(upscaledFadeDuration), Float(CHANNEL_REPEAT_COUNT * DOWN_SCALE)],
-                    newRange: [minFadeRange, maxFadeRange]
-                )
-                var positiveVolume = volume / fadeUp
-                var negativeVolume = volume / (maxFadeRange - fadeUp)
-
-                positiveVolume = positiveVolume > volume / 100 ? volume / 100 : positiveVolume
-                negativeVolume = negativeVolume > volume / 100 ? volume / 100 : negativeVolume
-
-                if fadeUp >= minFadeRange && fadeUp <= maxFadeRange {
-                    for forResource in collections[collectionIndex][0].forResources {
-                        let playerId = getPlayerId(
-                            channelIndex: channelIndex,
-                            forResource: forResource
-                        )
-                        players[playerId]?.volume = positiveVolume
-                    }
-
-                    for forResource in collections[collectionIndex][1].forResources {
-                        let playerId = getPlayerId(
-                            channelIndex: channelIndex,
-                            forResource: forResource
-                        )
-
-                        players[playerId]?.volume = negativeVolume
-                    }
-
-                    if fadeUp == minFadeRange {
-                        pick(collectionIndex: collectionIndex, audioIndex: 1, regenerate: false)
-                        collections[collectionIndex][1].channelRepeatIndex = 0
-                    }
-
-                    if fadeUp == maxFadeRange {
-                        collections[collectionIndex] = collections[collectionIndex].reversed()
-                    }
-                }
-            }
-        }
-    }
-
     func getTimeserie(timestamp: Date, value: Float) -> Timeserie {
         let timeserie = Timeserie()
         timeserie.timestamp = timestamp
@@ -363,12 +310,6 @@ class Player {
                             audioIndex: audioIndex,
                             channelIndex: channelIndex,
                             sampleIndex: audio.sampleIndex
-                        )
-
-                        fade(
-                            collectionIndex: collectionIndex,
-                            channelIndex: channelIndex,
-                            channelCount: channel.count * CHANNEL_REPEAT_COUNT
                         )
                     }
 
@@ -402,7 +343,10 @@ class Player {
 
     func loop() {
         store.state.breath = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE) * 60
-        store.state.elapsedTime = getElapsedTime(from: store.state.session.startTime, to: Date())
+
+        if store.state.isAudioPlaying {
+            store.state.elapsedTime = getElapsedTime(from: store.state.session.startTime, to: Date())
+        }
 
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
         if !loopInterval.isInfinite {
@@ -482,8 +426,6 @@ class Player {
                 pick(collectionIndex: collectionIndex, audioIndex: audioIndex, regenerate: true)
             }
         }
-
-        players = [:]
     }
 
     func flush(collectionIndex: Int, audioIndex: Int) {
@@ -491,7 +433,6 @@ class Player {
         collections[collectionIndex][audioIndex].sampleIndex = 0
         collections[collectionIndex][audioIndex].forResources.forEach {
             players[$0]?.stop()
-            players[$0] = nil
         }
         collections[collectionIndex][audioIndex].forResources = []
     }

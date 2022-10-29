@@ -1,7 +1,12 @@
 import Foundation
 import SwiftUI
 
-var filestore = NSUbiquitousKeyValueStore()
+let filestore = NSUbiquitousKeyValueStore()
+
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}
 
 func readDistances(path: String) -> [Int: [Distance]] {
     var res: [Int: [Distance]] = [:]
@@ -93,15 +98,21 @@ func writeActiveSession(session: Session) {
 }
 
 func writeTimeseries(key: String, timeseries: [String: [Timeserie]]) {
-    let data = try! JSONEncoder().encode(timeseries)
-    let json = String(data: data, encoding: .utf8) ?? ""
-    filestore.set(json, forKey: key)
-    filestore.synchronize()
+    do {
+        let data = try! JSONEncoder().encode(timeseries)
+        let json = String(data: data, encoding: .utf8) ?? ""
+        let filename = getDocumentsDirectory().appendingPathComponent(key)
+        try json.write(to: filename, atomically: true, encoding: .utf8)
+    }
+    catch {
+        print("writeTimeseries()", error)
+    }
 }
 
 func readTimeseries(key: String) -> [String: [Timeserie]] {
     do {
-        let outData = filestore.string(forKey: key) ?? ""
+        let filename = getDocumentsDirectory().appendingPathComponent(key)
+        let outData = try String(contentsOf: filename, encoding: .utf8)
         let jsonData = outData.data(using: .utf8)!
         let session = try JSONDecoder().decode([String: [Timeserie]].self, from: jsonData)
         return session
