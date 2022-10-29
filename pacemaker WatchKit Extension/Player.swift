@@ -386,9 +386,7 @@ class Player {
     }
 
     func updateGraph() {
-        let loopInterval = getLoopIntervalSum()
-
-        if !loopInterval.isInfinite {
+        if !getLoopIntervalSum().isInfinite {
             let timestamp = Date()
 
             store.state.timeseries.keys.forEach {
