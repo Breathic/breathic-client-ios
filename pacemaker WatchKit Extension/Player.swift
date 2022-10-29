@@ -55,12 +55,11 @@ class Player {
     }
 
     func saveTimeseries() {
-        let id = getTimeseriesUpdateId(uuid: self.store.state.session.uuid, date: Date())
+        let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date())
 
-        writeTimeseries(key: id, timeseries: self.store.state.timeseries)
-
-        self.store.state.timeseries.keys.forEach {
-            self.store.state.timeseries[$0] = []
+        writeTimeseries(key: id, timeseries: store.state.timeseries)
+        store.state.timeseries.keys.forEach {
+            store.state.timeseries[$0] = []
         }
     }
 
@@ -387,16 +386,16 @@ class Player {
     }
 
     func updateGraph() {
-        let loopInterval = self.getLoopIntervalSum()
+        let loopInterval = getLoopIntervalSum()
 
         if !loopInterval.isInfinite {
             let timestamp = Date()
 
-            self.store.state.timeseries.keys.forEach {
-                self.store.state.timeseries[$0]?.append(
-                    self.getTimeserie(
+            store.state.timeseries.keys.forEach {
+                store.state.timeseries[$0]?.append(
+                    getTimeserie(
                         timestamp: timestamp,
-                        value: self.store.state.valueByMetric(metric: $0)
+                        value: store.state.valueByMetric(metric: $0)
                     )
                 )
             }
