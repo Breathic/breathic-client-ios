@@ -17,7 +17,8 @@ struct ContentView: View {
     let dragIndexes: [String: Int] = [
         "Controller": 0,
         "Status": 1,
-        "Log": 0    ]
+        "Log": 0
+    ]
     let views: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
@@ -612,7 +613,7 @@ struct ContentView: View {
                         case "Delete":
                             deleteSessionConfirmationView(geometry: geometry)
 
-                        case "overviewView":
+                        case "Overview":
                             overviewView(geometry: geometry)
 
                         default:
