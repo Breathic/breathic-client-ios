@@ -373,9 +373,12 @@ class Player {
     }
 
     func updateGraph() {
-        if !getLoopIntervalSum().isInfinite {
+        let loopIntervalSum = getLoopIntervalSum()
+
+        if !loopIntervalSum.isInfinite {
             let timestamp = Date()
 
+            store.state.breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
             store.state.timeseries.keys.forEach {
                 store.state.timeseries[$0]?.append(
                     getTimeserie(
@@ -388,17 +391,13 @@ class Player {
     }
 
     func loop() {
-        store.state.breath = 1 / Float(getLoopIntervalSum()) / Float(DOWN_SCALE) * 60
-
-        if store.state.isAudioPlaying {
-            store.state.elapsedTime = getElapsedTime(from: store.state.session.startTime, to: Date())
-        }
-
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
-        if !loopInterval.isInfinite {
+
+        if !loopInterval.isInfinite && self.store.state.isAudioPlaying {
             DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
                 if self.store.state.isAudioPlaying {
                     self.loopedPlay(loopInterval: loopInterval)
+                    self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
                 }
 
                 self.loop()

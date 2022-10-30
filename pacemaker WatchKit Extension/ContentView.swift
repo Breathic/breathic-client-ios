@@ -24,9 +24,17 @@ struct ContentView: View {
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
     let slidePadding = CGFloat(4)
+    @State private var timeseries: [String: [Timeserie]] = [
+        "breath": [],
+        "heart": [],
+        "step": [],
+        "speed": []
+    ]
+    @State private var seriesData: [SeriesData] = []
+    @State private var selectedSession = Session()
 
     func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
-        let startHour = Calendar.current.component(.hour, from: store.state.session.startTime)
+        let startHour = Calendar.current.component(.hour, from: selectedSession.startTime)
 
         return Array(metricData.suffix(60 * 10))
             .map {
@@ -57,32 +65,36 @@ struct ContentView: View {
     }
 
     func getCurrentMetricValue(metric: String) -> String {
-        let metrics = store.state.timeseries[metric] ?? []
-        let currentMetricValue = String(metrics.count > 0 ? String(format: "%.0f", metrics[metrics.count - 1].value) : "")
-        return currentMetricValue
+        let metrics = (timeseries[metric] ?? [])
+        let average = metrics
+            .map { $0.value }
+            .reduce(0, +) / Float(metrics.count)
+
+        return String(metrics.count > 0 ? String(format: "%.0f", average) : "")
     }
 
     func getSeriesData() -> [SeriesData] {
-        var timeseries: [String: [ProgressData]] = [:]
+        var _timeseries: [String: [ProgressData]] = [:]
 
         parsedData.max = 0
-        store.state.timeseries.keys.forEach {
-            timeseries[$0] = parseProgressData(
-                metricData: store.state.timeseries[$0] ?? []
+
+        timeseries.keys.forEach {
+            _timeseries[$0] = parseProgressData(
+                metricData: timeseries[$0] ?? []
             )
 
-            let value: Float = (timeseries[$0] ?? [])
+            let value: Float = (_timeseries[$0] ?? [])
                 .map { Float($0.value) }.max() ?? Float(0)
             if value > parsedData.max {
                 parsedData.max = value
             }
         }
 
-        return timeseries.keys.map {
-            let lastValue = getCurrentMetricValue(metric: $0)
-            let progressData: [ProgressData] = timeseries[$0] ?? []
+        return _timeseries.keys.map {
+            let avgValue = getCurrentMetricValue(metric: $0)
+            let progressData: [ProgressData] = _timeseries[$0] ?? []
 
-            return .init(metric: lastValue + " " + $0, data: progressData)
+            return .init(metric: avgValue + " " + $0, data: progressData)
         }
     }
 
@@ -348,26 +360,26 @@ struct ContentView: View {
                             .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
 
                         if index > -1 {
-                            let session = store.state.sessionLogs[index]
-                            var addedMinutes = 0
-
-                            store.state.timeseries.keys.forEach {
-                                store.state.timeseries[$0] = []
+                            selectedSession = store.state.sessionLogs[index]
+                            timeseries.keys.forEach {
+                                timeseries[$0] = []
                             }
 
-                            while(session.startTime.adding(minutes: addedMinutes) <= session.endTime) {
-                                let id = getTimeseriesUpdateId(uuid: session.uuid, date: session.startTime.adding(minutes: addedMinutes))
-                                let timeseries = readTimeseries(key: id)
+                            var addedMinutes = 0
+                            while(selectedSession.startTime.adding(minutes: addedMinutes) <= selectedSession.endTime) {
+                                let id = getTimeseriesUpdateId(uuid: selectedSession.uuid, date: selectedSession.startTime.adding(minutes: addedMinutes))
+                                let _timeseries = readTimeseries(key: id)
 
-                                store.state.timeseries.keys.forEach {
-                                    if timeseries[$0] != nil {
-                                        store.state.timeseries[$0] = store.state.timeseries[$0]! + timeseries[$0]!
+                                timeseries.keys.forEach {
+                                    if _timeseries[$0] != nil {
+                                        timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
                                     }
                                 }
 
                                 addedMinutes = addedMinutes + 1
                             }
 
+                            seriesData = getSeriesData()
                             store.state.activeSubView = "Graph"
                         }
                     })
@@ -479,7 +491,7 @@ struct ContentView: View {
         VStack {
             Spacer(minLength: 24)
 
-            Chart(getSeriesData()) { series in
+            Chart(seriesData) { series in
                 ForEach(series.data) { element in
                     LineMark(
                         x: .value("Time", element.timestamp),
