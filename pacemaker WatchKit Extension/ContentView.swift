@@ -17,9 +17,7 @@ struct ContentView: View {
     let dragIndexes: [String: Int] = [
         "Controller": 0,
         "Status": 1,
-        "Log": 0,
-        "Graph": 0,
-    ]
+        "Log": 0    ]
     let views: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
@@ -358,7 +356,7 @@ struct ContentView: View {
             }
 
             seriesData = getSeriesData()
-            store.state.activeSubView = "Graph"
+            store.state.activeSubView = "Overview"
         }
     }
 
@@ -393,10 +391,6 @@ struct ContentView: View {
         }
     }
 
-    func onCancel() {
-        store.state.activeSubView = views[0]
-    }
-
     func rhythmView(geometry: GeometryProxy) -> some View {
         VStack {
             HStack {
@@ -421,7 +415,6 @@ struct ContentView: View {
                     store.state.session.inRhythm = value
                     store.state.session.outRhythm = value
                 }
-                .onTapGesture { onCancel() }
 
                 Picker("", selection: $store.state.session.outRhythm) {
                     ForEach(Array(RHYTHM_RANGE[0]...RHYTHM_RANGE[1]), id: \.self) {
@@ -443,11 +436,10 @@ struct ContentView: View {
                 .onChange(of: store.state.session.outRhythm) { value in
                     store.state.session.outRhythm = value
                 }
-                .onTapGesture { onCancel() }
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
 
-            secondaryButton(text: "Cancel", color: "blue", action: { onCancel() })
+            secondaryButton(text: "Cancel", color: "blue", action: { store.state.activeSubView = views[0] })
         }
     }
 
@@ -498,7 +490,7 @@ struct ContentView: View {
         }
     }
 
-    func graphView(geometry: GeometryProxy) -> some View {
+    func overviewView(geometry: GeometryProxy) -> some View {
         HStack {
             Spacer(minLength: 8)
 
@@ -620,8 +612,8 @@ struct ContentView: View {
                         case "Delete":
                             deleteSessionConfirmationView(geometry: geometry)
 
-                        case "Graph":
-                            graphView(geometry: geometry)
+                        case "overviewView":
+                            overviewView(geometry: geometry)
 
                         default:
                             controllerView(geometry: geometry)
