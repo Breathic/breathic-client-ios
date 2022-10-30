@@ -30,7 +30,7 @@ class Pedometer {
             let intervalSteps = Double(steps[steps.count - 1].count - steps[0].count)
 
             if intervalSteps >= 0 {
-                store.state.step = Float(intervalDuration.toDouble()) / Float(intervalSteps)
+                store.state.step = Float(intervalDuration.toDouble()) / Float(intervalSteps) * 60
 
                 if (store.state.step != prevStep) {
                     store.state.lastDataChangeTime = .now()

@@ -182,7 +182,7 @@ class Player {
 
     func stop() {
         pause()
-        self.elapsedTimeTimer.invalidate()
+        elapsedTimeTimer.invalidate()
         store.state.session.stop()
         saveTimeseries()
         store.state.elapsedTime = ""
