@@ -24,14 +24,19 @@ struct ContentView: View {
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
     let slidePadding = CGFloat(4)
-    @State private var timeseries: [String: [Timeserie]] = [
-        "breath": [],
-        "heart": [],
-        "step": [],
-        "speed": []
-    ]
+    @State private var timeseries: [String: [Timeserie]] = [:]
     @State private var seriesData: [SeriesData] = []
     @State private var selectedSession = Session()
+
+    init() {
+        clearTimeseries()
+    }
+
+    func clearTimeseries() {
+        store.state.timeseries.keys.forEach {
+            timeseries[$0] = []
+        }
+    }
 
     func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
         let startHour = Calendar.current.component(.hour, from: selectedSession.startTime)
@@ -94,7 +99,7 @@ struct ContentView: View {
             let avgValue = getCurrentMetricValue(metric: $0)
             let progressData: [ProgressData] = _timeseries[$0] ?? []
 
-            return .init(metric: avgValue + " " + $0, data: progressData)
+            return .init(metric: avgValue + " " + $0 + " avg", data: progressData)
         }
     }
 
@@ -330,6 +335,33 @@ struct ContentView: View {
         }
     }
 
+    func onLogSelect() {
+        let index = store.state.sessionLogIds
+            .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
+
+        if index > -1 {
+            selectedSession = store.state.sessionLogs[index]
+            clearTimeseries()
+
+            var addedMinutes = 0
+            while(selectedSession.startTime.adding(minutes: addedMinutes) <= selectedSession.endTime) {
+                let id = getTimeseriesUpdateId(uuid: selectedSession.uuid, date: selectedSession.startTime.adding(minutes: addedMinutes))
+                let _timeseries = readTimeseries(key: id)
+
+                timeseries.keys.forEach {
+                    if _timeseries[$0] != nil {
+                        timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
+                    }
+                }
+
+                addedMinutes = addedMinutes + 1
+            }
+
+            seriesData = getSeriesData()
+            store.state.activeSubView = "Graph"
+        }
+    }
+
     func logView(geometry: GeometryProxy) -> some View {
         VStack {
             Picker("", selection: $store.state.selectedSessionId) {
@@ -350,42 +382,19 @@ struct ContentView: View {
             .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
             .clipped()
             .onAppear() { highlightFirstLogItem() }
-            .onTapGesture { }
+            .onTapGesture { onLogSelect() }
 
             if hasSessionLogs() {
                 HStack {
                     secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
-                    secondaryButton(text: "Select", color: "green", action: {
-                        let index = store.state.sessionLogIds
-                            .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
-
-                        if index > -1 {
-                            selectedSession = store.state.sessionLogs[index]
-                            timeseries.keys.forEach {
-                                timeseries[$0] = []
-                            }
-
-                            var addedMinutes = 0
-                            while(selectedSession.startTime.adding(minutes: addedMinutes) <= selectedSession.endTime) {
-                                let id = getTimeseriesUpdateId(uuid: selectedSession.uuid, date: selectedSession.startTime.adding(minutes: addedMinutes))
-                                let _timeseries = readTimeseries(key: id)
-
-                                timeseries.keys.forEach {
-                                    if _timeseries[$0] != nil {
-                                        timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
-                                    }
-                                }
-
-                                addedMinutes = addedMinutes + 1
-                            }
-
-                            seriesData = getSeriesData()
-                            store.state.activeSubView = "Graph"
-                        }
-                    })
+                    secondaryButton(text: "Select", color: "green", action: { onLogSelect() })
                 }
             }
         }
+    }
+
+    func onCancel() {
+        store.state.activeSubView = views[0]
     }
 
     func rhythmView(geometry: GeometryProxy) -> some View {
@@ -412,6 +421,7 @@ struct ContentView: View {
                     store.state.session.inRhythm = value
                     store.state.session.outRhythm = value
                 }
+                .onTapGesture { onCancel() }
 
                 Picker("", selection: $store.state.session.outRhythm) {
                     ForEach(Array(RHYTHM_RANGE[0]...RHYTHM_RANGE[1]), id: \.self) {
@@ -433,10 +443,11 @@ struct ContentView: View {
                 .onChange(of: store.state.session.outRhythm) { value in
                     store.state.session.outRhythm = value
                 }
+                .onTapGesture { onCancel() }
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
 
-            secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = views[0] })
+            secondaryButton(text: "Cancel", color: "blue", action: { onCancel() })
         }
     }
 
@@ -488,8 +499,8 @@ struct ContentView: View {
     }
 
     func graphView(geometry: GeometryProxy) -> some View {
-        VStack {
-            Spacer(minLength: 24)
+        HStack {
+            Spacer(minLength: 8)
 
             Chart(seriesData) { series in
                 ForEach(series.data) { element in
@@ -501,7 +512,7 @@ struct ContentView: View {
                 }
             }
             .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
-            .frame(height: geometry.size.height - 8)
+            .frame(height: geometry.size.height + 16)
         }
     }
 
