@@ -203,7 +203,7 @@ struct ContentView: View {
 
                 primaryButton(
                     geometry: geometry,
-                    label: "Playback",
+                    label: "Audio",
                     value: store.state.isAudioPlaying ? "||" : "▶",
                     unit: store.state.isAudioPlaying ? "Playing" : "Paused",
                     index: Int(ceil(
