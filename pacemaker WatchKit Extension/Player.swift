@@ -30,7 +30,7 @@ class Player {
         if store.state.session.isActive {
             start()
         }
-        initTimeseriesWriter()
+        initTimeseriesSaver()
 
         //UserDefaults.standard.set("", forKey: "ActiveSession")
         /*
@@ -84,7 +84,7 @@ class Player {
         }
     }
 
-    func initTimeseriesWriter() {
+    func initTimeseriesSaver() {
         Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
             DispatchQueue.main.async {
                 if self.store.state.session.isActive {
@@ -150,6 +150,8 @@ class Player {
     }
 
     func start() {
+        store.state.elapsedTime = ""
+
         if !store.state.isAudioSessionLoaded {
             Task {
                 await startAudioSession()

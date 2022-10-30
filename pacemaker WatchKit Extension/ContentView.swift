@@ -63,14 +63,24 @@ struct ContentView: View {
     }
 
     func getSeriesData() -> [SeriesData] {
-        return store.state.timeseries.keys.map {
-            let timeseries = store.state.timeseries[$0] ?? []
-            let lastValue = getCurrentMetricValue(metric: $0)
-            let progressData: [ProgressData] = parseProgressData(metricData: timeseries)
+        var timeseries: [String: [ProgressData]] = [:]
 
-            if $0 == "heart" {
-                parsedData.max = progressData.map { Float($0.value) }.max() ?? Float(0)
+        parsedData.max = 0
+        store.state.timeseries.keys.forEach {
+            timeseries[$0] = parseProgressData(
+                metricData: store.state.timeseries[$0] ?? []
+            )
+
+            let value: Float = (timeseries[$0] ?? [])
+                .map { Float($0.value) }.max() ?? Float(0)
+            if value > parsedData.max {
+                parsedData.max = value
             }
+        }
+
+        return timeseries.keys.map {
+            let lastValue = getCurrentMetricValue(metric: $0)
+            let progressData: [ProgressData] = timeseries[$0] ?? []
 
             return .init(metric: lastValue + " " + $0, data: progressData)
         }
@@ -340,6 +350,10 @@ struct ContentView: View {
                         if index > -1 {
                             let session = store.state.sessionLogs[index]
                             var addedMinutes = 0
+
+                            store.state.timeseries.keys.forEach {
+                                store.state.timeseries[$0] = []
+                            }
 
                             while(session.startTime.adding(minutes: addedMinutes) <= session.endTime) {
                                 let id = getTimeseriesUpdateId(uuid: session.uuid, date: session.startTime.adding(minutes: addedMinutes))
