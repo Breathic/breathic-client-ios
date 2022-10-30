@@ -7,13 +7,15 @@ import Foundation
 struct ContentView: View {
     @ObservedObject private var store: AppStore = .shared
 
-    let player = Player()
-    let parsedData: ParsedData = ParsedData()
-
+    @State private var timeseries: [String: [Timeserie]] = [:]
+    @State private var seriesData: [SeriesData] = []
+    @State private var selectedSession = Session()
     @State private var dragIndex: Int = 0
     @State private var dragXOffset = CGSize.zero
     @State private var wasChanged = false
 
+    let player = Player()
+    let parsedData: ParsedData = ParsedData()
     let dragIndexes: [String: Int] = [
         "Controller": 0,
         "Status": 1,
@@ -23,9 +25,6 @@ struct ContentView: View {
     let crownMultiplier: Float = 2
     let minimumMovementThreshold = CGFloat(10)
     let slidePadding = CGFloat(4)
-    @State private var timeseries: [String: [Timeserie]] = [:]
-    @State private var seriesData: [SeriesData] = []
-    @State private var selectedSession = Session()
 
     init() {
         clearTimeseries()

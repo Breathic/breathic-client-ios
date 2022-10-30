@@ -16,6 +16,7 @@ class Player {
     var panScale: [Float] = []
     var collections: [[Audio]] = []
     var players: [String: AVAudioPlayer] = [:]
+    var elapsedTimeTimer = Timer()
 
     init() {
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
@@ -172,10 +173,16 @@ class Player {
         create()
         play()
         store.state.session.start()
+
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            self.elapsedTimeTimer = timer
+            self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
+        }
     }
 
     func stop() {
         pause()
+        self.elapsedTimeTimer.invalidate()
         store.state.session.stop()
         saveTimeseries()
         store.state.elapsedTime = ""
@@ -397,7 +404,6 @@ class Player {
             DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
                 if self.store.state.isAudioPlaying {
                     self.loopedPlay(loopInterval: loopInterval)
-                    self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
                 }
 
                 self.loop()
