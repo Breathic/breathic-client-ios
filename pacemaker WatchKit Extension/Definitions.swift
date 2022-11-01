@@ -47,7 +47,7 @@ struct SeedInput {
     var interval: [Float] = []
 }
 
-class Step {
+class StepData {
     var time: DispatchTime = .now()
     var count: Int = 0
 }

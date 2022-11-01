@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import HealthKit
 
-class HeartRate: ObservableObject {
+class Heart: ObservableObject {
     @ObservedObject private var store: AppStore = .shared
 
     private var healthStore = HKHealthStore()

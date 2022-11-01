@@ -7,9 +7,9 @@ class Player {
     @ObservedObject private var store: AppStore = .shared
 
     let coordinator = SessionCoordinator()
-    let pedometer = Pedometer()
-    var location = Location()
-    var heartRate = HeartRate()
+    let step = Step()
+    var speed = Speed()
+    var heart = Heart()
     let commandCenter = MPRemoteCommandCenter.shared()
     var isPanningReversed: Bool = true
     var fadeScale: [Float] = []
@@ -171,10 +171,10 @@ class Player {
             //    initInactivityTimer()
             //}
 
-            heartRate.start()
-            pedometer.start()
-            location.start()
-            coordinator.start()
+            heart.start()
+            step.start()
+            speed.start()
+            //coordinator.start()
             loop()
         }
 

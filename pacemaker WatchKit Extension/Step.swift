@@ -2,11 +2,11 @@ import Foundation
 import SwiftUI
 import CoreMotion
 
-class Pedometer {
+class Step {
     @ObservedObject private var store: AppStore = .shared
 
     var pedometer = CMPedometer()
-    var steps = [Step]()
+    var steps = [StepData]()
 
     var isStepCountingAvailable: Bool {
         get {
@@ -15,7 +15,7 @@ class Pedometer {
     }
 
     func setPedometerData(data: CMPedometerData) {
-        let step = Step()
+        let step = StepData()
         step.time = .now()
         step.count = Int(truncating: data.numberOfSteps)
         steps.append(step)
