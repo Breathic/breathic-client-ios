@@ -44,13 +44,16 @@ struct ContentView: View {
 
     func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
         let startHour = Calendar.current.component(.hour, from: selectedSession.startTime)
+        let startMinute = Calendar.current.component(.minute, from: selectedSession.startTime)
+        let startSecond = Calendar.current.component(.second, from: selectedSession.startTime)
 
-        return Array(metricData.suffix(60 * 10))
+        return metricData
             .map {
                 let hours = Calendar.current.component(.hour, from: $0.timestamp)
                 let minutes = Calendar.current.component(.minute, from: $0.timestamp)
                 let seconds = Calendar.current.component(.second, from: $0.timestamp)
-                let timestamp = (Int(minutes * 60 + seconds) / 60) + ((hours - startHour) * 60)
+                let timestamp = (Int((minutes - startMinute) * 60 + (seconds - startSecond)) / 60) + ((hours - startHour) * 60)
+
                 return ProgressData(timestamp: timestamp, value: $0.value)
             }
     }
@@ -70,9 +73,7 @@ struct ContentView: View {
         chartDomain.yMax = 0
 
         timeseries.keys.forEach {
-            let progressData = parseProgressData(
-                metricData: timeseries[$0] ?? []
-            )
+            let progressData = parseProgressData(metricData: timeseries[$0] ?? [])
 
             _timeseries[$0] = progressData
 
