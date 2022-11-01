@@ -5,6 +5,13 @@ import AVFoundation
 import Foundation
 
 struct ContentView: View {
+    class ChartDomain {
+        var xMin: Float = 0
+        var xMax: Float = 0
+        var yMin: Float = 0
+        var yMax: Float = 0
+    }
+
     @ObservedObject private var store: AppStore = .shared
 
     @State private var timeseries: [String: [Timeserie]] = [:]
@@ -15,7 +22,7 @@ struct ContentView: View {
     @State private var wasChanged = false
 
     let player = Player()
-    let parsedData: ParsedData = ParsedData()
+    let chartDomain = ChartDomain()
     let dragIndexes: [String: Int] = [
         "Controller": 0,
         "Status": 1,
@@ -23,7 +30,6 @@ struct ContentView: View {
     ]
     let views: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
-    let minimumMovementThreshold = CGFloat(10)
     let slidePadding = CGFloat(4)
 
     init() {
@@ -79,17 +85,25 @@ struct ContentView: View {
     func getSeriesData() -> [SeriesData] {
         var _timeseries: [String: [ProgressData]] = [:]
 
-        parsedData.max = 0
+        chartDomain.yMax = 0
 
         timeseries.keys.forEach {
-            _timeseries[$0] = parseProgressData(
+            let progressData = parseProgressData(
                 metricData: timeseries[$0] ?? []
             )
 
-            let value: Float = (_timeseries[$0] ?? [])
+            _timeseries[$0] = progressData
+
+            if progressData.count > 0 {
+                chartDomain.xMin = Float(progressData[0].timestamp)
+                chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp)
+            }
+
+            let value: Float = progressData
                 .map { Float($0.value) }.max() ?? Float(0)
-            if value > parsedData.max {
-                parsedData.max = value
+
+            if value > chartDomain.yMax {
+                chartDomain.yMax = value
             }
         }
 
@@ -503,7 +517,8 @@ struct ContentView: View {
                     .foregroundStyle(by: .value("Metric", series.metric))
                 }
             }
-            .chartYScale(domain: floor(parsedData.min)...ceil(parsedData.max))
+            .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
+            .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
             .frame(height: geometry.size.height + 16)
         }
     }
@@ -567,7 +582,7 @@ struct ContentView: View {
 
                                         let width = gesture.translation.width + (CGFloat(-dragIndex) * geometry.size.width)
 
-                                        if width > minimumMovementThreshold { return }  // Stop drag from the left.
+                                        if width > 0 { return }  // Stop drag from the left.
                                         else if width < -geometry.size.width { return } // Stop drag from the right.
 
                                         dragXOffset = CGSize(

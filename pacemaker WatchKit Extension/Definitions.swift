@@ -98,11 +98,6 @@ struct SeriesData: Identifiable {
     var id: String { metric }
 }
 
-class ParsedData {
-    var min: Float = 0
-    var max: Float = 0
-}
-
 class Session: Codable {
     var isActive: Bool = false {
         didSet {
