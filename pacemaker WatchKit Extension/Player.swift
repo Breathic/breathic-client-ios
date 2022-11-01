@@ -160,10 +160,11 @@ class Player {
     func start() {
         store.state.elapsedTime = ""
 
+        Task {
+            await startAudioSession()
+        }
+
         if !store.state.isAudioSessionLoaded {
-            Task {
-                await startAudioSession()
-            }
             store.state.isAudioSessionLoaded = true
 
             //if !Platform.isSimulator {
@@ -438,6 +439,7 @@ class Player {
     }
 
     func create() {
+        shuffle()
         flushAll()
         collections = []
         let audio = Audio(
