@@ -50,6 +50,7 @@ func colorize(color: String) -> Color {
         case "red": return Color(red: 242 / 255, green: 16 / 255, blue: 75 / 255)
         case "green":  return Color(red: 161 / 255, green: 249 / 255, blue: 2 / 255)
         case "blue": return Color(red: 3 / 255, green: 221 / 255, blue: 238 / 255)
+        case "gray": return Color(red: 63 / 255, green: 63 / 255, blue: 63 / 255)
         default: return Color.white
     }
 }

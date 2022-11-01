@@ -19,8 +19,6 @@ func primaryButton(
 ) -> some View {
     Button(action: action) {
         VStack {
-            Spacer(minLength: 4)
-
             HStack {
                 VStack {
                     if label.count > 0 {
@@ -30,13 +28,14 @@ func primaryButton(
                         }
                         .frame(
                             maxWidth: .infinity,
-                            maxHeight: .infinity,
                             alignment: .topLeading
                         )
                     }
 
                     if value.count > 0 {
-                        Spacer(minLength: 8)
+                        if !isTall {
+                            Spacer(minLength: 8)
+                        }
 
                         Text(value)
                             .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
@@ -57,10 +56,6 @@ func primaryButton(
             }
             .frame(alignment: .center)
 
-            Rectangle()
-            .fill(isActive ? .white : .black)
-            .frame(width: geometry.size.width / 3 - 4, height: 2)
-
             Spacer(minLength: 4)
         }
     }
@@ -69,7 +64,9 @@ func primaryButton(
     .tint(.black)
     .overlay(
         RoundedRectangle(cornerRadius: 10)
-            .stroke(.gray, lineWidth: isEnabled ? 1 : 0)
+            .stroke(colorize(color: "gray"), lineWidth: isEnabled ? 1 : 0)
+            //.tint(colorize(color: "gray"))
+            //.opacity(isEnabled ? 0.125 : 0)
     )
     .opacity(opacity)
     .disabled(!isEnabled)

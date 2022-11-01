@@ -55,24 +55,6 @@ struct ContentView: View {
             }
     }
 
-    func convert(data: [ProgressData], range: [Float]) -> [ProgressData] {
-        let min = data.map { Float($0.value) }.min() ?? Float(0)
-        let max = data.map { Float($0.value) }.max() ?? Float(0)
-
-        return data.map {
-            let progressData = ProgressData(
-                timestamp: $0.timestamp,
-                value: convertRange(
-                    value: $0.value,
-                    oldRange: [min, max],
-                    newRange: [range[0], range[1]]
-                )
-            )
-
-            return progressData
-        }
-    }
-
     func getCurrentMetricValue(metric: String) -> String {
         let metrics = (timeseries[metric] ?? [])
         let average = metrics
@@ -267,7 +249,7 @@ struct ContentView: View {
             HStack {
                 primaryButton(
                     geometry: geometry,
-                    label: "Heart rate",
+                    label: "Heartbeats",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric)),
                     unit: "per minute",
                     valueColor: colorize(color: "red"),
@@ -278,7 +260,7 @@ struct ContentView: View {
 
                 primaryButton(
                     geometry: geometry,
-                    label: "Breath rate",
+                    label: "Breaths",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breath")),
                     unit: "per minute",
                     valueColor: colorize(color: "green"),
@@ -291,7 +273,7 @@ struct ContentView: View {
             HStack {
                 primaryButton(
                     geometry: geometry,
-                    label: "Step rate",
+                    label: "Steps",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "step")),
                     unit: "per minute",
                     valueColor: colorize(color: "blue"),
@@ -453,7 +435,7 @@ struct ContentView: View {
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
 
-            secondaryButton(text: "Cancel", color: "blue", action: { store.state.activeSubView = views[0] })
+            secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = views[0] })
         }
     }
 

@@ -158,7 +158,6 @@ class Player {
                 await startAudioSession()
             }
             store.state.isAudioSessionLoaded = true
-            loop()
 
             //if !Platform.isSimulator {
             //    initInactivityTimer()
@@ -168,6 +167,7 @@ class Player {
             pedometer.start()
             location.start()
             coordinator.start()
+            loop()
         }
 
         create()
