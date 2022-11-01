@@ -32,10 +32,10 @@ struct AppState {
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
     var metricType: MetricType = METRIC_TYPES[0]
-    var breath: Float = Platform.isSimulator ? 60 : 0
-    var heart: Float = Platform.isSimulator ? 60 : 0
-    var step: Float = Platform.isSimulator ? 60 : 0
-    var speed: Float = Platform.isSimulator ? 3.6 : 0
+    var breath: Float = DEFAULT_BREATH
+    var heart: Float = DEFAULT_HEART
+    var step: Float = DEFAULT_STEP
+    var speed: Float = DEFAULT_SPEED
     var timeseries: [String: [Timeserie]] = [
         "breath": [],
         "heart": [],

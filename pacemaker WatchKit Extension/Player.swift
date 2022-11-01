@@ -48,6 +48,13 @@ class Player {
         */
     }
 
+    func defaultMetrics() {
+        store.state.breath = DEFAULT_BREATH
+        store.state.heart = DEFAULT_HEART
+        store.state.step = DEFAULT_STEP
+        store.state.speed = DEFAULT_SPEED
+    }
+
     func getFadeScale() -> [Float] {
         var result: [Float] = []
         let fadeMax = FADE_DURATION - 1
@@ -170,6 +177,7 @@ class Player {
             loop()
         }
 
+        defaultMetrics()
         create()
         play()
         store.state.session.start()

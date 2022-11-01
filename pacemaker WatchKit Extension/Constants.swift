@@ -35,3 +35,7 @@ let METRIC_TYPES = [
         isReversed: true
     )*/
 ]
+let DEFAULT_BREATH: Float = Platform.isSimulator ? 60 : 0
+let DEFAULT_HEART: Float = Platform.isSimulator ? 60 : 0
+let DEFAULT_STEP: Float = Platform.isSimulator ? 60 : 0
+let DEFAULT_SPEED: Float = Platform.isSimulator ? 3.6 : 0
