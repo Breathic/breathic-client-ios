@@ -28,9 +28,10 @@ class Pedometer {
             let prevStep = store.state.step
             let intervalDuration: DispatchTimeInterval = steps[0].time.distance(to: step.time)
             let intervalSteps = Double(steps[steps.count - 1].count - steps[0].count)
+            let res = Float(intervalDuration.toDouble()) / Float(intervalSteps) * 60
 
-            if intervalSteps >= 0 && !intervalSteps.isInfinite {
-                store.state.step = Float(intervalDuration.toDouble()) / Float(intervalSteps) * 60
+            if res >= 0 && !res.isInfinite && !res.isNaN {
+                store.state.step = res
 
                 if store.state.step != prevStep {
                     store.state.lastDataChangeTime = .now()

@@ -68,9 +68,9 @@ class HeartRate: ObservableObject {
                     hearts.append(heart)
                     hearts = Array(hearts.suffix(MAX_READING_COUNT))
 
-                    let heartbeat = hearts.reduce(0) { Float($0) + Float($1) } / Float(hearts.count)
-                    if heart >= 0 && !heartbeat.isInfinite {
-                        store.state.heart = heartbeat
+                    let res = hearts.reduce(0) { Float($0) + Float($1) } / Float(hearts.count)
+                    if res >= 0 && !res.isInfinite && !res.isNaN {
+                        store.state.heart = res
 
                         if store.state.heart != prevHeart {
                             store.state.lastDataChangeTime = .now()
