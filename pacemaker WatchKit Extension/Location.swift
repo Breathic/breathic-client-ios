@@ -64,15 +64,19 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
             return
         }
 
-        if (current.speed >= 0) {
+        if current.speed >= 0 {
             let prevSpeed = store.state.speed
 
             speeds.append(current.speed)
             speeds = Array(speeds.suffix(MAX_READING_COUNT))
-            store.state.speed = speeds.reduce(0) { Float($0) + Float($1) } / Float(speeds.count) * 3.6
 
-            if (store.state.speed != prevSpeed) {
-                store.state.lastDataChangeTime = .now()
+            let speed = speeds.reduce(0) { Float($0) + Float($1) } / Float(speeds.count) * 3.6
+            if speed >= 0 && !speed.isInfinite {
+                store.state.speed = speed
+
+                if store.state.speed != prevSpeed {
+                    store.state.lastDataChangeTime = .now()
+                }
             }
         }
 

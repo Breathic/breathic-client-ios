@@ -381,11 +381,12 @@ class Player {
 
     func updateGraph() {
         let loopIntervalSum = getLoopIntervalSum()
+        let breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
 
-        if !loopIntervalSum.isInfinite {
+        if !loopIntervalSum.isInfinite && !breath.isInfinite {
             let timestamp = Date()
 
-            store.state.breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
+            store.state.breath = breath
             store.state.timeseries.keys.forEach {
                 store.state.timeseries[$0]?.append(
                     getTimeserie(
