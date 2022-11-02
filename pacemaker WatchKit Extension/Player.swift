@@ -393,24 +393,27 @@ class Player {
     }
 
     func updateGraph() {
+        let timestamp = Date()
         let loopIntervalSum = getLoopIntervalSum()
         let breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
 
-        if !loopIntervalSum.isInfinite && !breath.isInfinite {
-            let timestamp = Date()
+        store.state.breath = breath
 
-            store.state.breath = breath
-            store.state.timeseries.keys.forEach {
-                let metric: Float = store.state.valueByMetric(metric: $0)
+        // Since pedometer's hardware is sometimes going weird.
+        if store.state.speed == 0 {
+            store.state.step = 0
+        }
 
-                if metric >= 0 && !metric.isInfinite && !metric.isNaN {
-                    store.state.timeseries[$0]?.append(
-                        getTimeserie(
-                            timestamp: timestamp,
-                            value: store.state.valueByMetric(metric: $0)
-                        )
+        store.state.timeseries.keys.forEach {
+            let metric: Float = store.state.valueByMetric(metric: $0)
+
+            if metric >= 0 && !metric.isInfinite && !metric.isNaN {
+                store.state.timeseries[$0]?.append(
+                    getTimeserie(
+                        timestamp: timestamp,
+                        value: store.state.valueByMetric(metric: $0)
                     )
-                }
+                )
             }
         }
     }
