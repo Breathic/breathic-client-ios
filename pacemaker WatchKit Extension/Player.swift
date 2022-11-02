@@ -6,7 +6,7 @@ import MediaPlayer
 class Player {
     @ObservedObject private var store: AppStore = .shared
 
-    let coordinator = SessionCoordinator()
+    //let coordinator = SessionCoordinator()
     let step = Step()
     var speed = Speed()
     var heart = Heart()
@@ -160,12 +160,12 @@ class Player {
     func start() {
         store.state.elapsedTime = ""
 
-        Task {
-            await startAudioSession()
-        }
-
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
+            
+            Task {
+                await startAudioSession()
+            }
 
             //if !Platform.isSimulator {
             //    initInactivityTimer()
