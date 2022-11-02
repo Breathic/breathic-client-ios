@@ -6,7 +6,6 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     @ObservedObject private var store: AppStore = .shared
     
     let locationManager = CLLocationManager()
-    var last: CLLocation?
     var speeds: [Double] = []
     var timer: Timer?
     
@@ -56,14 +55,10 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     func stop() {
         timer?.invalidate()
         timer = nil
+        speeds = []
     }
 
     func process(current: CLLocation) {
-        guard last != nil else {
-            last = current
-            return
-        }
-
         if current.speed >= 0 {
             let prevSpeed = store.state.speed
 
@@ -79,8 +74,6 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
                 }
             }
         }
-
-        last = current
     }
 }
 

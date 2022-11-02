@@ -23,6 +23,8 @@ class Heart: ObservableObject {
             healthStore.stop(query!)
             query = nil
         }
+
+        hearts = []
     }
 
     func autorizeHealthKit() {

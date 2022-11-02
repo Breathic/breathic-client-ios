@@ -42,12 +42,12 @@ class Step {
 
     func stop() {
         pedometer.stopUpdates()
+        steps = []
     }
 
     func start() {
         if self.isStepCountingAvailable {
             stop()
-            steps = []
 
             pedometer.startUpdates(from: Date(), withHandler: { (data, error) in
                 if data != nil {
