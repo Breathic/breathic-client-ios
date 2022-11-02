@@ -648,8 +648,12 @@ struct ContentView: View {
                             : store.state.activeSubView
                     },
                     label: {
-                        Text("☰ " + store.state.activeSubView.components(separatedBy: " (")[0]) // Remove duration when overview.
-                            .font(.system(size: 14))
+                        HStack {
+                            Text("☰")
+                                .font(.system(size: 16))
+                            Text(store.state.activeSubView.components(separatedBy: " (")[0]) // Remove duration when overview.
+                                .font(.system(size: 12))
+                        }
                     }
                 )
             }
