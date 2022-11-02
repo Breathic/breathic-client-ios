@@ -57,7 +57,16 @@ func colorize(color: String) -> Color {
 
 func getElapsedTime(from: Date, to: Date) -> String {
     let difference = Calendar.current.dateComponents([.hour, .minute, .second], from: from, to: to)
-    let elapsedTime = String(format: "%02ld:%02ld:%02ld", difference.hour!, difference.minute!, difference.second!)
+    var elapsedTime = ""
+
+    if difference.second! > 0 {
+        elapsedTime = String(format: "%02ld:%02ld", difference.minute!, difference.second!)
+
+        if difference.hour! > 0 {
+            elapsedTime = String(format: "%01ld:%02ld:%02ld", difference.hour!, difference.minute!, difference.second!)
+        }
+    }
+
     return elapsedTime
 }
 
@@ -124,13 +133,12 @@ func readTimeseries(key: String) -> [String: [Timeserie]] {
 }
 
 func getMonthLabel(index: Int) -> String {
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    return months[index]
+    return MONTH_LABELS[index]
 }
 
 func generateSessionId(session: Session) -> String {
     return getMonthLabel(index: Calendar.current.component(.month, from: session.startTime) - 1) + " " +
-        String(Calendar.current.component(.day, from: session.startTime)) + " - " +
+        String(Calendar.current.component(.day, from: session.startTime)) + " " +
         String(session.startTime.formatted(.dateTime.hour().minute()))
         .components(separatedBy: " ")[0]
 }
@@ -152,6 +160,8 @@ func getSessionIds(sessions: [Session]) -> [String] {
         if repeats > 1 {
             id = id + " - " + String(repeats)
         }
+
+        id = id + " (" + getElapsedTime(from: session.startTime, to: session.endTime) + ")"
 
         result.append(id)
     }

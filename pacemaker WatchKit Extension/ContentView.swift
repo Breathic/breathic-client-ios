@@ -68,6 +68,7 @@ struct ContentView: View {
     }
 
     func getSeriesData() -> [SeriesData] {
+        let chartXAxisRightSpacingPct: Float = 8
         var _timeseries: [String: [ProgressData]] = [:]
 
         chartDomain.yMax = 0
@@ -79,7 +80,7 @@ struct ContentView: View {
 
             if progressData.count > 0 {
                 chartDomain.xMin = Float(progressData[0].timestamp)
-                chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp)
+                chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * chartXAxisRightSpacingPct / 100
             }
 
             let value: Float = progressData
@@ -353,7 +354,7 @@ struct ContentView: View {
             }
 
             seriesData = getSeriesData()
-            store.state.activeSubView = "Overview"
+            store.state.activeSubView = store.state.selectedSessionId
         }
     }
 
@@ -363,12 +364,14 @@ struct ContentView: View {
                 ForEach(store.state.sessionLogIds.reversed(), id: \.self) {
                     if $0 == store.state.selectedSessionId {
                         Text($0)
-                            .font(.system(size: 18))
+                            .font(.system(size: 14))
                             .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
                     else {
                         Text($0)
                             .font(.system(size: 14))
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
                 }
             }
@@ -540,6 +543,10 @@ struct ContentView: View {
         }
     }
 
+    func detectOverviewSelection() -> Bool {
+        return store.state.activeSubView == store.state.selectedSessionId
+    }
+
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -610,7 +617,7 @@ struct ContentView: View {
                         case "Delete":
                             deleteSessionConfirmationView(geometry: geometry)
 
-                        case "Overview":
+                        case store.state.selectedSessionId:
                             overviewView(geometry: geometry)
 
                         default:
@@ -633,11 +640,16 @@ struct ContentView: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button(
                     action: {
+                        let isOverviewSelected = detectOverviewSelection()
+
                         store.state.activeSubView = store.state.activeSubView != "Menu"
                             ? "Menu"
                             : views[0]
+                        store.state.activeSubView = isOverviewSelected
+                            ? "Log"
+                            : store.state.activeSubView
                     },
-                    label: { Text("☰ " + store.state.activeSubView).font(.system(size: 14)) }
+                    label: { Text("☰ " + store.state.activeSubView.components(separatedBy: " (")[0]).font(.system(size: 14)) }
                 )
             }
         })
