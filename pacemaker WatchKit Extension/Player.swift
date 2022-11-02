@@ -6,7 +6,7 @@ import MediaPlayer
 class Player {
     @ObservedObject private var store: AppStore = .shared
 
-    //let coordinator = SessionCoordinator()
+    let coordinator = SessionCoordinator()
     let step = Step()
     var speed = Speed()
     var heart = Heart()
@@ -174,7 +174,7 @@ class Player {
             heart.start()
             step.start()
             speed.start()
-            //coordinator.start()
+            coordinator.start()
             loop()
         }
 
@@ -195,6 +195,7 @@ class Player {
         heart.stop()
         step.stop()
         speed.stop()
+        coordinator.stop()
         store.state.session.stop()
         saveTimeseries()
         store.state.elapsedTime = ""
