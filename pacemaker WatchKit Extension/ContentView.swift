@@ -649,7 +649,10 @@ struct ContentView: View {
                             ? "Log"
                             : store.state.activeSubView
                     },
-                    label: { Text("☰ " + store.state.activeSubView.components(separatedBy: " (")[0]).font(.system(size: 14)) }
+                    label: {
+                        Text("☰ " + store.state.activeSubView.components(separatedBy: " (")[0]) // Remove duration when overview.
+                            .font(.system(size: 14))
+                    }
                 )
             }
         })

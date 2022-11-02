@@ -13,7 +13,6 @@ class Heart: ObservableObject {
     func start() {
         autorizeHealthKit()
         stop()
-        hearts = []
         query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
         healthStore.execute(query!)
     }
