@@ -82,10 +82,15 @@ func readSessionLogs() -> [Session] {
 }
 
 func writeSessionLogs(sessionLogs: [Session]) {
-    let data = try! JSONEncoder().encode(sessionLogs)
-    let json = String(data: data, encoding: .utf8) ?? ""
-    filestore.set(json, forKey: "SessionLogs")
-    filestore.synchronize()
+    do {
+        let data = try JSONEncoder().encode(sessionLogs)
+        let json = String(data: data, encoding: .utf8) ?? ""
+        filestore.set(json, forKey: "SessionLogs")
+        filestore.synchronize()
+    }
+    catch {
+        print("writeSessionLogs()", error)
+    }
 }
 
 func readActiveSession() -> Session {
@@ -101,15 +106,20 @@ func readActiveSession() -> Session {
 }
 
 func writeActiveSession(session: Session) {
-    let data = try! JSONEncoder().encode(session)
-    let json = String(data: data, encoding: .utf8) ?? ""
-    filestore.set(json, forKey: "ActiveSession")
-    filestore.synchronize()
+    do {
+        let data = try JSONEncoder().encode(session)
+        let json = String(data: data, encoding: .utf8) ?? ""
+        filestore.set(json, forKey: "ActiveSession")
+        filestore.synchronize()
+    }
+    catch {
+        print("writeActiveSession()", error)
+    }
 }
 
 func writeTimeseries(key: String, timeseries: [String: [Timeserie]]) {
     do {
-        let data = try! JSONEncoder().encode(timeseries)
+        let data = try JSONEncoder().encode(timeseries)
         let json = String(data: data, encoding: .utf8) ?? ""
         let filename = getDocumentsDirectory().appendingPathComponent(key)
         try json.write(to: filename, atomically: true, encoding: .utf8)
