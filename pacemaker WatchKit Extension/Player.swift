@@ -401,12 +401,16 @@ class Player {
 
             store.state.breath = breath
             store.state.timeseries.keys.forEach {
-                store.state.timeseries[$0]?.append(
-                    getTimeserie(
-                        timestamp: timestamp,
-                        value: store.state.valueByMetric(metric: $0)
+                let metric: Float = store.state.valueByMetric(metric: $0)
+
+                if metric >= 0 && !metric.isInfinite && !metric.isNaN {
+                    store.state.timeseries[$0]?.append(
+                        getTimeserie(
+                            timestamp: timestamp,
+                            value: store.state.valueByMetric(metric: $0)
+                        )
                     )
-                )
+                }
             }
         }
     }
