@@ -438,7 +438,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp1;
 				PRODUCT_NAME = "Audio Breath";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -477,7 +477,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp1;
 				PRODUCT_NAME = "Audio Breath";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
