@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct breathctrlApp: App {
+struct app: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
