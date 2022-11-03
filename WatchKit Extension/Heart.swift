@@ -13,8 +13,7 @@ class Heart: ObservableObject {
     func start() {
         autorizeHealthKit()
         stop()
-        query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
-        healthStore.execute(query!)
+        exec()
     }
 
     func stop() {
@@ -26,12 +25,25 @@ class Heart: ObservableObject {
         hearts = []
     }
 
+    func exec() {
+        query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
+        healthStore.execute(query!)
+    }
+
     func autorizeHealthKit() {
         let healthKitTypes: Set = [
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
         ]
 
-        healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
+        healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { result, error in
+            if result {
+                self.exec()
+            } else if let error = error {
+                print("healthStore.requestAuthorization: \(error.localizedDescription)")
+            } else {
+                fatalError("How did we get here?")
+            }
+        }
     }
 
     private func createHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) -> HKAnchoredObjectQuery {

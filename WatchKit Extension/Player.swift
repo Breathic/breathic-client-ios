@@ -158,15 +158,9 @@ class Player {
     }
 
     func start() {
-        store.state.elapsedTime = ""
-
         Task {
             await startAudioSession()
         }
-
-        //if !Platform.isSimulator {
-        //    initInactivityTimer()
-        //}
 
         heart.start()
         step.start()
@@ -177,6 +171,12 @@ class Player {
             store.state.isAudioSessionLoaded = true
             loop()
         }
+
+        store.state.elapsedTime = ""
+
+        //if !Platform.isSimulator {
+        //    initInactivityTimer()
+        //}
 
         defaultMetrics()
         create()
