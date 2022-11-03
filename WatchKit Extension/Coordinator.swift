@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class SessionCoordinator {
+class Coordinator {
     private var session: WKExtendedRuntimeSession?
 
     func start() {

@@ -511,10 +511,6 @@ struct ContentView: View {
 
     func deleteSessionConfirmationView(geometry: GeometryProxy) -> some View {
         VStack {
-            Text("Delete session from " + store.state.selectedSessionId + "?")
-            .font(.system(size: 16))
-            .frame(maxHeight: .infinity, alignment: .topLeading)
-
             HStack {
                 Button(action: {
                     deleteSession(sessionId: store.state.selectedSessionId)
@@ -536,8 +532,11 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .tint(colorize(color: "blue"))
             }
+            .frame(maxHeight: .infinity, alignment: .topLeading)
+
+            Text("Delete session from " + store.state.selectedSessionId + "?")
+            .font(.system(size: 16))
             .frame(maxHeight: .infinity, alignment: .bottom)
-            .edgesIgnoringSafeArea(.all)
         }
     }
 

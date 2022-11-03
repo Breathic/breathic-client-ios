@@ -21,7 +21,7 @@
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
-		FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */; };
+		FD9ABB6E28BBED42003049AC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* Coordinator.swift */; };
 		FDC09FC328F0A58200F42253 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC09FC228F0A58200F42253 /* Library.swift */; };
 		FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D12911BAEF0059F5D6 /* Speed.swift */; };
 		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
@@ -70,7 +70,7 @@
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
-		FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCoordinator.swift; sourceTree = "<group>"; };
+		FD9ABB6D28BBED42003049AC /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Audio Breath-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Audio Breath-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FDC09FC228F0A58200F42253 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		FDC3DD722913EC12001AC617 /* WatchKit ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "WatchKit ExtensionDebug.entitlements"; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
 				FDC3DD722913EC12001AC617 /* WatchKit ExtensionDebug.entitlements */,
 				FDF1E1D52911BC3D0059F5D6 /* Heart.swift */,
-				FD9ABB6D28BBED42003049AC /* SessionCoordinator.swift */,
+				FD9ABB6D28BBED42003049AC /* Coordinator.swift */,
 				FDF1E1D12911BAEF0059F5D6 /* Speed.swift */,
 				FDC09FC228F0A58200F42253 /* Library.swift */,
 				FDF1E1D7291329410059F5D6 /* data */,
@@ -277,7 +277,7 @@
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,
 				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
 				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
-				FD9ABB6E28BBED42003049AC /* SessionCoordinator.swift in Sources */,
+				FD9ABB6E28BBED42003049AC /* Coordinator.swift in Sources */,
 				FD2D393F28BBDE4A009F1861 /* AppStore.swift in Sources */,
 				FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */,
 				FD2D395228BBE012009F1861 /* Extensions.swift in Sources */,
@@ -438,7 +438,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp1;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp;
 				PRODUCT_NAME = "Audio Breath";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -477,7 +477,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp1;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath.watchkitapp;
 				PRODUCT_NAME = "Audio Breath";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;

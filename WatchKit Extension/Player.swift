@@ -6,7 +6,7 @@ import MediaPlayer
 class Player {
     @ObservedObject private var store: AppStore = .shared
 
-    let coordinator = SessionCoordinator()
+    let coordinator = Coordinator()
     let step = Step()
     var speed = Speed()
     var heart = Heart()
