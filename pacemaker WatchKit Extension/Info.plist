@@ -7,7 +7,7 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>fringe.pacemaker.watchkitapp</string>
+			<string>fringe.breathctrl.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
@@ -33,8 +33,8 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Make sure the description is longer than 12 characters for all locales.</string>
+	<string>The app uses heart rate data for breath rate calculation.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Make sure the description is longer than 12 characters for all locales.</string>
+	<string>The app uses heart rate data for breath rate calculation.</string>
 </dict>
 </plist>

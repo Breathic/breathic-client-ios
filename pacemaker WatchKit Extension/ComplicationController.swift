@@ -1,6 +1,6 @@
 //
 //  ComplicationController.swift
-//  pacemaker WatchKit Extension
+//  breathctrl WatchKit Extension
 //
 //  Created by Andrus Asumets on 28.08.2022.
 //
@@ -14,7 +14,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
 
     func getComplicationDescriptors(handler: @escaping ([CLKComplicationDescriptor]) -> Void) {
         let descriptors = [
-            CLKComplicationDescriptor(identifier: "complication", displayName: "pacemaker", supportedFamilies: CLKComplicationFamily.allCases)
+            CLKComplicationDescriptor(identifier: "complication", displayName: "BreathCTRL", supportedFamilies: CLKComplicationFamily.allCases)
             // Multiple complication support can be added here with more descriptors
         ]
         

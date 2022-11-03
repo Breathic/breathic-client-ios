@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct pacemakerApp: App {
+struct breathctrlApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
