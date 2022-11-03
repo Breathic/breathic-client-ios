@@ -29,7 +29,7 @@ let METRIC_TYPES = [
         valueColor: colorize(color: "blue"),
         isReversed: true
     )/*,
-    MetricType(
+    MetricType(`
         metric: "speedMetric",
         unit: "m / s",
         isReversed: true

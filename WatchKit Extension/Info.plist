@@ -32,8 +32,6 @@
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>The app uses heart rate data for breath rate calculation.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>The app uses heart rate data for breath rate calculation.</string>
 </dict>
