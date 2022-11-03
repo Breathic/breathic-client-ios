@@ -160,21 +160,21 @@ class Player {
     func start() {
         store.state.elapsedTime = ""
 
+        Task {
+            await startAudioSession()
+        }
+
+        //if !Platform.isSimulator {
+        //    initInactivityTimer()
+        //}
+
+        heart.start()
+        step.start()
+        speed.start()
+        coordinator.start()
+
         if !store.state.isAudioSessionLoaded {
             store.state.isAudioSessionLoaded = true
-            
-            Task {
-                await startAudioSession()
-            }
-
-            //if !Platform.isSimulator {
-            //    initInactivityTimer()
-            //}
-
-            heart.start()
-            step.start()
-            speed.start()
-            coordinator.start()
             loop()
         }
 
