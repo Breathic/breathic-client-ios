@@ -16,21 +16,24 @@ class Player {
     var collections: [[Audio]] = []
     var players: [String: AVAudioPlayer] = [:]
     var elapsedTimeTimer = Timer()
-    var wasLoopStarted = false
+    var isLoopStarted = false
 
     init() {
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
-        initPlayers()
+        cachePlayers()
         fadeScale = getFadeScale()
         panScale = getPanScale()
         store.state.sessionLogs = readSessionLogs()
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         store.state.session = readActiveSession()
         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
-        if store.state.session.isActive {
-            start()
+        
+        DispatchQueue.main.async() {
+            if self.store.state.session.isActive {
+                self.start()
+                self.initTimeseriesSaver()
+            }
         }
-        initTimeseriesSaver()
         //initCommandCenter()
 
         //UserDefaults.standard.set("", forKey: "ActiveSession")
@@ -38,7 +41,7 @@ class Player {
         let update = Update()
         update.value = 60.0
         update.timestamp = Date()
-        
+
         for (index, _) in Array(1...10).enumerated() {
             let update2 = Update()
             update2.timestamp = update.timestamp.addingTimeInterval(5.0 * Double(index))
@@ -82,7 +85,7 @@ class Player {
         return result
     }
 
-    func initPlayers() {
+    func cachePlayers() {
         for key in store.state.distances.keys {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
@@ -130,7 +133,7 @@ class Player {
             return .success
         }
     }
-     */
+    */
 
     func initInactivityTimer() {
         store.state.lastDataChangeTime = .now()
@@ -149,9 +152,9 @@ class Player {
         speed.start()
         coordinator.start()
 
-        if !wasLoopStarted {
+        if !isLoopStarted {
             loop()
-            wasLoopStarted = true
+            isLoopStarted = true
         }
 
         //if !Platform.isSimulator {
@@ -375,7 +378,7 @@ class Player {
     func loop() {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
-        if !loopInterval.isInfinite && self.store.state.session.isAudioPlaying {
+        if !loopInterval.isInfinite && store.state.session.isAudioPlaying {
             DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
                 if self.store.state.session.isAudioPlaying {
                     self.loopedPlay(loopInterval: loopInterval)
@@ -462,13 +465,12 @@ class Player {
             do {
                 let audioSession = AVAudioSession.sharedInstance()
                 try audioSession.setActive(true)
-                try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers])
+                try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers])
                 try await audioSession.activate()
                 store.state.isAudioSessionLoaded = true
             }
             catch {
                 store.state.isAudioSessionLoaded = false
-                print("startAudioSession()", error)
             }
         }
     }

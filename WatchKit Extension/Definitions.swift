@@ -139,7 +139,7 @@ class Session: Codable {
             save()
         }
     }
-    var volume: Float = VOLUME_RANGE[1] / 2 {
+    var volume: Float = VOLUME {
         didSet {
             save()
         }

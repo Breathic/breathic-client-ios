@@ -28,7 +28,7 @@ struct ContentView: View {
         "Status": 1,
         "Log": 0
     ]
-    let views: [String] = ["Controller", "Status", "Log"]
+    let mainMenuViews: [String] = ["Controller", "Status", "Log"]
     let crownMultiplier: Float = 2
     let slidePadding = CGFloat(4)
 
@@ -105,7 +105,7 @@ struct ContentView: View {
 
     func selectMainMenu(geometry: GeometryProxy) {
         if store.state.tempActiveSubView == "" {
-            store.state.tempActiveSubView = views[0]
+            store.state.tempActiveSubView = mainMenuViews[0]
         }
 
         store.state.activeSubView = store.state.tempActiveSubView
@@ -116,7 +116,7 @@ struct ContentView: View {
     func menuView(geometry: GeometryProxy) -> some View {
         VStack {
             Picker("", selection: $store.state.tempActiveSubView) {
-                ForEach(views, id: \.self) {
+                ForEach(mainMenuViews, id: \.self) {
                     if $0 == store.state.tempActiveSubView {
                         Text($0)
                             .font(.system(size: 18))
@@ -133,7 +133,7 @@ struct ContentView: View {
             .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
             .clipped()
             .onAppear() {
-                store.state.tempActiveSubView = views[0]
+                store.state.tempActiveSubView = mainMenuViews[0]
             }
             .onTapGesture { selectMainMenu(geometry: geometry) }
 
@@ -331,7 +331,7 @@ struct ContentView: View {
         }
 
         if !hasSessionLogs() {
-            store.state.activeSubView = views[0]
+            store.state.activeSubView = mainMenuViews[0]
         }
         else {
             store.state.activeSubView = "Log"
@@ -447,7 +447,7 @@ struct ContentView: View {
             }
             .font(.system(size: store.state.ui.secondaryTextSize))
 
-            secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = views[0] })
+            secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = mainMenuViews[0] })
         }
     }
 
@@ -457,7 +457,7 @@ struct ContentView: View {
                 Button(action: {
                     player.pause()
                     store.state.session.stop()
-                    store.state.activeSubView = views[0]
+                    store.state.activeSubView = mainMenuViews[0]
                 }) {
                     Text("Discard")
                 }
@@ -468,7 +468,7 @@ struct ContentView: View {
 
                 Button(action: {
                     player.stop()
-                    store.state.activeSubView = views[0]
+                    store.state.activeSubView = mainMenuViews[0]
                 }) {
                     Text("Save")
                 }
@@ -484,7 +484,7 @@ struct ContentView: View {
 
             HStack {
                 Button(action: {
-                    store.state.activeSubView = views[0]
+                    store.state.activeSubView = mainMenuViews[0]
                 }) {
                     Text("Cancel")
                 }
@@ -564,7 +564,7 @@ struct ContentView: View {
                         case "Menu":
                             menuView(geometry: geometry)
 
-                        case views[0], "Controller", "Status":
+                        case mainMenuViews[0], "Controller", "Status":
                             HStack {
                                 controllerView(geometry: geometry)
                                 statusView(geometry: geometry)
@@ -597,7 +597,7 @@ struct ContentView: View {
                                         }
                                         else if dragXOffset.width > -width {
                                             dragIndex = 0
-                                            store.state.activeSubView = views[0]
+                                            store.state.activeSubView = mainMenuViews[0]
                                         }
                                         else {
                                             dragXOffset = CGSize(
@@ -631,7 +631,7 @@ struct ContentView: View {
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
 
-                if store.state.activeSubView == views[0] || store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
+                if store.state.activeSubView == mainMenuViews[0] || store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
                     ZStack {
                         HStack {
                             DottedIndicator(index: dragIndex, maxIndex: 1, direction: "horizontal")
@@ -649,7 +649,7 @@ struct ContentView: View {
 
                         store.state.activeSubView = store.state.activeSubView != "Menu"
                             ? "Menu"
-                            : views[0]
+                            : mainMenuViews[0]
                         store.state.activeSubView = isOverviewSelected
                             ? "Log"
                             : store.state.activeSubView
