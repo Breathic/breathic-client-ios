@@ -4,7 +4,7 @@ import AVFAudio
 import MediaPlayer
 
 class Player {
-    @ObservedObject private var store: AppStore = .shared
+    @ObservedObject private var store: Store = .shared
 
     let coordinator = Coordinator()
     let step = Step()

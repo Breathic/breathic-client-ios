@@ -3,7 +3,7 @@ import SwiftUI
 import CoreMotion
 
 class Step {
-    @ObservedObject private var store: AppStore = .shared
+    @ObservedObject private var store: Store = .shared
 
     var pedometer = CMPedometer()
     var steps = [StepData]()

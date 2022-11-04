@@ -3,19 +3,19 @@ import CoreLocation
 import SwiftUI
 
 class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
-    @ObservedObject private var store: AppStore = .shared
-    
+    @ObservedObject private var store: Store = .shared
+
     let locationManager = CLLocationManager()
     var last: CLLocation?
     var speeds: [Double] = []
     var timer: Timer?
-    
+
     override init() {
         super.init()
         
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
-    
+
     var isLocationAvailable: Bool {
         get {
             switch locationManager.authorizationStatus {

@@ -54,8 +54,8 @@ struct AppState {
     }
 }
 
-final class AppStore: ObservableObject {
-    static let shared: AppStore = AppStore()
+final class Store: ObservableObject {
+    static let shared: Store = Store()
 
     @Published var state = AppState()
 }

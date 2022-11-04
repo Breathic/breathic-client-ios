@@ -12,7 +12,7 @@ struct ContentView: View {
         var yMax: Float = 0
     }
 
-    @ObservedObject private var store: AppStore = .shared
+    @ObservedObject private var store: Store = .shared
 
     @State private var timeseries: [String: [Timeserie]] = [:]
     @State private var seriesData: [SeriesData] = []

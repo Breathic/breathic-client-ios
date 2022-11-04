@@ -3,7 +3,7 @@ import SwiftUI
 import HealthKit
 
 class Heart: ObservableObject {
-    @ObservedObject private var store: AppStore = .shared
+    @ObservedObject private var store: Store = .shared
 
     private var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
