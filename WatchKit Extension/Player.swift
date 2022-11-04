@@ -17,6 +17,8 @@ class Player {
     var collections: [[Audio]] = []
     var players: [String: AVAudioPlayer] = [:]
     var elapsedTimeTimer = Timer()
+    var wasLoopStarted = false
+    var audioSession = AVAudioSession()
 
     init() {
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
@@ -139,37 +141,15 @@ class Player {
         }
     }
 
-    func startAudioSession() async {
-        let session = AVAudioSession.sharedInstance()
-
-        do {
-            try session.setCategory(
-                .playback,
-                mode: .default,
-                policy: .longFormAudio,
-                options: []
-            )
-            
-            try await session.activate()
-        }
-        catch {
-            print("startAudioSession()", error)
-        }
-    }
-
     func start() {
-        Task {
-            await startAudioSession()
-        }
-
         heart.start()
         step.start()
         speed.start()
         coordinator.start()
 
-        if !store.state.isAudioSessionLoaded {
-            store.state.isAudioSessionLoaded = true
+        if !wasLoopStarted {
             loop()
+            wasLoopStarted = true
         }
 
         store.state.elapsedTime = ""
@@ -392,6 +372,29 @@ class Player {
         }
     }
 
+    func loop() {
+        let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
+
+        if !loopInterval.isInfinite && self.store.state.isAudioPlaying {
+            DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
+                if self.store.state.isAudioPlaying {
+                    self.loopedPlay(loopInterval: loopInterval)
+                }
+
+                self.loop()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.updateGraph()
+            }
+        }
+        else {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                self.loop()
+            }
+        }
+    }
+
     func updateGraph() {
         let timestamp = Date()
         let loopIntervalSum = getLoopIntervalSum()
@@ -414,29 +417,6 @@ class Player {
                         value: store.state.valueByMetric(metric: $0)
                     )
                 )
-            }
-        }
-    }
-
-    func loop() {
-        let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
-
-        if !loopInterval.isInfinite && self.store.state.isAudioPlaying {
-            DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
-                if self.store.state.isAudioPlaying {
-                    self.loopedPlay(loopInterval: loopInterval)
-                }
-
-                self.loop()
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.updateGraph()
-            }
-        }
-        else {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-                self.loop()
             }
         }
     }
@@ -471,7 +451,25 @@ class Player {
     }
 
     func play() {
-        store.state.isAudioPlaying = true
+        Task {
+            store.state.isAudioSessionLoaded = false
+
+            do {
+                try audioSession.setCategory(
+                    .playback,
+                    mode: .default,
+                    policy: .longFormAudio,
+                    options: []
+                )
+                try await audioSession.activate()
+
+                store.state.isAudioSessionLoaded = true
+                store.state.isAudioPlaying = true
+            }
+            catch {
+                print("startAudioSession()", error)
+            }
+        }
     }
 
     func pause() {
