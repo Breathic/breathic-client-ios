@@ -25,7 +25,6 @@ struct AppState {
     var sessionLogs: [Session] = []
     var sessionLogIds: [String] = []
     var isAudioSessionLoaded: Bool = false
-    var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
     var elapsedTime: String = ""
     var playerIndex: Int = -1

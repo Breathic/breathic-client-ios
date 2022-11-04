@@ -154,8 +154,8 @@ struct ContentView: View {
                     isTall: false,
                     action: {
                         store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < METRIC_TYPES.count
-                        ? store.state.session.metricTypeIndex + 1
-                        : 0
+                            ? store.state.session.metricTypeIndex + 1
+                            : 0
                         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
                     }
                 )
@@ -180,11 +180,11 @@ struct ContentView: View {
                     geometry: geometry,
                     label: "Session",
                     value: store.state.isAudioSessionLoaded && store.state.session.isActive
-                    ? "⚑"
-                    : "◴",
+                        ? "⚑"
+                        : "◴",
                     unit: store.state.isAudioSessionLoaded && store.state.session.isActive
-                    ? store.state.elapsedTime
-                    : "Stopped",
+                        ? store.state.elapsedTime
+                        : "Stopped",
                     isTall: false,
                     action: {
                         if store.state.isAudioSessionLoaded && store.state.session.isActive {
@@ -201,8 +201,8 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Audio",
-                    value: store.state.isAudioPlaying ? "||" : "▶",
-                    unit: store.state.isAudioPlaying ? "Playing" : "Paused",
+                    value: store.state.session.isAudioPlaying ? "||" : "▶",
+                    unit: store.state.session.isAudioPlaying ? "Playing" : "Paused",
                     index: Int(ceil(
                         convertRange(
                             value: Float(store.state.session.volume),

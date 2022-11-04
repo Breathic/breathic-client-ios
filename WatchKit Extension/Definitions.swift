@@ -104,6 +104,11 @@ class Session: Codable {
             save()
         }
     }
+    var isAudioPlaying: Bool = true {
+        didSet {
+            save()
+        }
+    }
     var uuid: String = UUID().uuidString {
         didSet {
             save()
@@ -148,6 +153,7 @@ class Session: Codable {
     func start() {
         if !isActive {
             isActive = true
+            isAudioPlaying = true
             startTime = Date()
             endTime = Date()
             uuid = UUID().uuidString
