@@ -201,8 +201,14 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Audio",
-                    value: store.state.session.isAudioPlaying ? "||" : "▶",
-                    unit: store.state.session.isAudioPlaying ? "Playing" : "Paused",
+                    value: store.state.session.isAudioPlaying
+                        ? "||"
+                        : "▶",
+                    unit: store.state.session.isAudioPlaying
+                        ? Float(store.state.session.volume) > 0
+                            ? "Playing"
+                            : "Muted"
+                        : "Paused",
                     index: Int(ceil(
                         convertRange(
                             value: Float(store.state.session.volume),
