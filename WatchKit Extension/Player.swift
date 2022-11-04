@@ -10,7 +10,6 @@ class Player {
     let step = Step()
     var speed = Speed()
     var heart = Heart()
-    let commandCenter = MPRemoteCommandCenter.shared()
     var isPanningReversed: Bool = true
     var fadeScale: [Float] = []
     var panScale: [Float] = []
@@ -26,13 +25,13 @@ class Player {
         panScale = getPanScale()
         store.state.sessionLogs = readSessionLogs()
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        initCommandCenter()
         store.state.session = readActiveSession()
         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
         if store.state.session.isActive {
             start()
         }
         initTimeseriesSaver()
+        //initCommandCenter()
 
         //UserDefaults.standard.set("", forKey: "ActiveSession")
         /*
@@ -112,7 +111,10 @@ class Player {
         }
     }
 
+    /*
     func initCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
         commandCenter.playCommand.addTarget { [unowned self] event in
             self.play()
             return .success
@@ -128,6 +130,7 @@ class Player {
             return .success
         }
     }
+     */
 
     func initInactivityTimer() {
         store.state.lastDataChangeTime = .now()
@@ -456,17 +459,15 @@ class Player {
 
     func play() {
         Task {
-            store.state.isAudioSessionLoaded = false
-
             do {
                 let audioSession = AVAudioSession.sharedInstance()
                 try audioSession.setActive(true)
                 try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers])
                 try await audioSession.activate()
-
                 store.state.isAudioSessionLoaded = true
             }
             catch {
+                store.state.isAudioSessionLoaded = false
                 print("startAudioSession()", error)
             }
         }
