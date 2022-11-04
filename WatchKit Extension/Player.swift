@@ -151,8 +151,6 @@ class Player {
             wasLoopStarted = true
         }
 
-        store.state.elapsedTime = ""
-
         //if !Platform.isSimulator {
         //    initInactivityTimer()
         //}

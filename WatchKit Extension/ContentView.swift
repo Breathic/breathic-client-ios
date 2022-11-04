@@ -179,15 +179,17 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Session",
-                    value: store.state.isAudioSessionLoaded && store.state.session.isActive
+                    value: store.state.session.isActive
                         ? "⚑"
                         : "◴",
-                    unit: store.state.isAudioSessionLoaded && store.state.session.isActive
-                        ? store.state.elapsedTime
+                    unit: store.state.session.isActive
+                        ? store.state.elapsedTime.count > 0
+                            ? store.state.elapsedTime
+                            : " "
                         : "Stopped",
                     isTall: false,
                     action: {
-                        if store.state.isAudioSessionLoaded && store.state.session.isActive {
+                        if store.state.session.isActive {
                             store.state.activeSubView = "Confirm"
                         }
                         else {
