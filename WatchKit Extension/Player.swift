@@ -27,12 +27,11 @@ class Player {
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         store.state.session = readActiveSession()
         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
-        
-        DispatchQueue.main.async() {
-            if self.store.state.session.isActive {
-                self.start()
-                self.initTimeseriesSaver()
-            }
+        initTimeseriesSaver()
+
+        if store.state.session.isActive {
+            store.state.isResumable = true
+
         }
         //initCommandCenter()
 
@@ -90,7 +89,6 @@ class Player {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
             player?.prepareToPlay()
-            player?.volume = 0
             players[forResource] = player
         }
     }
@@ -98,7 +96,7 @@ class Player {
     func initTimeseriesSaver() {
         Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
             DispatchQueue.main.async {
-                if self.store.state.session.isActive {
+                if self.store.state.session.isActive && !self.store.state.isResumable  {
                     self.saveTimeseries()
                 }
             }
@@ -147,6 +145,8 @@ class Player {
     }
 
     func start() {
+        store.state.isResumable = false
+
         heart.start()
         step.start()
         speed.start()

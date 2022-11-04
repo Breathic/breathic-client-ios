@@ -18,6 +18,7 @@ struct AppState {
     var tempActiveSubView: String = ""
     var session: Session = readActiveSession()
     var selectedSessionId: String = ""
+    var isResumable: Bool = false
     var seeds: [Seed] = []
     var rhythms: [Rhythm] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")

@@ -141,6 +141,17 @@ struct ContentView: View {
         }
     }
 
+    func getSessionUnit() -> String {
+        if store.state.session.isActive {
+            if store.state.isResumable { return "Resume" }
+            else if store.state.elapsedTime.count > 0 { return store.state.elapsedTime }
+            else { return " " }
+        }
+        else {
+            return "Stopped"
+        }
+    }
+
     func controllerView(geometry: GeometryProxy) -> some View {
         VStack() {
             HStack {
@@ -182,19 +193,11 @@ struct ContentView: View {
                     value: store.state.session.isActive
                         ? "⚑"
                         : "◴",
-                    unit: store.state.session.isActive
-                        ? store.state.elapsedTime.count > 0
-                            ? store.state.elapsedTime
-                            : " "
-                        : "Stopped",
+                    unit: getSessionUnit(),
                     isTall: false,
                     action: {
-                        if store.state.session.isActive {
-                            store.state.activeSubView = "Confirm"
-                        }
-                        else {
-                            player.start()
-                        }
+                        if !store.state.session.isActive || store.state.isResumable { player.start() }
+                        else { store.state.activeSubView = "Confirm" }
                     }
                 )
 
