@@ -18,7 +18,6 @@ class Player {
     var players: [String: AVAudioPlayer] = [:]
     var elapsedTimeTimer = Timer()
     var wasLoopStarted = false
-    var audioSession = AVAudioSession()
 
     init() {
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
@@ -462,12 +461,9 @@ class Player {
             store.state.isAudioSessionLoaded = false
 
             do {
-                try audioSession.setCategory(
-                    .playback,
-                    mode: .default,
-                    policy: .longFormAudio,
-                    options: []
-                )
+                let audioSession = AVAudioSession.sharedInstance()
+                try audioSession.setActive(true)
+                try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers])
                 try await audioSession.activate()
 
                 store.state.isAudioSessionLoaded = true
