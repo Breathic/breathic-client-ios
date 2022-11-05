@@ -15,7 +15,6 @@ class Player {
     var panScale: [Float] = []
     var collections: [[Audio]] = []
     var players: [String: AVAudioPlayer] = [:]
-    var elapsedTimeTimer = Timer()
     var isLoopStarted = false
 
     init() {
@@ -33,6 +32,8 @@ class Player {
             store.state.isResumable = true
 
         }
+
+        startElapsedTimer()
         //initCommandCenter()
 
         //UserDefaults.standard.set("", forKey: "ActiveSession")
@@ -67,7 +68,7 @@ class Player {
                 convertRange(
                     value: Float($0),
                     oldRange: [0, Float(fadeMax)],
-                    newRange: [VOLUME_RANGE[0], VOLUME_RANGE[1] / 100]
+                    newRange: [0, 1]
                 )
             )
         }
@@ -88,19 +89,17 @@ class Player {
         for key in store.state.distances.keys {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
-            //player?.numberOfLoops = -1
-            //player?.prepareToPlay()
             players[forResource] = player
         }
     }
 
     func initTimeseriesSaver() {
-        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
-            DispatchQueue.main.async {
-                if self.store.state.session.isActive && !self.store.state.isResumable  {
-                    self.saveTimeseries()
-                }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+            if self.store.state.session.isActive && !self.store.state.isResumable  {
+                self.saveTimeseries()
             }
+
+            self.initTimeseriesSaver()
         }
     }
 
@@ -166,16 +165,18 @@ class Player {
         create()
         play()
         store.state.session.start()
+    }
 
+    func startElapsedTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            self.elapsedTimeTimer = timer
-            self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
+            if self.store.state.session.isActive && !self.store.state.isResumable {
+                self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
+            }
         }
     }
 
     func stop() {
         pause()
-        elapsedTimeTimer.invalidate()
         heart.stop()
         step.stop()
         speed.stop()
@@ -393,7 +394,7 @@ class Player {
             }
         }
         else {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.loop()
             }
         }
@@ -459,13 +460,17 @@ class Player {
         Task {
             do {
                 let audioSession = AVAudioSession.sharedInstance()
-                try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers])
-
-                audioSession.activate(options: []) { (success, _) in
-                    self.store.state.isAudioSessionLoaded = success
-                }
+                try audioSession.setCategory(
+                    .playback,
+                    mode: .default,
+                    options: [.mixWithOthers]
+                )
+                store.state.isAudioSessionLoaded = try await audioSession.activate()
             }
-            catch {}
+            catch {
+                store.state.isAudioSessionLoaded = false
+                print("startAudioSession()", error)
+            }
         }
     }
 
