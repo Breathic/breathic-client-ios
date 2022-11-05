@@ -206,10 +206,10 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Audio",
-                    value: store.state.session.isAudioPlaying
+                    value: store.state.isAudioSessionLoaded
                         ? "||"
                         : "▶",
-                    unit: store.state.session.isAudioPlaying
+                    unit: store.state.isAudioSessionLoaded
                         ? Float(store.state.session.volume) > 0
                             ? "Playing"
                             : "Muted"
@@ -229,8 +229,8 @@ struct ContentView: View {
                         )) - 1
                     ),
                     isTall: false,
-                    isEnabled: store.state.isAudioSessionLoaded && store.state.session.isActive,
-                    opacity: store.state.isAudioSessionLoaded && store.state.session.isActive ? 1 : 0.33,
+                    isEnabled: store.state.session.isActive && !store.state.isResumable,
+                    opacity: store.state.session.isActive && !store.state.isResumable ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }

@@ -378,9 +378,9 @@ class Player {
     func loop() {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
-        if !loopInterval.isInfinite && store.state.session.isAudioPlaying {
+        if !loopInterval.isInfinite && store.state.isAudioSessionLoaded {
             DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
-                if self.store.state.session.isAudioPlaying {
+                if self.store.state.isAudioSessionLoaded {
                     self.loopedPlay(loopInterval: loopInterval)
                 }
 
@@ -425,14 +425,8 @@ class Player {
     }
 
     func togglePlay() {
-        if store.state.session.isAudioPlaying {
-            store.state.session.isAudioPlaying = false
-            pause()
-        }
-        else {
-            play()
-            store.state.session.isAudioPlaying = true
-        }
+        if store.state.isAudioSessionLoaded { pause() }
+        else { play() }
     }
 
     func setPlayerIndex() {
@@ -465,7 +459,11 @@ class Player {
             do {
                 let audioSession = AVAudioSession.sharedInstance()
                 try audioSession.setActive(true)
-                try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+                try audioSession.setCategory(
+                    .playback,
+                    mode: .default,
+                    options: [.mixWithOthers]
+                )
                 try await audioSession.activate()
                 store.state.isAudioSessionLoaded = true
             }
@@ -476,7 +474,7 @@ class Player {
     }
 
     func pause() {
-        store.state.session.isAudioPlaying = false
+        store.state.isAudioSessionLoaded = false
 
         for collection in collections {
             for audio in collection {
