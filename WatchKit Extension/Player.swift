@@ -88,7 +88,8 @@ class Player {
         for key in store.state.distances.keys {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
-            player?.prepareToPlay()
+            //player?.numberOfLoops = -1
+            //player?.prepareToPlay()
             players[forResource] = player
         }
     }
@@ -458,18 +459,13 @@ class Player {
         Task {
             do {
                 let audioSession = AVAudioSession.sharedInstance()
-                try audioSession.setActive(true)
-                try audioSession.setCategory(
-                    .playback,
-                    mode: .default,
-                    options: [.mixWithOthers]
-                )
-                try await audioSession.activate()
-                store.state.isAudioSessionLoaded = true
+                try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+
+                audioSession.activate(options: []) { (success, _) in
+                    self.store.state.isAudioSessionLoaded = success
+                }
             }
-            catch {
-                store.state.isAudioSessionLoaded = false
-            }
+            catch {}
         }
     }
 
