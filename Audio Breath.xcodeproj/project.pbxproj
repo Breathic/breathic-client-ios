@@ -14,19 +14,19 @@
 		FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392928BBDD99009F1861 /* ComplicationController.swift */; };
 		FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D392B28BBDD9A009F1861 /* Assets.xcassets */; };
 		FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D392E28BBDD9A009F1861 /* Preview Assets.xcassets */; };
-		FD2D393F28BBDE4A009F1861 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D393E28BBDE4A009F1861 /* AppStore.swift */; };
+		FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D393E28BBDE4A009F1861 /* Store.swift */; };
 		FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394928BBDF7B009F1861 /* Definitions.swift */; };
 		FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394B28BBDF9E009F1861 /* Constants.swift */; };
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
+		FD95E46D2916F6FA00EC78F1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD95E46C2916F6FA00EC78F1 /* data */; };
 		FD9ABB6E28BBED42003049AC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* Coordinator.swift */; };
 		FDC09FC328F0A58200F42253 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC09FC228F0A58200F42253 /* Library.swift */; };
 		FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D12911BAEF0059F5D6 /* Speed.swift */; };
 		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
 		FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D52911BC3D0059F5D6 /* Heart.swift */; };
-		FDF1E1D8291329410059F5D6 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDF1E1D7291329410059F5D6 /* data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,21 +63,21 @@
 		FD2D392B28BBDD9A009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD2D392E28BBDD9A009F1861 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FD2D393028BBDD9A009F1861 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FD2D393E28BBDE4A009F1861 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		FD2D393E28BBDE4A009F1861 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		FD2D394928BBDF7B009F1861 /* Definitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definitions.swift; sourceTree = "<group>"; };
 		FD2D394B28BBDF9E009F1861 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FD2D395128BBE012009F1861 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		FD95E46C2916F6FA00EC78F1 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FD9ABB6D28BBED42003049AC /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Audio Breath-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Audio Breath-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FDC09FC228F0A58200F42253 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
-		FDC3DD722913EC12001AC617 /* WatchKit ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "WatchKit ExtensionDebug.entitlements"; sourceTree = "<group>"; };
+		FDC3DD722913EC12001AC617 /* ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ExtensionDebug.entitlements; sourceTree = "<group>"; };
 		FDF1E1D12911BAEF0059F5D6 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		FDF1E1D32911BB960059F5D6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		FDF1E1D52911BC3D0059F5D6 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
-		FDF1E1D7291329410059F5D6 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +95,8 @@
 		FD2D390A28BBDD97009F1861 = {
 			isa = PBXGroup;
 			children = (
-				FD2D391928BBDD98009F1861 /* WatchKit App */,
-				FD2D392428BBDD99009F1861 /* WatchKit Extension */,
+				FD2D391928BBDD98009F1861 /* App */,
+				FD2D392428BBDD99009F1861 /* Extension */,
 				FD2D391228BBDD97009F1861 /* Products */,
 				FD2D394428BBDF24009F1861 /* Frameworks */,
 			);
@@ -111,27 +111,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FD2D391928BBDD98009F1861 /* WatchKit App */ = {
+		FD2D391928BBDD98009F1861 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				FDA08A8228D49F2C001FE337 /* Audio Breath-WatchKit-App-Info.plist */,
 				FD2D391A28BBDD99009F1861 /* Assets.xcassets */,
 			);
-			path = "WatchKit App";
+			path = App;
 			sourceTree = "<group>";
 		};
-		FD2D392428BBDD99009F1861 /* WatchKit Extension */ = {
+		FD2D392428BBDD99009F1861 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				FD8E3EE6290AC4FF0048B2F7 /* Components.swift */,
 				FDF1E1D32911BB960059F5D6 /* Step.swift */,
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
-				FDC3DD722913EC12001AC617 /* WatchKit ExtensionDebug.entitlements */,
+				FDC3DD722913EC12001AC617 /* ExtensionDebug.entitlements */,
+				FD95E46C2916F6FA00EC78F1 /* data */,
 				FDF1E1D52911BC3D0059F5D6 /* Heart.swift */,
 				FD9ABB6D28BBED42003049AC /* Coordinator.swift */,
 				FDF1E1D12911BAEF0059F5D6 /* Speed.swift */,
 				FDC09FC228F0A58200F42253 /* Library.swift */,
-				FDF1E1D7291329410059F5D6 /* data */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD2D392728BBDD99009F1861 /* App.swift */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
@@ -141,9 +141,9 @@
 				FD2D392B28BBDD9A009F1861 /* Assets.xcassets */,
 				FD2D393028BBDD9A009F1861 /* Info.plist */,
 				FD2D392D28BBDD9A009F1861 /* Preview Content */,
-				FD2D393E28BBDE4A009F1861 /* AppStore.swift */,
+				FD2D393E28BBDE4A009F1861 /* Store.swift */,
 			);
-			path = "WatchKit Extension";
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		FD2D392D28BBDD9A009F1861 /* Preview Content */ = {
@@ -256,7 +256,7 @@
 			files = (
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
-				FDF1E1D8291329410059F5D6 /* data in Resources */,
+				FD95E46D2916F6FA00EC78F1 /* data in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,7 +278,7 @@
 				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
 				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
 				FD9ABB6E28BBED42003049AC /* Coordinator.swift in Sources */,
-				FD2D393F28BBDE4A009F1861 /* AppStore.swift in Sources */,
+				FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */,
 				FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */,
 				FD2D395228BBE012009F1861 /* Extensions.swift in Sources */,
 				FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */,
@@ -417,7 +417,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "WatchKit Extension/WatchKit ExtensionDebug.entitlements";
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
@@ -456,7 +456,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "WatchKit Extension/WatchKit ExtensionDebug.entitlements";
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;

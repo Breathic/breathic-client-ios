@@ -45,6 +45,7 @@ struct AppState {
 
     func valueByMetric(metric: String) -> Float {
         switch metric {
+            
             case "breath": return breath
             case "heart": return heart
             case "step": return step
