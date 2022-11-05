@@ -505,18 +505,20 @@ struct ContentView: View {
         HStack {
             Spacer(minLength: 8)
 
-            Chart(seriesData) { series in
-                ForEach(series.data) { element in
-                    LineMark(
-                        x: .value("Time", element.timestamp),
-                        y: .value("Value", element.value)
-                    )
-                    .foregroundStyle(by: .value("Metric", series.metric))
+            if chartDomain.xMin <= chartDomain.xMax && chartDomain.yMin <= chartDomain.yMax {
+                Chart(seriesData) { series in
+                    ForEach(series.data) { element in
+                        LineMark(
+                            x: .value("Time", element.timestamp),
+                            y: .value("Value", element.value)
+                        )
+                        .foregroundStyle(by: .value("Metric", series.metric))
+                    }
                 }
+                .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
+                .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
+                .frame(height: geometry.size.height + 16)
             }
-            .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
-            .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
-            .frame(height: geometry.size.height + 16)
         }
     }
 
@@ -658,7 +660,11 @@ struct ContentView: View {
                             : store.state.activeSubView
                     },
                     label: {
-                        Text("☰ " + store.state.activeSubView.components(separatedBy: " (")[0]) // Remove duration when overview.
+                        Text(
+                            "☰ " + store.state.activeSubView
+                                .components(separatedBy: " (")[0] // Remove duration as well as count when overview.
+                                .components(separatedBy: " -")[0]
+                        )
                             .font(.system(size: 12))
                     }
                 )
