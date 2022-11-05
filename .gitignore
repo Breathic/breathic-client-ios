@@ -3,7 +3,8 @@ node_modules/
 
 # misc
 processed/
-__pyache__/
+__pycache__/
+.ipynb_checkpoints/
 .DS_Store
 .env
 npm-debug.log
