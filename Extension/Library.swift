@@ -46,7 +46,7 @@ func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
 }
 
 func colorize(color: String) -> Color {
-    return COLORS[color] ?? Color(.white)
+    return Color(red: COLORS[color]!.0 / 255, green: COLORS[color]!.1 / 255, blue: COLORS[color]!.2 / 255)
 }
 
 func getElapsedTime(from: Date, to: Date) -> String {

@@ -329,7 +329,7 @@ class Player {
         return timeserie
     }
 
-    func loopedPlay(loopInterval: TimeInterval) {
+    func audioLoop(loopInterval: TimeInterval) {
         for (collectionIndex, collection) in collections.enumerated() {
             for (audioIndex, audio) in collection.enumerated() {
                 for (channelIndex, channel) in audio.channels.enumerated() {
@@ -380,7 +380,7 @@ class Player {
         if !loopInterval.isInfinite && store.state.isAudioSessionLoaded {
             DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
                 if self.store.state.isAudioSessionLoaded {
-                    self.loopedPlay(loopInterval: loopInterval)
+                    self.audioLoop(loopInterval: loopInterval)
                 }
 
                 self.loop()
