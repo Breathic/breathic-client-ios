@@ -665,7 +665,7 @@ struct ContentView: View {
                                 .components(separatedBy: " (")[0] // Remove duration as well as count when overview.
                                 .components(separatedBy: " -")[0]
                         )
-                            .font(.system(size: 12))
+                        .font(.system(size: 12))
                     }
                 )
             }

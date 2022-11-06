@@ -30,25 +30,24 @@ class Player {
 
         if store.state.session.isActive {
             store.state.isResumable = true
-
         }
 
         startElapsedTimer()
-        //initCommandCenter()
 
-        //UserDefaults.standard.set("", forKey: "ActiveSession")
+        //UserDefaults.standard.set("", forKey: "ActiveSession") // Clear a key.
+
         /*
-        let update = Update()
-        update.value = 60.0
-        update.timestamp = Date()
+         let update = Update()
+         update.value = 60.0
+         update.timestamp = Date()
 
-        for (index, _) in Array(1...10).enumerated() {
-            let update2 = Update()
-            update2.timestamp = update.timestamp.addingTimeInterval(5.0 * Double(index))
-            update2.value = update.value + Float(index)
-            store.state.averageHeartRatesPerMinute.append(update2)
-        }
-        */
+         for (index, _) in Array(1...10).enumerated() {
+             let update2 = Update()
+             update2.timestamp = update.timestamp.addingTimeInterval(5.0 * Double(index))
+             update2.value = update.value + Float(index)
+             store.state.averageHeartRatesPerMinute.append(update2)
+         }
+         */
     }
 
     func defaultMetrics() {
@@ -94,12 +93,10 @@ class Player {
     }
 
     func initTimeseriesSaver() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
                 self.saveTimeseries()
             }
-
-            self.initTimeseriesSaver()
         }
     }
 
