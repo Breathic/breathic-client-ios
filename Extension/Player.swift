@@ -13,7 +13,7 @@ class Player {
     var isPanningReversed: Bool = true
     var fadeScale: [Float] = []
     var panScale: [Float] = []
-    var collections: [[Audio]] = []
+    var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
     var isLoopStarted = false
 
@@ -237,13 +237,13 @@ class Player {
         return seeds
     }
 
-    func setChannels(collectionIndex: Int, audioIndex: Int) {
-        collections[collectionIndex][audioIndex].channels = []
+    func setChannels(audioIndex: Int) {
+        audios[audioIndex].channels = []
 
         for seed in store.state.seeds {
             let channel: [String] = seed.rhythms[store.state.queueIndex + audioIndex].samples
 
-            collections[collectionIndex][audioIndex].channels.append(channel)
+            audios[audioIndex].channels.append(channel)
         }
     }
 
@@ -252,12 +252,11 @@ class Player {
     }
 
     func setPlayer(
-        collectionIndex: Int,
         audioIndex: Int,
         channelIndex: Int,
         sampleIndex: Int
     ) {
-        let channel = collections[collectionIndex][audioIndex].channels[channelIndex]
+        let channel = audios[audioIndex].channels[channelIndex]
         let forResource = channel[sampleIndex]
         let pansScaleIndex = !isPanningReversed
             ? sampleIndex
@@ -269,8 +268,8 @@ class Player {
 
             players[playerId]?.currentTime = 0
             players[playerId]?.pan = panScale[pansScaleIndex]
-            let fade = collections[collectionIndex][audioIndex].fadeIndex > -1
-                ? fadeScale[collections[collectionIndex][audioIndex].fadeIndex]
+            let fade = audios[audioIndex].fadeIndex > -1
+                ? fadeScale[audios[audioIndex].fadeIndex]
                 : 0
             players[playerId]?.volume = store.state.session.volume / 100 * Float(fade)
             players[playerId]?.play()
@@ -331,45 +330,42 @@ class Player {
     }
 
     func audioLoop(loopInterval: TimeInterval) {
-        for (collectionIndex, collection) in collections.enumerated() {
-            for (audioIndex, audio) in collection.enumerated() {
-                for (channelIndex, channel) in audio.channels.enumerated() {
-                    if collectionIndex == 0 && audioIndex == 0 && channelIndex == 0 && (
-                        audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
-                        isPanningReversed = !isPanningReversed
-                        incrementSelectedRhythmIndex()
-                    }
+        for (audioIndex, audio) in audios.enumerated() {
+            for (channelIndex, channel) in audio.channels.enumerated() {
+                if audioIndex == 0 && channelIndex == 0 && (
+                    audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
+                    isPanningReversed = !isPanningReversed
+                    incrementSelectedRhythmIndex()
+                }
 
-                    if channel[audio.sampleIndex] != "" {
-                        setPlayer(
-                            collectionIndex: collectionIndex,
-                            audioIndex: audioIndex,
-                            channelIndex: channelIndex,
-                            sampleIndex: audio.sampleIndex
-                        )
-                    }
+                if channelIndex == audio.channels.count - 1 {
+                    audio.sampleIndex = audio.sampleIndex + 1
+                }
 
-                    if channelIndex == audio.channels.count - 1 {
-                        audio.sampleIndex = audio.sampleIndex + 1
-                    }
+                if audio.sampleIndex == channel.count {
+                    audio.sampleIndex = 0
+                }
 
-                    if audio.sampleIndex == channel.count {
-                        audio.sampleIndex = 0
-                    }
+                audio.fadeIndex = audio.fadeIndex + 1
+                let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
 
-                    audio.fadeIndex = audio.fadeIndex + 1
-                    let islastQuarter = audio.fadeIndex == FADE_DURATION * 3
-                    let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
+                let islastQuarter = audio.fadeIndex == FADE_DURATION * 3 - 1
+                if islastQuarter {
+                    pick(audioIndex: 1, regenerate: false)
+                    audios[1].fadeIndex = 0
+                }
 
-                    if islastQuarter {
-                        pick(collectionIndex: collectionIndex, audioIndex: 1, regenerate: false)
-                        collections[collectionIndex][1].fadeIndex = 0
-                    }
+                if isTransitioning {
+                    audios[0].fadeIndex = -FADE_DURATION * 2 + 1
+                    audios = audios.reversed()
+                }
 
-                    if isTransitioning {
-                        collections[collectionIndex][0].fadeIndex = -FADE_DURATION * 2 + 1
-                        collections[collectionIndex] = collections[collectionIndex].reversed()
-                    }
+                if channel[audio.sampleIndex] != "" {
+                    setPlayer(
+                        audioIndex: audioIndex,
+                        channelIndex: channelIndex,
+                        sampleIndex: audio.sampleIndex
+                    )
                 }
             }
         }
@@ -429,14 +425,11 @@ class Player {
         else { play() }
     }
 
-    func setPlayerIndex() {
-        store.state.playerIndex = store.state.playerIndex + 1
-    }
-
     func create() {
+        audios = []
         shuffle()
         flushAll()
-        collections = []
+
         let audio = Audio(
             fadeIndex: 0,
             sampleIndex: 0,
@@ -445,13 +438,13 @@ class Player {
         )
         let audio2 = audio.copy() as! Audio
         audio2.fadeIndex = -FADE_DURATION * 3 + 1
-        let audios: [Audio] = [audio, audio2]
-        collections.append(audios)
 
-        let collectionIndex = collections.count - 1
-        setChannels(collectionIndex: collectionIndex, audioIndex: 0)
-        setChannels(collectionIndex: collectionIndex, audioIndex: 1)
-        resetFadeIndexes(collectionIndex: collectionIndex)
+        audios.append(audio)
+        audios.append(audio2)
+
+        setChannels(audioIndex: 0)
+        setChannels(audioIndex: 1)
+        resetFadeIndexes()
     }
 
     func play() {
@@ -475,11 +468,9 @@ class Player {
     func pause() {
         store.state.isAudioSessionLoaded = false
 
-        for collection in collections {
-            for audio in collection {
-                audio.forResources.forEach {
-                    players[$0]?.pause()
-                }
+        for audio in audios {
+            audio.forResources.forEach {
+                players[$0]?.pause()
             }
         }
     }
@@ -493,28 +484,24 @@ class Player {
         store.state.seeds = channels
     }
 
-    func resetFadeIndexes(collectionIndex: Int) {
-        collections[collectionIndex][0].fadeIndex = FADE_DURATION - 1
-        collections[collectionIndex][1].fadeIndex = -FADE_DURATION * 2 + 1
+    func resetFadeIndexes() {
+        audios[0].fadeIndex = FADE_DURATION - 1
+        audios[1].fadeIndex = -FADE_DURATION * 2 + 1
     }
 
     func flushAll() {
-        for (collectionIndex, collection) in collections.enumerated() {
-            for (audioIndex, _) in collection.enumerated() {
-                flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
-                pick(collectionIndex: collectionIndex, audioIndex: audioIndex, regenerate: true)
-            }
-
-            resetFadeIndexes(collectionIndex: collectionIndex)
+        for (audioIndex, _) in audios.enumerated() {
+            flush(audioIndex: audioIndex)
+            pick(audioIndex: audioIndex, regenerate: true)
         }
     }
 
-    func flush(collectionIndex: Int, audioIndex: Int) {
-        collections[collectionIndex][audioIndex].sampleIndex = 0
-        //collections[collectionIndex][audioIndex].forResources.forEach {
+    func flush(audioIndex: Int) {
+        audios[audioIndex].sampleIndex = 0
+        //audios[audioIndex].forResources.forEach {
             //players[$0]?.stop()
         //}
-        collections[collectionIndex][audioIndex].forResources = []
+        audios[audioIndex].forResources = []
     }
 
     func incrementQueueIndex() {
@@ -525,7 +512,7 @@ class Player {
         }
     }
 
-    func pick(collectionIndex: Int, audioIndex: Int, regenerate: Bool) {
+    func pick(audioIndex: Int, regenerate: Bool) {
         if regenerate {
             shuffle()
 
@@ -556,13 +543,13 @@ class Player {
                 }
             }
 
-            flush(collectionIndex: collectionIndex, audioIndex: audioIndex)
+            flush(audioIndex: audioIndex)
         }
         else {
             incrementQueueIndex()
         }
 
-        setChannels(collectionIndex: collectionIndex, audioIndex: audioIndex)
+        setChannels(audioIndex: audioIndex)
         play()
     }
 }
