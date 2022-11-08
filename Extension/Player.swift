@@ -88,12 +88,13 @@ class Player {
         for key in store.state.distances.keys {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
+            player?.prepareToPlay()
             players[forResource] = player
         }
     }
 
     func initTimeseriesSaver() {
-        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_S, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
                 self.saveTimeseries()
             }
@@ -510,9 +511,9 @@ class Player {
 
     func flush(collectionIndex: Int, audioIndex: Int) {
         collections[collectionIndex][audioIndex].sampleIndex = 0
-        collections[collectionIndex][audioIndex].forResources.forEach {
-            players[$0]?.stop()
-        }
+        //collections[collectionIndex][audioIndex].forResources.forEach {
+            //players[$0]?.stop()
+        //}
         collections[collectionIndex][audioIndex].forResources = []
     }
 
