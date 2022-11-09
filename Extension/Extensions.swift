@@ -35,3 +35,11 @@ extension Date {
         return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
     }
 }
+
+extension Dictionary where Value: RangeReplaceableCollection {
+    public mutating func append(element: Value.Iterator.Element, toValueOfKey key: Key) {
+        var value: Value = self[key] ?? Value()
+        value.append(element)
+        self[key] = value
+    }
+}

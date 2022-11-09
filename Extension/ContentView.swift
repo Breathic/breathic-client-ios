@@ -45,17 +45,25 @@ struct ContentView: View {
     func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
         let startHour = Calendar.current.component(.hour, from: selectedSession.startTime)
         let startMinute = Calendar.current.component(.minute, from: selectedSession.startTime)
-        let startSecond = Calendar.current.component(.second, from: selectedSession.startTime)
+        var dataByMinute: [Int: [Float]] = [:]
+        var dataByMinuteAveraged: [Int: Float] = [:]
 
-        return metricData
-            .map {
+        metricData
+            .forEach {
                 let hours = Calendar.current.component(.hour, from: $0.timestamp)
                 let minutes = Calendar.current.component(.minute, from: $0.timestamp)
-                let seconds = Calendar.current.component(.second, from: $0.timestamp)
-                let timestamp = (Int((minutes - startMinute) * 60 + (seconds - startSecond)) / 60) + ((hours - startHour) * 60)
-
-                return ProgressData(timestamp: timestamp, value: $0.value)
+                let timestampByMinute = (Int((hours - startHour) * 60 + (minutes - startMinute)))
+                dataByMinute.append(element: $0.value, toValueOfKey: timestampByMinute)
             }
+
+        for timestamp in dataByMinute.keys {
+            let values = dataByMinute[timestamp] ?? []
+            dataByMinuteAveraged[timestamp] = values.reduce(0, +) / Float(values.count)
+        }
+
+        return dataByMinuteAveraged.keys.sorted().map {
+            ProgressData(timestamp: $0, value: dataByMinuteAveraged[$0]!)
+        }
     }
 
     func getCurrentMetricValue(metric: String) -> String {
