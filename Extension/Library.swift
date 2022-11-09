@@ -64,15 +64,15 @@ func getElapsedTime(from: Date, to: Date) -> String {
     return elapsedTime
 }
 
-func readFromKeyValueStore(key: String) -> Data {
-    let outData = filestore.string(forKey: key) ?? ""
-    return outData.data(using: .utf8)!
-}
-
 func writeToKeyValueStore(key: String, data: Data) {
     let json = String(data: data, encoding: .utf8) ?? ""
     filestore.set(json, forKey: key)
     filestore.synchronize()
+}
+
+func readFromKeyValueStore(key: String) -> Data {
+    let outData = filestore.string(forKey: key) ?? ""
+    return outData.data(using: .utf8)!
 }
 
 func writeToFile(key: String, data: Data) {
