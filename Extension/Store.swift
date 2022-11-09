@@ -39,13 +39,12 @@ struct AppState {
     var timeseries: [String: [Timeserie]] = [
         "breath": [],
         "heart": [],
-        "step": [],
+        //"step": [],
         "speed": []
     ]
 
     func valueByMetric(metric: String) -> Float {
         switch metric {
-            
             case "breath": return breath
             case "heart": return heart
             case "step": return step

@@ -22,15 +22,15 @@ let METRIC_TYPES = [
         unit: "minute",
         valueColor: colorize(color: "red"),
         isReversed: false
-    ),
+    )/*,
     MetricType(
         metric: "step",
         label: "step rate",
         unit: "minute",
         valueColor: colorize(color: "blue"),
         isReversed: true
-    )/*,
-    MetricType(`
+    ),
+    MetricType(
         metric: "speedMetric",
         unit: "m / s",
         isReversed: true
