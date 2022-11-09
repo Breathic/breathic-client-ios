@@ -41,22 +41,27 @@ struct ContentView: View {
             timeseries[$0] = []
         }
     }
-
     func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
         let startHour = Calendar.current.component(.hour, from: selectedSession.startTime)
         let startMinute = Calendar.current.component(.minute, from: selectedSession.startTime)
-        var result: [Int: Float] = [:]
+        var dataByMinute: [Int: [Float]] = [:]
+        var dataByMinuteAveraged: [Int: Float] = [:]
 
         metricData
             .forEach {
                 let hours = Calendar.current.component(.hour, from: $0.timestamp)
                 let minutes = Calendar.current.component(.minute, from: $0.timestamp)
                 let timestampByMinute = (Int((hours - startHour) * 60 + (minutes - startMinute)))
-                result[timestampByMinute] = $0.value
+                dataByMinute.append(element: $0.value, toValueOfKey: timestampByMinute)
             }
 
-        return result.keys.sorted().map {
-            ProgressData(timestamp: $0, value: result[$0]!)
+        for timestamp in dataByMinute.keys {
+            let values = dataByMinute[timestamp] ?? []
+            dataByMinuteAveraged[timestamp] = values.reduce(0, +) / Float(values.count)
+        }
+
+        return dataByMinuteAveraged.keys.sorted().map {
+            ProgressData(timestamp: $0, value: dataByMinuteAveraged[$0]!)
         }
     }
 
@@ -359,11 +364,11 @@ struct ContentView: View {
                 addedMinutes = addedMinutes + 1
 
                 let data = readFromFile(key: id)
-                guard let _timeseries = try? JSONDecoder().decode([String: Timeserie].self, from: data) else { return }
+                guard let _timeseries = try? JSONDecoder().decode([String: [Timeserie]].self, from: data) else { return }
 
                 timeseries.keys.forEach {
-                    if _timeseries[$0] != nil && timeseries[$0] != nil {
-                        timeseries[$0]!.append(_timeseries[$0]!)
+                    if _timeseries[$0] != nil {
+                        timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
                     }
                 }
             }
