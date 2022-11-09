@@ -109,29 +109,9 @@ func generateSessionId(session: Session) -> String {
 }
 
 func getSessionIds(sessions: [Session]) -> [String] {
-    var result: [String] = []
-    var prevId = ""
-    var repeats = 1
-
-    for session in sessions {
-        var id = generateSessionId(session: session)
-        let isDuplicate = prevId == id
-
-        prevId = id
-        repeats = isDuplicate
-            ? repeats + 1
-            : 1
-
-        if repeats > 1 {
-            id = id + " - " + String(repeats)
-        }
-
-        id = id + " (" + getElapsedTime(from: session.startTime, to: session.endTime) + ")"
-
-        result.append(id)
+    return sessions.map {
+        return generateSessionId(session: $0) + " (" + getElapsedTime(from: $0.startTime, to: $0.endTime) + ")"
     }
-
-    return result
 }
 
 func getTimeseriesUpdateId(uuid: String, date: Date) -> String {

@@ -111,11 +111,29 @@ class Player {
         }
     }
 
-    func saveTimeseries() {
-        let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date())
-        guard let data = try? JSONEncoder().encode(store.state.timeseries) else { return }
+    func getAverages(timeseries: [String: [Timeserie]]) -> [String: Timeserie] {
+        var result: [String: Timeserie] = [:]
 
+        timeseries.keys.forEach {
+            let timeserie = Timeserie()
+            let values = (timeseries[$0] ?? [])
+            timeserie.value = values
+                .map { $0.value }
+                .reduce(0, +) / Float(values.count)
+            timeserie.timestamp = values[0].timestamp
+            result[$0] = timeserie
+        }
+
+        return result
+    }
+
+    func saveTimeseries() {
+        let timeseries: [String: Timeserie] = getAverages(timeseries: store.state.timeseries)
+        let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date()) + "|" + DEFAULT_TIME_RESOLUTION
+
+        guard let data = try? JSONEncoder().encode(timeseries) else { return }
         writeToFile(key: id, data: data)
+
         store.state.timeseries.keys.forEach {
             store.state.timeseries[$0] = []
         }

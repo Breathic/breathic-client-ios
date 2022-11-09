@@ -48,3 +48,4 @@ let COLORS: [String: (Double, Double, Double)] = [
     "gray": (63, 63, 63),
 ]
 let TIMESERIES_SAVER_S: Double = 60
+let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
