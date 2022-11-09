@@ -64,75 +64,36 @@ func getElapsedTime(from: Date, to: Date) -> String {
     return elapsedTime
 }
 
-func readSessionLogs() -> [Session] {
-    do {
-        let outData = filestore.string(forKey: "SessionLogs") ?? ""
-        let jsonData = outData.data(using: .utf8)!
-        return try JSONDecoder().decode([Session].self, from: jsonData)
-    }
-    catch {
-        return []
-    }
+func readFromKeyValueStore(key: String) -> Data {
+    let outData = filestore.string(forKey: key) ?? ""
+    return outData.data(using: .utf8)!
 }
 
-func writeSessionLogs(sessionLogs: [Session]) {
-    do {
-        let data = try JSONEncoder().encode(sessionLogs)
-        let json = String(data: data, encoding: .utf8) ?? ""
-        filestore.set(json, forKey: "SessionLogs")
-        filestore.synchronize()
-    }
-    catch {
-        print("writeSessionLogs()", error)
-    }
+func writeToKeyValueStore(key: String, data: Data) {
+    let json = String(data: data, encoding: .utf8) ?? ""
+    filestore.set(json, forKey: key)
+    filestore.synchronize()
 }
 
-func readActiveSession() -> Session {
+func writeToFile(key: String, data: Data) {
     do {
-        let outData = filestore.string(forKey: "ActiveSession") ?? ""
-        let jsonData = outData.data(using: .utf8)!
-        let session = try JSONDecoder().decode(Session.self, from: jsonData)
-        return session
-    }
-    catch {
-        return Session()
-    }
-}
-
-func writeActiveSession(session: Session) {
-    do {
-        let data = try JSONEncoder().encode(session)
-        let json = String(data: data, encoding: .utf8) ?? ""
-        filestore.set(json, forKey: "ActiveSession")
-        filestore.synchronize()
-    }
-    catch {
-        print("writeActiveSession()", error)
-    }
-}
-
-func writeTimeseries(key: String, timeseries: [String: [Timeserie]]) {
-    do {
-        let data = try JSONEncoder().encode(timeseries)
         let json = String(data: data, encoding: .utf8) ?? ""
         let filename = getDocumentsDirectory().appendingPathComponent(key)
         try json.write(to: filename, atomically: true, encoding: .utf8)
     }
     catch {
-        print("writeTimeseries()", error)
+        print("writeToFile()", error)
     }
 }
 
-func readTimeseries(key: String) -> [String: [Timeserie]] {
+func readFromFile(key: String) -> Data {
     do {
         let filename = getDocumentsDirectory().appendingPathComponent(key)
         let outData = try String(contentsOf: filename, encoding: .utf8)
-        let jsonData = outData.data(using: .utf8)!
-        let session = try JSONDecoder().decode([String: [Timeserie]].self, from: jsonData)
-        return session
+        return outData.data(using: .utf8) ?? Data()
     }
     catch {
-        return [:]
+        return Data()
     }
 }
 

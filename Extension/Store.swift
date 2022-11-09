@@ -16,7 +16,7 @@ SentrySDK.start { options in
 struct AppState {
     var activeSubView: String = "Controller"
     var tempActiveSubView: String = ""
-    var session: Session = readActiveSession()
+    var session: Session = Session()
     var selectedSessionId: String = ""
     var isResumable: Bool = false
     var seeds: [Seed] = []

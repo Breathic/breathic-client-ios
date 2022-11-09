@@ -166,6 +166,7 @@ class Session: Codable {
     }
 
     func save() {
-        writeActiveSession(session: self)
+        guard let data = try? JSONEncoder().encode(self) else { return }
+        writeToKeyValueStore(key: "ActiveSession", data: data)
     }
 }

@@ -337,7 +337,7 @@ struct ContentView: View {
 
         if sessionIndex > -1 {
             store.state.sessionLogs.remove(at: sessionIndex)
-            writeSessionLogs(sessionLogs: store.state.sessionLogs)
+            player.saveSessionLogs()
             store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         }
 
@@ -361,15 +361,16 @@ struct ContentView: View {
             var addedMinutes = 0
             while(selectedSession.startTime.adding(minutes: addedMinutes) <= selectedSession.endTime) {
                 let id = getTimeseriesUpdateId(uuid: selectedSession.uuid, date: selectedSession.startTime.adding(minutes: addedMinutes))
-                let _timeseries = readTimeseries(key: id)
+                addedMinutes = addedMinutes + 1
+
+                let data = readFromFile(key: id)
+                guard let _timeseries = try? JSONDecoder().decode([String: [Timeserie]].self, from: data) else { return }
 
                 timeseries.keys.forEach {
                     if _timeseries[$0] != nil {
                         timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
                     }
                 }
-
-                addedMinutes = addedMinutes + 1
             }
 
             seriesData = getSeriesData()

@@ -22,9 +22,19 @@ class Player {
         cachePlayers()
         fadeScale = getFadeScale()
         panScale = getPanScale()
-        store.state.sessionLogs = readSessionLogs()
-        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        store.state.session = readActiveSession()
+
+        do {
+            let data = readFromKeyValueStore(key: "SessionLogs")
+            store.state.sessionLogs = try JSONDecoder().decode([Session].self, from: data)
+            store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+        } catch {}
+
+        do {
+            let data = readFromKeyValueStore(key: "ActiveSession")
+            store.state.session = try JSONDecoder().decode(Session.self, from: data)
+            print("read session data", store.state.session)
+        } catch {}
+
         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
         initTimeseriesSaver()
 
@@ -103,8 +113,9 @@ class Player {
 
     func saveTimeseries() {
         let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date())
+        guard let data = try? JSONEncoder().encode(store.state.timeseries) else { return }
 
-        writeTimeseries(key: id, timeseries: store.state.timeseries)
+        writeToFile(key: id, data: data)
         store.state.timeseries.keys.forEach {
             store.state.timeseries[$0] = []
         }
@@ -184,7 +195,12 @@ class Player {
         store.state.elapsedTime = ""
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        writeSessionLogs(sessionLogs: store.state.sessionLogs)
+        saveSessionLogs()
+    }
+
+    func saveSessionLogs() {
+        guard let data = try? JSONEncoder().encode(store.state.sessionLogs) else { return }
+        writeToKeyValueStore(key: "SessionLogs", data: data)
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
@@ -402,9 +418,9 @@ class Player {
         store.state.breath = breath
 
         // Since pedometer's hardware is sometimes going weird.
-        if store.state.speed == 0 {
-            store.state.step = 0
-        }
+        //if store.state.speed == 0 {
+            //store.state.step = 0
+        //}
 
         store.state.timeseries.keys.forEach {
             let metric: Float = store.state.valueByMetric(metric: $0)
