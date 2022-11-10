@@ -286,17 +286,20 @@ struct ContentView: View {
             var addedMinutes = 0
             while(selectedSession.startTime.adding(minutes: addedMinutes) <= selectedSession.endTime) {
                 let id = getTimeseriesUpdateId(uuid: selectedSession.uuid, date: selectedSession.startTime.adding(minutes: addedMinutes)) + "|" + DEFAULT_TIME_RESOLUTION
-
-                addedMinutes = addedMinutes + 1
-
                 let data = readFromFile(key: id)
-                guard let _timeseries = try? JSONDecoder().decode([String: [Timeserie]].self, from: data) else { return }
 
-                timeseries.keys.forEach {
-                    if _timeseries[$0] != nil {
-                        timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
+                do {
+                    let _timeseries = try JSONDecoder().decode([String: [Timeserie]].self, from: data)
+
+                    timeseries.keys.forEach {
+                        if _timeseries[$0] != nil {
+                            timeseries[$0] = timeseries[$0]! + _timeseries[$0]!
+                        }
                     }
                 }
+                catch {}
+
+                addedMinutes = addedMinutes + 1
             }
 
             let result = getSeriesData(timeseries: timeseries, startTime: selectedSession.startTime)

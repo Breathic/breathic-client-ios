@@ -127,12 +127,6 @@ func chart(
                         y: .value("Value", element.value)
                     )
                     .foregroundStyle(by: .value("Metric", series.metric))
-
-                    PointMark(
-                        x: .value("Time", element.timestamp),
-                        y: .value("Value", element.value)
-                    )
-                    .foregroundStyle(by: .value("Metric", series.metric))
                 }
             }
             .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
