@@ -170,3 +170,10 @@ class Session: Codable {
         writeToFile(key: STORE_ACTIVE_SESSION, data: data)
     }
 }
+
+class ChartDomain {
+    var xMin: Float = 0
+    var xMax: Float = 0
+    var yMin: Float = 0
+    var yMax: Float = 0
+}

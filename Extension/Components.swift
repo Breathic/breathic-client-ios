@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Charts
 
 func primaryButton(
     geometry: GeometryProxy,
@@ -104,7 +105,7 @@ func secondaryButton(
     text: String,
     color: String,
     action: @escaping () -> Void = {}
-)  -> some View {
+) -> some View {
     Button(action: action) {
         Text(text)
     }
@@ -112,4 +113,27 @@ func secondaryButton(
     .fontWeight(.bold)
     .buttonStyle(.bordered)
     .tint(colorize(color))
+}
+
+func chart(
+    geometry: GeometryProxy,
+    seriesData: [SeriesData],
+    chartDomain: ChartDomain
+) -> some View {
+    Group {
+        if chartDomain.xMin <= chartDomain.xMax && chartDomain.yMin <= chartDomain.yMax {
+            Chart(seriesData) { series in
+                ForEach(series.data) { element in
+                    LineMark(
+                        x: .value("Time", element.timestamp),
+                        y: .value("Value", element.value)
+                    )
+                    .foregroundStyle(by: .value("Metric", series.metric))
+                }
+            }
+            .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
+            .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
+            .frame(height: geometry.size.height + 16)
+        }
+    }
 }

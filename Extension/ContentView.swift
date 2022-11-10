@@ -1,17 +1,7 @@
 import SwiftUI
-import Charts
-import AVFAudio
-import AVFoundation
 import Foundation
 
 struct ContentView: View {
-    class ChartDomain {
-        var xMin: Float = 0
-        var xMax: Float = 0
-        var yMin: Float = 0
-        var yMax: Float = 0
-    }
-
     @ObservedObject private var store: Store = .shared
 
     @State private var timeseries: [String: [Timeserie]] = [:]
@@ -514,20 +504,7 @@ struct ContentView: View {
         HStack {
             Spacer(minLength: 8)
 
-            if chartDomain.xMin <= chartDomain.xMax && chartDomain.yMin <= chartDomain.yMax {
-                Chart(seriesData) { series in
-                    ForEach(series.data) { element in
-                        LineMark(
-                            x: .value("Time", element.timestamp),
-                            y: .value("Value", element.value)
-                        )
-                        .foregroundStyle(by: .value("Metric", series.metric))
-                    }
-                }
-                .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
-                .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
-                .frame(height: geometry.size.height + 16)
-            }
+            chart(geometry: geometry, seriesData: seriesData, chartDomain: chartDomain)
         }
     }
 
