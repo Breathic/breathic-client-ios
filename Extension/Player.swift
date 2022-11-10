@@ -435,9 +435,9 @@ class Player {
         store.state.breath = breath
 
         // Since pedometer's hardware is sometimes going weird.
-        //if store.state.speed == 0 {
-            //store.state.step = 0
-        //}
+        if store.state.speed <= 0 {
+            store.state.step = 0
+        }
 
         store.state.timeseries.keys.forEach {
             let metric: Float = store.state.valueByMetric(metric: $0)
