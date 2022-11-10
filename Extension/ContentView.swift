@@ -299,12 +299,13 @@ struct ContentView: View {
                 }
             }
 
-            let series = getSeriesData(timeseries: timeseries, startTime: selectedSession.startTime)
-            seriesData = series.0
-            chartDomain.xMin = series.1.xMin
-            chartDomain.xMax = series.1.xMax
-            chartDomain.yMin = series.1.yMin
-            chartDomain.yMax = series.1.yMax
+            let result = getSeriesData(timeseries: timeseries, startTime: selectedSession.startTime)
+            seriesData = result.0
+            chartDomain.xMin = result.1.xMin
+            chartDomain.xMax = result.1.xMax
+            chartDomain.yMin = result.1.yMin
+            chartDomain.yMax = result.1.yMax
+
             store.state.activeSubView = store.state.selectedSessionId
         }
     }

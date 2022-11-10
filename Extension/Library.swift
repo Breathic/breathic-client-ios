@@ -109,11 +109,16 @@ func getSessionIds(sessions: [Session]) -> [String] {
             ? repeats + 1
             : 1
 
+        // Hide duration since there isn't always enough space to go around.
         if repeats > 1 {
             id = id + " - " + String(repeats)
-        }
 
-        id = id + " (" + getElapsedTime(from: session.startTime, to: session.endTime) + ")"
+            // And strip duration from the previous one.
+            result[result.count - 1] = result[result.count - 1].components(separatedBy: " (")[0]
+        }
+        else {
+            id = id + " (" + getElapsedTime(from: session.startTime, to: session.endTime) + ")"
+        }
 
         result.append(id)
     }

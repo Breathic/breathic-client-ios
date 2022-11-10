@@ -66,8 +66,6 @@ func primaryButton(
     .overlay(
         RoundedRectangle(cornerRadius: 10)
             .stroke(colorize("gray"), lineWidth: isEnabled ? 1 : 0)
-            //.tint(colorize(color: "gray"))
-            //.opacity(isEnabled ? 0.125 : 0)
     )
     .opacity(opacity)
     .disabled(!isEnabled)
