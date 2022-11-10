@@ -670,7 +670,9 @@ struct ContentView: View {
                     },
                     label: {
                         Text(
-                            "☰ " + store.state.activeSubView.components(separatedBy: " (")[0] // Remove duration as well as count when overview.
+                            "☰ " + store.state.activeSubView
+                                .components(separatedBy: " (")[0] // Remove duration as well as count when overview.
+                                .components(separatedBy: " -")[0]
                         )
                         .font(.system(size: 12))
                     }

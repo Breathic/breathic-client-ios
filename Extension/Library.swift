@@ -1,8 +1,6 @@
 import Foundation
 import SwiftUI
 
-let filestore = NSUbiquitousKeyValueStore()
-
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
@@ -64,17 +62,6 @@ func getElapsedTime(from: Date, to: Date) -> String {
     return elapsedTime
 }
 
-func writeToKeyValueStore(key: String, data: Data) {
-    let json = String(data: data, encoding: .utf8) ?? ""
-    filestore.set(json, forKey: key)
-    filestore.synchronize()
-}
-
-func readFromKeyValueStore(key: String) -> Data {
-    let outData = filestore.string(forKey: key) ?? ""
-    return outData.data(using: .utf8)!
-}
-
 func writeToFile(key: String, data: Data) {
     do {
         let json = String(data: data, encoding: .utf8) ?? ""
@@ -109,9 +96,29 @@ func generateSessionId(session: Session) -> String {
 }
 
 func getSessionIds(sessions: [Session]) -> [String] {
-    return sessions.map {
-        return generateSessionId(session: $0) + " (" + getElapsedTime(from: $0.startTime, to: $0.endTime) + ")"
+    var result: [String] = []
+    var prevId = ""
+    var repeats = 1
+
+    for session in sessions {
+        var id = generateSessionId(session: session)
+        let isDuplicate = prevId == id
+
+        prevId = id
+        repeats = isDuplicate
+            ? repeats + 1
+            : 1
+
+        if repeats > 1 {
+            id = id + " - " + String(repeats)
+        }
+
+        id = id + " (" + getElapsedTime(from: session.startTime, to: session.endTime) + ")"
+
+        result.append(id)
     }
+
+    return result
 }
 
 func getTimeseriesUpdateId(uuid: String, date: Date) -> String {

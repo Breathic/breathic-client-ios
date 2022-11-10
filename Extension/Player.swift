@@ -24,15 +24,14 @@ class Player {
         panScale = getPanScale()
 
         do {
-            let data = readFromKeyValueStore(key: "SessionLogs")
+            let data = readFromFile(key: STORE_SESSION_LOGS)
             store.state.sessionLogs = try JSONDecoder().decode([Session].self, from: data)
             store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         } catch {}
 
         do {
-            let data = readFromKeyValueStore(key: "ActiveSession")
+            let data = readFromFile(key: STORE_ACTIVE_SESSION)
             store.state.session = try JSONDecoder().decode(Session.self, from: data)
-            print("read session data", store.state.session)
         } catch {}
 
         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
@@ -44,7 +43,7 @@ class Player {
 
         startElapsedTimer()
 
-        //UserDefaults.standard.set("", forKey: "ActiveSession") // Clear a key.
+        //UserDefaults.standard.set("", forKey: STORE_ACTIVE_SESSION) // Clear a key.
 
         /*
          let update = Update()
@@ -218,7 +217,7 @@ class Player {
 
     func saveSessionLogs() {
         guard let data = try? JSONEncoder().encode(store.state.sessionLogs) else { return }
-        writeToKeyValueStore(key: "SessionLogs", data: data)
+        writeToFile(key: STORE_SESSION_LOGS, data: data)
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {

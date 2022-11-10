@@ -49,3 +49,5 @@ let COLORS: [String: (Double, Double, Double)] = [
 ]
 let TIMESERIES_SAVER_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
+let STORE_ACTIVE_SESSION = "ActiveSession"
+let STORE_SESSION_LOGS = "SessionLogs"
