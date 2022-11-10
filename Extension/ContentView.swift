@@ -272,7 +272,7 @@ struct ContentView: View {
                     label: "Heartbeats",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric)),
                     unit: "per minute",
-                    valueColor: colorize(color: "red"),
+                    valueColor: colorize("red"),
                     isEnabled: false
                 )
 
@@ -283,7 +283,7 @@ struct ContentView: View {
                     label: "Breaths",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "breath")),
                     unit: "per minute",
-                    valueColor: colorize(color: "green"),
+                    valueColor: colorize("green"),
                     isEnabled: false
                 )
             }
@@ -296,7 +296,7 @@ struct ContentView: View {
                     label: "Steps",
                     value: String(format: "%.0f", store.state.valueByMetric(metric: "step")),
                     unit: "per minute",
-                    valueColor: colorize(color: "blue"),
+                    valueColor: colorize("blue"),
                     isEnabled: false
                 )
 
@@ -476,7 +476,7 @@ struct ContentView: View {
                 .font(.system(size: 12))
                 .fontWeight(.bold)
                 .buttonStyle(.bordered)
-                .tint(colorize(color: "red"))
+                .tint(colorize("red"))
 
                 Button(action: {
                     player.stop()
@@ -487,7 +487,7 @@ struct ContentView: View {
                 .font(.system(size: 12))
                 .fontWeight(.bold)
                 .buttonStyle(.bordered)
-                .tint(colorize(color: "green"))
+                .tint(colorize("green"))
             }
 
             Text("Finish session?")
@@ -503,7 +503,7 @@ struct ContentView: View {
                 .font(.system(size: 12))
                 .fontWeight(.bold)
                 .buttonStyle(.bordered)
-                .tint(colorize(color: "blue"))
+                .tint(colorize("blue"))
             }
             .frame(maxHeight: .infinity, alignment: .bottom)
             .edgesIgnoringSafeArea(.all)
@@ -542,7 +542,7 @@ struct ContentView: View {
                 .font(.system(size: 12))
                 .fontWeight(.bold)
                 .buttonStyle(.bordered)
-                .tint(colorize(color: "red"))
+                .tint(colorize("red"))
 
                 Button(action: {
                     store.state.activeSubView = "Log"
@@ -552,7 +552,7 @@ struct ContentView: View {
                 .font(.system(size: 12))
                 .fontWeight(.bold)
                 .buttonStyle(.bordered)
-                .tint(colorize(color: "blue"))
+                .tint(colorize("blue"))
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
 

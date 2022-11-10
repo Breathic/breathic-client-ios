@@ -64,7 +64,7 @@ func primaryButton(
     .tint(.black)
     .overlay(
         RoundedRectangle(cornerRadius: 10)
-            .stroke(colorize(color: "gray"), lineWidth: isEnabled ? 1 : 0)
+            .stroke(colorize("gray"), lineWidth: isEnabled ? 1 : 0)
             //.tint(colorize(color: "gray"))
             //.opacity(isEnabled ? 0.125 : 0)
     )
@@ -111,5 +111,5 @@ func secondaryButton(
     .font(.system(size: 12))
     .fontWeight(.bold)
     .buttonStyle(.bordered)
-    .tint(colorize(color: color))
+    .tint(colorize(color))
 }

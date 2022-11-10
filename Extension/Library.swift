@@ -43,7 +43,7 @@ func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
    return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
 }
 
-func colorize(color: String) -> Color {
+func colorize(_ color: String) -> Color {
     return Color(red: COLORS[color]!.0 / 255, green: COLORS[color]!.1 / 255, blue: COLORS[color]!.2 / 255)
 }
 

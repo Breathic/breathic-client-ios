@@ -20,14 +20,14 @@ let METRIC_TYPES = [
         metric: "heart",
         label: "heart rate",
         unit: "minute",
-        valueColor: colorize(color: "red"),
+        valueColor: colorize("red"),
         isReversed: false
     ),
     MetricType(
         metric: "step",
         label: "step rate",
         unit: "minute",
-        valueColor: colorize(color: "blue"),
+        valueColor: colorize("blue"),
         isReversed: true
     )/*,
     MetricType(
