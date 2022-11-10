@@ -31,70 +31,6 @@ struct ContentView: View {
             timeseries[$0] = []
         }
     }
-    func parseProgressData(metricData: [Timeserie]) -> [ProgressData] {
-        let startHour = Calendar.current.component(.hour, from: selectedSession.startTime)
-        let startMinute = Calendar.current.component(.minute, from: selectedSession.startTime)
-        var dataByMinute: [Int: [Float]] = [:]
-        var dataByMinuteAveraged: [Int: Float] = [:]
-
-        metricData
-            .forEach {
-                let hours = Calendar.current.component(.hour, from: $0.timestamp)
-                let minutes = Calendar.current.component(.minute, from: $0.timestamp)
-                let timestampByMinute = (Int((hours - startHour) * 60 + (minutes - startMinute)))
-                dataByMinute.append(element: $0.value, toValueOfKey: timestampByMinute)
-            }
-
-        for timestamp in dataByMinute.keys {
-            let values = dataByMinute[timestamp] ?? []
-            dataByMinuteAveraged[timestamp] = values.reduce(0, +) / Float(values.count)
-        }
-
-        return dataByMinuteAveraged.keys.sorted().map {
-            ProgressData(timestamp: $0, value: dataByMinuteAveraged[$0]!)
-        }
-    }
-
-    func getAverageMetricValue(metric: String) -> String {
-        let metrics = (timeseries[metric] ?? [])
-        let average = metrics
-            .map { $0.value }
-            .reduce(0, +) / Float(metrics.count)
-
-        return String(metrics.count > 0 ? String(format: "%.0f", average) : "")
-    }
-
-    func getSeriesData() -> [SeriesData] {
-        let chartXAxisRightSpacingPct: Float = 8
-        var _timeseries: [String: [ProgressData]] = [:]
-
-        chartDomain.yMax = 0
-
-        timeseries.keys.forEach {
-            let progressData = parseProgressData(metricData: timeseries[$0] ?? [])
-
-            _timeseries[$0] = progressData
-
-            if progressData.count > 0 {
-                chartDomain.xMin = Float(progressData[0].timestamp)
-                chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * chartXAxisRightSpacingPct / 100
-            }
-
-            let value: Float = progressData
-                .map { Float($0.value) }.max() ?? Float(0)
-
-            if value > chartDomain.yMax {
-                chartDomain.yMax = value
-            }
-        }
-
-        return _timeseries.keys.map {
-            let avgValue = getAverageMetricValue(metric: $0)
-            let progressData: [ProgressData] = _timeseries[$0] ?? []
-
-            return .init(metric: avgValue + " " + $0 + " avg", data: progressData)
-        }
-    }
 
     func slide(geometry: GeometryProxy) {
         dragXOffset = CGSize(width: (-geometry.size.width - slidePadding) * CGFloat(dragIndex), height: 0)
@@ -363,7 +299,12 @@ struct ContentView: View {
                 }
             }
 
-            seriesData = getSeriesData()
+            let series = getSeriesData(timeseries: timeseries, startTime: selectedSession.startTime)
+            seriesData = series.0
+            chartDomain.xMin = series.1.xMin
+            chartDomain.xMax = series.1.xMax
+            chartDomain.yMin = series.1.yMin
+            chartDomain.yMax = series.1.yMax
             store.state.activeSubView = store.state.selectedSessionId
         }
     }
