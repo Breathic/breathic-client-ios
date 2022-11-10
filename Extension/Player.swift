@@ -130,8 +130,10 @@ class Player {
         let timeseries: [String: [Timeserie]] = getAverages(timeseries: store.state.timeseries)
         let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date()) + "|" + DEFAULT_TIME_RESOLUTION
 
-        guard let data = try? JSONEncoder().encode(timeseries) else { return }
-        writeToFile(key: id, data: data)
+        do {
+            let data = try JSONEncoder().encode(timeseries)
+            writeToFile(key: id, data: data)
+        } catch {}
 
         store.state.timeseries.keys.forEach {
             store.state.timeseries[$0] = []
