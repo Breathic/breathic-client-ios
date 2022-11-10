@@ -25,8 +25,8 @@
 	<key>WKSupportsAlwaysOnDisplay</key>
 	<true/>
 	<key>NSMotionUsageDescription</key>
-	<string></string>
+	<string>App uses motion data in order to determine breathing rate for you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>App uses location derived speed data in order to determine breathing rate for you</string>
 </dict>
 </plist>
