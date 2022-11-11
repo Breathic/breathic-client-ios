@@ -360,13 +360,6 @@ class Player {
         return loopIntervalSum
     }
 
-    func getTimeserie(timestamp: Date, value: Float) -> Reading {
-        let timeserie = Reading()
-        timeserie.timestamp = timestamp
-        timeserie.value = value
-        return timeserie
-    }
-
     func audioLoop(loopInterval: TimeInterval) {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
@@ -413,20 +406,15 @@ class Player {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
         if !loopInterval.isInfinite && store.state.isAudioSessionLoaded {
-            DispatchQueue.main.asyncAfter(deadline: .now() + loopInterval) {
-                if self.store.state.isAudioSessionLoaded {
-                    self.audioLoop(loopInterval: loopInterval)
-                }
-
+            Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
                 self.loop()
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.updateGraph()
-            }
+            self.audioLoop(loopInterval: loopInterval)
+            self.updateGraph()
         }
         else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                 self.loop()
             }
         }
@@ -435,19 +423,16 @@ class Player {
     func updateGraph() {
         let timestamp = Date()
         let loopIntervalSum = getLoopIntervalSum()
-        let breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
 
-        store.state.breath = breath
+        store.state.breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
         store.state.timeseries.keys.forEach {
-            let metric: Float = store.state.getMetricValue($0)
+            let value: Float = store.state.getMetricValue($0)
 
-            if metric >= 0 && !metric.isInfinite && !metric.isNaN {
-                store.state.timeseries[$0]?.append(
-                    getTimeserie(
-                        timestamp: timestamp,
-                        value: store.state.getMetricValue($0)
-                    )
-                )
+            if canUpdate(value) {
+                let reading = Reading()
+                reading.timestamp = timestamp
+                reading.value = value
+                store.state.timeseries[$0]?.append(reading)
             }
         }
     }
@@ -539,7 +524,7 @@ class Player {
     func incrementQueueIndex() {
         store.state.queueIndex = store.state.queueIndex + 1
 
-        if store.state.queueIndex == store.state.distances.count {
+        if store.state.queueIndex == store.state.distances.count - 1 {
             store.state.queueIndex = 0
         }
     }
