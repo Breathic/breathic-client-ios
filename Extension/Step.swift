@@ -36,6 +36,6 @@ class Step {
 
     func setPedometerData(data: CMPedometerData) {
         let metricValue: Float = Float(Double(truncating: data.numberOfSteps))
-        (readings, store.state.step) = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
+        readings = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
     }
 }

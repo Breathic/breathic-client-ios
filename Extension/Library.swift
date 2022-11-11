@@ -245,7 +245,7 @@ func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
     }
 }
 
-func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> ([Reading], Float) {
+func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> [Reading] {
     let _readings = updateReadings(readings: readings, value: metricValue)
     let prevValue = store.state.getMetricValue(metric)
     var value = getAverageByMetric(metric: metric, readings: _readings)
@@ -259,5 +259,6 @@ func updateMetric(store: Store, metric: String, metricValue: Float, readings: [R
         value = 0
     }
 
-    return (_readings, value)
+    store.state.setMetricValue(metric, value)
+    return _readings
 }

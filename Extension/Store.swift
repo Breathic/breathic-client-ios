@@ -52,6 +52,16 @@ struct AppState {
             default: fatalError("metric is undefined")
         }
     }
+
+    mutating func setMetricValue(_ metric: String, _ value: Float) {
+        switch metric {
+            case "breath": breath = value
+            case "heart": heart = value
+            case "step": step = value
+            case "speed": speed = value
+            default: fatalError("metric is undefined")
+        }
+    }
 }
 
 final class Store: ObservableObject {

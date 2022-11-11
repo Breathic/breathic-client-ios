@@ -78,7 +78,7 @@ class Heart {
 
         for sample in samples {
             let metricValue: Float = Float(sample.quantity.doubleValue(for: heartRateQuantity))
-            (readings, store.state.heart) = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
+            readings = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
         }
     }
 }

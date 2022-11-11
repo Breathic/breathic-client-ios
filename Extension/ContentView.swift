@@ -196,7 +196,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Heartbeats",
-                    value: String(format: "%.0f", store.state.getMetricValue(store.state.metricType.metric)),
+                    value: String(format: "%.0f", store.state.getMetricValue("heart")),
                     unit: "per minute",
                     valueColor: colorize("red"),
                     isEnabled: false
