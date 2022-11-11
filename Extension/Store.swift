@@ -39,7 +39,7 @@ struct AppState {
     var timeseries: [String: [Timeserie]] = [
         "breath": [],
         "heart": [],
-        //"step": [],
+        "step": [],
         "speed": []
     ]
 

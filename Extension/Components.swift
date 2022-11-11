@@ -119,7 +119,13 @@ func chart(
     chartDomain: ChartDomain
 ) -> some View {
     Group {
-        if chartDomain.xMin <= chartDomain.xMax && chartDomain.yMin <= chartDomain.yMax {
+        if chartDomain.xMin >= chartDomain.xMax && chartDomain.yMin >= chartDomain.yMax {
+            Text("No usable data was found. Perhaps record for longer?")
+                .font(.system(size: 12))
+                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(maxHeight: .infinity, alignment: .center)
+        }
+        else {
             Chart(seriesData) { series in
                 ForEach(series.data) { element in
                     LineMark(

@@ -426,7 +426,7 @@ struct ContentView: View {
             }
 
             Text("Finish session?")
-                .font(.system(size: 16))
+                .font(.system(size: 12))
                 .frame(maxHeight: .infinity, alignment: .center)
 
             HStack {
@@ -479,7 +479,7 @@ struct ContentView: View {
             .frame(maxHeight: .infinity, alignment: .topLeading)
 
             Text("Delete session from " + store.state.selectedSessionId + "?")
-            .font(.system(size: 16))
+            .font(.system(size: 12))
             .frame(maxHeight: .infinity, alignment: .bottom)
         }
     }
