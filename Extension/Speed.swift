@@ -66,8 +66,12 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
             return
         }
 
-        let metricValue: Float = Float(current.speed)
-        readings = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
+        readings = updateMetric(
+            store: store,
+            metric: metric,
+            metricValue: Float(current.speed),
+            readings: readings
+        )
         last = current
     }
 }
