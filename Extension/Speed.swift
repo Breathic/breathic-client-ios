@@ -61,6 +61,11 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 
     func process(current: CLLocation) {
+        if !store.state.session.isActive {
+            store.state.setMetricValue(metric, DEFAULT_SPEED)
+            return
+        }
+
         guard last != nil else {
             last = current
             return

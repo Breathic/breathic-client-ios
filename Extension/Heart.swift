@@ -5,7 +5,7 @@ import HealthKit
 class Heart {
     @ObservedObject private var store: Store = .shared
 
-    private var healthStore = HKHealthStore()
+    var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     var readings: [Reading] = []
     var query: HKAnchoredObjectQuery? = nil
@@ -13,7 +13,6 @@ class Heart {
 
     func start() {
         autorizeHealthKit()
-        stop()
         exec()
     }
 
@@ -72,6 +71,11 @@ class Heart {
     }
 
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
+        if !store.state.session.isActive {
+            store.state.setMetricValue(metric, DEFAULT_HEART)
+            return
+        }
+
         if type != .heartRate {
             return
         }
