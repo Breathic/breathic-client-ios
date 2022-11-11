@@ -36,7 +36,7 @@ struct AppState {
     var heart: Float = DEFAULT_HEART
     var step: Float = DEFAULT_STEP
     var speed: Float = DEFAULT_SPEED
-    var timeseries: [String: [Timeserie]] = [
+    var timeseries: [String: [Reading]] = [
         "breath": [],
         "heart": [],
         "step": [],

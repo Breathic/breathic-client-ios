@@ -47,12 +47,7 @@ struct SeedInput {
     var interval: [Float] = []
 }
 
-class Reading {
-    var time: DispatchTime = .now()
-    var value: Float = 0
-}
-
-class Timeserie: Codable {
+class Reading: Codable {
     var timestamp: Date = Date()
     var value: Float = 0
 }

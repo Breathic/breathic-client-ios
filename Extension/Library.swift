@@ -134,7 +134,7 @@ func getTimeseriesUpdateId(uuid: String, date: Date) -> String {
         String(Calendar.current.component(.minute, from: date))
 }
 
-func parseProgressData(metricData: [Timeserie], startTime: Date) -> [ProgressData] {
+func parseProgressData(metricData: [Reading], startTime: Date) -> [ProgressData] {
     let startHour = Calendar.current.component(.hour, from: startTime)
     let startMinute = Calendar.current.component(.minute, from: startTime)
     var dataByMinute: [Int: [Float]] = [:]
@@ -159,7 +159,7 @@ func parseProgressData(metricData: [Timeserie], startTime: Date) -> [ProgressDat
 }
 
 func getAverageMetricValue(
-    timeseries: [String: [Timeserie]],
+    timeseries: [String: [Reading]],
     metric: String
 ) -> String {
     let metrics = (timeseries[metric] ?? [])
@@ -171,7 +171,7 @@ func getAverageMetricValue(
 }
 
 func getSeriesData(
-    timeseries: [String: [Timeserie]],
+    timeseries: [String: [Reading]],
     startTime: Date
 ) -> ([SeriesData], ChartDomain) {
     let chartXAxisRightSpacingPct: Float = 8
@@ -210,13 +210,13 @@ func updateReadings(readings: [Reading], value: Float) -> [Reading] {
     var result = readings
     let reading = Reading()
 
-    reading.time = .now()
+    reading.timestamp = Date()
     reading.value = value
     result.append(reading)
 
     result = Array(result.suffix(MAX_READING_COUNT))
     result = result.filter { reading in
-        reading.time + MAX_READING_TIMEOUT_S >= .now()
+        reading.timestamp.timeIntervalSince1970 + MAX_READING_TIMEOUT_S >= Date().timeIntervalSince1970
     }
 
     return result
@@ -227,9 +227,9 @@ func getAverageValue(readings: [Reading]) -> Float {
 }
 
 func getIntervalDerivedValue(readings: [Reading]) -> Float {
-    let intervalDuration: DispatchTimeInterval = readings[0].time.distance(to: readings[readings.count - 1].time)
+    let intervalDuration = readings[0].timestamp.timeIntervalSince1970 - readings[readings.count - 1].timestamp.timeIntervalSince1970
     let intervalSteps = Double(readings[readings.count - 1].value - readings[0].value)
-    return Float(intervalDuration.toDouble()) / Float(intervalSteps)
+    return Float(intervalDuration) / Float(intervalSteps)
 }
 
 func canUpdate(_ value: Float) -> Bool {

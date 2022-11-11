@@ -109,11 +109,11 @@ class Player {
         }
     }
 
-    func getAverages(timeseries: [String: [Timeserie]]) -> [String: [Timeserie]] {
-        var result: [String: [Timeserie]] = [:]
+    func getAverages(timeseries: [String: [Reading]]) -> [String: [Reading]] {
+        var result: [String: [Reading]] = [:]
 
         timeseries.keys.forEach {
-            let timeserie = Timeserie()
+            let timeserie = Reading()
             let values = (timeseries[$0] ?? [])
 
             if values.count > 0 {
@@ -129,7 +129,7 @@ class Player {
     }
 
     func saveTimeseries() {
-        let timeseries: [String: [Timeserie]] = getAverages(timeseries: store.state.timeseries)
+        let timeseries: [String: [Reading]] = getAverages(timeseries: store.state.timeseries)
         let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date()) + "|" + DEFAULT_TIME_RESOLUTION
 
         do {
@@ -360,8 +360,8 @@ class Player {
         return loopIntervalSum
     }
 
-    func getTimeserie(timestamp: Date, value: Float) -> Timeserie {
-        let timeserie = Timeserie()
+    func getTimeserie(timestamp: Date, value: Float) -> Reading {
+        let timeserie = Reading()
         timeserie.timestamp = timestamp
         timeserie.value = value
         return timeserie

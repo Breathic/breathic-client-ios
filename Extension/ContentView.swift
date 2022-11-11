@@ -4,7 +4,7 @@ import Foundation
 struct ContentView: View {
     @ObservedObject private var store: Store = .shared
 
-    @State private var timeseries: [String: [Timeserie]] = [:]
+    @State private var timeseries: [String: [Reading]] = [:]
     @State private var seriesData: [SeriesData] = []
     @State private var selectedSession = Session()
     @State private var dragIndex: Int = 0
@@ -289,7 +289,7 @@ struct ContentView: View {
                 let data = readFromFile(key: id)
 
                 do {
-                    let _timeseries = try JSONDecoder().decode([String: [Timeserie]].self, from: data)
+                    let _timeseries = try JSONDecoder().decode([String: [Reading]].self, from: data)
 
                     timeseries.keys.forEach {
                         if _timeseries[$0] != nil {
