@@ -46,6 +46,10 @@ struct ContentView: View {
         slide(geometry: geometry)
     }
 
+    func isActive() -> Bool {
+        return store.state.session.isActive && !store.state.isResumable
+    }
+
     func menuView(geometry: GeometryProxy) -> some View {
         VStack {
             Picker("", selection: $store.state.tempActiveSubView) {
@@ -162,8 +166,8 @@ struct ContentView: View {
                         )) - 1
                     ),
                     isTall: false,
-                    isEnabled: store.state.session.isActive && !store.state.isResumable,
-                    opacity: store.state.session.isActive && !store.state.isResumable ? 1 : 0.33,
+                    isEnabled: isActive(),
+                    opacity: isActive() ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }
@@ -199,7 +203,8 @@ struct ContentView: View {
                     value: String(format: "%.0f", store.state.getMetricValue("heart")),
                     unit: "per minute",
                     valueColor: colorize("red"),
-                    isEnabled: false
+                    isEnabled: false,
+                    opacity: isActive() ? 1 : 0.33
                 )
 
                 Spacer(minLength: 8)
@@ -210,7 +215,8 @@ struct ContentView: View {
                     value: String(format: "%.0f", store.state.getMetricValue("breath")),
                     unit: "per minute",
                     valueColor: colorize("green"),
-                    isEnabled: false
+                    isEnabled: false,
+                    opacity: isActive() ? 1 : 0.33
                 )
             }
 
@@ -223,7 +229,8 @@ struct ContentView: View {
                     value: String(format: "%.0f", store.state.getMetricValue("step")),
                     unit: "per minute",
                     valueColor: colorize("blue"),
-                    isEnabled: false
+                    isEnabled: false,
+                    opacity: isActive() ? 1 : 0.33
                 )
 
                 Spacer(minLength: 8)
@@ -233,7 +240,8 @@ struct ContentView: View {
                     label: "Speed",
                     value: String(format: "%.0f", store.state.getMetricValue("speed")),
                     unit: "km / h",
-                    isEnabled: false
+                    isEnabled: false,
+                    opacity: isActive() ? 1 : 0.33
                 )
             }
         }

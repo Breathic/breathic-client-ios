@@ -251,19 +251,14 @@ func updateMetric(store: Store, metric: String, metricValue: Float, readings: [R
         return []
     }
 
-    let _readings = updateReadings(readings: readings, value: metricValue)
+    let result = updateReadings(readings: readings, value: metricValue)
     let prevValue = store.state.getMetricValue(metric)
-    var value = getAverageByMetric(metric: metric, readings: _readings)
+    let value = getAverageByMetric(metric: metric, readings: result)
 
-    if canUpdate(value) {
-        if value != prevValue {
-            store.state.lastDataChangeTime = .now()
-        }
-    }
-    else {
-        value = 0
+    if canUpdate(value) && value != prevValue {
+        store.state.setMetricValue(metric, value)
+        store.state.lastDataChangeTime = .now()
     }
 
-    store.state.setMetricValue(metric, value)
-    return _readings
+    return result
 }
