@@ -2,13 +2,14 @@ import Foundation
 import SwiftUI
 import HealthKit
 
-class Heart: ObservableObject {
+class Heart {
     @ObservedObject private var store: Store = .shared
 
     private var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
-    var hearts: [Double] = []
+    var readings: [Reading] = []
     var query: HKAnchoredObjectQuery? = nil
+    let metric: String = "heart"
 
     func start() {
         autorizeHealthKit()
@@ -22,7 +23,7 @@ class Heart: ObservableObject {
             query = nil
         }
 
-        hearts = []
+        readings = []
     }
 
     func exec() {
@@ -71,26 +72,13 @@ class Heart: ObservableObject {
     }
 
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
+        if type != .heartRate {
+            return
+        }
+
         for sample in samples {
-            if type == .heartRate {
-                let heart = sample.quantity.doubleValue(for: heartRateQuantity)
-
-                if heart >= 0 {
-                    let prevHeart = store.state.heart
-
-                    hearts.append(heart)
-                    hearts = Array(hearts.suffix(MAX_READING_COUNT))
-
-                    let res = hearts.reduce(0) { Float($0) + Float($1) } / Float(hearts.count)
-                    if res >= 0 && !res.isInfinite && !res.isNaN {
-                        store.state.heart = res
-
-                        if store.state.heart != prevHeart {
-                            store.state.lastDataChangeTime = .now()
-                        }
-                    }
-                }
-            }
+            let metricValue: Float = Float(sample.quantity.doubleValue(for: heartRateQuantity))
+            (readings, store.state.heart) = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
         }
     }
 }

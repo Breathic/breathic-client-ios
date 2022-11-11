@@ -3,10 +3,11 @@ import SwiftUI
 import CoreMotion
 
 class Step {
-    @ObservedObject private var store: Store = .shared
+    @StateObject private var store: Store = .shared
 
     var pedometer = CMPedometer()
-    var steps = [StepData]()
+    var readings = [Reading]()
+    let metric: String = "step"
 
     var isStepCountingAvailable: Bool {
         get {
@@ -14,35 +15,9 @@ class Step {
         }
     }
 
-    func setPedometerData(data: CMPedometerData) {
-        let step = StepData()
-        step.time = .now()
-        step.count = Int(truncating: data.numberOfSteps)
-        steps.append(step)
-        
-        if steps.count > MAX_READING_COUNT {
-            steps = Array(steps.suffix(MAX_READING_COUNT))
-        }
-
-        if steps.count > 1 {
-            let prevStep = store.state.step
-            let intervalDuration: DispatchTimeInterval = steps[0].time.distance(to: step.time)
-            let intervalSteps = Double(steps[steps.count - 1].count - steps[0].count)
-            let res = Float(intervalDuration.toDouble()) / Float(intervalSteps) * 60
-
-            if res >= 0 && !res.isInfinite && !res.isNaN {
-                store.state.step = res
-
-                if store.state.step != prevStep {
-                    store.state.lastDataChangeTime = .now()
-                }
-            }
-        }
-    }
-
     func stop() {
         pedometer.stopUpdates()
-        steps = []
+        readings = []
     }
 
     func start() {
@@ -57,5 +32,10 @@ class Step {
                 }
             })
         }
+    }
+
+    func setPedometerData(data: CMPedometerData) {
+        let metricValue: Float = Float(Double(truncating: data.numberOfSteps))
+        (readings, store.state.step) = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
     }
 }

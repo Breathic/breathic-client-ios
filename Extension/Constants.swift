@@ -3,6 +3,7 @@ import SwiftUI
 
 let SAMPLE_PATH = "/data/samples/"
 let SAMPLE_EXTENSION = "m4a"
+let MAX_READING_TIMEOUT_S: Double = 60
 let MAX_READING_COUNT: Int = 20
 let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 256

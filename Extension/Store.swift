@@ -43,7 +43,7 @@ struct AppState {
         "speed": []
     ]
 
-    func valueByMetric(metric: String) -> Float {
+    func getMetricValue(_ metric: String) -> Float {
         switch metric {
             case "breath": return breath
             case "heart": return heart

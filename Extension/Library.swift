@@ -205,3 +205,59 @@ func getSeriesData(
 
     return (result, chartDomain)
 }
+
+func updateReadings(readings: [Reading], value: Float) -> [Reading] {
+    var result = readings
+    let reading = Reading()
+
+    reading.time = .now()
+    reading.value = value
+    result.append(reading)
+
+    result = Array(result.suffix(MAX_READING_COUNT))
+    result = result.filter { reading in
+        reading.time + MAX_READING_TIMEOUT_S >= .now()
+    }
+
+    return result
+}
+
+func getAverageValue(readings: [Reading]) -> Float {
+    return readings.reduce(0) { Float($0) + Float($1.value) } / Float(readings.count)
+}
+
+func getIntervalDerivedValue(readings: [Reading]) -> Float {
+    let intervalDuration: DispatchTimeInterval = readings[0].time.distance(to: readings[readings.count - 1].time)
+    let intervalSteps = Double(readings[readings.count - 1].value - readings[0].value)
+    return Float(intervalDuration.toDouble()) / Float(intervalSteps) * 60
+}
+
+func canUpdate(_ value: Float) -> Bool {
+    return value >= 0 && !value.isInfinite && !value.isNaN
+}
+
+func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
+    switch metric {
+        case "heart": return getAverageValue(readings: readings)
+        case "step": return getIntervalDerivedValue(readings: readings)
+        case "speed": return getAverageValue(readings: readings) * 3.6
+        default: fatalError("metric is undefined")
+    }
+}
+
+func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> ([Reading], Float) {
+    let _readings = updateReadings(readings: readings, value: metricValue)
+    let prevValue = store.state.getMetricValue(metric)
+    var value = getAverageByMetric(metric: metric, readings: _readings)
+
+    if canUpdate(value) {
+        if value != prevValue {
+            store.state.lastDataChangeTime = .now()
+        }
+    }
+    else {
+        value = 0
+    }
+
+    return (_readings, value)
+}

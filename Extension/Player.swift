@@ -116,11 +116,14 @@ class Player {
         timeseries.keys.forEach {
             let timeserie = Timeserie()
             let values = (timeseries[$0] ?? [])
-            timeserie.value = values
-                .map { $0.value }
-                .reduce(0, +) / Float(values.count)
-            timeserie.timestamp = values[0].timestamp
-            result.append(element: timeserie, toValueOfKey: $0)
+
+            if values.count > 0 {
+                timeserie.value = values
+                    .map { $0.value }
+                    .reduce(0, +) / Float(values.count)
+                timeserie.timestamp = values[0].timestamp
+                result.append(element: timeserie, toValueOfKey: $0)
+            }
         }
 
         return result
@@ -336,7 +339,7 @@ class Player {
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
         let metricType = store.state.metricType
-        let pace = store.state.valueByMetric(metric: metricType.metric)
+        let pace = store.state.getMetricValue(metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = Double(store.state.session.getRhythms()[selectedRhythmIndex]) / 10
 
@@ -435,20 +438,14 @@ class Player {
         let breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
 
         store.state.breath = breath
-
-        // Since pedometer's hardware is sometimes going weird.
-        if store.state.speed <= 0 {
-            store.state.step = 0
-        }
-
         store.state.timeseries.keys.forEach {
-            let metric: Float = store.state.valueByMetric(metric: $0)
+            let metric: Float = store.state.getMetricValue($0)
 
             if metric >= 0 && !metric.isInfinite && !metric.isNaN {
                 store.state.timeseries[$0]?.append(
                     getTimeserie(
                         timestamp: timestamp,
-                        value: store.state.valueByMetric(metric: $0)
+                        value: store.state.getMetricValue($0)
                     )
                 )
             }

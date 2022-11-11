@@ -196,7 +196,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Heartbeats",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: store.state.metricType.metric)),
+                    value: String(format: "%.0f", store.state.getMetricValue(store.state.metricType.metric)),
                     unit: "per minute",
                     valueColor: colorize("red"),
                     isEnabled: false
@@ -207,7 +207,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Breaths",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: "breath")),
+                    value: String(format: "%.0f", store.state.getMetricValue("breath")),
                     unit: "per minute",
                     valueColor: colorize("green"),
                     isEnabled: false
@@ -220,7 +220,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Steps",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: "step")),
+                    value: String(format: "%.0f", store.state.getMetricValue("step")),
                     unit: "per minute",
                     valueColor: colorize("blue"),
                     isEnabled: false
@@ -231,7 +231,7 @@ struct ContentView: View {
                 primaryButton(
                     geometry: geometry,
                     label: "Speed",
-                    value: String(format: "%.0f", store.state.valueByMetric(metric: "speed")),
+                    value: String(format: "%.0f", store.state.getMetricValue("speed")),
                     unit: "km / h",
                     isEnabled: false
                 )

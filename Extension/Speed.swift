@@ -7,8 +7,9 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     var last: CLLocation?
-    var speeds: [Double] = []
     var timer: Timer?
+    var readings: [Reading] = []
+    let metric: String = "speed"
 
     override init() {
         super.init()
@@ -56,7 +57,7 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     func stop() {
         timer?.invalidate()
         timer = nil
-        speeds = []
+        readings = []
     }
 
     func process(current: CLLocation) {
@@ -65,23 +66,8 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
             return
         }
 
-        if current.speed >= 0 {
-            let prevSpeed = store.state.speed
-
-            speeds.append(current.speed)
-            speeds = Array(speeds.suffix(MAX_READING_COUNT))
-
-            let res = speeds.reduce(0) { Float($0) + Float($1) } / Float(speeds.count) * 3.6
-            if res >= 0 && !res.isInfinite && !res.isNaN {
-                print(res)
-                store.state.speed = res
-
-                if store.state.speed != prevSpeed {
-                    store.state.lastDataChangeTime = .now()
-                }
-            }
-        }
-
+        let metricValue: Float = Float(current.speed)
+        (readings, store.state.speed) = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
         last = current
     }
 }

@@ -47,9 +47,9 @@ struct SeedInput {
     var interval: [Float] = []
 }
 
-class StepData {
+class Reading {
     var time: DispatchTime = .now()
-    var count: Int = 0
+    var value: Float = 0
 }
 
 class Timeserie: Codable {
