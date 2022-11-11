@@ -59,7 +59,7 @@ class Player {
          */
     }
 
-    func defaultMetrics() {
+    func setMetricsToDefault() {
         store.state.breath = DEFAULT_BREATH
         store.state.heart = DEFAULT_HEART
         store.state.step = DEFAULT_STEP
@@ -192,7 +192,7 @@ class Player {
         //    initInactivityTimer()
         //}
 
-        defaultMetrics()
+        setMetricsToDefault()
         create()
         play()
         store.state.session.start()
@@ -218,6 +218,7 @@ class Player {
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         saveSessionLogs()
+        setMetricsToDefault()
     }
 
     func saveSessionLogs() {

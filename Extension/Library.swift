@@ -229,7 +229,7 @@ func getAverageValue(readings: [Reading]) -> Float {
 func getIntervalDerivedValue(readings: [Reading]) -> Float {
     let intervalDuration: DispatchTimeInterval = readings[0].time.distance(to: readings[readings.count - 1].time)
     let intervalSteps = Double(readings[readings.count - 1].value - readings[0].value)
-    return Float(intervalDuration.toDouble()) / Float(intervalSteps) * 60
+    return Float(intervalDuration.toDouble()) / Float(intervalSteps)
 }
 
 func canUpdate(_ value: Float) -> Bool {
@@ -239,7 +239,7 @@ func canUpdate(_ value: Float) -> Bool {
 func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
     switch metric {
         case "heart": return getAverageValue(readings: readings)
-        case "step": return getIntervalDerivedValue(readings: readings)
+        case "step": return getIntervalDerivedValue(readings: readings) * 60
         case "speed": return getAverageValue(readings: readings) * 3.6
         default: fatalError("metric is undefined")
     }
