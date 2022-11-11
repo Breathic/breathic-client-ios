@@ -35,11 +35,6 @@ class Step {
     }
 
     func setPedometerData(data: CMPedometerData) {
-        if !store.state.session.isActive {
-            store.state.setMetricValue(metric, DEFAULT_STEP)
-            return
-        }
-
         let metricValue: Float = Float(Double(truncating: data.numberOfSteps))
         readings = updateMetric(store: store, metric: metric, metricValue: metricValue, readings: readings)
     }

@@ -60,10 +60,9 @@ class Player {
     }
 
     func setMetricsToDefault() {
-        store.state.breath = DEFAULT_BREATH
-        store.state.heart = DEFAULT_HEART
-        store.state.step = DEFAULT_STEP
-        store.state.speed = DEFAULT_SPEED
+        store.state.timeseries.keys.forEach {
+            store.state.setMetricValue($0, nil)
+        }
     }
 
     func getFadeScale() -> [Float] {

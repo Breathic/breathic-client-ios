@@ -246,6 +246,11 @@ func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
 }
 
 func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> [Reading] {
+    if !store.state.session.isActive {
+        store.state.setMetricValue(metric, nil)
+        return []
+    }
+
     let _readings = updateReadings(readings: readings, value: metricValue)
     let prevValue = store.state.getMetricValue(metric)
     var value = getAverageByMetric(metric: metric, readings: _readings)

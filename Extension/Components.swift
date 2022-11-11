@@ -120,7 +120,7 @@ func chart(
 ) -> some View {
     Group {
         if chartDomain.xMin >= chartDomain.xMax && chartDomain.yMin >= chartDomain.yMax {
-            Text("No usable data was found. Perhaps record for longer?")
+            Text("No usable data found.")
                 .font(.system(size: 12))
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(maxHeight: .infinity, alignment: .center)

@@ -71,11 +71,6 @@ class Heart {
     }
 
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
-        if !store.state.session.isActive {
-            store.state.setMetricValue(metric, DEFAULT_HEART)
-            return
-        }
-
         if type != .heartRate {
             return
         }
