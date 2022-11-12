@@ -163,13 +163,8 @@ class Player {
         store.state.elapsedTime = ""
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        saveSessionLogs()
+        saveSessionLogs(sessionLogs: store.state.sessionLogs)
         store.state.setMetricsToDefault()
-    }
-
-    func saveSessionLogs() {
-        guard let data = try? JSONEncoder().encode(store.state.sessionLogs) else { return }
-        writeToFile(key: STORE_SESSION_LOGS, data: data)
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {

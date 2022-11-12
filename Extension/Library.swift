@@ -206,3 +206,8 @@ func getAverages(timeseries: [String: [Reading]]) -> [String: [Reading]] {
 
     return result
 }
+
+func saveSessionLogs(sessionLogs: [Session]) {
+    guard let data = try? JSONEncoder().encode(sessionLogs) else { return }
+    writeToFile(key: STORE_SESSION_LOGS, data: data)
+}
