@@ -35,7 +35,7 @@ class Player {
         } catch {}
 
         store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
-        initTimeseriesSaver()
+        initReadingsSaver()
 
         if store.state.session.isActive {
             store.state.isResumable = true
@@ -59,12 +59,6 @@ class Player {
          */
     }
 
-    func setMetricsToDefault() {
-        store.state.timeseries.keys.forEach {
-            store.state.setMetricValue($0, nil)
-        }
-    }
-
     func cachePlayers() {
         for key in store.state.distances.keys {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
@@ -74,25 +68,25 @@ class Player {
         }
     }
 
-    func initTimeseriesSaver() {
+    func initReadingsSaver() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_S, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
-                self.saveTimeseries()
+                self.saveReadings()
             }
         }
     }
 
-    func saveTimeseries() {
-        let timeseries: [String: [Reading]] = getAverages(timeseries: store.state.timeseries)
+    func saveReadings() {
+        let readings: [String: [Reading]] = getAverages(timeseries: store.state.readings)
         let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date()) + "|" + DEFAULT_TIME_RESOLUTION
 
         do {
-            let data = try JSONEncoder().encode(timeseries)
+            let data = try JSONEncoder().encode(readings)
             writeToFile(key: id, data: data)
         } catch {}
 
-        store.state.timeseries.keys.forEach {
-            store.state.timeseries[$0] = []
+        store.state.readings.keys.forEach {
+            store.state.readings[$0] = []
         }
     }
 
@@ -145,7 +139,6 @@ class Player {
         //    initInactivityTimer()
         //}
 
-        setMetricsToDefault()
         create()
         play()
         store.state.session.start()
@@ -166,12 +159,12 @@ class Player {
         speed.stop()
         coordinator.stop()
         store.state.session.stop()
-        saveTimeseries()
+        saveReadings()
         store.state.elapsedTime = ""
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         saveSessionLogs()
-        setMetricsToDefault()
+        store.state.setMetricsToDefault()
     }
 
     func saveSessionLogs() {
@@ -364,14 +357,14 @@ class Player {
         let loopIntervalSum = getLoopIntervalSum()
 
         store.state.breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
-        store.state.timeseries.keys.forEach {
+        store.state.readings.keys.forEach {
             let value: Float = store.state.getMetricValue($0)
 
             if canUpdate(value) {
                 let reading = Reading()
                 reading.timestamp = timestamp
                 reading.value = value
-                store.state.timeseries[$0]?.append(reading)
+                store.state.readings[$0]?.append(reading)
             }
         }
     }

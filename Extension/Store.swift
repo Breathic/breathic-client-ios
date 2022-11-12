@@ -36,12 +36,20 @@ struct AppState {
     var heart: Float = DEFAULT_HEART
     var step: Float = DEFAULT_STEP
     var speed: Float = DEFAULT_SPEED
-    var timeseries: [String: [Reading]] = [
+    var readings: [String: [Reading]] = [
         "breath": [],
         "heart": [],
         "step": [],
         "speed": []
     ]
+    var timeseries: [String: [Reading]] = [:]
+    var seriesData: [SeriesData] = []
+    var selectedSession = Session()
+    //var geometry: GeometryProxy = nil
+    var dragIndex: Int = 0
+    let chartDomain = ChartDomain()
+    var dragXOffset = CGSize.zero
+    var wasDragged = false
 
     func getMetricValue(_ metric: String) -> Float {
         switch metric {
@@ -60,6 +68,12 @@ struct AppState {
             case "step": step = value ?? DEFAULT_STEP
             case "speed": speed = value ?? DEFAULT_SPEED
             default: fatalError("metric is undefined")
+        }
+    }
+
+    mutating func setMetricsToDefault() {
+        readings.keys.forEach {
+            setMetricValue($0, nil)
         }
     }
 }

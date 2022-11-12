@@ -41,9 +41,7 @@ func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
 
 func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> [Reading] {
     if !store.state.session.isActive {
-        store.state.timeseries.keys.forEach {
-            store.state.setMetricValue($0, nil)
-        }
+        store.state.setMetricsToDefault()
         return []
     }
 

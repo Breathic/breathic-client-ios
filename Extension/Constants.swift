@@ -52,3 +52,10 @@ let TIMESERIES_SAVER_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
 let STORE_ACTIVE_SESSION = "ActiveSession"
 let STORE_SESSION_LOGS = "SessionLogs"
+let DRAG_INDEXES: [String: Int] = [
+    "Controller": 0,
+    "Status": 1,
+    "Log": 0
+]
+let MAIN_MENU_VIEWS: [String] = ["Controller", "Status", "Log"]
+let CROWN_MULTIPLIER: Float = 2
