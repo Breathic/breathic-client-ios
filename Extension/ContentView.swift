@@ -46,7 +46,7 @@ struct ContentView: View {
         slide(geometry: geometry)
     }
 
-    func isActive() -> Bool {
+    func isSessionActive() -> Bool {
         return store.state.session.isActive && !store.state.isResumable
     }
 
@@ -166,8 +166,8 @@ struct ContentView: View {
                         )) - 1
                     ),
                     isTall: false,
-                    isEnabled: isActive(),
-                    opacity: isActive() ? 1 : 0.33,
+                    isEnabled: isSessionActive(),
+                    opacity: isSessionActive() ? 1 : 0.33,
                     action: {
                         player.togglePlay()
                     }
@@ -204,7 +204,7 @@ struct ContentView: View {
                     unit: "per minute",
                     valueColor: colorize("red"),
                     isEnabled: false,
-                    opacity: isActive() ? 1 : 0.33
+                    opacity: isSessionActive() ? 1 : 0.33
                 )
 
                 Spacer(minLength: 8)
@@ -216,7 +216,7 @@ struct ContentView: View {
                     unit: "per minute",
                     valueColor: colorize("green"),
                     isEnabled: false,
-                    opacity: isActive() ? 1 : 0.33
+                    opacity: isSessionActive() ? 1 : 0.33
                 )
             }
 
@@ -230,7 +230,7 @@ struct ContentView: View {
                     unit: "per minute",
                     valueColor: colorize("blue"),
                     isEnabled: false,
-                    opacity: isActive() ? 1 : 0.33
+                    opacity: isSessionActive() ? 1 : 0.33
                 )
 
                 Spacer(minLength: 8)
@@ -241,7 +241,7 @@ struct ContentView: View {
                     value: String(format: "%.0f", store.state.getMetricValue("speed")),
                     unit: "km / h",
                     isEnabled: false,
-                    opacity: isActive() ? 1 : 0.33
+                    opacity: isSessionActive() ? 1 : 0.33
                 )
             }
         }

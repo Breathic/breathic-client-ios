@@ -65,33 +65,6 @@ class Player {
         }
     }
 
-    func getFadeScale() -> [Float] {
-        var result: [Float] = []
-        let fadeMax = FADE_DURATION - 1
-        let middleMax = CHANNEL_REPEAT_COUNT - FADE_DURATION * 2 - 1
-
-        Array(0...fadeMax).forEach {
-            result.append(
-                convertRange(
-                    value: Float($0),
-                    oldRange: [0, Float(fadeMax)],
-                    newRange: [0, 1]
-                )
-            )
-        }
-        let endFade: [Float] = result.reversed()
-
-        for _ in Array(0...middleMax) {
-            result.append(1)
-        }
-
-        for volume in endFade {
-            result.append(volume)
-        }
-
-        return result
-    }
-
     func cachePlayers() {
         for key in store.state.distances.keys {
             let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
@@ -107,25 +80,6 @@ class Player {
                 self.saveTimeseries()
             }
         }
-    }
-
-    func getAverages(timeseries: [String: [Reading]]) -> [String: [Reading]] {
-        var result: [String: [Reading]] = [:]
-
-        timeseries.keys.forEach {
-            let timeserie = Reading()
-            let values = (timeseries[$0] ?? [])
-
-            if values.count > 0 {
-                timeserie.value = values
-                    .map { $0.value }
-                    .reduce(0, +) / Float(values.count)
-                timeserie.timestamp = values[0].timestamp
-                result.append(element: timeserie, toValueOfKey: $0)
-            }
-        }
-
-        return result
     }
 
     func saveTimeseries() {
@@ -314,21 +268,6 @@ class Player {
         }
     }
 
-    func getPanScale() -> [Float] {
-        let easingCount: Int = 8
-        var easing: Float = 0
-        var left: [Float] = []
-        var right: [Float] = []
-
-        for (index, _) in Array(1...easingCount).enumerated() {
-            easing = Float(index) * 1 / (Float(easingCount) - 1) * 2
-            left.append(0 - (1 - easing))
-            right.append(easing)
-        }
-
-        return left + right
-    }
-
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
 
@@ -360,7 +299,7 @@ class Player {
         return loopIntervalSum
     }
 
-    func audioLoop(loopInterval: TimeInterval) {
+    func updateAudio(loopInterval: TimeInterval) {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
                 if audioIndex == 0 && channelIndex == 0 && (
@@ -410,7 +349,7 @@ class Player {
                 self.loop()
             }
 
-            self.audioLoop(loopInterval: loopInterval)
+            self.updateAudio(loopInterval: loopInterval)
             self.updateGraph()
         }
         else {
@@ -515,9 +454,6 @@ class Player {
 
     func flush(audioIndex: Int) {
         audios[audioIndex].sampleIndex = 0
-        //audios[audioIndex].forResources.forEach {
-            //players[$0]?.stop()
-        //}
         audios[audioIndex].forResources = []
     }
 

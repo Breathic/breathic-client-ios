@@ -1,44 +1,6 @@
 import Foundation
 import SwiftUI
 
-func getDocumentsDirectory() -> URL {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths[0]
-}
-
-func readDistances(path: String) -> [Int: [Distance]] {
-    var res: [Int: [Distance]] = [:]
-    let forResource = String(path.split(separator: ".")[0])
-    let ofType = String(path.split(separator: ".")[1])
-    
-    if let path = Bundle.main.path(forResource: forResource, ofType: ofType) {
-        do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-
-            if let jsonResult = jsonResult as? Dictionary<String, [AnyObject]> {
-                for comparisons in jsonResult {
-                    let leftId = Int(comparisons.key)!
-                    let values: [AnyObject] = comparisons.value
-                    var distances = [Distance]()
-                    
-                    for value in values {
-                        let distance = Distance()
-                        
-                        distance.value = value[0] as! Double
-                        distance.duration = value[1] as! Double
-                        distance.rightId = value[2] as! Int
-                        distances.append(distance)
-                    }
-                    
-                    res[leftId] = distances
-                }
-            }
-        } catch {}
-    }
-    return res
-}
-
 func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
    return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
 }
@@ -60,28 +22,6 @@ func getElapsedTime(from: Date, to: Date) -> String {
     }
 
     return elapsedTime
-}
-
-func writeToFile(key: String, data: Data) {
-    do {
-        let json = String(data: data, encoding: .utf8) ?? ""
-        let filename = getDocumentsDirectory().appendingPathComponent(key)
-        try json.write(to: filename, atomically: true, encoding: .utf8)
-    }
-    catch {
-        print("writeToFile()", error)
-    }
-}
-
-func readFromFile(key: String) -> Data {
-    do {
-        let filename = getDocumentsDirectory().appendingPathComponent(key)
-        let outData = try String(contentsOf: filename, encoding: .utf8)
-        return outData.data(using: .utf8) ?? Data()
-    }
-    catch {
-        return Data()
-    }
 }
 
 func getMonthLabel(index: Int) -> String {
@@ -206,58 +146,62 @@ func getSeriesData(
     return (result, chartDomain)
 }
 
-func updateReadings(readings: [Reading], value: Float) -> [Reading] {
-    var result = readings
-    let reading = Reading()
+func getFadeScale() -> [Float] {
+    var result: [Float] = []
+    let fadeMax = FADE_DURATION - 1
+    let middleMax = CHANNEL_REPEAT_COUNT - FADE_DURATION * 2 - 1
 
-    reading.timestamp = Date()
-    reading.value = value
-    result.append(reading)
+    Array(0...fadeMax).forEach {
+        result.append(
+            convertRange(
+                value: Float($0),
+                oldRange: [0, Float(fadeMax)],
+                newRange: [0, 1]
+            )
+        )
+    }
+    let endFade: [Float] = result.reversed()
 
-    result = Array(result.suffix(MAX_READING_COUNT))
-    result = result.filter { reading in
-        reading.timestamp.timeIntervalSince1970 + MAX_READING_TIMEOUT_S >= Date().timeIntervalSince1970
+    for _ in Array(0...middleMax) {
+        result.append(1)
+    }
+
+    for volume in endFade {
+        result.append(volume)
     }
 
     return result
 }
 
-func getAverageValue(readings: [Reading]) -> Float {
-    return readings.reduce(0) { Float($0) + Float($1.value) } / Float(readings.count)
-}
+func getPanScale() -> [Float] {
+    let easingCount: Int = 8
+    var easing: Float = 0
+    var left: [Float] = []
+    var right: [Float] = []
 
-func getIntervalDerivedValue(readings: [Reading]) -> Float {
-    let intervalDuration = readings[0].timestamp.timeIntervalSince1970 - readings[readings.count - 1].timestamp.timeIntervalSince1970
-    let intervalSteps = Double(readings[readings.count - 1].value - readings[0].value)
-    return Float(intervalDuration) / Float(intervalSteps)
-}
-
-func canUpdate(_ value: Float) -> Bool {
-    return value >= 0 && !value.isInfinite && !value.isNaN
-}
-
-func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
-    switch metric {
-        case "heart": return getAverageValue(readings: readings)
-        case "step": return getIntervalDerivedValue(readings: readings) * 60
-        case "speed": return getAverageValue(readings: readings) * 3.6
-        default: fatalError("metric is undefined")
-    }
-}
-
-func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> [Reading] {
-    if !store.state.session.isActive {
-        store.state.setMetricValue(metric, nil)
-        return []
+    for (index, _) in Array(1...easingCount).enumerated() {
+        easing = Float(index) * 1 / (Float(easingCount) - 1) * 2
+        left.append(0 - (1 - easing))
+        right.append(easing)
     }
 
-    let result = updateReadings(readings: readings, value: metricValue)
-    let prevValue = store.state.getMetricValue(metric)
-    let value = getAverageByMetric(metric: metric, readings: result)
+    return left + right
+}
 
-    if canUpdate(value) && value != prevValue {
-        store.state.setMetricValue(metric, value)
-        store.state.lastDataChangeTime = .now()
+func getAverages(timeseries: [String: [Reading]]) -> [String: [Reading]] {
+    var result: [String: [Reading]] = [:]
+
+    timeseries.keys.forEach {
+        let timeserie = Reading()
+        let values = (timeseries[$0] ?? [])
+
+        if values.count > 0 {
+            timeserie.value = values
+                .map { $0.value }
+                .reduce(0, +) / Float(values.count)
+            timeserie.timestamp = values[0].timestamp
+            result.append(element: timeserie, toValueOfKey: $0)
+        }
     }
 
     return result
