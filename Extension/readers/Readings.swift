@@ -21,7 +21,7 @@ func getAverageValue(readings: [Reading]) -> Float {
 }
 
 func getIntervalDerivedValue(readings: [Reading]) -> Float {
-    let intervalDuration = readings[0].timestamp.timeIntervalSince1970 - readings[readings.count - 1].timestamp.timeIntervalSince1970
+    let intervalDuration = readings[readings.count - 1].timestamp.timeIntervalSince1970 - readings[0].timestamp.timeIntervalSince1970
     let intervalSteps = Double(readings[readings.count - 1].value - readings[0].value)
     return Float(intervalDuration) / Float(intervalSteps)
 }
