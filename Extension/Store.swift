@@ -45,7 +45,6 @@ struct AppState {
     var timeseries: [String: [Reading]] = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
-    //var geometry: GeometryProxy = nil
     var dragIndex: Int = 0
     let chartDomain = ChartDomain()
     var dragXOffset = CGSize.zero

@@ -42,6 +42,7 @@ func primaryButton(
                             .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
                             .fontWeight(.bold)
                             .foregroundColor(valueColor)
+                            .underline(isActive)
                     }
 
                     if unit.count > 0 {

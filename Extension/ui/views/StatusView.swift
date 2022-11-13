@@ -9,6 +9,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 value: String(format: "%.0f", store.state.getMetricValue("heart")),
                 unit: "per minute",
                 valueColor: colorize("red"),
+                isActive: store.state.metricType.metric == "heart",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )
@@ -35,6 +36,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 value: String(format: "%.0f", store.state.getMetricValue("step")),
                 unit: "per minute",
                 valueColor: colorize("blue"),
+                isActive: store.state.metricType.metric == "step",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )
@@ -46,6 +48,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 label: "Speed",
                 value: String(format: "%.0f", store.state.getMetricValue("speed")),
                 unit: "km / h",
+                valueColor: colorize("yellow"),
+                isActive: store.state.metricType.metric == "speed",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )

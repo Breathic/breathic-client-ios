@@ -44,19 +44,6 @@ class Player {
         startElapsedTimer()
 
         //UserDefaults.standard.set("", forKey: STORE_ACTIVE_SESSION) // Clear a key.
-
-        /*
-         let update = Update()
-         update.value = 60.0
-         update.timestamp = Date()
-
-         for (index, _) in Array(1...10).enumerated() {
-             let update2 = Update()
-             update2.timestamp = update.timestamp.addingTimeInterval(5.0 * Double(index))
-             update2.value = update.value + Float(index)
-             store.state.averageHeartRatesPerMinute.append(update2)
-         }
-         */
     }
 
     func cachePlayers() {

@@ -30,22 +30,25 @@ let METRIC_TYPES = [
         unit: "minute",
         valueColor: colorize("blue"),
         isReversed: true
-    )/*,
+    ),
     MetricType(
-        metric: "speedMetric",
+        metric: "speed",
+        label: "speed",
         unit: "m / s",
+        valueColor: colorize("yellow"),
         isReversed: true
-    )*/
+    )
 ]
 let DEFAULT_BREATH: Float = Platform.isSimulator ? 60 : 0
 let DEFAULT_HEART: Float = Platform.isSimulator ? 60 : 0
 let DEFAULT_STEP: Float = Platform.isSimulator ? 60 : 0
-let DEFAULT_SPEED: Float = Platform.isSimulator ? 3.6 : 0
+let DEFAULT_SPEED: Float = Platform.isSimulator ? 10 : 0
 let MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 let COLORS: [String: (Double, Double, Double)] = [
     "red": (242, 16, 75),
     "green": (161, 249, 2),
     "blue": (3, 221, 238),
+    "yellow": (222, 252, 82),
     "gray": (63, 63, 63),
 ]
 let TIMESERIES_SAVER_S: Double = 60
