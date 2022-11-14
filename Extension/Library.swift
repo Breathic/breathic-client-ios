@@ -75,24 +75,19 @@ func getTimeseriesUpdateId(uuid: String, date: Date) -> String {
         String(Calendar.current.component(.minute, from: date))
 }
 
-func parseProgressData(metricData: [Reading], startTime: Date) -> [ProgressData] {
+func parseProgressData(timeseries: [Reading], startTime: Date) -> [ProgressData] {
     let startHour = Calendar.current.component(.hour, from: startTime)
     let startMinute = Calendar.current.component(.minute, from: startTime)
-    var dataByMinute: [Int: [Float]] = [:]
     var dataByMinuteAveraged: [Int: Float] = [:]
 
-    metricData
+    timeseries
         .forEach {
             let hours = Calendar.current.component(.hour, from: $0.timestamp)
             let minutes = Calendar.current.component(.minute, from: $0.timestamp)
             let timestampByMinute = (Int((hours - startHour) * 60 + (minutes - startMinute)))
-            dataByMinute.append(element: $0.value, toValueOfKey: timestampByMinute)
-        }
 
-    for timestamp in dataByMinute.keys {
-        let values = dataByMinute[timestamp] ?? []
-        dataByMinuteAveraged[timestamp] = values.reduce(0, +) / Float(values.count)
-    }
+            dataByMinuteAveraged[timestampByMinute] = $0.value
+        }
 
     return dataByMinuteAveraged.keys.sorted().map {
         ProgressData(timestamp: $0, value: dataByMinuteAveraged[$0]!)

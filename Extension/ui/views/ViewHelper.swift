@@ -59,7 +59,7 @@ func getSeriesData(
     let chartDomain = ChartDomain()
 
     timeseries.keys.forEach {
-        let progressData = parseProgressData(metricData: timeseries[$0] ?? [], startTime: startTime)
+        let progressData = parseProgressData(timeseries: timeseries[$0] ?? [], startTime: startTime)
 
         _timeseries[$0] = progressData
 
