@@ -53,6 +53,6 @@ func rhythmView(
         }
         .font(.system(size: store.state.ui.secondaryTextSize))
 
-        secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = MAIN_MENU_VIEWS[0] })
+        secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = store.state.menuViews[store.state.page]![0] })
     }
 }

@@ -61,5 +61,10 @@ let DRAG_INDEXES: [String: Int] = [
     "Status": 1,
     "Log": 0
 ]
-let MAIN_MENU_VIEWS: [String] = ["Controller", "Status", "Log"]
+let DEFAULT_MENU_VIEWS: [String: [String]] = [
+    "Main": ["Controller", "Status", "Log"],
+    "Overview": ["Chart", "Chart settings"]
+]
+let DEFAULT_PAGE = "Main"
+let DEFAULT_ACTIVE_SUB_VIEW = "Controller"
 let CROWN_MULTIPLIER: Float = 2

@@ -20,25 +20,70 @@ struct ContentView: View {
 
                     switch(store.state.activeSubView) {
                         case "Menu":
-                            menuView(geometry: geometry, store: store, tempActiveSubView: $store.state.tempActiveSubView)
+                            menuView(
+                                geometry: geometry,
+                                store: store,
+                                tempActiveSubView: $store.state.tempActiveSubView
+                            )
 
-                        case MAIN_MENU_VIEWS[0], "Controller", "Status":
-                            dragView(geometry: geometry,store: store, player: player, volume: $store.state.session.volume)
+                        case "Controller", "Status":
+                            dragView(
+                                children: Group {
+                                    HStack {
+                                        controllerView(geometry: geometry, store: store, player: player, volume: $store.state.session.volume)
+                                        statusView(geometry: geometry, store: store)
+                                    }
+                                    .onAppear {
+                                        store.state.page = DEFAULT_PAGE
+                                    }
+                                },
+                                geometry: geometry,
+                                store: store
+                            )
 
                         case "Log":
-                            logView(geometry: geometry, store: store, selectedSessionId: $store.state.selectedSessionId)
+                            logView(
+                                geometry: geometry,
+                                store: store,
+                                selectedSessionId: $store.state.selectedSessionId
+                            )
 
                         case "Rhythm":
-                            rhythmView(geometry: geometry, store: store, inRhythm: $store.state.session.inRhythm, outRhythm: $store.state.session.outRhythm)
+                            rhythmView(
+                                geometry: geometry,
+                                store: store,
+                                inRhythm: $store.state.session.inRhythm,
+                                outRhythm: $store.state.session.outRhythm
+                            )
 
                         case "Confirm":
-                            sessionStopConfirmationView(geometry: geometry, store: store, player: player)
+                            sessionStopConfirmationView(
+                                geometry: geometry,
+                                store: store,
+                                player: player
+                            )
 
                         case "Delete":
-                            deleteSessionConfirmationView(geometry: geometry, store: store)
+                            deleteSessionConfirmationView(
+                                geometry: geometry,
+                                store: store
+                            )
 
-                        case store.state.selectedSessionId:
-                            overviewView(geometry: geometry, store: store)
+                        case store.state.selectedSessionId, "Chart settings":
+                            dragView(
+                                children: Group {
+                                    HStack {
+                                        overviewView(geometry: geometry, store: store)
+                                        chartSettingsView(geometry: geometry, store: store)
+                                    }
+                                    .onAppear {
+                                        store.state.menuViews["Overview"]![0] = store.state.selectedSessionId
+                                        store.state.page = "Overview"
+                                    }
+                                },
+                                geometry: geometry,
+                                store: store
+                            )
 
                         default:
                             Group {}
@@ -46,10 +91,10 @@ struct ContentView: View {
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
 
-                if store.state.activeSubView == MAIN_MENU_VIEWS[0] || store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
+                if store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
                     ZStack {
                         HStack {
-                            DottedIndicator(index: store.state.dragIndex, maxIndex: 1, direction: "horizontal")
+                            DottedIndicator(index: store.state.pageOptions[DEFAULT_PAGE]!.dragIndex, maxIndex: 1, direction: "horizontal")
                         }
                         .frame(height: geometry.size.height + 20, alignment: .bottom)
                     }

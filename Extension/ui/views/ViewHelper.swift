@@ -17,16 +17,17 @@ func isSessionActive(store: Store) -> Bool {
 }
 
 func slide(geometry: GeometryProxy, store: Store) {
-    store.state.dragXOffset = CGSize(width: (-geometry.size.width - 4) * CGFloat(store.state.dragIndex), height: 0)
+    store.state.pageOptions[store.state.page]!.dragXOffset = CGFloat(-geometry.size.width - 4) * CGFloat(store.state.pageOptions[store.state.page]!.dragIndex)
 }
 
 func selectMainMenu(geometry: GeometryProxy, store: Store) {
     if store.state.tempActiveSubView == "" {
-        store.state.tempActiveSubView = MAIN_MENU_VIEWS[0]
+        store.state.tempActiveSubView = store.state.menuViews[store.state.page]![0]
     }
 
     store.state.activeSubView = store.state.tempActiveSubView
-    store.state.dragIndex = DRAG_INDEXES[store.state.activeSubView] ?? 0
+    store.state.pageOptions[store.state.page]!.dragIndex = DRAG_INDEXES[store.state.activeSubView] ?? 0
+
     slide(geometry: geometry, store: store)
 }
 
@@ -149,7 +150,7 @@ func deleteSession(store: Store, sessionId: String) {
     }
 
     if !hasSessionLogs(store: store) {
-        store.state.activeSubView = MAIN_MENU_VIEWS[0]
+        store.state.activeSubView = store.state.menuViews[store.state.page]![0]
     }
     else {
         store.state.activeSubView = "Log"

@@ -1,53 +1,58 @@
 import SwiftUI
 
-func dragView(
+func onDragChanged(
     geometry: GeometryProxy,
     store: Store,
-    player: Player,
-    volume: Binding<Float>
-) -> some View {
-    HStack {
-        controllerView(geometry: geometry, store: store, player: player, volume: volume)
-        statusView(geometry: geometry, store: store)
+    width: CGFloat
+) {
+    store.state.pageOptions[store.state.page]!.wasDragged = false
+
+    let width = width + (CGFloat(-store.state.pageOptions[store.state.page]!.dragIndex) * geometry.size.width)
+
+    if width > 0 { return }  // Stop drag from the left.
+    else if width < -geometry.size.width { return } // Stop drag from the right.
+
+    store.state.pageOptions[store.state.page]!.dragXOffset = CGFloat(width)
+    store.state.pageOptions[store.state.page]!.wasDragged = true
+}
+
+func onDragEnded(
+    geometry: GeometryProxy,
+    store: Store
+) {
+    if !store.state.pageOptions[store.state.page]!.wasDragged { return }
+
+    let width = CGFloat(store.state.pageOptions[store.state.page]!.dragIndex) * geometry.size.width
+
+    if store.state.pageOptions[store.state.page]!.dragXOffset < -width {
+        store.state.pageOptions[store.state.page]!.dragIndex = 1
+        store.state.activeSubView = store.state.menuViews[store.state.page]![1]
     }
-    .offset(x: Double(store.state.dragXOffset.width))
-    .highPriorityGesture(
-        DragGesture()
-            .onChanged { gesture in
-                store.state.wasDragged = false
+    else if store.state.pageOptions[store.state.page]!.dragXOffset > -width {
+        store.state.pageOptions[store.state.page]!.dragIndex = 0
+        store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+    }
+    else {
+        store.state.pageOptions[store.state.page]!.dragXOffset = CGFloat(width)
+    }
 
-                let width = gesture.translation.width + (CGFloat(-store.state.dragIndex) * geometry.size.width)
+    slide(geometry: geometry, store: store)
+}
 
-                if width > 0 { return }  // Stop drag from the left.
-                else if width < -geometry.size.width { return } // Stop drag from the right.
-
-                store.state.dragXOffset = CGSize(
-                    width: width,
-                    height: 0
-                )
-                store.state.wasDragged = true
-            }
-            .onEnded { _ in
-                if !store.state.wasDragged { return }
-
-                let width = CGFloat(store.state.dragIndex) * geometry.size.width
-
-                if store.state.dragXOffset.width < -width {
-                    store.state.dragIndex = 1
-                    store.state.activeSubView = "Status"
+func dragView(
+    children: some View,
+    geometry: GeometryProxy,
+    store: Store
+) -> some View {
+    children
+        .offset(x: store.state.pageOptions[store.state.page]!.dragXOffset)
+        .highPriorityGesture(
+            DragGesture()
+                .onChanged { gesture in
+                    onDragChanged(geometry: geometry, store: store, width: gesture.translation.width)
                 }
-                else if store.state.dragXOffset.width > -width {
-                    store.state.dragIndex = 0
-                    store.state.activeSubView = MAIN_MENU_VIEWS[0]
+                .onEnded { _ in
+                    onDragEnded(geometry: geometry, store: store)
                 }
-                else {
-                    store.state.dragXOffset = CGSize(
-                        width: width,
-                        height: 0
-                    )
-                }
-
-                slide(geometry: geometry, store: store)
-            }
-        )
+            )
 }

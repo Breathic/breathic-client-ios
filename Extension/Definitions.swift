@@ -172,3 +172,9 @@ class ChartDomain {
     var yMin: Float = 0
     var yMax: Float = 0
 }
+
+struct PageOption {
+    var dragIndex: Int = 0
+    var dragXOffset = CGFloat(0)
+    var wasDragged = false
+}

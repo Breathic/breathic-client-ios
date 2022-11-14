@@ -14,7 +14,10 @@ SentrySDK.start { options in
  */
 
 struct AppState {
-    var activeSubView: String = "Controller"
+    var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: DEFAULT_MENU_VIEWS.keys.map { ($0, PageOption()) })
+    var page: String = DEFAULT_PAGE
+    var activeSubView: String = DEFAULT_ACTIVE_SUB_VIEW
+    var menuViews = DEFAULT_MENU_VIEWS
     var tempActiveSubView: String = ""
     var session: Session = Session()
     var selectedSessionId: String = ""
@@ -37,10 +40,7 @@ struct AppState {
     var timeseries: [String: [Reading]] = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
-    var dragIndex: Int = 0
     var chartDomain = ChartDomain()
-    var dragXOffset = CGSize.zero
-    var wasDragged = false
 
     func getMetricValue(_ metric: String) -> Float {
         metrics[metric] ?? 0

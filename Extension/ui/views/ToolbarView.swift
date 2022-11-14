@@ -7,11 +7,11 @@ func toolbarView(
             Button(
                 action: {
                     store.state.activeSubView = store.state.activeSubView != "Menu"
-                    ? "Menu"
-                    : MAIN_MENU_VIEWS[0]
+                        ? "Menu"
+                        : store.state.menuViews[DEFAULT_PAGE]![0]
                     store.state.activeSubView = isOverviewSelected(store: store)
-                    ? "Log"
-                    : store.state.activeSubView
+                        ? "Log"
+                        : store.state.activeSubView
                 },
                 label: {
                     Text(
