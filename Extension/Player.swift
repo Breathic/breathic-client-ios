@@ -151,7 +151,7 @@ class Player {
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         saveSessionLogs(sessionLogs: store.state.sessionLogs)
-        store.state.setMetricsToDefault()
+        store.state.metrics = DEFAULT_METRICS
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
@@ -251,11 +251,15 @@ class Player {
         }
     }
 
+    func getSelectedRhythm() -> Double {
+        return Double(store.state.session.getRhythms()[store.state.selectedRhythmIndex]) / 10
+    }
+
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
         let metricType = store.state.metricType
         let pace = store.state.getMetricValue(metricType.metric)
         let isReversed = metricType.isReversed
-        let selectedRhythm: Double = Double(store.state.session.getRhythms()[selectedRhythmIndex]) / 10
+        let selectedRhythm: Double = getSelectedRhythm()
 
         var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
@@ -324,8 +328,8 @@ class Player {
                 self.loop()
             }
 
-            self.updateAudio(loopInterval: loopInterval)
             self.updateGraph()
+            self.updateAudio(loopInterval: loopInterval)
         }
         else {
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
@@ -338,15 +342,23 @@ class Player {
         let timestamp = Date()
         let loopIntervalSum = getLoopIntervalSum()
 
-        store.state.breath = 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60
-        store.state.readings.keys.forEach {
-            let value: Float = store.state.getMetricValue($0)
+        store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
+        store.state.setMetricValue(store.state.metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
+        store.state.setMetricValue("rhythm-in", Float(store.state.session.getRhythms()[0]) / 10)
+        store.state.setMetricValue("rhythm-out", Float(store.state.session.getRhythms()[1]) / 10)
+
+        for metric in store.state.metrics.keys {
+            let value: Float = store.state.getMetricValue(metric)
 
             if canUpdate(value) {
+                if store.state.readings[metric] == nil {
+                    store.state.readings[metric] = []
+                }
+
                 let reading = Reading()
                 reading.timestamp = timestamp
                 reading.value = value
-                store.state.readings[$0]?.append(reading)
+                store.state.readings[metric]?.append(reading)
             }
         }
     }

@@ -38,6 +38,54 @@ func highlightFirstLogItem(store: Store) {
     }
 }
 
+func getAverageMetricValue(
+    timeseries: [String: [Reading]],
+    metric: String
+) -> String {
+    let metrics = (timeseries[metric] ?? [])
+    let average = metrics
+        .map { $0.value }
+        .reduce(0, +) / Float(metrics.count)
+
+    return String(metrics.count > 0 ? String(format: "%.1f", average) : "")
+}
+
+func getSeriesData(
+    timeseries: [String: [Reading]],
+    startTime: Date
+) -> ([SeriesData], ChartDomain) {
+    let chartXAxisRightSpacingPct: Float = 8
+    var _timeseries: [String: [ProgressData]] = [:]
+    let chartDomain = ChartDomain()
+
+    timeseries.keys.forEach {
+        let progressData = parseProgressData(metricData: timeseries[$0] ?? [], startTime: startTime)
+
+        _timeseries[$0] = progressData
+
+        if progressData.count > 0 {
+            chartDomain.xMin = Float(progressData[0].timestamp)
+            chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * chartXAxisRightSpacingPct / 100
+        }
+
+        let value: Float = progressData
+            .map { Float($0.value) }.max() ?? Float(0)
+
+        if value > chartDomain.yMax {
+            chartDomain.yMax = value
+        }
+    }
+
+    let result: [SeriesData] = _timeseries.keys.map {
+        let avgValue = getAverageMetricValue(timeseries: timeseries, metric: $0)
+        let progressData: [ProgressData] = _timeseries[$0] ?? []
+
+        return .init(metric: avgValue + " " + $0, data: progressData)
+    }
+
+    return (result, chartDomain)
+}
+
 func onLogSelect(store: Store) {
     let index = store.state.sessionLogIds
         .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
@@ -54,10 +102,12 @@ func onLogSelect(store: Store) {
             do {
                 let _timeseries = try JSONDecoder().decode([String: [Reading]].self, from: data)
 
-                store.state.timeseries.keys.forEach {
-                    if _timeseries[$0] != nil {
-                        store.state.timeseries[$0] = store.state.timeseries[$0]! + _timeseries[$0]!
+                _timeseries.keys.forEach {
+                    if store.state.timeseries[$0] == nil {
+                        store.state.timeseries[$0] = []
                     }
+
+                    store.state.timeseries[$0] = store.state.timeseries[$0]! + _timeseries[$0]!
                 }
             }
             catch {}
@@ -67,10 +117,7 @@ func onLogSelect(store: Store) {
 
         let result = getSeriesData(timeseries: store.state.timeseries, startTime: store.state.selectedSession.startTime)
         store.state.seriesData = result.0
-        store.state.chartDomain.xMin = result.1.xMin
-        store.state.chartDomain.xMax = result.1.xMax
-        store.state.chartDomain.yMin = result.1.yMin
-        store.state.chartDomain.yMax = result.1.yMax
+        store.state.chartDomain = result.1
 
         store.state.activeSubView = store.state.selectedSessionId
     }
@@ -81,7 +128,7 @@ func hasSessionLogs(store: Store) -> Bool {
 }
 
 func clearTimeseries(store: Store) {
-    store.state.readings.keys.forEach {
+    store.state.timeseries.keys.forEach {
         store.state.timeseries[$0] = []
     }
 }

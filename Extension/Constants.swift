@@ -3,8 +3,8 @@ import SwiftUI
 
 let SAMPLE_PATH = "/data/samples/"
 let SAMPLE_EXTENSION = "m4a"
-let MAX_READING_TIMEOUT_S: Double = 60
-let MAX_READING_COUNT: Int = 20
+let MAX_READING_TIMEOUT_S: Double = 30
+let MAX_READING_COUNT: Int = 100
 let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 256
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
@@ -39,10 +39,12 @@ let METRIC_TYPES = [
         isReversed: true
     )
 ]
-let DEFAULT_BREATH: Float = Platform.isSimulator ? 60 : 0
-let DEFAULT_HEART: Float = Platform.isSimulator ? 60 : 0
-let DEFAULT_STEP: Float = Platform.isSimulator ? 60 : 0
-let DEFAULT_SPEED: Float = Platform.isSimulator ? 10 : 0
+let DEFAULT_METRICS: [String: Float] = [
+    "breath": Platform.isSimulator ? 60 : 0,
+    "heart": Platform.isSimulator ? 60 : 0,
+    "step": Platform.isSimulator ? 60 : 0,
+    "speed": Platform.isSimulator ? 10 : 0
+]
 let COLORS: [String: (Double, Double, Double)] = [
     "red": (242, 16, 75),
     "green": (161, 249, 2),

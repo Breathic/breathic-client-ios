@@ -127,18 +127,23 @@ func chart(
                 .frame(maxHeight: .infinity, alignment: .center)
         }
         else {
-            Chart(seriesData) { series in
-                ForEach(series.data) { element in
-                    LineMark(
-                        x: .value("Time", element.timestamp),
-                        y: .value("Value", element.value)
-                    )
-                    .foregroundStyle(by: .value("Metric", series.metric))
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    Chart(seriesData) { series in
+                        ForEach(series.data) { element in
+                            LineMark(
+                                x: .value("Time", element.timestamp),
+                                y: .value("Value", element.value)
+                            )
+                            .foregroundStyle(by: .value("Metric", series.metric))
+                        }
+                    }
+                    .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
+                    .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
+                    .frame(width: geometry.size.width - 16)
+                    .frame(minHeight: geometry.size.height + 16)
                 }
             }
-            .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
-            .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
-            .frame(height: geometry.size.height + 16)
         }
     }
 }

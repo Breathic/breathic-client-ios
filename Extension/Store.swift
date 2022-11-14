@@ -32,48 +32,26 @@ struct AppState {
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
     var metricType: MetricType = METRIC_TYPES[0]
-    var breath: Float = DEFAULT_BREATH
-    var heart: Float = DEFAULT_HEART
-    var step: Float = DEFAULT_STEP
-    var speed: Float = DEFAULT_SPEED
-    var readings: [String: [Reading]] = [
-        "breath": [],
-        "heart": [],
-        "step": [],
-        "speed": []
-    ]
+    var metrics = DEFAULT_METRICS
+    var readings: [String: [Reading]] = [:]
     var timeseries: [String: [Reading]] = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
     var dragIndex: Int = 0
-    let chartDomain = ChartDomain()
+    var chartDomain = ChartDomain()
     var dragXOffset = CGSize.zero
     var wasDragged = false
 
     func getMetricValue(_ metric: String) -> Float {
-        switch metric {
-            case "breath": return breath
-            case "heart": return heart
-            case "step": return step
-            case "speed": return speed
-            default: fatalError("metric is undefined")
-        }
+        metrics[metric] ?? 0
     }
 
-    mutating func setMetricValue(_ metric: String, _ value: Float?) {
-        switch metric {
-            case "breath": breath = value ?? DEFAULT_BREATH
-            case "heart": heart = value ?? DEFAULT_HEART
-            case "step": step = value ?? DEFAULT_STEP
-            case "speed": speed = value ?? DEFAULT_SPEED
-            default: fatalError("metric is undefined")
+    mutating func setMetricValue(_ metric: String, _ value: Float) {
+        if metrics[metric] == nil {
+            metrics[metric] = 0
         }
-    }
 
-    mutating func setMetricsToDefault() {
-        readings.keys.forEach {
-            setMetricValue($0, nil)
-        }
+        metrics[metric] = value
     }
 }
 

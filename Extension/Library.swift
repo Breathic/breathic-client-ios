@@ -99,54 +99,6 @@ func parseProgressData(metricData: [Reading], startTime: Date) -> [ProgressData]
     }
 }
 
-func getAverageMetricValue(
-    timeseries: [String: [Reading]],
-    metric: String
-) -> String {
-    let metrics = (timeseries[metric] ?? [])
-    let average = metrics
-        .map { $0.value }
-        .reduce(0, +) / Float(metrics.count)
-
-    return String(metrics.count > 0 ? String(format: "%.0f", average) : "")
-}
-
-func getSeriesData(
-    timeseries: [String: [Reading]],
-    startTime: Date
-) -> ([SeriesData], ChartDomain) {
-    let chartXAxisRightSpacingPct: Float = 8
-    var _timeseries: [String: [ProgressData]] = [:]
-    let chartDomain = ChartDomain()
-
-    timeseries.keys.forEach {
-        let progressData = parseProgressData(metricData: timeseries[$0] ?? [], startTime: startTime)
-
-        _timeseries[$0] = progressData
-
-        if progressData.count > 0 {
-            chartDomain.xMin = Float(progressData[0].timestamp)
-            chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * chartXAxisRightSpacingPct / 100
-        }
-
-        let value: Float = progressData
-            .map { Float($0.value) }.max() ?? Float(0)
-
-        if value > chartDomain.yMax {
-            chartDomain.yMax = value
-        }
-    }
-
-    let result: [SeriesData] = _timeseries.keys.map {
-        let avgValue = getAverageMetricValue(timeseries: timeseries, metric: $0)
-        let progressData: [ProgressData] = _timeseries[$0] ?? []
-
-        return .init(metric: avgValue + " " + $0 + " avg", data: progressData)
-    }
-
-    return (result, chartDomain)
-}
-
 func getFadeScale() -> [Float] {
     var result: [Float] = []
     let fadeMax = FADE_DURATION - 1
