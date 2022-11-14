@@ -25,7 +25,8 @@ func getElapsedTime(from: Date, to: Date) -> String {
 }
 
 func getMonthLabel(index: Int) -> String {
-    return MONTH_LABELS[index]
+    let monthChars = Array(DateFormatter().monthSymbols[index].capitalized)
+    return String(monthChars[0..<3])
 }
 
 func generateSessionId(session: Session) -> String {
