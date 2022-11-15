@@ -13,7 +13,7 @@ func controllerView(
                 label: "Pace",
                 value: store.state.metricType.label,
                 unit: "per " + store.state.metricType.unit,
-                valueColor: store.state.metricType.valueColor,
+                valueColor: METRIC_COLORS[store.state.metricType.metric]!,
                 isShort: true,
                 isTall: false,
                 action: {
@@ -32,7 +32,7 @@ func controllerView(
                 label: "Rhythm",
                 value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
                 unit: "per pace",
-                valueColor: store.state.metricType.valueColor,
+                valueColor: METRIC_COLORS[store.state.metricType.metric]!,
                 isTall: false,
                 action: { store.state.activeSubView = "Rhythm" }
             )

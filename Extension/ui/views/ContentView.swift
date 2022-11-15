@@ -69,7 +69,7 @@ struct ContentView: View {
                                 store: store
                             )
 
-                        case store.state.selectedSessionId, "Chart settings":
+                        case store.state.selectedSessionId, "Settings":
                             dragView(
                                 children: Group {
                                     HStack {
@@ -79,6 +79,9 @@ struct ContentView: View {
                                     .onAppear {
                                         store.state.menuViews["Overview"]![0] = store.state.selectedSessionId
                                         store.state.page = "Overview"
+                                    }
+                                    .onDisappear {
+                                        store.state.page = DEFAULT_PAGE
                                     }
                                 },
                                 geometry: geometry,
@@ -91,10 +94,14 @@ struct ContentView: View {
                 }
                 .font(.system(size: store.state.ui.secondaryTextSize))
 
-                if store.state.activeSubView == "Controller" || store.state.activeSubView == "Status" {
+                if (
+                    (store.state.page == "Main" &&
+                        store.state.activeSubView == "Controller" || store.state.activeSubView == "Status") ||
+                    (store.state.page == "Overview")
+                ) {
                     ZStack {
                         HStack {
-                            DottedIndicator(index: store.state.pageOptions[DEFAULT_PAGE]!.dragIndex, maxIndex: 1, direction: "horizontal")
+                            DottedIndicator(index: store.state.pageOptions[store.state.page]!.dragIndex, maxIndex: 1, direction: "horizontal")
                         }
                         .frame(height: geometry.size.height + 20, alignment: .bottom)
                     }

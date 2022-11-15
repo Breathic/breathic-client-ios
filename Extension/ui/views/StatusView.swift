@@ -8,7 +8,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 label: "Heartbeats",
                 value: String(format: "%.0f", store.state.getMetricValue("heart")),
                 unit: "per minute",
-                valueColor: colorize("red"),
+                valueColor: METRIC_COLORS["heart"]!,
                 isActive: store.state.metricType.metric == "heart",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
@@ -21,7 +21,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 label: "Breaths",
                 value: String(format: "%.0f", store.state.getMetricValue("breath")),
                 unit: "per minute",
-                valueColor: colorize("green"),
+                valueColor: METRIC_COLORS["breath"]!,
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )
@@ -35,7 +35,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 label: "Steps",
                 value: String(format: "%.0f", store.state.getMetricValue("step")),
                 unit: "per minute",
-                valueColor: colorize("blue"),
+                valueColor: METRIC_COLORS["step"]!,
                 isActive: store.state.metricType.metric == "step",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
@@ -48,7 +48,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 label: "Speed",
                 value: String(format: "%.0f", store.state.getMetricValue("speed")),
                 unit: "km / h",
-                valueColor: colorize("yellow"),
+                valueColor: METRIC_COLORS["speed"]!,
                 isActive: store.state.metricType.metric == "speed",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33

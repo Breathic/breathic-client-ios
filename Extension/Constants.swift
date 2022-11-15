@@ -21,21 +21,18 @@ let METRIC_TYPES = [
         metric: "heart",
         label: "heart rate",
         unit: "minute",
-        valueColor: colorize("red"),
         isReversed: false
     ),
     MetricType(
         metric: "step",
         label: "step rate",
         unit: "minute",
-        valueColor: colorize("blue"),
         isReversed: true
     ),
     MetricType(
         metric: "speed",
         label: "speed",
         unit: "m / s",
-        valueColor: colorize("yellow"),
         isReversed: true
     )
 ]
@@ -52,6 +49,17 @@ let COLORS: [String: (Double, Double, Double)] = [
     "yellow": (222, 252, 82),
     "gray": (63, 63, 63),
 ]
+let METRIC_COLORS: [String: Color] = [
+    "heart": colorize("red"),
+    "step": colorize("blue"),
+    "speed": colorize("yellow"),
+    "breath": colorize("green"),
+    "heart-to-breath": colorize("red"),
+    "step-to-breath": colorize("blue"),
+    "speed-to-breath": colorize("yellow"),
+    "rhythm-in": Color.purple,
+    "rhythm-out": Color.orange
+]
 let TIMESERIES_SAVER_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
 let STORE_ACTIVE_SESSION = "ActiveSession"
@@ -63,7 +71,7 @@ let DRAG_INDEXES: [String: Int] = [
 ]
 let DEFAULT_MENU_VIEWS: [String: [String]] = [
     "Main": ["Controller", "Status", "Log"],
-    "Overview": ["Chart", "Chart settings"]
+    "Overview": ["Chart", "Settings"]
 ]
 let DEFAULT_PAGE = "Main"
 let DEFAULT_ACTIVE_SUB_VIEW = "Controller"

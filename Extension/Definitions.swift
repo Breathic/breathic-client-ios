@@ -11,7 +11,6 @@ struct MetricType {
     var metric: String = ""
     var label: String = ""
     var unit: String = ""
-    var valueColor: Color = Color.white
     var isReversed: Bool = false
 }
 
@@ -90,6 +89,7 @@ struct ProgressData: Identifiable {
 struct SeriesData: Identifiable {
     let metric: String
     let data: [ProgressData]
+    let color: Color
     var id: String { metric }
 }
 

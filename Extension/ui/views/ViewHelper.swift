@@ -81,7 +81,7 @@ func getSeriesData(
         let avgValue = getAverageMetricValue(timeseries: timeseries, metric: $0)
         let progressData: [ProgressData] = _timeseries[$0] ?? []
 
-        return .init(metric: avgValue + " " + $0, data: progressData)
+        return .init(metric: avgValue + " " + $0, data: progressData, color: METRIC_COLORS[$0]!)
     }
 
     return (result, chartDomain)
@@ -160,4 +160,12 @@ func deleteSession(store: Store, sessionId: String) {
 
 func isOverviewSelected(store: Store) -> Bool {
     return store.state.activeSubView == store.state.selectedSessionId
+}
+
+func graphColors(for input: [SeriesData]) -> [Color] {
+    var returnColors = [Color]()
+    for item in input {
+        returnColors.append(item.color)
+    }
+    return returnColors
 }
