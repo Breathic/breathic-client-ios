@@ -34,7 +34,6 @@ class Player {
             store.state.session = try JSONDecoder().decode(Session.self, from: data)
         } catch {}
 
-        store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
         initReadingsSaver()
 
         if store.state.session.isActive {
@@ -347,7 +346,7 @@ class Player {
         store.state.setMetricValue("rhythm-in", Float(store.state.session.getRhythms()[0]) / 10)
         store.state.setMetricValue("rhythm-out", Float(store.state.session.getRhythms()[1]) / 10)
 
-        for metric in store.state.metrics.keys {
+        for metric in METRIC_TYPES.keys {
             let value: Float = store.state.getMetricValue(metric)
 
             if canUpdate(value) {

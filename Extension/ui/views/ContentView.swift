@@ -81,6 +81,7 @@ struct ContentView: View {
                                         store.state.page = "Overview"
                                     }
                                     .onDisappear {
+                                        store.state.pageOptions[store.state.page]! = PageOption()
                                         store.state.page = DEFAULT_PAGE
                                     }
                                 },

@@ -42,25 +42,26 @@ func highlightFirstLogItem(store: Store) {
 func getAverageMetricValue(
     timeseries: [String: [Reading]],
     metric: String
-) -> String {
+) -> Float {
     let metrics = (timeseries[metric] ?? [])
     let average = metrics
         .map { $0.value }
         .reduce(0, +) / Float(metrics.count)
 
-    return String(metrics.count > 0 ? String(format: "%.1f", average) : "")
+    return average
 }
 
-func getSeriesData(
-    timeseries: [String: [Reading]],
-    startTime: Date
-) -> ([SeriesData], ChartDomain) {
+func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float]) {
     let chartXAxisRightSpacingPct: Float = 8
     var _timeseries: [String: [ProgressData]] = [:]
     let chartDomain = ChartDomain()
+    var chartedMetrics: [String: Float] = [:]
 
-    timeseries.keys.forEach {
-        let progressData = parseProgressData(timeseries: timeseries[$0] ?? [], startTime: startTime)
+    store.state.timeseries.keys.forEach {
+        let progressData = parseProgressData(
+            timeseries: store.state.timeseries[$0] ?? [],
+            startTime: store.state.selectedSession.startTime
+        )
 
         _timeseries[$0] = progressData
 
@@ -78,13 +79,14 @@ func getSeriesData(
     }
 
     let result: [SeriesData] = _timeseries.keys.map {
-        let avgValue = getAverageMetricValue(timeseries: timeseries, metric: $0)
+        let avgValue = getAverageMetricValue(timeseries: store.state.timeseries, metric: $0)
         let progressData: [ProgressData] = _timeseries[$0] ?? []
 
-        return .init(metric: avgValue + " " + $0, data: progressData, color: METRIC_COLORS[$0]!)
+        chartedMetrics[$0] = avgValue
+        return .init(metric: $0, data: progressData, color: getMetric($0).color)
     }
 
-    return (result, chartDomain)
+    return (result, chartDomain, chartedMetrics)
 }
 
 func onLogSelect(store: Store) {
@@ -116,9 +118,10 @@ func onLogSelect(store: Store) {
             addedMinutes = addedMinutes + 1
         }
 
-        let result = getSeriesData(timeseries: store.state.timeseries, startTime: store.state.selectedSession.startTime)
+        let result = getSeriesData(store: store)
         store.state.seriesData = result.0
         store.state.chartDomain = result.1
+        store.state.chartedMetrics = result.2
 
         store.state.activeSubView = store.state.selectedSessionId
     }

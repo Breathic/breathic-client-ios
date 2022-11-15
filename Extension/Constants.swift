@@ -16,24 +16,66 @@ let RHYTHMS: [Int] = [20, 20]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1])
 ]
-let METRIC_TYPES = [
-    MetricType(
+let METRIC_TYPES: [String: MetricType] = [
+    "heart": MetricType(
         metric: "heart",
-        label: "heart rate",
-        unit: "minute",
-        isReversed: false
+        label: "Heartbeats",
+        unit: "per minute",
+        isSource: true,
+        color: colorize("red")
     ),
-    MetricType(
+    "step": MetricType(
         metric: "step",
-        label: "step rate",
-        unit: "minute",
-        isReversed: true
+        label: "Steps",
+        unit: "per minute",
+        isReversed: true,
+        isSource: true,
+        color: colorize("blue")
     ),
-    MetricType(
+    "speed": MetricType(
         metric: "speed",
-        label: "speed",
+        label: "Speed",
         unit: "m / s",
-        isReversed: true
+        isSource: true,
+        color: colorize("yellow")
+    ),
+    "breath": MetricType(
+        metric: "breath",
+        label: "Breaths",
+        unit: "per minute",
+        color: colorize("green")
+    ),
+    "heart-to-breath": MetricType(
+        metric: "heart-to-breath",
+        label: "Heartbreaths",
+        unit: "per minute",
+        color: colorize("teal")
+    ),
+    "step-to-breath": MetricType(
+        metric: "step-to-breath",
+        label: "Stepbreaths",
+        unit: "per minute",
+        color: colorize("blue")
+    ),
+    "speed-to-breath": MetricType(
+        metric: "speed-to-breath",
+        label: "Speedbreaths",
+        unit: "per minute",
+        color: colorize("yellow")
+    ),
+    "rhythm-in": MetricType(
+        metric: "rhythm-in",
+        label: "Rhythm (in)",
+        unit: "per pace",
+        color: colorize("purple"),
+        format: "%.1f"
+    ),
+    "rhythm-out": MetricType(
+        metric: "rhythm-out",
+        label: "Rhythm (out)",
+        unit: "per pace",
+        color: colorize("orange"),
+        format: "%.1f"
     )
 ]
 let DEFAULT_METRICS: [String: Float] = [
@@ -47,18 +89,21 @@ let COLORS: [String: (Double, Double, Double)] = [
     "green": (161, 249, 2),
     "blue": (3, 221, 238),
     "yellow": (222, 252, 82),
-    "gray": (63, 63, 63),
+    "teal": (3, 253, 252),
+    "purple": (160, 32, 240),
+    "orange": (255, 87, 51),
+    "gray": (63, 63, 63)
 ]
-let METRIC_COLORS: [String: Color] = [
-    "heart": colorize("red"),
-    "step": colorize("blue"),
-    "speed": colorize("yellow"),
-    "breath": colorize("green"),
-    "heart-to-breath": colorize("red"),
-    "step-to-breath": colorize("blue"),
-    "speed-to-breath": colorize("yellow"),
-    "rhythm-in": Color.purple,
-    "rhythm-out": Color.orange
+let METRIC_ORDER: [String] = [
+    "breath",
+    "heart",
+    "step",
+    "speed",
+    "heart-to-breath",
+    "step-to-breath",
+    "speed-to-breath",
+    "rhythm-in",
+    "rhythm-out"
 ]
 let TIMESERIES_SAVER_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"

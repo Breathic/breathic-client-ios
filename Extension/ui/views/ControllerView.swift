@@ -12,15 +12,20 @@ func controllerView(
                 geometry: geometry,
                 label: "Pace",
                 value: store.state.metricType.label,
-                unit: "per " + store.state.metricType.unit,
-                valueColor: METRIC_COLORS[store.state.metricType.metric]!,
+                unit: store.state.metricType.unit,
+                valueColor: store.state.metricType.color,
                 isShort: true,
                 isTall: false,
+                minimumScaleFactor: 0.5,
                 action: {
-                    store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < METRIC_TYPES.count
+                    let sourceMetricTypes: [String] = METRIC_TYPES.keys.filter {
+                        METRIC_TYPES[$0]!.isSource
+                    }
+
+                    store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < sourceMetricTypes.count
                         ? store.state.session.metricTypeIndex + 1
                         : 0
-                    store.state.metricType = METRIC_TYPES[store.state.session.metricTypeIndex]
+                    store.state.metricType = METRIC_TYPES[sourceMetricTypes[store.state.session.metricTypeIndex]]!
                     store.state.metrics = DEFAULT_METRICS
                 }
             )
@@ -32,7 +37,7 @@ func controllerView(
                 label: "Rhythm",
                 value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
                 unit: "per pace",
-                valueColor: METRIC_COLORS[store.state.metricType.metric]!,
+                valueColor: store.state.metricType.color,
                 isTall: false,
                 action: { store.state.activeSubView = "Rhythm" }
             )

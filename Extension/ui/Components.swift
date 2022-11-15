@@ -16,6 +16,7 @@ func primaryButton(
     isActive: Bool = false,
     isEnabled: Bool = true,
     opacity: Double = 1,
+    minimumScaleFactor: CGFloat = 1,
     action: @escaping () -> Void = {}
 ) -> some View {
     Button(action: action) {
@@ -25,6 +26,8 @@ func primaryButton(
                     if label.count > 0 {
                         HStack {
                             Text(label)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .font(.system(size: 10))
                         }
                         .frame(
@@ -34,11 +37,16 @@ func primaryButton(
                     }
 
                     if value.count > 0 {
-                        if !isTall {
+                        if isWide {
+                            Spacer(minLength: 4)
+                        }
+                        else if !isTall {
                             Spacer(minLength: 8)
                         }
 
                         Text(value)
+                            .lineLimit(1)
+                            .minimumScaleFactor(minimumScaleFactor)
                             .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
                             .fontWeight(.bold)
                             .foregroundColor(valueColor)
@@ -61,7 +69,8 @@ func primaryButton(
             Spacer(minLength: 4)
         }
     }
-    .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4, height: geometry.size.height / 2 - 4)
+    .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4)
+    .frame(height: geometry.size.height / (isWide ? 4 : 2) - 4)
     .foregroundColor(.white)
     .tint(.black)
     .overlay(
@@ -128,20 +137,25 @@ func chart(
         }
         else {
             VStack {
-                Chart(seriesData) { series in
-                    ForEach(series.data) { element in
-                        LineMark(
-                            x: .value("Time", element.timestamp),
-                            y: .value("Value", element.value)
-                        )
-                        .foregroundStyle(by: .value("Metric", series.metric))
+                HStack {
+                    Chart(seriesData) { series in
+                        ForEach(series.data) { element in
+                            LineMark(
+                                x: .value("Time", element.timestamp),
+                                y: .value("Value", element.value)
+                            )
+                            .foregroundStyle(by: .value("Metric", series.metric))
+                        }
                     }
+                    .chartForegroundStyleScale(range: graphColors(for: seriesData))
+                    .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
+                    .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
+                    .chartLegend(.hidden)
+                    .frame(minWidth: geometry.size.width)
+                    .frame(minHeight: geometry.size.height)
+
+                    Spacer(minLength: 16)
                 }
-                .chartForegroundStyleScale(range: graphColors(for: seriesData))
-                .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
-                .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
-                .chartLegend(.hidden)
-                .frame(minHeight: geometry.size.height)
             }
         }
     }

@@ -34,13 +34,14 @@ struct AppState {
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
-    var metricType: MetricType = METRIC_TYPES[0]
+    var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics = DEFAULT_METRICS
     var readings: [String: [Reading]] = [:]
     var timeseries: [String: [Reading]] = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
     var chartDomain = ChartDomain()
+    var chartedMetrics: [String: Float] = [:]
 
     func getMetricValue(_ metric: String) -> Float {
         metrics[metric] ?? 0

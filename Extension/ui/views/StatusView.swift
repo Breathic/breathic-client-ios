@@ -5,10 +5,10 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
         HStack {
             primaryButton(
                 geometry: geometry,
-                label: "Heartbeats",
-                value: String(format: "%.0f", store.state.getMetricValue("heart")),
-                unit: "per minute",
-                valueColor: METRIC_COLORS["heart"]!,
+                label: getMetric("heart").label,
+                value: String(format: getMetric("heart").format, store.state.getMetricValue("heart")),
+                unit: getMetric("heart").unit,
+                valueColor: getMetric("heart").color,
                 isActive: store.state.metricType.metric == "heart",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
@@ -18,10 +18,10 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
 
             primaryButton(
                 geometry: geometry,
-                label: "Breaths",
-                value: String(format: "%.0f", store.state.getMetricValue("breath")),
-                unit: "per minute",
-                valueColor: METRIC_COLORS["breath"]!,
+                label: getMetric("breath").label,
+                value: String(format: getMetric("breath").format, store.state.getMetricValue("breath")),
+                unit: getMetric("breath").unit,
+                valueColor: getMetric("breath").color,
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )
@@ -32,10 +32,10 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
         HStack {
             primaryButton(
                 geometry: geometry,
-                label: "Steps",
-                value: String(format: "%.0f", store.state.getMetricValue("step")),
-                unit: "per minute",
-                valueColor: METRIC_COLORS["step"]!,
+                label: getMetric("step").label,
+                value: String(format: getMetric("step").format, store.state.getMetricValue("step")),
+                unit: getMetric("step").unit,
+                valueColor: getMetric("step").color,
                 isActive: store.state.metricType.metric == "step",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
@@ -45,10 +45,10 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
 
             primaryButton(
                 geometry: geometry,
-                label: "Speed",
-                value: String(format: "%.0f", store.state.getMetricValue("speed")),
-                unit: "km / h",
-                valueColor: METRIC_COLORS["speed"]!,
+                label: getMetric("speed").label,
+                value: String(format: getMetric("speed").format, store.state.getMetricValue("speed")),
+                unit: getMetric("speed").unit,
+                valueColor: getMetric("speed").color,
                 isActive: store.state.metricType.metric == "speed",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33

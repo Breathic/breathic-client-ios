@@ -6,5 +6,5 @@ func overviewView(geometry: GeometryProxy, store: Store) -> some View {
 
         chart(geometry: geometry, seriesData: store.state.seriesData, chartDomain: store.state.chartDomain)
     }
-    .frame(minWidth: geometry.size.width)
+    .frame(minWidth: geometry.size.width + 8)
 }

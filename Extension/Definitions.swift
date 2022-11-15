@@ -12,6 +12,9 @@ struct MetricType {
     var label: String = ""
     var unit: String = ""
     var isReversed: Bool = false
+    var isSource: Bool = false
+    var color: Color = Color.white
+    var format: String = "%.0f"
 }
 
 class Rhythm: Codable {
