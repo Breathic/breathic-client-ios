@@ -30,7 +30,7 @@ let METRIC_TYPES: [String: MetricType] = [
         unit: "per minute",
         isReversed: true,
         isSource: true,
-        color: colorize("blue")
+        color: colorize("teal")
     ),
     "speed": MetricType(
         metric: "speed",
@@ -49,13 +49,13 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "heart-to-breath",
         label: "Heartbreaths",
         unit: "per minute",
-        color: colorize("teal")
+        color: colorize("pink")
     ),
     "step-to-breath": MetricType(
         metric: "step-to-breath",
         label: "Stepbreaths",
         unit: "per minute",
-        color: colorize("blue")
+        color: colorize("teal")
     ),
     "speed-to-breath": MetricType(
         metric: "speed-to-breath",
@@ -67,7 +67,7 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "rhythm-in",
         label: "Rhythm (in)",
         unit: "per pace",
-        color: colorize("purple"),
+        color: colorize("blue"),
         format: "%.1f"
     ),
     "rhythm-out": MetricType(
@@ -86,10 +86,11 @@ let DEFAULT_METRICS: [String: Float] = [
 ]
 let COLORS: [String: (Double, Double, Double)] = [
     "red": (242, 16, 75),
-    "green": (161, 249, 2),
-    "blue": (3, 221, 238),
+    "green": (26, 163, 109),
+    "blue": (0, 122, 255),
     "yellow": (222, 252, 82),
     "teal": (3, 253, 252),
+    "pink": (230, 0, 126),
     "purple": (160, 32, 240),
     "orange": (255, 87, 51),
     "gray": (63, 63, 63)

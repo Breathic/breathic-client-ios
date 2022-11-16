@@ -52,7 +52,7 @@ func getAverageMetricValue(
 }
 
 func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float]) {
-    let chartXAxisRightSpacingPct: Float = 8
+    let chartXAxisRightSpacingPct: Float = 5
     var _timeseries: [String: [ProgressData]] = [:]
     let chartDomain = ChartDomain()
     var chartedMetrics: [String: Float] = [:]
@@ -79,7 +79,7 @@ func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float])
         if avgValue > 0 {
             chartedMetrics[metric] = avgValue
 
-            if store.state.chartedMetricsVisivbility[metric]! {
+            if store.state.chartedMetricsVisivbility[metric] != nil && store.state.chartedMetricsVisivbility[metric]! {
                 for timeserie in progressData {
                     if timeserie.value > chartDomain.yMax {
                         chartDomain.yMax = timeserie.value

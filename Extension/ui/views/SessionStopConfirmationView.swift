@@ -40,7 +40,7 @@ func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: 
             .font(.system(size: 12))
             .fontWeight(.bold)
             .buttonStyle(.bordered)
-            .tint(colorize("blue"))
+            .tint(colorize("teal"))
         }
         .frame(maxHeight: .infinity, alignment: .bottom)
         .edgesIgnoringSafeArea(.all)

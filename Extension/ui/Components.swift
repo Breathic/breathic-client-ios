@@ -27,7 +27,7 @@ func primaryButton(
                         HStack {
                             Text(label)
                                 .lineLimit(1)
-                                .minimumScaleFactor(0.5)
+                                .minimumScaleFactor(0.9)
                                 .font(.system(size: 10))
                         }
                         .frame(
@@ -37,12 +37,7 @@ func primaryButton(
                     }
 
                     if value.count > 0 {
-                        if isWide {
-                            Spacer(minLength: 4)
-                        }
-                        else if !isTall {
-                            Spacer(minLength: 8)
-                        }
+                        Spacer(minLength: 8)
 
                         Text(value)
                             .lineLimit(1)

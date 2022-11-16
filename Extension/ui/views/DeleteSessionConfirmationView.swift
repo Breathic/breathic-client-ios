@@ -21,12 +21,12 @@ func deleteSessionConfirmationView(geometry: GeometryProxy, store: Store) -> som
             .font(.system(size: 12))
             .fontWeight(.bold)
             .buttonStyle(.bordered)
-            .tint(colorize("blue"))
+            .tint(colorize("teal"))
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
 
         Text("Delete session from " + store.state.selectedSessionId + "?")
         .font(.system(size: 12))
-        .frame(maxHeight: .infinity, alignment: .bottom)
+        .frame(maxHeight: .infinity, alignment: .center)
     }
 }
