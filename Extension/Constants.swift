@@ -116,7 +116,7 @@ let DRAG_INDEXES: [String: Int] = [
 ]
 let DEFAULT_MENU_VIEWS: [String: [String]] = [
     "Main": ["Controller", "Status", "Log"],
-    "Overview": ["Chart", "Settings"]
+    "Overview": ["", ""]
 ]
 let DEFAULT_PAGE = "Main"
 let DEFAULT_ACTIVE_SUB_VIEW = "Controller"

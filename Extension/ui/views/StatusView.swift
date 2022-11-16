@@ -5,11 +5,10 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
         HStack {
             primaryButton(
                 geometry: geometry,
-                label: getMetric("heart").label,
-                value: String(format: getMetric("heart").format, store.state.getMetricValue("heart")),
-                unit: getMetric("heart").unit,
-                valueColor: getMetric("heart").color,
-                isActive: store.state.metricType.metric == "heart",
+                label: getMetric("breath").label,
+                value: String(format: getMetric("breath").format, store.state.getMetricValue("breath")),
+                unit: getMetric("breath").unit,
+                valueColor: getMetric("breath").color,
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )
@@ -18,10 +17,11 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
 
             primaryButton(
                 geometry: geometry,
-                label: getMetric("breath").label,
-                value: String(format: getMetric("breath").format, store.state.getMetricValue("breath")),
-                unit: getMetric("breath").unit,
-                valueColor: getMetric("breath").color,
+                label: getMetric("heart").label,
+                value: String(format: getMetric("heart").format, store.state.getMetricValue("heart")),
+                unit: getMetric("heart").unit,
+                valueColor: getMetric("heart").color,
+                isActive: store.state.metricType.metric == "heart",
                 isEnabled: false,
                 opacity: isSessionActive(store: store) ? 1 : 0.33
             )

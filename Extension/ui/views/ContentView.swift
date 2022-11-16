@@ -8,6 +8,12 @@ struct ContentView: View {
 
     init() {
         clearTimeseries(store: store)
+
+        for metric in METRIC_TYPES.keys {
+            if store.state.chartedMetricsVisivbility[metric] == nil {
+                store.state.chartedMetricsVisivbility[metric] = true
+            }
+        }
     }
 
     var body: some View {
@@ -73,11 +79,12 @@ struct ContentView: View {
                             dragView(
                                 children: Group {
                                     HStack {
-                                        overviewView(geometry: geometry, store: store)
                                         chartSettingsView(geometry: geometry, store: store)
+                                        overviewView(geometry: geometry, store: store)
                                     }
                                     .onAppear {
                                         store.state.menuViews["Overview"]![0] = store.state.selectedSessionId
+                                        store.state.menuViews["Overview"]![1] = store.state.selectedSessionId
                                         store.state.page = "Overview"
                                     }
                                     .onDisappear {

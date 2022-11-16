@@ -69,21 +69,26 @@ func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float])
             chartDomain.xMin = Float(progressData[0].timestamp)
             chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * chartXAxisRightSpacingPct / 100
         }
-
-        let value: Float = progressData
-            .map { Float($0.value) }.max() ?? Float(0)
-
-        if value > chartDomain.yMax {
-            chartDomain.yMax = value
-        }
     }
 
-    let result: [SeriesData] = _timeseries.keys.map {
-        let avgValue = getAverageMetricValue(timeseries: store.state.timeseries, metric: $0)
-        let progressData: [ProgressData] = _timeseries[$0] ?? []
+    var result: [SeriesData] = []
+    for metric in _timeseries.keys {
+        let avgValue = getAverageMetricValue(timeseries: store.state.timeseries, metric: metric)
+        let progressData: [ProgressData] = _timeseries[metric] ?? []
 
-        chartedMetrics[$0] = avgValue
-        return .init(metric: $0, data: progressData, color: getMetric($0).color)
+        if avgValue > 0 {
+            chartedMetrics[metric] = avgValue
+
+            if store.state.chartedMetricsVisivbility[metric]! {
+                for timeserie in progressData {
+                    if timeserie.value > chartDomain.yMax {
+                        chartDomain.yMax = timeserie.value
+                    }
+                }
+
+                result.append(.init(metric: metric, data: progressData, color: getMetric(metric).color))
+            }
+        }
     }
 
     return (result, chartDomain, chartedMetrics)
@@ -122,7 +127,6 @@ func onLogSelect(store: Store) {
         store.state.seriesData = result.0
         store.state.chartDomain = result.1
         store.state.chartedMetrics = result.2
-
         store.state.activeSubView = store.state.selectedSessionId
     }
 }
