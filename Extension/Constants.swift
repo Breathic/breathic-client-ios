@@ -22,7 +22,8 @@ let METRIC_TYPES: [String: MetricType] = [
         label: "Heartbeats",
         unit: "per minute",
         isSource: true,
-        color: colorize("red")
+        color: colorize("red"),
+        defaultValue: Platform.isSimulator ? 60 : 0
     ),
     "step": MetricType(
         metric: "step",
@@ -30,14 +31,16 @@ let METRIC_TYPES: [String: MetricType] = [
         unit: "per minute",
         isReversed: true,
         isSource: true,
-        color: colorize("teal")
+        color: colorize("teal"),
+        defaultValue: Platform.isSimulator ? 60 : 0
     ),
     "speed": MetricType(
         metric: "speed",
         label: "Speed",
         unit: "m / s",
         isSource: true,
-        color: colorize("yellow")
+        color: colorize("yellow"),
+        defaultValue: Platform.isSimulator ? 10 : 0
     ),
     "breath": MetricType(
         metric: "breath",
@@ -77,12 +80,6 @@ let METRIC_TYPES: [String: MetricType] = [
         color: colorize("orange"),
         format: "%.1f"
     )
-]
-let DEFAULT_METRICS: [String: Float] = [
-    "breath": Platform.isSimulator ? 60 : 0,
-    "heart": Platform.isSimulator ? 60 : 0,
-    "step": Platform.isSimulator ? 60 : 0,
-    "speed": Platform.isSimulator ? 10 : 0
 ]
 let COLORS: [String: (Double, Double, Double)] = [
     "red": (242, 16, 75),

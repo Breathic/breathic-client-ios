@@ -15,6 +15,7 @@ struct MetricType {
     var isSource: Bool = false
     var color: Color = Color.white
     var format: String = "%.0f"
+    var defaultValue: Float = 0
 }
 
 class Rhythm: Codable {

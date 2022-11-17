@@ -18,6 +18,7 @@ class Player {
     var isLoopStarted = false
 
     init() {
+        store.state.setMetricValuesToDefault()
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
         cachePlayers()
         fadeScale = getFadeScale()
@@ -150,7 +151,7 @@ class Player {
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         saveSessionLogs(sessionLogs: store.state.sessionLogs)
-        store.state.metrics = DEFAULT_METRICS
+        store.state.setMetricValuesToDefault()
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {

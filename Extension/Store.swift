@@ -35,7 +35,7 @@ struct AppState {
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
     var metricType: MetricType = METRIC_TYPES["heart"]!
-    var metrics = DEFAULT_METRICS
+    var metrics: [String: Float] = [:]
     var readings: [String: [Reading]] = [:]
     var timeseries: [String: [Reading]] = [:]
     var seriesData: [SeriesData] = []
@@ -54,6 +54,12 @@ struct AppState {
         }
 
         metrics[metric] = value
+    }
+
+    mutating func setMetricValuesToDefault() {
+        METRIC_TYPES.keys.forEach {
+            self.metrics[$0] = METRIC_TYPES[$0]?.defaultValue
+        }
     }
 }
 

@@ -26,7 +26,7 @@ func controllerView(
                         ? store.state.session.metricTypeIndex + 1
                         : 0
                     store.state.metricType = METRIC_TYPES[sourceMetricTypes[store.state.session.metricTypeIndex]]!
-                    store.state.metrics = DEFAULT_METRICS
+                    store.state.setMetricValuesToDefault()
                 }
             )
 
