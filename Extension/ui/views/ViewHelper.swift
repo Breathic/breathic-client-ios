@@ -83,12 +83,12 @@ func getChartDomain(timeseries: [String: [Reading]], allProgressData: [String: [
     for metric in timeseries.keys {
         let progressData = allProgressData[metric] ?? []
 
-        for (timeserieIndex, timeserie) in progressData.enumerated() {
-            if timeserieIndex == 0 {
-                chartDomain.xMin = Float(progressData[0].timestamp)
-                chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * CHART_X_AXIS_RIGHT_AXIS_PADDING_PCT / 100
-            }
+        if progressData.count > 0 {
+            chartDomain.xMin = Float(progressData[0].timestamp)
+            chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * CHART_X_AXIS_RIGHT_AXIS_PADDING_PCT / 100
+        }
 
+        for timeserie in progressData {
             if timeserie.value > chartDomain.yMax {
                 chartDomain.yMax = timeserie.value
             }
