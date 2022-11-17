@@ -56,7 +56,7 @@ class Player {
     }
 
     func initReadingsSaver() {
-        Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_S, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_S, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
                 self.saveReadings()
             }

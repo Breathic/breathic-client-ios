@@ -103,7 +103,7 @@ let METRIC_ORDER: [String] = [
     "rhythm-in",
     "rhythm-out"
 ]
-let TIMESERIES_SAVER_S: Double = 60
+let TIMESERIES_SAVER_INTERVAL_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
 let STORE_ACTIVE_SESSION = "ActiveSession"
 let STORE_SESSION_LOGS = "SessionLogs"
