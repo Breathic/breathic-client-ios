@@ -133,7 +133,7 @@ func onLogSelect(store: Store) {
         let result = getSeriesData(store: store)
         store.state.seriesData = result.0
         store.state.chartDomain = result.1
-        store.state.chartedMetrics = getChartableMetrics(store: store)
+        store.state.chartableMetrics = getChartableMetrics(store: store)
         store.state.activeSubView = store.state.selectedSessionId
     }
 }

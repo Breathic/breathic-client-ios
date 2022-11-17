@@ -5,7 +5,7 @@ func chartSettingsView(
     store: Store
 ) -> some View {
     let columns = METRIC_ORDER
-        .filter { store.state.chartedMetrics[$0] != nil }
+        .filter { store.state.chartableMetrics[$0] != nil }
         .chunks(2)
 
     return HStack {
@@ -22,7 +22,7 @@ func chartSettingsView(
                 .font(.system(size: 24))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            Spacer(minLength: 8)
+            Spacer(minLength: 16)
 
             Text("Legend")
                 .font(.system(size: 10))
@@ -34,7 +34,7 @@ func chartSettingsView(
                         primaryButton(
                             geometry: geometry,
                             label: getMetric(metric).label,
-                            value: String(format: getMetric(metric).format, store.state.chartedMetrics[metric]!),
+                            value: String(format: getMetric(metric).format, store.state.chartableMetrics[metric]!),
                             unit: getMetric(metric).unit,
                             valueColor: store.state.chartedMetricsVisivbility[metric]!
                                 ? getMetric(metric).color

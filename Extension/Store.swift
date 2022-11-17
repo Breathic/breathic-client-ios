@@ -41,7 +41,7 @@ struct AppState {
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
     var chartDomain = ChartDomain()
-    var chartedMetrics: [String: Float] = [:]
+    var chartableMetrics: [String: Float] = [:]
     var chartedMetricsVisivbility: [String: Bool] = [:]
 
     func getMetricValue(_ metric: String) -> Float {
