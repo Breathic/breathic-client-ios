@@ -56,16 +56,13 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
 
     for metric in store.state.timeseries.keys {
         let isVisible = store.state.chartedMetricsVisivbility[metric] != nil && store.state.chartedMetricsVisivbility[metric]!
-        if !isVisible {
-            continue
+
+        if isVisible {
+            result[metric] = parseProgressData(
+                timeseries: store.state.timeseries[metric] ?? [],
+                startTime: store.state.selectedSession.startTime
+            )
         }
-
-        let progressData = parseProgressData(
-            timeseries: store.state.timeseries[metric] ?? [],
-            startTime: store.state.selectedSession.startTime
-        )
-
-        result[metric] = progressData
     }
 
     return result
