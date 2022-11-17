@@ -119,3 +119,4 @@ let DEFAULT_MENU_VIEWS: [String: [String]] = [
 let DEFAULT_PAGE = "Main"
 let DEFAULT_ACTIVE_SUB_VIEW = "Controller"
 let CROWN_MULTIPLIER: Float = 2
+let CHART_X_AXIS_RIGHT_AXIS_PADDING_PCT: Float = 5

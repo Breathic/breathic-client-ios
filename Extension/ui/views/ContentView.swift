@@ -7,8 +7,6 @@ struct ContentView: View {
     let player = Player()
 
     init() {
-        clearTimeseries(store: store)
-
         for metric in METRIC_TYPES.keys {
             if store.state.chartedMetricsVisivbility[metric] == nil {
                 store.state.chartedMetricsVisivbility[metric] = true
