@@ -121,11 +121,28 @@ func getTimeseriesData(store: Store) -> [String: [Reading]] {
             let timeseries = try JSONDecoder().decode([String: [Reading]].self, from: data)
 
             timeseries.keys.forEach {
+                let readings = timeseries[$0]!
+
                 if result[$0] == nil {
                     result[$0] = []
                 }
 
-                result[$0] = result[$0]! + timeseries[$0]!
+                result[$0] = result[$0]! + readings
+            }
+
+            if store.state.chartScales["Percentage"] == true {
+                timeseries.keys.forEach {
+                    var readings = result[$0]!
+                    var max: Float = (readings.map { $0.value }).max() ?? 0
+
+                    for (readingIndex, reading) in readings.enumerated() {
+                        result[$0]?[readingIndex].value = convertRange(
+                            value: reading.value,
+                            oldRange: [0, max],
+                            newRange: [0, 100]
+                        )
+                    }
+                }
             }
         }
         catch {}

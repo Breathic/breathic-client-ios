@@ -82,6 +82,7 @@ let METRIC_TYPES: [String: MetricType] = [
     )
 ]
 let COLORS: [String: (Double, Double, Double)] = [
+    "white": (255, 255, 255),
     "red": (242, 16, 75),
     "green": (26, 163, 109),
     "blue": (0, 122, 255),
@@ -120,3 +121,7 @@ let DEFAULT_PAGE = "Main"
 let DEFAULT_ACTIVE_SUB_VIEW = "Controller"
 let CROWN_MULTIPLIER: Float = 2
 let CHART_X_AXIS_RIGHT_AXIS_PADDING_PCT: Float = 5
+let DEFAULT_CHART_SCALES: [String: Bool] = [
+    "Numeric": true,
+    "Percentage": false
+]

@@ -43,6 +43,7 @@ struct AppState {
     var chartDomain = ChartDomain()
     var chartableMetrics: [String: Float] = [:]
     var chartedMetricsVisivbility: [String: Bool] = [:]
+    var chartScales: [String: Bool] = DEFAULT_CHART_SCALES
 
     func getMetricValue(_ metric: String) -> Float {
         metrics[metric] ?? 0

@@ -54,6 +54,35 @@ func chartSettingsView(
 
                 Spacer(minLength: 8)
             }
+
+            Spacer(minLength: 16)
+
+            Text("Scale")
+                .font(.system(size: 10))
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            HStack {
+                VStack {
+                    ForEach(Array(store.state.chartScales.keys), id: \.self) { scale in
+                        secondaryButton(
+                            text: scale,
+                            color: store.state.chartScales[scale] == true ? "white": "gray",
+                            action: {
+                                store.state.chartScales.keys.forEach {
+                                    store.state.chartScales[$0] = false
+                                }
+
+                                store.state.chartScales[scale] = true
+                                onLogSelect(store: store)
+                            }
+                        )
+
+                        Spacer(minLength: 8)
+                    }
+                }
+
+                Spacer(minLength: 8)
+            }
         }
         .frame(width: geometry.size.width - 8)
     }
