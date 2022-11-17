@@ -12,6 +12,23 @@ func chartSettingsView(
         Spacer(minLength: 8)
 
         ScrollView(showsIndicators: false) {
+            primaryButton(
+                geometry: geometry,
+                label: "Duration",
+                value: getElapsedTime(from: store.state.selectedSession.startTime, to: store.state.selectedSession.endTime),
+                isShort: false,
+                isTall: true,
+                isEnabled: false,
+                minimumScaleFactor: 0.5
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Spacer(minLength: 16)
+
+            Text("Legend")
+                .font(.system(size: 10))
+                .frame(maxWidth: .infinity, alignment: .leading)
+
             ForEach(columns, id: \.self) { column in
                 HStack {
                     ForEach(column, id: \.self) { metric in

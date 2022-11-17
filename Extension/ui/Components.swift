@@ -30,10 +30,7 @@ func primaryButton(
                                 .minimumScaleFactor(0.9)
                                 .font(.system(size: 10))
                         }
-                        .frame(
-                            maxWidth: .infinity,
-                            alignment: .topLeading
-                        )
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
 
                     if value.count > 0 {
