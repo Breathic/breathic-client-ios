@@ -51,6 +51,8 @@ func chartSettingsView(
                         Spacer(minLength: 8)
                     }
                 }
+
+                Spacer(minLength: 8)
             }
         }
         .frame(width: geometry.size.width - 8)

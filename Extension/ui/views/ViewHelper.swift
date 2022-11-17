@@ -51,11 +51,10 @@ func getAverageMetricValue(
     return average
 }
 
-func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float]) {
+func getSeriesData(store: Store) -> ([SeriesData], ChartDomain) {
     let chartXAxisRightSpacingPct: Float = 5
     var _timeseries: [String: [ProgressData]] = [:]
     let chartDomain = ChartDomain()
-    var chartedMetrics: [String: Float] = [:]
 
     store.state.timeseries.keys.forEach {
         let progressData = parseProgressData(
@@ -73,12 +72,7 @@ func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float])
 
     var result: [SeriesData] = []
     for metric in _timeseries.keys {
-        let avgValue = getAverageMetricValue(timeseries: store.state.timeseries, metric: metric)
         let progressData: [ProgressData] = _timeseries[metric] ?? []
-
-        if avgValue > 0 {
-            chartedMetrics[metric] = avgValue
-
             if store.state.chartedMetricsVisivbility[metric] != nil && store.state.chartedMetricsVisivbility[metric]! {
                 for timeserie in progressData {
                     if timeserie.value > chartDomain.yMax {
@@ -88,10 +82,23 @@ func getSeriesData(store: Store) -> ([SeriesData], ChartDomain, [String: Float])
 
                 result.append(.init(metric: metric, data: progressData, color: getMetric(metric).color))
             }
+    }
+
+    return (result, chartDomain)
+}
+
+func getChartableMetrics(store: Store) -> [String: Float] {
+    var chartedMetrics: [String: Float] = [:]
+
+    store.state.timeseries.keys.forEach {
+        let avgValue = getAverageMetricValue(timeseries: store.state.timeseries, metric: $0)
+
+        if avgValue > 0 {
+            chartedMetrics[$0] = avgValue
         }
     }
 
-    return (result, chartDomain, chartedMetrics)
+    return chartedMetrics
 }
 
 func onLogSelect(store: Store) {
@@ -126,7 +133,7 @@ func onLogSelect(store: Store) {
         let result = getSeriesData(store: store)
         store.state.seriesData = result.0
         store.state.chartDomain = result.1
-        store.state.chartedMetrics = result.2
+        store.state.chartedMetrics = getChartableMetrics(store: store)
         store.state.activeSubView = store.state.selectedSessionId
     }
 }

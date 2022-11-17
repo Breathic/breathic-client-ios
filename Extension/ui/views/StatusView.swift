@@ -21,6 +21,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                     Spacer(minLength: 8)
                 }
             }
+
+            Spacer(minLength: 8)
         }
     }
 }
