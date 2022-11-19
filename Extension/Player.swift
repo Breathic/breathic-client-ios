@@ -112,6 +112,8 @@ class Player {
     func start() {
         store.state.isResumable = false
 
+        store.state.setMetricValuesToDefault()
+
         heart.start()
         step.start()
         speed.start()

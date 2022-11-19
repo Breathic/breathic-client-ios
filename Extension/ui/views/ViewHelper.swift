@@ -69,7 +69,9 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
 }
 
 func getSeriesData(store: Store, allProgressData: [String: [ProgressData]]) -> [SeriesData] {
-    allProgressData.keys.map {
+    allProgressData.keys
+        .filter { store.state.chartableMetrics[$0] != nil }
+        .map {
         .init(metric: $0, data: allProgressData[$0] ?? [], color: getMetric($0).color)
     }
 }
@@ -82,7 +84,7 @@ func getChartDomain(timeseries: [String: [Reading]], allProgressData: [String: [
 
         if progressData.count > 0 {
             chartDomain.xMin = Float(progressData[0].timestamp)
-            chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp) + Float(progressData[progressData.count - 1].timestamp) * CHART_X_AXIS_RIGHT_AXIS_PADDING_PCT / 100
+            chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp)
         }
 
         for timeserie in progressData {
@@ -133,14 +135,19 @@ func getTimeseriesData(store: Store, chartScales: [String: Bool]) -> [String: [R
             if chartScales["Percentage"] == true {
                 timeseries.keys.forEach {
                     let readings = result[$0]!
+                    let min: Float = (readings.map { $0.value }).min() ?? 0
                     let max: Float = (readings.map { $0.value }).max() ?? 0
 
                     for (readingIndex, reading) in readings.enumerated() {
-                        result[$0]?[readingIndex].value = convertRange(
+                        let value = convertRange(
                             value: reading.value,
-                            oldRange: [0, max],
+                            oldRange: [min, max],
                             newRange: [0, 100]
                         )
+
+                        if canUpdate(value) {
+                            result[$0]?[readingIndex].value = value
+                        }
                     }
                 }
             }
@@ -163,10 +170,10 @@ func onLogSelect(store: Store) {
 
         store.state.timeseries = getTimeseriesData(store: store, chartScales: store.state.chartScales)
         let allProgressData: [String: [ProgressData]] = getAllProgressData(store: store)
-        store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressData)
         store.state.chartDomain = getChartDomain(timeseries: store.state.timeseries, allProgressData: allProgressData)
         store.state.chartableMetrics = getChartableMetrics(timeseries: getTimeseriesData(store: store, chartScales: [:]))
         store.state.activeSubView = store.state.selectedSessionId
+        store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressData)
     }
 }
 
