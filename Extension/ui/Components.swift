@@ -118,7 +118,8 @@ func secondaryButton(
 func chart(
     geometry: GeometryProxy,
     seriesData: [SeriesData],
-    chartDomain: ChartDomain
+    chartDomain: ChartDomain,
+    action: @escaping () -> Void = {}
 ) -> some View {
     Group {
         if chartDomain.xMin >= chartDomain.xMax && chartDomain.yMin >= chartDomain.yMax {
@@ -148,6 +149,7 @@ func chart(
 
                     Spacer(minLength: 16)
                 }
+                .onTapGesture { action() }
             }
         }
     }

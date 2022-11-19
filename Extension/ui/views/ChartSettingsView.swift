@@ -36,43 +36,14 @@ func chartSettingsView(
                             label: getMetric(metric).label,
                             value: String(format: getMetric(metric).format, store.state.chartableMetrics[metric]!),
                             unit: getMetric(metric).unit,
-                            valueColor: store.state.chartedMetricsVisivbility[metric]!
+                            valueColor: store.state.chartedMetricsVisibility[metric]!
                                 ? getMetric(metric).color
                                 : colorize("gray"),
                             isShort: false,
                             isTall: true,
                             minimumScaleFactor: 0.5,
                             action: {
-                                store.state.chartedMetricsVisivbility[metric]! = !store.state.chartedMetricsVisivbility[metric]!
-                                onLogSelect(store: store)
-                            }
-                        )
-
-                        Spacer(minLength: 8)
-                    }
-                }
-
-                Spacer(minLength: 8)
-            }
-
-            Spacer(minLength: 16)
-
-            Text("Scale")
-                .font(.system(size: 10))
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            HStack {
-                VStack {
-                    ForEach(Array(store.state.chartScales.keys), id: \.self) { scale in
-                        secondaryButton(
-                            text: scale,
-                            color: store.state.chartScales[scale] == true ? "white": "gray",
-                            action: {
-                                store.state.chartScales.keys.forEach {
-                                    store.state.chartScales[$0] = false
-                                }
-
-                                store.state.chartScales[scale] = true
+                                store.state.chartedMetricsVisibility[metric]! = !store.state.chartedMetricsVisibility[metric]!
                                 onLogSelect(store: store)
                             }
                         )
