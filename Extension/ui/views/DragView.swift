@@ -3,11 +3,11 @@ import SwiftUI
 func onDragChanged(
     geometry: GeometryProxy,
     store: Store,
-    width: CGFloat
+    gesture: DragGesture.Value
 ) {
     store.state.pageOptions[store.state.page]!.wasDragged = false
 
-    let width = width + (CGFloat(-store.state.pageOptions[store.state.page]!.dragIndex) * geometry.size.width)
+    let width = gesture.translation.width + (CGFloat(-store.state.pageOptions[store.state.page]!.dragIndex) * geometry.size.width)
 
     if width > 0 { return }  // Stop drag from the left.
     else if width < -geometry.size.width { return } // Stop drag from the right.
@@ -49,7 +49,7 @@ func dragView(
         .highPriorityGesture(
             DragGesture()
                 .onChanged { gesture in
-                    onDragChanged(geometry: geometry, store: store, width: gesture.translation.width)
+                    onDragChanged(geometry: geometry, store: store, gesture: gesture)
                 }
                 .onEnded { _ in
                     onDragEnded(geometry: geometry, store: store)
