@@ -9,8 +9,8 @@ func onDragChanged(
 
     let width = gesture.translation.width + (CGFloat(-store.state.pageOptions[store.state.page]!.dragIndex) * geometry.size.width)
 
-    if width > 0 { return }  // Stop drag from the left.
-    else if width < -geometry.size.width { return } // Stop drag from the right.
+    //if width > 0 { return }  // Stop drag from the left.
+    //else if width < -geometry.size.width { return } // Stop drag from the right.
 
     store.state.pageOptions[store.state.page]!.dragXOffset = CGFloat(width)
     store.state.pageOptions[store.state.page]!.wasDragged = true
