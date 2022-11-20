@@ -146,7 +146,7 @@ func getTimeseriesData(store: Store, chartScales: [String: Bool]) -> [String: [R
                             newRange: [0, 100]
                         )
 
-                        if canUpdate(value) {
+                        if canUpdate(value) && value > 0 {
                             reading.value = value
                         }
 
