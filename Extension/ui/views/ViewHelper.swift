@@ -138,7 +138,8 @@ func getTimeseriesData(store: Store, chartScales: [String: Bool]) -> [String: [R
                     let min: Float = (readings.map { $0.value }).min() ?? 0
                     let max: Float = (readings.map { $0.value }).max() ?? 0
 
-                    for (readingIndex, reading) in readings.enumerated() {
+                    result[$0] = readings.map() {
+                        let reading = $0
                         let value = convertRange(
                             value: reading.value,
                             oldRange: [min, max],
@@ -146,8 +147,10 @@ func getTimeseriesData(store: Store, chartScales: [String: Bool]) -> [String: [R
                         )
 
                         if canUpdate(value) {
-                            result[$0]?[readingIndex].value = value
+                            reading.value = value
                         }
+
+                        return reading
                     }
                 }
             }

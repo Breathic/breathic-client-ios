@@ -122,10 +122,7 @@ func chart(
     action: @escaping () -> Void = {}
 ) -> some View {
     Group {
-        if (chartDomain.xMin >= chartDomain.xMax ||
-            chartDomain.yMin >= chartDomain.yMax ||
-            seriesData.count == 0
-        ) {
+        if seriesData.count == 0 {
             Text("No usable data found.")
                 .font(.system(size: 12))
                 .frame(maxWidth: .infinity, alignment: .center)
