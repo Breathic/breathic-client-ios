@@ -10,12 +10,7 @@ func overviewView(geometry: GeometryProxy, store: Store) -> some View {
             chartDomain: store.state.chartDomain,
             action: {
                 store.state.chartScales.keys.forEach {
-                    if store.state.chartScales[$0] == true {
-                        store.state.chartScales[$0] = false
-                    }
-                    else {
-                        store.state.chartScales[$0] = true
-                    }
+                    store.state.chartScales[$0] = !store.state.chartScales[$0]!
                 }
 
                 onLogSelect(store: store)
