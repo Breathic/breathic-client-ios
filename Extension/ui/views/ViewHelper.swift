@@ -69,11 +69,12 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
 }
 
 func getSeriesData(store: Store, allProgressData: [String: [ProgressData]]) -> [SeriesData] {
-    allProgressData.keys
+    METRIC_ORDER
+        .filter { allProgressData[$0] != nil }
         .filter { store.state.chartableMetrics[$0] != nil }
         .map {
-        .init(metric: $0, data: allProgressData[$0] ?? [], color: getMetric($0).color)
-    }
+            .init(metric: $0, data: allProgressData[$0] ?? [], color: getMetric($0).color)
+        }
 }
 
 func getChartDomain(timeseries: [String: [Reading]], allProgressData: [String: [ProgressData]]) -> ChartDomain {
@@ -111,7 +112,7 @@ func getChartableMetrics(timeseries: [String: [Reading]]) -> [String: Float] {
     return chartableMetrics
 }
 
-func getTimeseriesData(store: Store, chartScales: [String: Bool]) -> [String: [Reading]] {
+func getTimeseriesData(store: Store) -> [String: [Reading]] {
     var result: [String: [Reading]] = [:]
     var addedMinutes = 0
 
@@ -131,33 +132,42 @@ func getTimeseriesData(store: Store, chartScales: [String: Bool]) -> [String: [R
 
                 result[$0] = result[$0]! + readings
             }
-
-            if chartScales["Percentage"] == true {
-                timeseries.keys.forEach {
-                    let readings = result[$0]!
-                    let min: Float = (readings.map { $0.value }).min() ?? 0
-                    let max: Float = (readings.map { $0.value }).max() ?? 0
-
-                    result[$0] = readings.map() {
-                        let reading = $0
-                        let value = convertRange(
-                            value: reading.value,
-                            oldRange: [min, max],
-                            newRange: [0, 100]
-                        )
-
-                        if canUpdate(value) && value > 0 {
-                            reading.value = value
-                        }
-
-                        return reading
-                    }
-                }
-            }
         }
         catch {}
 
         addedMinutes = addedMinutes + 1
+    }
+
+    return result
+}
+
+func parseScale(
+    timeseries: [String: [Reading]],
+    chartScales: [String: Bool]
+) -> [String: [Reading]] {
+    var result = timeseries
+
+    if chartScales["Percentage"] == true {
+        timeseries.keys.forEach {
+            let readings = timeseries[$0]!
+            let min: Float = (readings.map { $0.value }).min() ?? 0
+            let max: Float = (readings.map { $0.value }).max() ?? 0
+
+            result[$0] = readings.map() {
+                let reading = $0
+                let value = convertRange(
+                    value: reading.value,
+                    oldRange: [min, max],
+                    newRange: [0, 100]
+                )
+
+                if canUpdate(value) {
+                    reading.value = value
+                }
+
+                return reading
+            }
+        }
     }
 
     return result
@@ -171,12 +181,16 @@ func onLogSelect(store: Store) {
         store.state.selectedSession = store.state.sessionLogs[index]
         clearTimeseries(store: store)
 
-        store.state.timeseries = getTimeseriesData(store: store, chartScales: store.state.chartScales)
+        store.state.timeseries = getTimeseriesData(store: store)
+        store.state.timeseries = parseScale(timeseries: store.state.timeseries, chartScales: store.state.chartScales)
+
         let allProgressData: [String: [ProgressData]] = getAllProgressData(store: store)
         store.state.chartDomain = getChartDomain(timeseries: store.state.timeseries, allProgressData: allProgressData)
-        store.state.chartableMetrics = getChartableMetrics(timeseries: getTimeseriesData(store: store, chartScales: [:]))
-        store.state.activeSubView = store.state.selectedSessionId
+        store.state.chartableMetrics = getChartableMetrics(timeseries: getTimeseriesData(store: store))
+
         store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressData)
+
+        store.state.activeSubView = store.state.selectedSessionId
     }
 }
 
