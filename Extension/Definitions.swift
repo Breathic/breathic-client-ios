@@ -13,6 +13,7 @@ struct MetricType {
     var unit: String = ""
     var isReversed: Bool = false
     var isSource: Bool = false
+    var isChartable: Bool = false
     var color: Color = Color.white
     var format: String = "%.0f"
     var defaultValue: Float = 0

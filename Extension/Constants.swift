@@ -22,6 +22,7 @@ let METRIC_TYPES: [String: MetricType] = [
         label: "Heartbeats",
         unit: "per minute",
         isSource: true,
+        isChartable: true,
         color: colorize("red"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
@@ -39,6 +40,7 @@ let METRIC_TYPES: [String: MetricType] = [
         label: "Speed",
         unit: "m / s",
         isSource: true,
+        isChartable: true,
         color: colorize("yellow"),
         defaultValue: Platform.isSimulator ? 10 : 0
     ),
@@ -46,6 +48,7 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "breath",
         label: "Breaths",
         unit: "per minute",
+        isChartable: true,
         color: colorize("green")
     ),
     "heart-to-breath": MetricType(
