@@ -10,7 +10,7 @@ func updateReadings(readings: [Reading], value: Float) -> [Reading] {
 
     result = Array(result.suffix(MAX_READING_COUNT))
     result = result.filter { reading in
-        reading.timestamp.timeIntervalSince1970 + MAX_READING_TIMEOUT_S >= Date().timeIntervalSince1970
+        reading.timestamp.distance(to: Date()) <= MAX_READING_TIMEOUT_S
     }
 
     return result
@@ -21,9 +21,9 @@ func getAverageValue(readings: [Reading]) -> Float {
 }
 
 func getIntervalDerivedValue(readings: [Reading]) -> Float {
-    let intervalDuration = readings[readings.count - 1].timestamp.timeIntervalSince1970 - readings[0].timestamp.timeIntervalSince1970
-    let intervalSteps = Double(readings[readings.count - 1].value - readings[0].value)
-    return Float(intervalDuration) / Float(intervalSteps)
+    let intervalDuration = readings[0].timestamp.distance(to: readings[readings.count - 1].timestamp)
+    let intervalSteps = readings[readings.count - 1].value - readings[0].value
+    return Float(intervalDuration) / intervalSteps
 }
 
 func canUpdate(_ value: Float) -> Bool {
