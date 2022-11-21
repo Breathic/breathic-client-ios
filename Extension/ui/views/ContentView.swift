@@ -77,7 +77,9 @@ struct ContentView: View {
                             dragView(
                                 children: Group {
                                     HStack {
+                                        Spacer(minLength: 8)
                                         chartSettingsView(geometry: geometry, store: store)
+                                        Spacer(minLength: 8)
                                         overviewView(geometry: geometry, store: store)
                                     }
                                     .onAppear {

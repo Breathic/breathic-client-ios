@@ -17,5 +17,5 @@ func overviewView(geometry: GeometryProxy, store: Store) -> some View {
             }
         )
     }
-    .frame(minWidth: geometry.size.width + 8)
+    .frame(minWidth: geometry.size.width)
 }
