@@ -35,7 +35,7 @@ class Heart {
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
         ]
 
-        healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { result, error in
+        healthStore.requestAuthorization(toShare: nil, read: healthKitTypes) { result, error in
             if result {
                 self.exec()
             } else if let error = error {
