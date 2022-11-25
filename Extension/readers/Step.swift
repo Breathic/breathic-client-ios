@@ -8,7 +8,6 @@ class Step {
     var pedometer = CMPedometer()
     var readings = [Reading]()
     let metric: String = "step"
-    var lastUpdateDate: DispatchTime = .now()
     var timer: Timer?
 
     var isStepCountingAvailable: Bool {
@@ -32,17 +31,14 @@ class Step {
                 if data != nil {
                     DispatchQueue.main.async {
                         self.setPedometerData(value: Float(truncating: data!.numberOfSteps))
-                        self.lastUpdateDate = .now()
+                        self.timer?.invalidate()
+                        self.timer = Timer.scheduledTimer(withTimeInterval: READER_INACTIVITY_TIMEOUT_S, repeats: false) { timer in
+                            self.readings = []
+                            self.store.state.setMetricValue(self.metric, 0)
+                        }
                     }
                 }
             })
-
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-                if self.lastUpdateDate.distance(to: .now()).toDouble() > READER_INACTIVITY_S {
-                    self.readings = []
-                    self.store.state.setMetricValue(self.metric, 0)
-                }
-            }
         }
     }
 
