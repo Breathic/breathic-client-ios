@@ -9,6 +9,7 @@ let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 256
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let DATA_INACTIVITY_S: Double = 60
+let READER_INACTIVITY_S: Double = 30
 let VOLUME_RANGE: [Float] = [0, 2000]
 let VOLUME: Float = 500
 let RHYTHM_RANGE: [Int] = [1, 50]
