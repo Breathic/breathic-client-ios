@@ -27,7 +27,7 @@ func primaryButton(
                         HStack {
                             Text(label)
                                 .lineLimit(1)
-                                .minimumScaleFactor(0.9)
+                                .minimumScaleFactor(0.8)
                                 .font(.system(size: 10))
                         }
                         .frame(maxWidth: .infinity, alignment: .topLeading)
