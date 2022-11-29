@@ -12,7 +12,7 @@ let DATA_INACTIVITY_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
 let VOLUME_RANGE: [Float] = [0, 2000]
 let VOLUME: Float = 500
-let RHYTHM_RANGE: [Int] = [1, 50]
+let RHYTHM_RANGE: [Int] = [5, 50]
 let RHYTHMS: [Int] = [20, 20]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1])
