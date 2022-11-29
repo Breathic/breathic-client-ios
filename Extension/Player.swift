@@ -449,7 +449,7 @@ class Player {
     func incrementQueueIndex() {
         store.state.queueIndex = store.state.queueIndex + 1
 
-        if store.state.queueIndex == store.state.distances.count {
+        if store.state.queueIndex == store.state.distances.count - 1 {
             store.state.queueIndex = 0
         }
     }
