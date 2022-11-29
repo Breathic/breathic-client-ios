@@ -124,9 +124,9 @@ class Player {
             isLoopStarted = true
         }
 
-        //if !Platform.isSimulator {
-        //    initInactivityTimer()
-        //}
+        if !Platform.isSimulator {
+            initInactivityTimer()
+        }
 
         create()
         play()
