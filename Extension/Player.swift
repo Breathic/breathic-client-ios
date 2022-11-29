@@ -476,8 +476,13 @@ class Player {
 
                     let sortedSummary = summary
                         .sorted { Double($0.value) < Double($1.value) }
+
+                    // Introduce some randomness to the audio picker.
+                    let shuffledSummary = Array(sortedSummary[0...1])
+                        .shuffled()
+
                     let index = store.state.seeds[channelIndex].rhythms
-                        .firstIndex(where: { $0.id == sortedSummary[0].key }) ?? 0
+                        .firstIndex(where: { $0.id == shuffledSummary[0].key }) ?? 0
                     let element = store.state.seeds[channelIndex].rhythms
                         .remove(at: index)
                     store.state.seeds[channelIndex].rhythms
