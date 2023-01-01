@@ -35,7 +35,7 @@ class Player {
             store.state.session = try JSONDecoder().decode(Session.self, from: data)
         } catch {}
 
-        initReadingsSaver()
+        initIntervals()
 
         if store.state.session.isActive {
             store.state.isResumable = true
@@ -55,10 +55,16 @@ class Player {
         }
     }
 
-    func initReadingsSaver() {
+    func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_S, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
                 self.saveReadings()
+            }
+        }
+
+        Timer.scheduledTimer(withTimeInterval: SESSION_COORDINATOR_INTERVAL_S, repeats: true) { timer in
+            if self.store.state.session.isActive && !self.store.state.isResumable  {
+                self.coordinator.start()
             }
         }
     }
@@ -117,7 +123,7 @@ class Player {
         heart.start()
         step.start()
         speed.start()
-        coordinator.start()
+        coordinator.create()
 
         if !isLoopStarted {
             loop()
