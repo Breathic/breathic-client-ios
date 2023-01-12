@@ -144,8 +144,8 @@ func chart(
                     .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
                     .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
                     .chartLegend(.hidden)
-                    .frame(minWidth: geometry.size.width)
-                    .frame(minHeight: geometry.size.height)
+                    .frame(width: geometry.size.width)
+                    .frame(height: geometry.size.height)
 
                     Spacer(minLength: 16)
                 }

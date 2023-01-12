@@ -74,27 +74,10 @@ struct ContentView: View {
                             )
 
                         case store.state.selectedSessionId, "Settings":
-                            dragView(
-                                children: Group {
-                                    HStack {
-                                        Spacer(minLength: 8)
-                                        chartSettingsView(geometry: geometry, store: store)
-                                        Spacer(minLength: 8)
-                                        overviewView(geometry: geometry, store: store)
-                                    }
-                                    .onAppear {
-                                        store.state.menuViews["Overview"]![0] = store.state.selectedSessionId
-                                        store.state.menuViews["Overview"]![1] = store.state.selectedSessionId
-                                        store.state.page = "Overview"
-                                    }
-                                    .onDisappear {
-                                        store.state.pageOptions[store.state.page]! = PageOption()
-                                        store.state.page = DEFAULT_PAGE
-                                    }
-                                },
-                                geometry: geometry,
-                                store: store
-                            )
+                            VStack {
+                                Spacer(minLength: 8)
+                                chartSettingsView(geometry: geometry, store: store)
+                            }
 
                         default:
                             Group {}
@@ -104,8 +87,7 @@ struct ContentView: View {
 
                 if (
                     (store.state.page == "Main" &&
-                        store.state.activeSubView == "Controller" || store.state.activeSubView == "Status") ||
-                    (store.state.page == "Overview")
+                        store.state.activeSubView == "Controller" || store.state.activeSubView == "Status")
                 ) {
                     ZStack {
                         HStack {
