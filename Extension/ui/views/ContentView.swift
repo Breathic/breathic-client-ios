@@ -67,6 +67,13 @@ struct ContentView: View {
                                 player: player
                             )
 
+                        case "Discard":
+                            discardSessionConfirmationView(
+                                geometry: geometry,
+                                store: store,
+                                player: player
+                            )
+
                         case "Delete":
                             deleteSessionConfirmationView(
                                 geometry: geometry,
@@ -74,10 +81,7 @@ struct ContentView: View {
                             )
 
                         case store.state.selectedSessionId, "Settings":
-                            VStack {
-                                Spacer(minLength: 8)
-                                chartSettingsView(geometry: geometry, store: store)
-                            }
+                            chartSettingsView(geometry: geometry, store: store)
 
                         default:
                             Group {}

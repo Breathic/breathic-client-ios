@@ -4,9 +4,7 @@ func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: 
     VStack {
         HStack {
             Button(action: {
-                player.pause()
-                store.state.session.stop()
-                store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+                store.state.activeSubView = "Discard"
             }) {
                 Text("Discard")
             }

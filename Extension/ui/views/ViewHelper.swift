@@ -212,7 +212,7 @@ func deleteSession(store: Store, sessionId: String) {
             sessionIndex = index
         }
     }
-
+    
     if sessionIndex > -1 {
         store.state.sessionLogs.remove(at: sessionIndex)
         saveSessionLogs(sessionLogs: store.state.sessionLogs)

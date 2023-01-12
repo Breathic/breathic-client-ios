@@ -73,6 +73,20 @@ func primaryButton(
     .disabled(!isEnabled)
 }
 
+func secondaryButton(
+    text: String,
+    color: String,
+    action: @escaping () -> Void = {}
+) -> some View {
+    Button(action: action) {
+        Text(text)
+    }
+    .font(.system(size: 12))
+    .fontWeight(.bold)
+    .buttonStyle(.bordered)
+    .tint(colorize(color))
+}
+
 struct DottedIndicator: View {
     var index: Int
     let maxIndex: Int
@@ -99,20 +113,6 @@ struct DottedIndicator: View {
             .rotationEffect(.degrees(-180))
         }
     }
-}
-
-func secondaryButton(
-    text: String,
-    color: String,
-    action: @escaping () -> Void = {}
-) -> some View {
-    Button(action: action) {
-        Text(text)
-    }
-    .font(.system(size: 12))
-    .fontWeight(.bold)
-    .buttonStyle(.bordered)
-    .tint(colorize(color))
 }
 
 func chart(

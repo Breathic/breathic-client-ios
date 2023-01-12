@@ -1,16 +1,19 @@
 import SwiftUI
 
-func deleteSessionConfirmationView(geometry: GeometryProxy, store: Store) -> some View {
+func discardSessionConfirmationView(geometry: GeometryProxy, store: Store, player: Player) -> some View {
     VStack {
-        Text("Delete session from " + store.state.selectedSessionId + "?")
+        Text("Really, really discard?")
             .font(.system(size: 12))
-            .frame(maxHeight: .infinity, alignment: .center)
+            .frame(alignment: .center)
         
         HStack {
+
             Button(action: {
-                deleteSession(store: store, sessionId: store.state.selectedSessionId)
+                player.pause()
+                store.state.session.stop()
+                store.state.activeSubView = store.state.menuViews[store.state.page]![0]
             }) {
-                Text("Delete")
+                Text("Discard")
             }
             .font(.system(size: 12))
             .fontWeight(.bold)
@@ -18,7 +21,7 @@ func deleteSessionConfirmationView(geometry: GeometryProxy, store: Store) -> som
             .tint(colorize("red"))
 
             Button(action: {
-                onLogSelect(store: store)
+                store.state.activeSubView = "Controller"
             }) {
                 Text("Cancel")
             }
