@@ -174,11 +174,11 @@ func parseScale(
 }
 
 func onLogSelect(store: Store) {
-    let index = store.state.sessionLogIds
+    let index = store.state.sessionLogIds.reversed()
         .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
 
     if index > -1 {
-        store.state.selectedSession = store.state.sessionLogs[index]
+        store.state.selectedSession = store.state.sessionLogs.reversed()[index]
         clearTimeseries(store: store)
 
         store.state.timeseries = getTimeseriesData(store: store)

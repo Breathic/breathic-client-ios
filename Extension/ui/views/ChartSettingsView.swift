@@ -19,9 +19,9 @@ func chartSettingsView(
             .font(.system(size: 24))
             .frame(maxWidth: .infinity, alignment: .leading)
 
-        Spacer(minLength: 16)
+        Spacer(minLength: 24)
         
-        Text("Chart")
+        Text("Progress")
             .font(.system(size: 10))
             .frame(maxWidth: .infinity, alignment: .leading)
         
@@ -38,13 +38,13 @@ func chartSettingsView(
             }
         )
         
-        Spacer(minLength: 16)
+        Spacer(minLength: 24)
 
         Text("Legend")
             .font(.system(size: 10))
             .frame(maxWidth: .infinity, alignment: .leading)
         
-        HStack {
+        VStack {
             ForEach(columns, id: \.self) { column in
                 HStack {
                     ForEach(column, id: \.self) { metric in
@@ -67,10 +67,16 @@ func chartSettingsView(
                         
                         Spacer(minLength: 8)
                     }
-                }
+                }.frame(width: geometry.size.width + 8)
                 
                 Spacer(minLength: 8)
             }
         }.frame(maxWidth: .infinity, alignment: .leading)
+
+        Spacer(minLength: 24)
+
+        HStack {
+            secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
+        }
     }
 }

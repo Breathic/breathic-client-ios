@@ -153,13 +153,14 @@ class Player {
         step.stop()
         speed.stop()
         coordinator.stop()
-        store.state.session.stop()
         saveReadings()
         store.state.elapsedTime = ""
+        store.state.setMetricValuesToDefault()
+        store.state.session.stop()
         store.state.sessionLogs.append(store.state.session)
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         saveSessionLogs(sessionLogs: store.state.sessionLogs)
-        store.state.setMetricValuesToDefault()
+        store.state.session = Session()
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {

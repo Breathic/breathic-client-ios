@@ -14,7 +14,7 @@ func deleteSessionConfirmationView(geometry: GeometryProxy, store: Store) -> som
             .tint(colorize("red"))
 
             Button(action: {
-                store.state.activeSubView = "Log"
+                onLogSelect(store: store)
             }) {
                 Text("Cancel")
             }

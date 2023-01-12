@@ -45,32 +45,26 @@ func generateSessionId(session: Session) -> String {
 func getSessionIds(sessions: [Session]) -> [String] {
     var result: [String] = []
     var prevId = ""
-    var repeats = 1
+    var saves = 1
 
-    for session in sessions {
+    for session in sessions.reversed() {
         var id = generateSessionId(session: session)
         let isDuplicate = prevId == id
 
         prevId = id
-        repeats = isDuplicate
-            ? repeats + 1
+        saves = isDuplicate
+            ? saves + 1
             : 1
 
-        // Hide duration since there isn't always enough space to go around.
-        if repeats > 1 {
-            id = id + " - " + String(repeats)
-
-            // And strip duration from the previous one.
-            result[result.count - 1] = result[result.count - 1].components(separatedBy: " (")[0]
+        // Display the latest session for each minute.
+        if saves == 1 {
+            let elapsedTime = getElapsedTime(from: session.startTime, to: session.endTime)
+            id = id + " (" + elapsedTime + ")"
+            result.append(id)
         }
-        else {
-            id = id + " (" + getElapsedTime(from: session.startTime, to: session.endTime) + ")"
-        }
-
-        result.append(id)
     }
 
-    return result
+    return result.reversed()
 }
 
 func getTimeseriesUpdateId(uuid: String, date: Date) -> String {

@@ -148,7 +148,6 @@ class Session: Codable {
     func start() {
         if !isActive {
             startTime = Date()
-            endTime = Date()
             uuid = UUID().uuidString
             id = generateSessionId(session: self)
         }
@@ -157,8 +156,8 @@ class Session: Codable {
     }
 
     func stop() {
-        isActive = false
         endTime = Date()
+        isActive = false
     }
 
     func getRhythms() -> [Int] {

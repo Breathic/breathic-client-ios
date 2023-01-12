@@ -30,7 +30,6 @@ func logView(
 
         if hasSessionLogs(store: store) {
             HStack {
-                secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
                 secondaryButton(text: "Select", color: "green", action: { onLogSelect(store: store) })
             }
         }
