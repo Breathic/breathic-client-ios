@@ -52,6 +52,8 @@ class Player {
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
             player?.prepareToPlay()
             players[forResource] = player
+            players[forResource]?.volume = 0
+            players[forResource]?.play()
         }
     }
 
