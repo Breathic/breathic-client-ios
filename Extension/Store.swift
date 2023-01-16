@@ -1,18 +1,6 @@
 import Foundation
 import SwiftUI
 
-/*
-import Sentry
-
-let SENTRY_DSN = "https://104bfdd0d1f9498bba4cbaca12988611@o1399372.ingest.sentry.io/6726680"
-
-SentrySDK.start { options in
-     options.dsn = SENTRY_DSN
-     options.debug = true
-     options.tracesSampleRate = 1.0
- }
- */
-
 struct AppState {
     var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: DEFAULT_MENU_VIEWS.keys.map { ($0, PageOption()) })
     var page: String = DEFAULT_PAGE
@@ -29,6 +17,7 @@ struct AppState {
     var sessionLogs: [Session] = []
     var sessionLogIds: [String] = []
     var isAudioSessionLoaded: Bool = false
+    var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
     var elapsedTime: String = ""
     var playerIndex: Int = -1

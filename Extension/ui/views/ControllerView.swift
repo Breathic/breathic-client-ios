@@ -65,10 +65,10 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Audio",
-                value: store.state.isAudioSessionLoaded
+                value: store.state.isAudioPlaying
                     ? "||"
                     : "▶",
-                unit: store.state.isAudioSessionLoaded
+                unit: store.state.isAudioPlaying
                     ? Float(store.state.session.volume) > 0
                         ? "Playing"
                         : "Muted"

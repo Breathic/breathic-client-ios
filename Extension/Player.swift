@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import AVFAudio
 import MediaPlayer
+//import Sentry
 
 class Player {
     @ObservedObject private var store: Store = .shared
@@ -18,6 +19,13 @@ class Player {
     var isLoopStarted = false
 
     init() {
+        /*
+        SentrySDK.start { options in
+            options.dsn = SENTRY_DSN
+            options.debug = true
+            options.tracesSampleRate = 1.0
+        }
+        */
         store.state.setMetricValuesToDefault()
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
         cachePlayers()
@@ -52,8 +60,6 @@ class Player {
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
             player?.prepareToPlay()
             players[forResource] = player
-            players[forResource]?.volume = 0
-            players[forResource]?.play()
         }
     }
 
@@ -61,12 +67,6 @@ class Player {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_S, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
                 self.saveReadings()
-            }
-        }
-
-        Timer.scheduledTimer(withTimeInterval: SESSION_COORDINATOR_INTERVAL_S, repeats: true) { timer in
-            if self.store.state.session.isActive && !self.store.state.isResumable  {
-                self.coordinator.start()
             }
         }
     }
@@ -126,6 +126,7 @@ class Player {
         step.start()
         speed.start()
         coordinator.create()
+        coordinator.start()
 
         if !isLoopStarted {
             loop()
@@ -334,7 +335,7 @@ class Player {
     func loop() {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
-        if !loopInterval.isInfinite && store.state.isAudioSessionLoaded {
+        if !loopInterval.isInfinite && store.state.isAudioPlaying {
             Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
                 self.loop()
             }
@@ -375,7 +376,7 @@ class Player {
     }
 
     func togglePlay() {
-        if store.state.isAudioSessionLoaded { pause() }
+        if store.state.isAudioPlaying { pause() }
         else { play() }
     }
 
@@ -404,23 +405,27 @@ class Player {
     func play() {
         Task {
             do {
-                let audioSession = AVAudioSession.sharedInstance()
-                try audioSession.setCategory(
-                    .playback,
-                    mode: .default,
-                    options: [.mixWithOthers]
-                )
-                store.state.isAudioSessionLoaded = try await audioSession.activate()
+                if (!store.state.isAudioSessionLoaded) {
+                    let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.setCategory(
+                        .playback,
+                        mode: .default,
+                        options: [.mixWithOthers]
+                    )
+                    store.state.isAudioSessionLoaded = try await audioSession.activate()
+                }
+
+                store.state.isAudioPlaying = true
+
             }
             catch {
-                store.state.isAudioSessionLoaded = false
                 print("startAudioSession()", error)
             }
         }
     }
 
     func pause() {
-        store.state.isAudioSessionLoaded = false
+        store.state.isAudioPlaying = false
 
         for audio in audios {
             audio.forResources.forEach {

@@ -129,3 +129,4 @@ let DEFAULT_CHART_SCALES: [String: Bool] = [
     "Numeric": true,
     "Percentage": false
 ]
+//let SENTRY_DSN = "https://104bfdd0d1f9498bba4cbaca12988611@o1399372.ingest.sentry.io/6726680"
