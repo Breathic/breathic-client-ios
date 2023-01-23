@@ -126,7 +126,6 @@ class Player {
         step.start()
         speed.start()
         coordinator.create()
-        coordinator.start()
 
         if !isLoopStarted {
             loop()
@@ -488,11 +487,11 @@ class Player {
                         }
                     }
 
-                    let sortedSummary = summary
+                    let sortedSummary: [Dictionary<Int, Double>.Element] = summary
                         .sorted { Double($0.value) < Double($1.value) }
 
                     // Introduce some randomness to the audio picker.
-                    let shuffledSummary = Array(sortedSummary[0...1])
+                    let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...1])
                         .shuffled()
 
                     let index = store.state.seeds[channelIndex].rhythms

@@ -54,8 +54,8 @@ func chartSettingsView(
                             value: String(format: getMetric(metric).format, store.state.chartableMetrics[metric]!),
                             unit: getMetric(metric).unit,
                             valueColor: store.state.chartedMetricsVisibility[metric]!
-                            ? getMetric(metric).color
-                            : colorize("gray"),
+                                ? getMetric(metric).color
+                                : colorize("gray"),
                             isShort: false,
                             isTall: true,
                             minimumScaleFactor: 0.5,

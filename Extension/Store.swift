@@ -59,5 +59,5 @@ struct AppState {
 final class Store: ObservableObject {
     static let shared: Store = Store()
 
-    @Published var state = AppState()
+    @Published var state: AppState = AppState()
 }

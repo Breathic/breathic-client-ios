@@ -1,9 +1,9 @@
 import Foundation
 import SwiftUI
 
-let SAMPLE_PATH = "/data/samples/"
-let SAMPLE_EXTENSION = "m4a"
-let MAX_READING_TIMEOUT_S: Double = 30
+let SAMPLE_PATH: String = "/data/samples/"
+let SAMPLE_EXTENSION: String = "m4a"
+let MAX_READING_TIMEOUT_S: Double = 15
 let MAX_READING_COUNT: Int = 100
 let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 256
@@ -11,7 +11,7 @@ let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let DATA_INACTIVITY_S: Double = 60
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
-let VOLUME_RANGE: [Float] = [0, 3000]
+let VOLUME_RANGE: [Float] = [0, 5000]
 let VOLUME: Float = 500
 let RHYTHM_RANGE: [Int] = [5, 50]
 let RHYTHMS: [Int] = [20, 20]
@@ -111,8 +111,8 @@ let METRIC_ORDER: [String] = [
 ]
 let TIMESERIES_SAVER_INTERVAL_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
-let STORE_ACTIVE_SESSION = "ActiveSession"
-let STORE_SESSION_LOGS = "SessionLogs"
+let STORE_ACTIVE_SESSION: String = "ActiveSession"
+let STORE_SESSION_LOGS: String = "SessionLogs"
 let DRAG_INDEXES: [String: Int] = [
     "Controller": 0,
     "Status": 1,
@@ -122,8 +122,8 @@ let DEFAULT_MENU_VIEWS: [String: [String]] = [
     "Main": ["Controller", "Status", "Log"],
     "Overview": ["", ""]
 ]
-let DEFAULT_PAGE = "Main"
-let DEFAULT_ACTIVE_SUB_VIEW = "Controller"
+let DEFAULT_PAGE: String = "Main"
+let DEFAULT_ACTIVE_SUB_VIEW: String = "Controller"
 let CROWN_MULTIPLIER: Float = 2
 let DEFAULT_CHART_SCALES: [String: Bool] = [
     "Numeric": true,
