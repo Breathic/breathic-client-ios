@@ -7,7 +7,7 @@ import WatchKit
 
 class Player {
     @ObservedObject private var store: Store = .shared
-    //test 1
+
     let coordinator = Coordinator()
     let step = Step()
     var speed = Speed()
