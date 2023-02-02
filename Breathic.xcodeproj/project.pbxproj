@@ -1,0 +1,628 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FD1E04BB29781389006791C5 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD1E04BA29781389006791C5 /* data */; };
+		FD2D391628BBDD98009F1861 /* Breathic.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Breathic.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
+		FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392528BBDD99009F1861 /* ContentView.swift */; };
+		FD2D392828BBDD99009F1861 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392728BBDD99009F1861 /* App.swift */; };
+		FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392928BBDD99009F1861 /* ComplicationController.swift */; };
+		FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D392B28BBDD9A009F1861 /* Assets.xcassets */; };
+		FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D392E28BBDD9A009F1861 /* Preview Assets.xcassets */; };
+		FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D393E28BBDE4A009F1861 /* Store.swift */; };
+		FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394928BBDF7B009F1861 /* Definitions.swift */; };
+		FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394B28BBDF9E009F1861 /* Constants.swift */; };
+		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
+		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
+		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
+		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
+		FD9ABB6E28BBED42003049AC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABB6D28BBED42003049AC /* Coordinator.swift */; };
+		FDBDAF6F29204CDD00F57DC1 /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF6E29204CDD00F57DC1 /* ControllerView.swift */; };
+		FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */; };
+		FDBDAF732920516E00F57DC1 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF722920516E00F57DC1 /* StatusView.swift */; };
+		FDBDAF75292051BC00F57DC1 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF74292051BC00F57DC1 /* MenuView.swift */; };
+		FDBDAF772920530900F57DC1 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF762920530900F57DC1 /* LogView.swift */; };
+		FDBDAF792920544400F57DC1 /* RhythmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF782920544400F57DC1 /* RhythmView.swift */; };
+		FDBDAF7B2920551A00F57DC1 /* SessionStopConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7A2920551A00F57DC1 /* SessionStopConfirmationView.swift */; };
+		FDBDAF7D2920559200F57DC1 /* DeleteSessionConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */; };
+		FDBDAF812920576900F57DC1 /* DragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF802920576900F57DC1 /* DragView.swift */; };
+		FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF822920593700F57DC1 /* ToolbarView.swift */; };
+		FDC09FC328F0A58200F42253 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC09FC228F0A58200F42253 /* Library.swift */; };
+		FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */; };
+		FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */; };
+		FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D12911BAEF0059F5D6 /* Speed.swift */; };
+		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
+		FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D52911BC3D0059F5D6 /* Heart.swift */; };
+		FDFC2F16291FA43800E4C8C8 /* FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC2F15291FA43800E4C8C8 /* FileSystem.swift */; };
+		FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC2F17291FA4A000E4C8C8 /* Readings.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FD2D391728BBDD98009F1861 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD2D390B28BBDD97009F1861 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD2D391428BBDD98009F1861;
+			remoteInfo = "pacemaker WatchKit App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FD2D393A28BBDD9A009F1861 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				FD2D391628BBDD98009F1861 /* Breathic.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FD1E04BA29781389006791C5 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		FD2D391128BBDD97009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD2D391528BBDD98009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD2D391A28BBDD99009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FD2D392528BBDD99009F1861 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FD2D392728BBDD99009F1861 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		FD2D392928BBDD99009F1861 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		FD2D392B28BBDD9A009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FD2D392E28BBDD9A009F1861 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FD2D393E28BBDE4A009F1861 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		FD2D394928BBDF7B009F1861 /* Definitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definitions.swift; sourceTree = "<group>"; };
+		FD2D394B28BBDF9E009F1861 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FD2D395128BBE012009F1861 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FD359C542933802700F14B68 /* ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ExtensionDebug.entitlements; sourceTree = "<group>"; };
+		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		FD9ABB6D28BBED42003049AC /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FDBDAF6E29204CDD00F57DC1 /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
+		FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
+		FDBDAF722920516E00F57DC1 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
+		FDBDAF74292051BC00F57DC1 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		FDBDAF762920530900F57DC1 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		FDBDAF782920544400F57DC1 /* RhythmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmView.swift; sourceTree = "<group>"; };
+		FDBDAF7A2920551A00F57DC1 /* SessionStopConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStopConfirmationView.swift; sourceTree = "<group>"; };
+		FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSessionConfirmationView.swift; sourceTree = "<group>"; };
+		FDBDAF802920576900F57DC1 /* DragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragView.swift; sourceTree = "<group>"; };
+		FDBDAF822920593700F57DC1 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
+		FDC09FC228F0A58200F42253 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSettingsView.swift; sourceTree = "<group>"; };
+		FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscardSessionConfirmationView.swift; sourceTree = "<group>"; };
+		FDF1E1D12911BAEF0059F5D6 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
+		FDF1E1D32911BB960059F5D6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		FDF1E1D52911BC3D0059F5D6 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
+		FDFC2F15291FA43800E4C8C8 /* FileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystem.swift; sourceTree = "<group>"; };
+		FDFC2F17291FA4A000E4C8C8 /* Readings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Readings.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FD2D391D28BBDD99009F1861 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FD2D390A28BBDD97009F1861 = {
+			isa = PBXGroup;
+			children = (
+				FD2D391928BBDD98009F1861 /* App */,
+				FD2D392428BBDD99009F1861 /* Extension */,
+				FD2D394428BBDF24009F1861 /* Frameworks */,
+				FD2D391228BBDD97009F1861 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD2D391228BBDD97009F1861 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD2D391128BBDD97009F1861 /* Breathic.app */,
+				FD2D391528BBDD98009F1861 /* Breathic.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FD2D391928BBDD98009F1861 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */,
+				FD2D391A28BBDD99009F1861 /* Assets.xcassets */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		FD2D392428BBDD99009F1861 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FD2D392728BBDD99009F1861 /* App.swift */,
+				FD2D392B28BBDD9A009F1861 /* Assets.xcassets */,
+				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
+				FD1E04BA29781389006791C5 /* data */,
+				FD359C542933802700F14B68 /* ExtensionDebug.entitlements */,
+				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
+				FD9ABB6D28BBED42003049AC /* Coordinator.swift */,
+				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
+				FD2D395128BBE012009F1861 /* Extensions.swift */,
+				FDFC2F15291FA43800E4C8C8 /* FileSystem.swift */,
+				FDC09FC228F0A58200F42253 /* Library.swift */,
+				FD2D395728BBE14E009F1861 /* Player.swift */,
+				FD2D392D28BBDD9A009F1861 /* Preview Content */,
+				FDFC2F1F291FA9B600E4C8C8 /* readers */,
+				FD2D393E28BBDE4A009F1861 /* Store.swift */,
+				FDFC2F19291FA5F200E4C8C8 /* ui */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		FD2D392D28BBDD9A009F1861 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				FD2D392E28BBDD9A009F1861 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FD2D394428BBDF24009F1861 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FD54540228C74BD6002E24C1 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FDFC2F19291FA5F200E4C8C8 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				FD8E3EE6290AC4FF0048B2F7 /* Components.swift */,
+				FDFC2F1A291FA62F00E4C8C8 /* views */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		FDFC2F1A291FA62F00E4C8C8 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */,
+				FD2D392528BBDD99009F1861 /* ContentView.swift */,
+				FDBDAF6E29204CDD00F57DC1 /* ControllerView.swift */,
+				FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */,
+				FDBDAF802920576900F57DC1 /* DragView.swift */,
+				FDBDAF762920530900F57DC1 /* LogView.swift */,
+				FDBDAF74292051BC00F57DC1 /* MenuView.swift */,
+				FDBDAF782920544400F57DC1 /* RhythmView.swift */,
+				FDBDAF7A2920551A00F57DC1 /* SessionStopConfirmationView.swift */,
+				FDBDAF722920516E00F57DC1 /* StatusView.swift */,
+				FDBDAF822920593700F57DC1 /* ToolbarView.swift */,
+				FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */,
+				FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		FDFC2F1F291FA9B600E4C8C8 /* readers */ = {
+			isa = PBXGroup;
+			children = (
+				FDFC2F17291FA4A000E4C8C8 /* Readings.swift */,
+				FDF1E1D52911BC3D0059F5D6 /* Heart.swift */,
+				FDF1E1D12911BAEF0059F5D6 /* Speed.swift */,
+				FDF1E1D32911BB960059F5D6 /* Step.swift */,
+			);
+			path = readers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FD2D391028BBDD97009F1861 /* Breathic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD2D393B28BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "Breathic" */;
+			buildPhases = (
+				FD2D390F28BBDD97009F1861 /* Resources */,
+				FD2D393A28BBDD9A009F1861 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD2D391828BBDD98009F1861 /* PBXTargetDependency */,
+			);
+			name = Breathic;
+			packageProductDependencies = (
+			);
+			productName = pacemaker;
+			productReference = FD2D391128BBDD97009F1861 /* Breathic.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		FD2D391428BBDD98009F1861 /* Breathic WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD2D393728BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "Breathic WatchKit App" */;
+			buildPhases = (
+				FD2D391328BBDD98009F1861 /* Resources */,
+				FD2D391C28BBDD99009F1861 /* Sources */,
+				FD2D391D28BBDD99009F1861 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Breathic WatchKit App";
+			packageProductDependencies = (
+			);
+			productName = "pacemaker WatchKit App";
+			productReference = FD2D391528BBDD98009F1861 /* Breathic.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD2D390B28BBDD97009F1861 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					FD2D391028BBDD97009F1861 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					FD2D391428BBDD98009F1861 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+				};
+			};
+			buildConfigurationList = FD2D390E28BBDD97009F1861 /* Build configuration list for PBXProject "Breathic" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FD2D390A28BBDD97009F1861;
+			packageReferences = (
+			);
+			productRefGroup = FD2D391228BBDD97009F1861 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FD2D391028BBDD97009F1861 /* Breathic */,
+				FD2D391428BBDD98009F1861 /* Breathic WatchKit App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD2D390F28BBDD97009F1861 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD2D391328BBDD98009F1861 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
+				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
+				FD1E04BB29781389006791C5 /* data in Resources */,
+				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FD2D391C28BBDD99009F1861 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */,
+				FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */,
+				FDFC2F16291FA43800E4C8C8 /* FileSystem.swift in Sources */,
+				FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */,
+				FDC09FC328F0A58200F42253 /* Library.swift in Sources */,
+				FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */,
+				FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */,
+				FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */,
+				FDBDAF6F29204CDD00F57DC1 /* ControllerView.swift in Sources */,
+				FDBDAF7B2920551A00F57DC1 /* SessionStopConfirmationView.swift in Sources */,
+				FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */,
+				FDBDAF812920576900F57DC1 /* DragView.swift in Sources */,
+				FDBDAF7D2920559200F57DC1 /* DeleteSessionConfirmationView.swift in Sources */,
+				FDBDAF772920530900F57DC1 /* LogView.swift in Sources */,
+				FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */,
+				FD2D392828BBDD99009F1861 /* App.swift in Sources */,
+				FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */,
+				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
+				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
+				FD9ABB6E28BBED42003049AC /* Coordinator.swift in Sources */,
+				FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */,
+				FDBDAF75292051BC00F57DC1 /* MenuView.swift in Sources */,
+				FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */,
+				FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */,
+				FDBDAF792920544400F57DC1 /* RhythmView.swift in Sources */,
+				FD2D395228BBE012009F1861 /* Extensions.swift in Sources */,
+				FDBDAF732920516E00F57DC1 /* StatusView.swift in Sources */,
+				FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FD2D391828BBDD98009F1861 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD2D391428BBDD98009F1861 /* Breathic WatchKit App */;
+			targetProxy = FD2D391728BBDD98009F1861 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FD2D393128BBDD9A009F1861 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		FD2D393228BBDD9A009F1861 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		FD2D393828BBDD9A009F1861 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = AudioBreath.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkitapp;
+				PRODUCT_NAME = Breathic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		FD2D393928BBDD9A009F1861 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = AudioBreath.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkitapp;
+				PRODUCT_NAME = Breathic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		FD2D393C28BBDD9A009F1861 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FD2D393D28BBDD9A009F1861 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FD2D390E28BBDD97009F1861 /* Build configuration list for PBXProject "Breathic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD2D393128BBDD9A009F1861 /* Debug */,
+				FD2D393228BBDD9A009F1861 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD2D393728BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "Breathic WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD2D393828BBDD9A009F1861 /* Debug */,
+				FD2D393928BBDD9A009F1861 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD2D393B28BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "Breathic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD2D393C28BBDD9A009F1861 /* Debug */,
+				FD2D393D28BBDD9A009F1861 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FD2D390B28BBDD97009F1861 /* Project object */;
+}

@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>App uses heart rate data in order to determine breathing rate for you</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
