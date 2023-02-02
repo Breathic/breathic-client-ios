@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import AVFAudio
 import MediaPlayer
+import WatchKit
 //import Sentry
 
 class Player {
@@ -125,7 +126,7 @@ class Player {
         heart.start()
         step.start()
         speed.start()
-        coordinator.create()
+        coordinator.start()
 
         if !isLoopStarted {
             loop()
@@ -296,6 +297,13 @@ class Player {
                     audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                     isPanningReversed = !isPanningReversed
                     incrementSelectedRhythmIndex()
+
+                    if !isPanningReversed {
+                        WKInterfaceDevice.current().play(.failure)
+                    }
+                    else {
+                        WKInterfaceDevice.current().play(.success)
+                    }
                 }
 
                 if channelIndex == audio.channels.count - 1 {
@@ -320,7 +328,8 @@ class Player {
                     audios = audios.reversed()
                 }
 
-                if channel[audio.sampleIndex] != "" {
+                let isMuted = !(Float(store.state.session.volume) > 0)
+                if !isMuted && channel[audio.sampleIndex] != "" {
                     setPlayer(
                         audioIndex: audioIndex,
                         channelIndex: channelIndex,

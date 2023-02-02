@@ -13,7 +13,7 @@ let SESSION_COORDINATOR_INTERVAL_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
 let VOLUME_RANGE: [Float] = [0, 5000]
 let VOLUME: Float = 500
-let RHYTHM_RANGE: [Int] = [5, 50]
+let RHYTHM_RANGE: [Int] = [5, 100]
 let RHYTHMS: [Int] = [20, 20]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1])

@@ -4,15 +4,11 @@ import SwiftUI
 class Coordinator {
     private var session: WKExtendedRuntimeSession?
 
-    func create() {
+    func start() {
         if nil == session || session?.state == .invalid {
             session = WKExtendedRuntimeSession()
         }
 
-        start()
-    }
-
-    func start() {
         session?.start()
     }
 
