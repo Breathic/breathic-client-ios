@@ -293,16 +293,20 @@ class Player {
     func updateAudio(loopInterval: TimeInterval) {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
+                let isMuted = !(Float(store.state.session.volume) > 0)
+
                 if audioIndex == 0 && channelIndex == 0 && (
                     audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                     isPanningReversed = !isPanningReversed
                     incrementSelectedRhythmIndex()
 
-                    if !isPanningReversed {
-                        WKInterfaceDevice.current().play(.failure)
-                    }
-                    else {
-                        WKInterfaceDevice.current().play(.success)
+                    if isMuted {
+                        if isPanningReversed {
+                            WKInterfaceDevice.current().play(.failure)
+                        }
+                        else {
+                            WKInterfaceDevice.current().play(.success)
+                        }
                     }
                 }
 
@@ -328,7 +332,6 @@ class Player {
                     audios = audios.reversed()
                 }
 
-                let isMuted = !(Float(store.state.session.volume) > 0)
                 if !isMuted && channel[audio.sampleIndex] != "" {
                     setPlayer(
                         audioIndex: audioIndex,
