@@ -501,7 +501,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = AudioBreath.ComplicationController;
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -540,7 +540,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = AudioBreath.ComplicationController;
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -573,7 +573,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -586,7 +586,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.audiobreath;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
