@@ -5,10 +5,11 @@ class Coordinator {
     private var session: WKExtendedRuntimeSession?
 
     func start() {
+        guard session?.state != .running else { return }
+
         if nil == session || session?.state == .invalid {
             session = WKExtendedRuntimeSession()
         }
-
         session?.start()
     }
 

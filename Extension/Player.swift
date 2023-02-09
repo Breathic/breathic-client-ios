@@ -29,7 +29,6 @@ class Player {
         */
         store.state.setMetricValuesToDefault()
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
-        cachePlayers()
         fadeScale = getFadeScale()
         panScale = getPanScale()
 
@@ -51,6 +50,7 @@ class Player {
         }
 
         startElapsedTimer()
+        cachePlayers()
 
         //UserDefaults.standard.set("", forKey: STORE_ACTIVE_SESSION) // Clear a key.
     }
@@ -107,6 +107,7 @@ class Player {
     }
     */
 
+    /*
     func initInactivityTimer() {
         store.state.lastDataChangeTime = .now()
 
@@ -116,7 +117,8 @@ class Player {
                 self.pause()
             }
         }
-    }
+     }
+     */
 
     func start() {
         store.state.isResumable = false
@@ -126,16 +128,15 @@ class Player {
         heart.start()
         step.start()
         speed.start()
-        coordinator.start()
 
         if !isLoopStarted {
             loop()
             isLoopStarted = true
         }
 
-        if !Platform.isSimulator {
-            initInactivityTimer()
-        }
+        //if !Platform.isSimulator {
+            //initInactivityTimer()
+        //}
 
         create()
         play()
@@ -155,7 +156,6 @@ class Player {
         heart.stop()
         step.stop()
         speed.stop()
-        coordinator.stop()
         saveReadings()
         store.state.elapsedTime = ""
         store.state.setMetricValuesToDefault()
@@ -212,7 +212,7 @@ class Player {
                 .shuffled()
             seeds.append(seed)
         }
-        
+
         return seeds
     }
 
@@ -241,7 +241,6 @@ class Player {
             ? sampleIndex
             : panScale.count - 1 - sampleIndex
         let hasResources: Bool = forResource.count > 0
-
         if hasResources {
             let playerId = forResource
 
@@ -299,14 +298,12 @@ class Player {
                     audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                     isPanningReversed = !isPanningReversed
                     incrementSelectedRhythmIndex()
-
-                    if isMuted {
-                        if isPanningReversed {
-                            WKInterfaceDevice.current().play(.failure)
-                        }
-                        else {
-                            WKInterfaceDevice.current().play(.success)
-                        }
+                    
+                    if isPanningReversed {
+                        WKInterfaceDevice.current().play(.failure)
+                    }
+                    else {
+                        WKInterfaceDevice.current().play(.success)
                     }
                 }
 
@@ -416,7 +413,7 @@ class Player {
     func play() {
         Task {
             do {
-                if (!store.state.isAudioSessionLoaded) {
+                if !store.state.isAudioSessionLoaded {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(
                         .playback,
@@ -433,6 +430,8 @@ class Player {
                 print("startAudioSession()", error)
             }
         }
+
+        coordinator.start()
     }
 
     func pause() {
@@ -443,6 +442,10 @@ class Player {
                 players[$0]?.pause()
             }
         }
+    }
+
+    func resume() {
+        coordinator.start()
     }
 
     func shuffle() {

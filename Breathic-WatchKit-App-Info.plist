@@ -10,7 +10,6 @@
 	<key>WKBackgroundModes</key>
 	<array>
 		<string>physical-therapy</string>
-		<string>workout-processing</string>
 	</array>
 	<key>WKSupportsAlwaysOnDisplay</key>
 	<true/>

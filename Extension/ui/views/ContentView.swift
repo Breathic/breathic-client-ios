@@ -4,6 +4,8 @@ import Foundation
 struct ContentView: View {
     @ObservedObject private var store: Store = .shared
 
+    @Environment(\.scenePhase) private var scenePhase
+
     let player = Player()
 
     init() {
@@ -22,7 +24,7 @@ struct ContentView: View {
                 VStack() {
                     Spacer(minLength: 4)
 
-                    switch(store.state.activeSubView) {
+                    switch store.state.activeSubView {
                         case "Menu":
                             menuView(
                                 geometry: geometry,
@@ -103,5 +105,9 @@ struct ContentView: View {
                 }
             }
         }.toolbar(content: { toolbarView(store: store) }
-    )}
+    ).onChange(of: scenePhase) { newPhase in
+        if newPhase == .active {
+            player.resume()
+        }
+    }}
 }
