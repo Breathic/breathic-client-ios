@@ -134,6 +134,11 @@ class Session: Codable {
             save()
         }
     }
+    var feedbackModeIndex: Int = 0 {
+        didSet {
+            save()
+        }
+    }
     var volume: Float = VOLUME {
         didSet {
             save()

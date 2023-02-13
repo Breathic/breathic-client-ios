@@ -64,15 +64,9 @@ func controllerView(
 
             primaryButton(
                 geometry: geometry,
-                label: "Audio",
-                value: store.state.isAudioPlaying
-                    ? "||"
-                    : "▶",
-                unit: store.state.isAudioPlaying
-                    ? Float(store.state.session.volume) > 0
-                        ? "Playing"
-                        : "Muted"
-                    : "Paused",
+                label: "Feedback",
+                value: FEEDBACK_MODES[store.state.session.feedbackModeIndex],
+                hasIndicator: true,
                 index: Int(ceil(
                     convertRange(
                         value: Float(store.state.session.volume),
@@ -80,18 +74,24 @@ func controllerView(
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: Int(ceil(
-                    convertRange(
-                        value: Float(VOLUME_RANGE[1]),
-                        oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
-                        newRange: [Float(0), Float(10)]
-                    )) - 1
-                ),
+                maxIndex: FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
+                    ? Int(ceil(
+                        convertRange(
+                            value: Float(VOLUME_RANGE[1]),
+                            oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
+                            newRange: [Float(0), Float(10)]
+                        )) - 1)
+                    : 0,
+                valueColor: store.state.metricType.color,
+                isShort: true,
                 isTall: false,
                 isEnabled: isSessionActive(store: store),
                 opacity: isSessionActive(store: store) ? 1 : 0.33,
+                minimumScaleFactor: 0.75,
                 action: {
-                    player.togglePlay()
+                    store.state.session.feedbackModeIndex = store.state.session.feedbackModeIndex + 1 < FEEDBACK_MODES.count
+                        ? store.state.session.feedbackModeIndex + 1
+                        : 0
                 }
             )
         }

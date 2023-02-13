@@ -7,6 +7,7 @@ func primaryButton(
     label: String = "",
     value: String = "",
     unit: String = "",
+    hasIndicator: Bool = false,
     index: Int = -1,
     maxIndex: Int = -1,
     valueColor: Color = Color.white,
@@ -52,7 +53,7 @@ func primaryButton(
                     }
                 }
 
-                if maxIndex > 0 {
+                if hasIndicator {
                     DottedIndicator(index: index, maxIndex: maxIndex, direction: "vertical")
                 }
             }
@@ -97,17 +98,24 @@ struct DottedIndicator: View {
             HStack(spacing: 4) {
                 ForEach(0...maxIndex, id: \.self) { index in
                     Circle()
-                    .fill(index == self.index ? Color.white : Color.gray)
-                    .frame(width: 8, height: 8)
+                        .fill(index == self.index ? Color.white : Color.gray)
+                        .frame(width: 8, height: 8)
                 }
             }
         }
         else if direction == "vertical" {
             VStack(spacing: 1) {
-                ForEach(0...maxIndex, id: \.self) { index in
+                if maxIndex > 0 {
+                    ForEach(0...maxIndex, id: \.self) { index in
+                        Circle()
+                            .fill(index <= self.index ? Color.white : Color.gray)
+                            .frame(width: 2, height: 2)
+                    }
+                }
+                else {
                     Circle()
-                    .fill(index <= self.index ? Color.white : Color.gray)
-                    .frame(width: 2, height: 2)
+                        .fill(Color.black)
+                        .frame(width: 2, height: 2)
                 }
             }
             .rotationEffect(.degrees(-180))

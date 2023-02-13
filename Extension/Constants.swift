@@ -37,6 +37,7 @@ let METRIC_TYPES: [String: MetricType] = [
         color: colorize("teal"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
+    /*
     "speed": MetricType(
         metric: "speed",
         label: "Speed",
@@ -45,7 +46,8 @@ let METRIC_TYPES: [String: MetricType] = [
         isChartable: true,
         color: colorize("yellow"),
         defaultValue: Platform.isSimulator ? 10 : 0
-    ),
+     ),
+     */
     "breath": MetricType(
         metric: "breath",
         label: "Breaths",
@@ -108,6 +110,10 @@ let METRIC_ORDER: [String] = [
     "speed-to-breath",
     "rhythm-in",
     "rhythm-out"
+]
+let FEEDBACK_MODES: [String] = [
+    "Haptic",
+    "Audio",
 ]
 let TIMESERIES_SAVER_INTERVAL_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"

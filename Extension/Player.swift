@@ -230,7 +230,18 @@ class Player {
         return String(channelIndex) + forResource
     }
 
-    func setPlayer(
+    func setHaptic() {
+        if !Platform.isSimulator {
+            if isPanningReversed {
+                WKInterfaceDevice.current().play(.failure)
+            }
+            else {
+                WKInterfaceDevice.current().play(.success)
+            }
+        }
+    }
+
+    func setAudio(
         audioIndex: Int,
         channelIndex: Int,
         sampleIndex: Int
@@ -292,18 +303,15 @@ class Player {
     func updateAudio(loopInterval: TimeInterval) {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
+                let isAudio = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
                 let isMuted = !(Float(store.state.session.volume) > 0)
 
-                if audioIndex == 0 && channelIndex == 0 && (
-                    audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
+                if audioIndex == 0 && channelIndex == 0 && (audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                     isPanningReversed = !isPanningReversed
                     incrementSelectedRhythmIndex()
-                    
-                    if isPanningReversed {
-                        WKInterfaceDevice.current().play(.failure)
-                    }
-                    else {
-                        WKInterfaceDevice.current().play(.success)
+
+                    if !isAudio {
+                        setHaptic()
                     }
                 }
 
@@ -329,8 +337,8 @@ class Player {
                     audios = audios.reversed()
                 }
 
-                if !isMuted && channel[audio.sampleIndex] != "" {
-                    setPlayer(
+                if !isMuted && isAudio && channel[audio.sampleIndex] != "" {
+                    setAudio(
                         audioIndex: audioIndex,
                         channelIndex: channelIndex,
                         sampleIndex: audio.sampleIndex
@@ -431,7 +439,7 @@ class Player {
             }
         }
 
-        coordinator.start()
+        //coordinator.start()
     }
 
     func pause() {
