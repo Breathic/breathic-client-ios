@@ -107,7 +107,7 @@ struct ContentView: View {
         }.toolbar(content: { toolbarView(store: store) }
     ).onChange(of: scenePhase) { newPhase in
         if newPhase == .active {
-            player.resume()
+            player.putToBackground()
         }
     }}
 }

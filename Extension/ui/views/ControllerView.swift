@@ -10,9 +10,8 @@ func controllerView(
         HStack {
             primaryButton(
                 geometry: geometry,
-                label: "Pace",
+                label: "Source",
                 value: store.state.metricType.label,
-                unit: store.state.metricType.unit,
                 valueColor: store.state.metricType.color,
                 isShort: true,
                 isTall: false,
@@ -36,7 +35,6 @@ func controllerView(
                 geometry: geometry,
                 label: "Rhythm",
                 value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
-                unit: "per pace",
                 valueColor: store.state.metricType.color,
                 isTall: false,
                 action: { store.state.activeSubView = "Rhythm" }
@@ -49,10 +47,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Session",
-                value: store.state.session.isActive
-                    ? "⚑"
-                    : "◴",
-                unit: getSessionUnit(store: store),
+                value: getSessionUnit(store: store),
                 isTall: false,
                 action: {
                     if !store.state.session.isActive || store.state.isResumable { player.start() }

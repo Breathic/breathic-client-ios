@@ -37,17 +37,14 @@ let METRIC_TYPES: [String: MetricType] = [
         color: colorize("teal"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
-    /*
     "speed": MetricType(
         metric: "speed",
         label: "Speed",
         unit: "m / s",
-        isSource: true,
         isChartable: true,
         color: colorize("yellow"),
         defaultValue: Platform.isSimulator ? 10 : 0
      ),
-     */
     "breath": MetricType(
         metric: "breath",
         label: "Breaths",

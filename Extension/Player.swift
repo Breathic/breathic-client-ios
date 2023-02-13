@@ -8,7 +8,6 @@ import WatchKit
 class Player {
     @ObservedObject private var store: Store = .shared
 
-    let coordinator = Coordinator()
     let step = Step()
     var speed = Speed()
     var heart = Heart()
@@ -18,6 +17,7 @@ class Player {
     var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
     var isLoopStarted = false
+    var coordinator = WKExtendedRuntimeSession()
 
     init() {
         /*
@@ -51,8 +51,6 @@ class Player {
 
         startElapsedTimer()
         cachePlayers()
-
-        //UserDefaults.standard.set("", forKey: STORE_ACTIVE_SESSION) // Clear a key.
     }
 
     func cachePlayers() {
@@ -86,40 +84,6 @@ class Player {
         }
     }
 
-    /*
-    func initCommandCenter() {
-        let commandCenter = MPRemoteCommandCenter.shared()
-
-        commandCenter.playCommand.addTarget { [unowned self] event in
-            self.play()
-            return .success
-        }
-
-        commandCenter.pauseCommand.addTarget { [unowned self] event in
-            self.pause()
-            return .success
-        }
-
-        commandCenter.nextTrackCommand.addTarget { [unowned self] event in
-            self.create()
-            return .success
-        }
-    }
-    */
-
-    /*
-    func initInactivityTimer() {
-        store.state.lastDataChangeTime = .now()
-
-        Timer.scheduledTimer(withTimeInterval: DATA_INACTIVITY_S, repeats: true) { timer in
-            if self.store.state.lastDataChangeTime.distance(to: .now()).toDouble() > DATA_INACTIVITY_S {
-                self.store.state.lastDataChangeTime = .now()
-                self.pause()
-            }
-        }
-     }
-     */
-
     func start() {
         store.state.isResumable = false
 
@@ -128,15 +92,12 @@ class Player {
         heart.start()
         step.start()
         speed.start()
+        putToBackground()
 
         if !isLoopStarted {
             loop()
             isLoopStarted = true
         }
-
-        //if !Platform.isSimulator {
-            //initInactivityTimer()
-        //}
 
         create()
         play()
@@ -164,6 +125,7 @@ class Player {
         store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
         saveSessionLogs(sessionLogs: store.state.sessionLogs)
         store.state.session = Session()
+        coordinator.invalidate()
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
@@ -438,8 +400,6 @@ class Player {
                 print("startAudioSession()", error)
             }
         }
-
-        //coordinator.start()
     }
 
     func pause() {
@@ -452,8 +412,15 @@ class Player {
         }
     }
 
-    func resume() {
+    func putToBackground() {
+        takeFromBackground()
         coordinator.start()
+    }
+
+    func takeFromBackground() {
+        if coordinator.state == .running {
+            coordinator.invalidate()
+        }
     }
 
     func shuffle() {
