@@ -266,13 +266,14 @@ class Player {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
                 let isAudio = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
+                let isHaptic = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Haptic"
                 let isMuted = !(Float(store.state.session.volume) > 0)
 
                 if audioIndex == 0 && channelIndex == 0 && (audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
                     isPanningReversed = !isPanningReversed
                     incrementSelectedRhythmIndex()
 
-                    if !isAudio {
+                    if isHaptic {
                         setHaptic()
                     }
                 }

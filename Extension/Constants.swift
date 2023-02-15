@@ -32,7 +32,6 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "step",
         label: "Steps",
         unit: "per minute",
-        isReversed: true,
         isSource: true,
         color: colorize("teal"),
         defaultValue: Platform.isSimulator ? 60 : 0
@@ -111,6 +110,7 @@ let METRIC_ORDER: [String] = [
 let FEEDBACK_MODES: [String] = [
     "Haptic",
     "Audio",
+    "Muted",
 ]
 let TIMESERIES_SAVER_INTERVAL_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
