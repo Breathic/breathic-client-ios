@@ -86,12 +86,7 @@ class Player {
 
     func start() {
         store.state.isResumable = false
-
         store.state.setMetricValuesToDefault()
-
-        heart.start()
-        step.start()
-        speed.start()
         putToBackground()
 
         if !isLoopStarted {
@@ -102,6 +97,21 @@ class Player {
         create()
         play()
         store.state.session.start()
+        sessionPlay()
+    }
+
+    func stop() {
+        pause()
+        saveReadings()
+        store.state.elapsedTime = ""
+        store.state.setMetricValuesToDefault()
+        sessionPause()
+        store.state.session.stop()
+        store.state.sessionLogs.append(store.state.session)
+        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+        saveSessionLogs(sessionLogs: store.state.sessionLogs)
+        store.state.session = Session()
+        coordinator.invalidate()
     }
 
     func startElapsedTimer() {
@@ -110,22 +120,6 @@ class Player {
                 self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
             }
         }
-    }
-
-    func stop() {
-        pause()
-        heart.stop()
-        step.stop()
-        speed.stop()
-        saveReadings()
-        store.state.elapsedTime = ""
-        store.state.setMetricValuesToDefault()
-        store.state.session.stop()
-        store.state.sessionLogs.append(store.state.session)
-        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        saveSessionLogs(sessionLogs: store.state.sessionLogs)
-        store.state.session = Session()
-        coordinator.invalidate()
     }
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
@@ -234,7 +228,7 @@ class Player {
     }
 
     func getSelectedRhythm() -> Double {
-        return Double(store.state.session.getRhythms()[store.state.selectedRhythmIndex]) / 10
+        return Double(store.state.session.getRhythms()[store.state.selectedRhythmIndex])
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
@@ -260,7 +254,7 @@ class Player {
         return loopIntervalSum
     }
 
-    func updateAudio(loopInterval: TimeInterval) {
+    func updateFeedback(loopInterval: TimeInterval) {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
                 let isAudio = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
@@ -317,8 +311,10 @@ class Player {
                 self.loop()
             }
 
-            self.updateGraph()
-            self.updateAudio(loopInterval: loopInterval)
+            if self.store.state.session.isPlaying {
+                self.updateGraph()
+                self.updateFeedback(loopInterval: loopInterval)
+            }
         }
         else {
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
@@ -353,8 +349,22 @@ class Player {
     }
 
     func togglePlay() {
-        if store.state.isAudioPlaying { pause() }
-        else { play() }
+        if store.state.session.isPlaying { sessionPause() }
+        else { sessionPlay() }
+    }
+
+    func sessionPlay() {
+        heart.start()
+        step.start()
+        speed.start()
+        store.state.session.isPlaying = true
+    }
+
+    func sessionPause() {
+        heart.stop()
+        step.stop()
+        speed.stop()
+        store.state.session.isPlaying = false
     }
 
     func create() {

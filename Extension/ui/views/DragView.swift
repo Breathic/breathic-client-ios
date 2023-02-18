@@ -46,8 +46,8 @@ func dragView(
 ) -> some View {
     children
         .offset(x: store.state.pageOptions[store.state.page]!.dragXOffset, y: 0)
-        .highPriorityGesture(
-            DragGesture()
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 10.0)
                 .onChanged { gesture in
                     onDragChanged(geometry: geometry, store: store, gesture: gesture)
                 }

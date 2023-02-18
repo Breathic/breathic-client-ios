@@ -1,12 +1,6 @@
 import Foundation
 import SwiftUI
 
-enum SubView {
-    case main
-    case rhythm
-    case volume
-}
-
 enum Breathe: String, Codable {
     case BreatheIn = "breathe-in"
     case BreatheInHold = "breathe-in-hold"
@@ -125,8 +119,12 @@ class Session: Codable {
             save()
         }
     }
-
     var isActive: Bool = false {
+        didSet {
+            save()
+        }
+    }
+    var isPlaying: Bool = false {
         didSet {
             save()
         }

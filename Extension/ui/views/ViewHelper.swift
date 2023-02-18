@@ -1,17 +1,6 @@
 import Foundation
 import SwiftUI
 
-func getSessionUnit(store: Store) -> String {
-    if store.state.session.isActive {
-        if store.state.isResumable { return "Resume" }
-        else if store.state.elapsedTime.count > 0 { return store.state.elapsedTime }
-        else { return " " }
-    }
-    else {
-        return "Stopped"
-    }
-}
-
 func isSessionActive(store: Store) -> Bool {
     return store.state.session.isActive && !store.state.isResumable
 }

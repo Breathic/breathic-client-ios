@@ -11,12 +11,12 @@ func rhythmView(
             Picker("", selection: inRhythm) {
                 ForEach(parsePickerRange(range: RHYTHM_RANGE), id: \.self) {
                     if Float($0) == store.state.session.inRhythm {
-                        Text(String(format: "%.1f", Double($0) / 10))
+                        Text(String(format: "%.1f", Double($0)))
                             .font(.system(size: 32))
                             .fontWeight(.bold)
                     }
                     else {
-                        Text(String(format: "%.1f", Double($0) / 10))
+                        Text(String(format: "%.1f", Double($0)))
                             .font(.system(size: 24))
                     }
                 }
@@ -32,12 +32,12 @@ func rhythmView(
             Picker("", selection: outRhythm) {
                 ForEach(parsePickerRange(range: RHYTHM_RANGE), id: \.self) {
                     if (Float($0)) == store.state.session.outRhythm {
-                        Text(String(format: "%.1f", Double($0) / 10))
+                        Text(String(format: "%.1f", Double($0)))
                             .font(.system(size: 32))
                             .fontWeight(.bold)
                     }
                     else {
-                        Text(String(format: "%.1f", Double($0) / 10))
+                        Text(String(format: "%.1f", Double($0)))
                             .font(.system(size: 24))
                     }
                 }

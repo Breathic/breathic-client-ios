@@ -18,9 +18,12 @@ func primaryButton(
     isEnabled: Bool = true,
     opacity: Double = 1,
     minimumScaleFactor: CGFloat = 1,
-    action: @escaping () -> Void = {}
+    action: @escaping () -> Void = {},
+    longAction: @escaping () -> Void = {}
 ) -> some View {
-    Button(action: action) {
+    @GestureState var pressState: Bool = true
+
+    return Button(action: {}) {
         VStack {
             HStack {
                 VStack {
@@ -72,6 +75,21 @@ func primaryButton(
     )
     .opacity(opacity)
     .disabled(!isEnabled)
+    .simultaneousGesture(
+        LongPressGesture(minimumDuration: 0.1, maximumDistance: 10.0)
+            .sequenced(before: LongPressGesture(minimumDuration: .infinity, maximumDistance: 10.0))
+            .updating($pressState) { value, state, transaction in
+                if value == .second(true, nil) {
+                    longAction()
+                }
+            }
+    )
+    .highPriorityGesture(
+        TapGesture()
+            .onEnded { _ in
+                action()
+            }
+    )
 }
 
 func secondaryButton(

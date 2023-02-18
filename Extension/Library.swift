@@ -7,7 +7,7 @@ func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
 
 func parsePickerRange(range: [Float]) -> [Float] {
     return Array(Int(range[0] * 10)...Int(range[1] * 10))
-        .map { Float($0) }
+        .map { Float($0) / 10 }
 }
 
 func colorize(_ color: String) -> Color {

@@ -6,7 +6,19 @@ func controllerView(
     player: Player,
     volume: Binding<Float>
 ) -> some View {
-    VStack() {
+    func getSessionValue(store: Store) -> String {
+        if store.state.session.isActive {
+            if store.state.isResumable { return "Resume" }
+            if !store.state.session.isPlaying { return "Paused" }
+            else if store.state.elapsedTime.count > 0 { return store.state.elapsedTime }
+            else { return "" }
+        }
+        else {
+            return "Stopped"
+        }
+    }
+
+    return VStack {
         HStack {
             primaryButton(
                 geometry: geometry,
@@ -34,7 +46,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Rhythm",
-                value: "\(String(format: "%.1f", Double(store.state.session.inRhythm) / 10)):\(String(format: "%.1f", Double(store.state.session.outRhythm) / 10))",
+                value: "\(String(format: "%.1f", Double(store.state.session.inRhythm))):\(String(format: "%.1f", Double(store.state.session.outRhythm)))",
                 valueColor: store.state.metricType.color,
                 isTall: false,
                 action: { store.state.activeSubView = "Rhythm" }
@@ -47,9 +59,12 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Session",
-                value: getSessionUnit(store: store),
+                value: getSessionValue(store: store),
                 isTall: false,
                 action: {
+                    player.togglePlay()
+                },
+                longAction: {
                     if !store.state.session.isActive || store.state.isResumable { player.start() }
                     else { store.state.activeSubView = "Confirm" }
                 }
