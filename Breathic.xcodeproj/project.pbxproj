@@ -21,6 +21,8 @@
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
+		FD7F1A8F299E9E6F006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
+		FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
 		FDBDAF6F29204CDD00F57DC1 /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF6E29204CDD00F57DC1 /* ControllerView.swift */; };
 		FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */; };
@@ -308,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +322,7 @@
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
 				FD1E04BB29781389006791C5 /* data in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
+				FD7F1A8F299E9E6F006D449C /* Breathic-WatchKit-App-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

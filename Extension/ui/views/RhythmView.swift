@@ -3,14 +3,14 @@ import SwiftUI
 func rhythmView(
     geometry: GeometryProxy,
     store: Store,
-    inRhythm: Binding<Int>,
-    outRhythm: Binding<Int>
+    inRhythm: Binding<Float>,
+    outRhythm: Binding<Float>
 ) -> some View {
     VStack {
         HStack {
             Picker("", selection: inRhythm) {
-                ForEach(Array(RHYTHM_RANGE[0]...RHYTHM_RANGE[1]), id: \.self) {
-                    if $0 == store.state.session.inRhythm {
+                ForEach(parsePickerRange(range: RHYTHM_RANGE), id: \.self) {
+                    if Float($0) == store.state.session.inRhythm {
                         Text(String(format: "%.1f", Double($0) / 10))
                             .font(.system(size: 32))
                             .fontWeight(.bold)
@@ -27,12 +27,11 @@ func rhythmView(
             .clipped()
             .onChange(of: store.state.session.inRhythm) { value in
                 store.state.session.inRhythm = value
-                store.state.session.outRhythm = value
             }
 
             Picker("", selection: outRhythm) {
-                ForEach(Array(RHYTHM_RANGE[0]...RHYTHM_RANGE[1]), id: \.self) {
-                    if $0 == store.state.session.outRhythm {
+                ForEach(parsePickerRange(range: RHYTHM_RANGE), id: \.self) {
+                    if (Float($0)) == store.state.session.outRhythm {
                         Text(String(format: "%.1f", Double($0) / 10))
                             .font(.system(size: 32))
                             .fontWeight(.bold)

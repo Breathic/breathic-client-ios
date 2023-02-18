@@ -7,6 +7,28 @@ enum SubView {
     case volume
 }
 
+enum Breathe: String, Codable {
+    case BreatheIn = "breathe-in"
+    case BreatheInHold = "breathe-in-hold"
+    case BreatheOut = "breathe-out"
+    case BreatheOutHold = "breathe-out-hold"
+}
+
+struct BreathingType: Codable {
+    var key: Breathe
+    var rhythm: Float = 0
+}
+
+struct Preset: Codable {
+    var key: String = ""
+    var breathingTypes: [BreathingType] = []
+}
+
+struct Activity: Codable {
+    var label: String = ""
+    var presets: [Preset] = []
+}
+
 struct MetricType {
     var metric: String = ""
     var label: String = ""
@@ -19,14 +41,13 @@ struct MetricType {
     var defaultValue: Float = 0
 }
 
-class Rhythm: Codable {
+class Track: Codable {
     var id: Int = 0
     var samples: [String] = []
-    //var durationRange: [Double] = []
 }
 
 class Seed: Codable {
-    var rhythms: [Rhythm] = []
+    var tracks: [Track] = []
     var isPanning: Bool = false
 }
 
@@ -99,6 +120,12 @@ struct SeriesData: Identifiable {
 }
 
 class Session: Codable {
+    var activity: Activity = ACTIVITIES["running"]! {
+        didSet {
+            save()
+        }
+    }
+
     var isActive: Bool = false {
         didSet {
             save()
@@ -124,12 +151,12 @@ class Session: Codable {
             save()
         }
     }
-    var inRhythm: Int = RHYTHMS[0] {
+    var inRhythm: Float = RHYTHMS[0] {
         didSet {
             save()
         }
     }
-    var outRhythm: Int = RHYTHMS[1] {
+    var outRhythm: Float = RHYTHMS[1] {
         didSet {
             save()
         }
@@ -165,7 +192,7 @@ class Session: Codable {
         isActive = false
     }
 
-    func getRhythms() -> [Int] {
+    func getRhythms() -> [Float] {
         return [inRhythm, outRhythm]
     }
 

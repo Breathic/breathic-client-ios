@@ -146,19 +146,17 @@ class Player {
         return nil
     }
 
-    func getRhythm(sample: String, seedInput: SeedInput) -> Rhythm {
-        //let durationRange = seedInput.durationRange
+    func getTrack(sample: String, seedInput: SeedInput) -> Track {
         let interval = seedInput.interval
-        let rhythm = Rhythm()
+        let track = Track()
 
-        rhythm.id = Int(sample.split(separator: ".")[0])!
-        //rhythm.durationRange = durationRange
+        track.id = Int(sample.split(separator: ".")[0])!
 
         for space in interval {
-            rhythm.samples.append(space > 0 ? SAMPLE_PATH + sample : "")
+            track.samples.append(space > 0 ? SAMPLE_PATH + sample : "")
         }
 
-        return rhythm
+        return track
     }
 
     func getAllSeeds(seedInputs: [SeedInput]) -> [Seed] {
@@ -167,9 +165,9 @@ class Player {
         for seedInput in seedInputs {
             let seed = Seed()
 
-            seed.rhythms = store.state.distances
+            seed.tracks = store.state.distances
                 .map {
-                    getRhythm(sample: String($0.key) + "." + SAMPLE_EXTENSION, seedInput: seedInput)
+                    getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, seedInput: seedInput)
                 }
                 .shuffled()
             seeds.append(seed)
@@ -182,7 +180,7 @@ class Player {
         audios[audioIndex].channels = []
 
         for seed in store.state.seeds {
-            let channel: [String] = seed.rhythms[store.state.queueIndex + audioIndex].samples
+            let channel: [String] = seed.tracks[store.state.queueIndex + audioIndex].samples
 
             audios[audioIndex].channels.append(channel)
         }
@@ -335,8 +333,8 @@ class Player {
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
         store.state.setMetricValue(store.state.metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
-        store.state.setMetricValue("rhythm-in", Float(store.state.session.getRhythms()[0]) / 10)
-        store.state.setMetricValue("rhythm-out", Float(store.state.session.getRhythms()[1]) / 10)
+        //store.state.setMetricValue("rhythm-in", store.state.session.getRhythms()[0])
+        //store.state.setMetricValue("rhythm-out", store.state.session.getRhythms()[1])
 
         for metric in METRIC_TYPES.keys {
             let value: Float = store.state.getMetricValue(metric)
@@ -427,7 +425,7 @@ class Player {
     func shuffle() {
         var channels: [Seed] = []
         for channel in store.state.seeds {
-            channel.rhythms = channel.rhythms.shuffled()
+            channel.tracks = channel.tracks.shuffled()
             channels.append(channel)
         }
         store.state.seeds = channels
@@ -465,9 +463,9 @@ class Player {
             for (channelIndex, _) in store.state.seeds.enumerated() {
                 store.state.queueIndex = 0
 
-                for (rhythmIndex, _) in store.state.seeds[channelIndex].rhythms.enumerated() {
-                    let lastRhythm = store.state.seeds[channelIndex].rhythms[rhythmIndex]
-                    let distances: [Distance] = store.state.distances[lastRhythm.id] ?? []
+                for (trackIndex, _) in store.state.seeds[channelIndex].tracks.enumerated() {
+                    let lastTrack = store.state.seeds[channelIndex].tracks[trackIndex]
+                    let distances: [Distance] = store.state.distances[lastTrack.id] ?? []
                     var summary: [Int: Double] = [:]
 
                     for distance in distances {
@@ -485,12 +483,12 @@ class Player {
                     let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...1])
                         .shuffled()
 
-                    let index = store.state.seeds[channelIndex].rhythms
+                    let index = store.state.seeds[channelIndex].tracks
                         .firstIndex(where: { $0.id == shuffledSummary[0].key }) ?? 0
-                    let element = store.state.seeds[channelIndex].rhythms
+                    let element = store.state.seeds[channelIndex].tracks
                         .remove(at: index)
-                    store.state.seeds[channelIndex].rhythms
-                        .insert(element, at: rhythmIndex)
+                    store.state.seeds[channelIndex].tracks
+                        .insert(element, at: trackIndex)
                 }
             }
 

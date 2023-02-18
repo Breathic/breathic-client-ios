@@ -89,7 +89,6 @@ struct ContentView: View {
                             Group {}
                     }
                 }
-                .font(.system(size: store.state.ui.secondaryTextSize))
 
                 if (
                     (store.state.page == "Main" &&
@@ -104,7 +103,8 @@ struct ContentView: View {
                     .frame(width: geometry.size.width, alignment: .center)
                 }
             }
-        }.toolbar(content: { toolbarView(store: store) }
+        }
+        .toolbar(content: { toolbarView(store: store) }
     ).onChange(of: scenePhase) { newPhase in
         if newPhase == .active {
             player.putToBackground()

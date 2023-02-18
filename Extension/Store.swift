@@ -11,7 +11,7 @@ struct AppState {
     var selectedSessionId: String = ""
     var isResumable: Bool = false
     var seeds: [Seed] = []
-    var rhythms: [Rhythm] = []
+    var rhythms: [Track] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
     var sessionLogs: [Session] = []

@@ -8,15 +8,34 @@ let MAX_READING_COUNT: Int = 100
 let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 256
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
-//let DATA_INACTIVITY_S: Double = 60
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
 let VOLUME_RANGE: [Float] = [0, 5000]
-let VOLUME: Float = 0
-let RHYTHM_RANGE: [Int] = [5, 100]
-let RHYTHMS: [Int] = [20, 20]
+let VOLUME: Float = 1250
+let RHYTHM_RANGE: [Float] = [0.5, 10]
+let RHYTHMS: [Float] = [2, 2]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1])
+]
+let ACTIVITIES: [String: Activity] = [
+    "running": Activity(
+        label: "Running",
+        presets: [
+            Preset(
+                key: "slow",
+                breathingTypes: [
+                    BreathingType(
+                        key: Breathe.BreatheIn,
+                        rhythm: 2
+                    ),
+                    BreathingType(
+                        key: Breathe.BreatheOut,
+                        rhythm: 2
+                    )
+                ]
+            )
+        ]
+    )
 ]
 let METRIC_TYPES: [String: MetricType] = [
     "heart": MetricType(
@@ -94,7 +113,7 @@ let COLORS: [String: (Double, Double, Double)] = [
     "pink": (230, 0, 126),
     "purple": (160, 32, 240),
     "orange": (255, 87, 51),
-    "gray": (63, 63, 63)
+    "gray": (63, 63, 63),
 ]
 let METRIC_ORDER: [String] = [
     "breath",
