@@ -78,5 +78,6 @@ func chartSettingsView(
         secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
             .frame(maxHeight: .infinity, alignment: .bottom)
             .padding(.trailing, 16)
-    }.edgesIgnoringSafeArea(.all)
+    }
+    .edgesIgnoringSafeArea(.all)
 }
