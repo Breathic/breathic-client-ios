@@ -21,10 +21,7 @@ struct DiscardSessionConfirmationView: View {
                     .font(.system(size: 12))
             }
             .onChange(of: value, perform: {_ in
-                if value < CONFIRMATION_DEFAULT_VALUE {
-                    self.value = CONFIRMATION_DEFAULT_VALUE
-                }
-                else if value > CONFIRMATION_ENOUGH_VALUE {
+                if value > CONFIRMATION_ENOUGH_VALUE {
                     player.stop()
                     store.state.activeSubView = store.state.menuViews[store.state.page]![0]
                 }

@@ -77,7 +77,7 @@ struct ContentView: View {
                             )
 
                         case "Delete":
-                            deleteSessionConfirmationView(
+                            DeleteSessionConfirmationView(
                                 geometry: geometry,
                                 store: store
                             )
