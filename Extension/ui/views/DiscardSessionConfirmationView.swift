@@ -1,34 +1,51 @@
 import SwiftUI
+import CompactSlider
 
-func discardSessionConfirmationView(geometry: GeometryProxy, store: Store, player: Player) -> some View {
-    VStack {
-        Text("Really, really discard?")
-            .font(.system(size: 12))
-            .frame(alignment: .center)
-        
-        HStack {
+struct DiscardSessionConfirmationView: View {
+    var geometry: GeometryProxy
+    var store: Store
+    var player: Player
 
-            Button(action: {
-                player.pause()
-                store.state.session.stop()
-                store.state.activeSubView = store.state.menuViews[store.state.page]![0]
-            }) {
-                Text("Discard")
+    @State var value: Double = CONFIRMATION_DEFAULT_VALUE
+
+    init(geometry: GeometryProxy, store: Store, player: Player) {
+        self.geometry = geometry
+        self.store = store
+        self.player = player
+    }
+
+    var body: some View {
+        VStack {
+            CompactSlider(value: $value, handleVisibility: .hidden) {
+                Text("Discard session?")
+                    .font(.system(size: 12))
             }
-            .font(.system(size: 12))
-            .fontWeight(.bold)
-            .buttonStyle(.bordered)
-            .tint(colorize("red"))
+            .onChange(of: value, perform: {_ in
+                if value < CONFIRMATION_DEFAULT_VALUE {
+                    self.value = CONFIRMATION_DEFAULT_VALUE
+                }
+                else if value > CONFIRMATION_ENOUGH_VALUE {
+                    player.stop()
+                    store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+                }
+            })
+            .compactSliderStyle(CustomCompactSliderStyle())
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .edgesIgnoringSafeArea(.all)
 
-            Button(action: {
-                store.state.activeSubView = "Controller"
-            }) {
-                Text("Cancel")
+            HStack {
+                Button(action: {
+                    store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+                }) {
+                    Text("Cancel")
+                }
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .tint(colorize("teal"))
             }
-            .font(.system(size: 12))
-            .fontWeight(.bold)
-            .buttonStyle(.bordered)
-            .tint(colorize("teal"))
-        }.frame(alignment: .center)
-    }.frame(maxHeight: .infinity)
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .edgesIgnoringSafeArea(.all)
+        }
+    }
 }

@@ -36,6 +36,8 @@
 		FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF822920593700F57DC1 /* ToolbarView.swift */; };
 		FDC09FC328F0A58200F42253 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC09FC228F0A58200F42253 /* Library.swift */; };
 		FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */; };
+		FDC878A329A144E400579008 /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = FDC878A229A144E400579008 /* CompactSlider */; };
+		FDC878A529A152B700579008 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC878A429A152B700579008 /* Styles.swift */; };
 		FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */; };
 		FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D12911BAEF0059F5D6 /* Speed.swift */; };
 		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
@@ -99,6 +101,7 @@
 		FDBDAF822920593700F57DC1 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		FDC09FC228F0A58200F42253 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSettingsView.swift; sourceTree = "<group>"; };
+		FDC878A429A152B700579008 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscardSessionConfirmationView.swift; sourceTree = "<group>"; };
 		FDF1E1D12911BAEF0059F5D6 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		FDF1E1D32911BB960059F5D6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */,
+				FDC878A329A144E400579008 /* CompactSlider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +194,7 @@
 			children = (
 				FD8E3EE6290AC4FF0048B2F7 /* Components.swift */,
 				FDFC2F1A291FA62F00E4C8C8 /* views */,
+				FDC878A429A152B700579008 /* Styles.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			);
 			name = "Breathic WatchKit App";
 			packageProductDependencies = (
+				FDC878A229A144E400579008 /* CompactSlider */,
 			);
 			productName = "pacemaker WatchKit App";
 			productReference = FD2D391528BBDD98009F1861 /* Breathic.app */;
@@ -294,6 +300,7 @@
 			);
 			mainGroup = FD2D390A28BBDD97009F1861;
 			packageReferences = (
+				FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */,
 			);
 			productRefGroup = FD2D391228BBDD97009F1861 /* Products */;
 			projectDirPath = "";
@@ -348,6 +355,7 @@
 				FDBDAF7D2920559200F57DC1 /* DeleteSessionConfirmationView.swift in Sources */,
 				FDBDAF772920530900F57DC1 /* LogView.swift in Sources */,
 				FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */,
+				FDC878A529A152B700579008 /* Styles.swift in Sources */,
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,
 				FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */,
 				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
@@ -623,6 +631,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/buh/CompactSlider.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FDC878A229A144E400579008 /* CompactSlider */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */;
+			productName = CompactSlider;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FD2D390B28BBDD97009F1861 /* Project object */;
 }

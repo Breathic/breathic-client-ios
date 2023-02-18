@@ -70,7 +70,7 @@ struct ContentView: View {
                             )
 
                         case "Discard":
-                            discardSessionConfirmationView(
+                            DiscardSessionConfirmationView(
                                 geometry: geometry,
                                 store: store,
                                 player: player

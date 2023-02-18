@@ -151,4 +151,6 @@ let DEFAULT_CHART_SCALES: [String: Bool] = [
     "Numeric": true,
     "Percentage": false
 ]
+let CONFIRMATION_DEFAULT_VALUE: Double = 0.25
+let CONFIRMATION_ENOUGH_VALUE: Double = 0.9
 //let SENTRY_DSN = "https://104bfdd0d1f9498bba4cbaca12988611@o1399372.ingest.sentry.io/6726680"
