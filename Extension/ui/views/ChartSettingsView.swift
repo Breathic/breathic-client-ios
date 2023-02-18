@@ -75,10 +75,8 @@ func chartSettingsView(
 
         Spacer(minLength: 24)
 
-        HStack {
-            secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
-                .frame(width: geometry.size.width, alignment: .leading)
-            Spacer(minLength: 8)
-        }
-    }
+        secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .padding(.trailing, 16)
+    }.edgesIgnoringSafeArea(.all)
 }
