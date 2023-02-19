@@ -19,6 +19,7 @@ struct Preset: Codable {
 }
 
 struct Activity: Codable {
+    var key: String = ""
     var label: String = ""
     var presets: [Preset] = []
 }
@@ -114,7 +115,12 @@ struct SeriesData: Identifiable {
 }
 
 class Session: Codable {
-    var activity: Activity = ACTIVITIES["running"]! {
+    var activityKey: String = ACTIVITIES.map { $0.key }[0] {
+        didSet {
+            save()
+        }
+    }
+    var presetIndex: Int = 0 {
         didSet {
             save()
         }
@@ -149,16 +155,6 @@ class Session: Codable {
             save()
         }
     }
-    var inRhythm: Float = RHYTHMS[0] {
-        didSet {
-            save()
-        }
-    }
-    var outRhythm: Float = RHYTHMS[1] {
-        didSet {
-            save()
-        }
-    }
     var feedbackModeIndex: Int = 0 {
         didSet {
             save()
@@ -188,10 +184,6 @@ class Session: Codable {
     func stop() {
         endTime = Date()
         isActive = false
-    }
-
-    func getRhythms() -> [Float] {
-        return [inRhythm, outRhythm]
     }
 
     func save() {

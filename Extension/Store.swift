@@ -23,6 +23,8 @@ struct AppState {
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
+    var activity: Activity = ACTIVITIES[0]
+    var preset: Preset = ACTIVITIES[0].presets[0]
     var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics: [String: Float] = [:]
     var readings: [String: [Reading]] = [:]
@@ -50,9 +52,6 @@ struct AppState {
         METRIC_TYPES.keys.forEach {
             self.metrics[$0] = METRIC_TYPES[$0]?.defaultValue
         }
-
-        self.metrics["rhythm-in"] = Float(self.session.getRhythms()[0]) / 10
-        self.metrics["rhythm-out"] = Float(self.session.getRhythms()[1]) / 10
     }
 }
 

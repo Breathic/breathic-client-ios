@@ -1,3 +1,4 @@
+/*
 import SwiftUI
 
 func rhythmView(
@@ -55,3 +56,4 @@ func rhythmView(
         secondaryButton(text: "Set", color: "green", action: { store.state.activeSubView = store.state.menuViews[store.state.page]![0] })
     }
 }
+*/

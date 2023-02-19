@@ -24,6 +24,7 @@ func controllerView(
                 geometry: geometry,
                 label: "Source",
                 value: store.state.metricType.label,
+                unit: store.state.metricType.unit,
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isShort: true,
                 isTall: false,
@@ -45,11 +46,28 @@ func controllerView(
 
             primaryButton(
                 geometry: geometry,
-                label: "Rhythm",
-                value: "\(String(format: "%.1f", Double(store.state.session.inRhythm))):\(String(format: "%.1f", Double(store.state.session.outRhythm)))",
+                label: "Activity",
+                value: store.state.preset.key,
+                unit: store.state.activity.label,
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
-                action: { store.state.activeSubView = "Rhythm" }
+                action: {
+                    incrementPreset(store)
+                },
+                longAction: {
+                    let activityKeys: [String] = ACTIVITIES.map { $0.key }
+                    let currentActivityKey = store.state.session.activityKey
+                    let currentActivityIndex = activityKeys.firstIndex { $0 == currentActivityKey } ?? -1
+                    let newActivityIndex = currentActivityIndex + 1 == activityKeys.count
+                        ? 0
+                        : currentActivityIndex + 1
+                    let newActivityKey = activityKeys[newActivityIndex]
+
+                    store.state.session.presetIndex = -1
+                    incrementPreset(store)
+                    store.state.session.activityKey = newActivityKey
+                    store.state.activity = ACTIVITIES[newActivityIndex]
+                }
             )
         }
 

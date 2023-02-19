@@ -222,13 +222,13 @@ class Player {
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
 
-        if store.state.selectedRhythmIndex == store.state.session.getRhythms().count {
+        if store.state.selectedRhythmIndex == getRhythms(store).count {
             store.state.selectedRhythmIndex = 0
         }
     }
 
     func getSelectedRhythm() -> Double {
-        return Double(store.state.session.getRhythms()[store.state.selectedRhythmIndex])
+        return Double(getRhythms(store)[store.state.selectedRhythmIndex])
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
@@ -245,7 +245,7 @@ class Player {
     }
 
     func getLoopIntervalSum() -> TimeInterval {
-        let loopIntervalSum: TimeInterval = store.state.session.getRhythms().enumerated()
+        let loopIntervalSum: TimeInterval = getRhythms(store).enumerated()
             .map { (index, _) in
                 return getLoopInterval(selectedRhythmIndex: index)
             }
@@ -329,8 +329,9 @@ class Player {
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
         store.state.setMetricValue(store.state.metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
-        //store.state.setMetricValue("rhythm-in", store.state.session.getRhythms()[0])
-        //store.state.setMetricValue("rhythm-out", store.state.session.getRhythms()[1])
+        store.state.preset.breathingTypes.forEach {
+            store.state.setMetricValue($0.key.rawValue, $0.rhythm)
+        }
 
         for metric in METRIC_TYPES.keys {
             let value: Float = store.state.getMetricValue(metric)

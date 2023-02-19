@@ -14,6 +14,17 @@ func colorize(_ color: String) -> Color {
     return Color(red: COLORS[color]!.0 / 255, green: COLORS[color]!.1 / 255, blue: COLORS[color]!.2 / 255)
 }
 
+func getRhythms(_ store: Store) -> [Float] {
+    return store.state.preset.breathingTypes.map { $0.rhythm }
+}
+
+func incrementPreset(_ store: Store) {
+    store.state.session.presetIndex = store.state.session.presetIndex + 1 == store.state.activity.presets.count
+        ? 0
+        : store.state.session.presetIndex + 1
+    store.state.preset = store.state.activity.presets[store.state.session.presetIndex]
+}
+
 func getMetric(_ metric: String) -> MetricType {
     return METRIC_TYPES[metric] != nil
         ? METRIC_TYPES[metric]!

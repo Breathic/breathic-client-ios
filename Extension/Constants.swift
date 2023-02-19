@@ -17,24 +17,70 @@ let RHYTHMS: [Float] = [2, 2]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1])
 ]
-let ACTIVITIES: [String: Activity] = [
-    "running": Activity(
-        label: "Running",
-        presets: [
-            Preset(
-                key: "slow",
-                breathingTypes: [
-                    BreathingType(
-                        key: Breathe.BreatheIn,
-                        rhythm: 2
-                    ),
-                    BreathingType(
-                        key: Breathe.BreatheOut,
-                        rhythm: 2
-                    )
-                ]
+let PRESETS: [Preset] = [
+    Preset(
+        key: "slow",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 2.2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 2.2
             )
         ]
+    ),
+    Preset(
+        key: "normal",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 2
+            )
+        ]
+    ),
+    Preset(
+        key: "fast",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 1.8
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 1.8
+            )
+        ]
+    ),
+    Preset(
+        key: "rest",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 2.2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 4.4
+            )
+        ]
+    )
+]
+let ACTIVITIES: [Activity] = [
+    Activity(
+        key: "run",
+        label: "Run",
+        presets: PRESETS
+    ),
+    Activity(
+        key: "ride",
+        label: "Ride",
+        presets: PRESETS
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [
@@ -88,16 +134,30 @@ let METRIC_TYPES: [String: MetricType] = [
         unit: "per minute",
         color: colorize("yellow")
     ),
-    "rhythm-in": MetricType(
-        metric: "rhythm-in",
-        label: "Rhythm (in)",
+    "breathe-in": MetricType(
+        metric: "breathe-in",
+        label: "Breathe in",
         unit: "per pace",
         color: colorize("blue"),
         format: "%.1f"
     ),
-    "rhythm-out": MetricType(
-        metric: "rhythm-out",
-        label: "Rhythm (out)",
+    "breathe-in-hold": MetricType(
+        metric: "breathe-in-hold",
+        label: "Breathe in & hold",
+        unit: "per pace",
+        color: colorize("blue"),
+        format: "%.1f"
+    ),
+    "breathe-out": MetricType(
+        metric: "breathe-out",
+        label: "Breathe out",
+        unit: "per pace",
+        color: colorize("orange"),
+        format: "%.1f"
+    ),
+    "breathe-out-hold": MetricType(
+        metric: "breathe-out-hold",
+        label: "Breathe out & hold",
         unit: "per pace",
         color: colorize("orange"),
         format: "%.1f"
@@ -124,8 +184,10 @@ let METRIC_ORDER: [String] = [
     "heart-to-breath",
     "step-to-breath",
     "speed-to-breath",
-    "rhythm-in",
-    "rhythm-out"
+    "breathe-in",
+    "breathe-in-hold",
+    "breathe-out",
+    "breathe-out-hold"
 ]
 let FEEDBACK_MODES: [String] = [
     "Haptic",

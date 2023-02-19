@@ -56,14 +56,6 @@ struct ContentView: View {
                                 selectedSessionId: $store.state.selectedSessionId
                             )
 
-                        case "Rhythm":
-                            rhythmView(
-                                geometry: geometry,
-                                store: store,
-                                inRhythm: $store.state.session.inRhythm,
-                                outRhythm: $store.state.session.outRhythm
-                            )
-
                         case "Confirm":
                             sessionStopConfirmationView(
                                 geometry: geometry,
