@@ -37,7 +37,9 @@ struct ContentView: View {
                                 children: Group {
                                     HStack {
                                         controllerView(geometry: geometry, store: store, player: player, volume: $store.state.session.volume)
-                                        statusView(geometry: geometry, store: store)
+                                        !isSessionActive(store: store)
+                                            ? AnyView(introductionView(geometry: geometry, store: store))
+                                            : AnyView(statusView(geometry: geometry, store: store))
                                     }
                                     .onAppear {
                                         store.state.page = DEFAULT_PAGE

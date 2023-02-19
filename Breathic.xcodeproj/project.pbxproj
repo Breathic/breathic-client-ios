@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD17240729A23FAA003DAC6E /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD17240629A23FAA003DAC6E /* IntroductionView.swift */; };
 		FD1E04BB29781389006791C5 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD1E04BA29781389006791C5 /* data */; };
 		FD2D391628BBDD98009F1861 /* Breathic.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Breathic.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FD17240629A23FAA003DAC6E /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		FD1E04BA29781389006791C5 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FD2D391128BBDD97009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391528BBDD98009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,6 +206,7 @@
 			children = (
 				FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */,
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
+				FD17240629A23FAA003DAC6E /* IntroductionView.swift */,
 				FDBDAF6E29204CDD00F57DC1 /* ControllerView.swift */,
 				FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */,
 				FDBDAF802920576900F57DC1 /* DragView.swift */,
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */,
+				FD17240729A23FAA003DAC6E /* IntroductionView.swift in Sources */,
 				FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */,
 				FDFC2F16291FA43800E4C8C8 /* FileSystem.swift in Sources */,
 				FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */,

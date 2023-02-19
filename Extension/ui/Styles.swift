@@ -27,5 +27,6 @@ public struct CustomCompactSliderStyle: CompactSliderStyle {
                 secondaryScaleColor: colorize("red")
             )
             .clipShape(RoundedRectangle(cornerRadius: 16))
+            .fontWeight(.bold)
     }
 }

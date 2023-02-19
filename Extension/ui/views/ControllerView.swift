@@ -24,7 +24,7 @@ func controllerView(
                 geometry: geometry,
                 label: "Source",
                 value: store.state.metricType.label,
-                valueColor: store.state.metricType.color,
+                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isShort: true,
                 isTall: false,
                 minimumScaleFactor: 0.5,
@@ -47,7 +47,7 @@ func controllerView(
                 geometry: geometry,
                 label: "Rhythm",
                 value: "\(String(format: "%.1f", Double(store.state.session.inRhythm))):\(String(format: "%.1f", Double(store.state.session.outRhythm)))",
-                valueColor: store.state.metricType.color,
+                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
                 action: { store.state.activeSubView = "Rhythm" }
             )
@@ -56,22 +56,6 @@ func controllerView(
         Spacer(minLength: 8)
 
         HStack {
-            primaryButton(
-                geometry: geometry,
-                label: "Session",
-                value: getSessionValue(store: store),
-                isTall: false,
-                action: {
-                    player.togglePlay()
-                },
-                longAction: {
-                    if !store.state.session.isActive || store.state.isResumable { player.start() }
-                    else { store.state.activeSubView = "Confirm" }
-                }
-            )
-
-            Spacer(minLength: 8)
-
             primaryButton(
                 geometry: geometry,
                 label: "Feedback",
@@ -92,7 +76,7 @@ func controllerView(
                             newRange: [Float(0), Float(10)]
                         )) - 1)
                     : 0,
-                valueColor: store.state.metricType.color,
+                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isShort: true,
                 isTall: false,
                 isEnabled: isSessionActive(store: store),
@@ -102,6 +86,23 @@ func controllerView(
                     store.state.session.feedbackModeIndex = store.state.session.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.session.feedbackModeIndex + 1
                         : 0
+                }
+            )
+
+            Spacer(minLength: 8)
+
+            primaryButton(
+                geometry: geometry,
+                label: "Session",
+                value: getSessionValue(store: store),
+                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
+                isTall: false,
+                action: {
+                    player.togglePlay()
+                },
+                longAction: {
+                    if !store.state.session.isActive || store.state.isResumable { player.start() }
+                    else { store.state.activeSubView = "Confirm" }
                 }
             )
         }

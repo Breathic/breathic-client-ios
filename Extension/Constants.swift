@@ -104,6 +104,7 @@ let METRIC_TYPES: [String: MetricType] = [
     )
 ]
 let COLORS: [String: (Double, Double, Double)] = [
+    "black": (0, 0, 0),
     "white": (255, 255, 255),
     "red": (242, 16, 75),
     "green": (26, 163, 109),

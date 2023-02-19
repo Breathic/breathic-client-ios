@@ -24,7 +24,6 @@ struct DeleteSessionConfirmationView: View {
                 }
             })
             .compactSliderStyle(CustomCompactSliderStyle())
-            .frame(maxHeight: .infinity, alignment: .bottom)
             .edgesIgnoringSafeArea(.all)
 
             HStack {
