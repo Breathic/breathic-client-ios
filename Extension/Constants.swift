@@ -190,8 +190,8 @@ let METRIC_ORDER: [String] = [
     "breathe-out-hold"
 ]
 let FEEDBACK_MODES: [String] = [
-    "Haptic",
     "Audio",
+    "Haptic",
     "Muted",
 ]
 let TIMESERIES_SAVER_INTERVAL_S: Double = 60

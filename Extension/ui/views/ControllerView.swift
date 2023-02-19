@@ -9,12 +9,12 @@ func controllerView(
     func getSessionValue(store: Store) -> String {
         if store.state.session.isActive {
             if store.state.isResumable { return "Resume" }
-            if !store.state.session.isPlaying { return "Paused" }
+            if !store.state.session.isPlaying { return "Unpause" }
             else if store.state.elapsedTime.count > 0 { return store.state.elapsedTime }
             else { return "" }
         }
         else {
-            return "Stopped"
+            return "Create"
         }
     }
 
@@ -49,6 +49,7 @@ func controllerView(
                 value: getSessionValue(store: store),
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
+                minimumScaleFactor: 0.75,
                 action: {
                     player.togglePlay()
                 },
