@@ -46,27 +46,16 @@ func controllerView(
 
             primaryButton(
                 geometry: geometry,
-                label: "Activity",
-                value: store.state.preset.key,
-                unit: store.state.activity.label,
+                label: "Session",
+                value: getSessionValue(store: store),
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
                 action: {
-                    incrementPreset(store)
+                    player.togglePlay()
                 },
                 longAction: {
-                    let activityKeys: [String] = ACTIVITIES.map { $0.key }
-                    let currentActivityKey = store.state.session.activityKey
-                    let currentActivityIndex = activityKeys.firstIndex { $0 == currentActivityKey } ?? -1
-                    let newActivityIndex = currentActivityIndex + 1 == activityKeys.count
-                        ? 0
-                        : currentActivityIndex + 1
-                    let newActivityKey = activityKeys[newActivityIndex]
-
-                    store.state.session.presetIndex = -1
-                    incrementPreset(store)
-                    store.state.session.activityKey = newActivityKey
-                    store.state.activity = ACTIVITIES[newActivityIndex]
+                    if !store.state.session.isActive || store.state.isResumable { player.start() }
+                    else { store.state.activeSubView = "Confirm" }
                 }
             )
         }
@@ -111,16 +100,27 @@ func controllerView(
 
             primaryButton(
                 geometry: geometry,
-                label: "Session",
-                value: getSessionValue(store: store),
+                label: "Activity",
+                value: store.state.preset.key,
+                unit: store.state.activity.label,
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
                 action: {
-                    player.togglePlay()
+                    incrementPreset(store)
                 },
                 longAction: {
-                    if !store.state.session.isActive || store.state.isResumable { player.start() }
-                    else { store.state.activeSubView = "Confirm" }
+                    let activityKeys: [String] = ACTIVITIES.map { $0.key }
+                    let currentActivityKey = store.state.session.activityKey
+                    let currentActivityIndex = activityKeys.firstIndex { $0 == currentActivityKey } ?? -1
+                    let newActivityIndex = currentActivityIndex + 1 == activityKeys.count
+                        ? 0
+                        : currentActivityIndex + 1
+                    let newActivityKey = activityKeys[newActivityIndex]
+
+                    store.state.session.presetIndex = -1
+                    incrementPreset(store)
+                    store.state.session.activityKey = newActivityKey
+                    store.state.activity = ACTIVITIES[newActivityIndex]
                 }
             )
         }
