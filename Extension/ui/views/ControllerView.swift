@@ -24,7 +24,6 @@ func controllerView(
                 geometry: geometry,
                 label: "Source",
                 value: store.state.metricType.label,
-                unit: store.state.metricType.unit,
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isShort: true,
                 isTall: false,
@@ -101,7 +100,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Activity",
-                value: store.state.preset.key,
+                value: store.state.preset.key.capitalized,
                 unit: store.state.activity.label,
                 valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,

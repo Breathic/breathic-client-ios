@@ -33,9 +33,9 @@ func getMetric(_ metric: String) -> MetricType {
 
 func getElapsedTime(from: Date, to: Date) -> String {
     let difference = Calendar.current.dateComponents([.hour, .minute, .second], from: from, to: to)
-    var elapsedTime = ""
+    var elapsedTime = "00:00"
 
-    if difference.second! > 0 {
+    if difference.second! > 0 || difference.minute! > 0 || difference.hour! > 0 {
         elapsedTime = String(format: "%02ld:%02ld", difference.minute!, difference.second!)
 
         if difference.hour! > 0 {
