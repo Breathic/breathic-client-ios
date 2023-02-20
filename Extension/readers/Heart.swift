@@ -8,7 +8,7 @@ class Heart {
     var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     var readings: [Reading] = []
-    var query: HKAnchoredObjectQuery? = nil
+    var queries: [HKAnchoredObjectQuery] = []
     let metric: String = "heart"
 
     func start() {
@@ -17,17 +17,16 @@ class Heart {
     }
 
     func stop() {
-        if (query != nil) {
-            healthStore.stop(query!)
-            query = nil
+        queries.forEach {
+            healthStore.stop($0)
         }
-
         readings = []
     }
 
     func exec() {
-        query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
-        healthStore.execute(query!)
+        let query = createHeartRateQuery(quantityTypeIdentifier: .heartRate)
+        queries.append(query)
+        healthStore.execute(query)
     }
 
     func autorizeHealthKit() {

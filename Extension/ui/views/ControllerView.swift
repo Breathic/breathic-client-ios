@@ -14,7 +14,7 @@ func controllerView(
             else { return "" }
         }
         else {
-            return "Create"
+            return "Start"
         }
     }
 
@@ -47,7 +47,6 @@ func controllerView(
                 geometry: geometry,
                 label: "Session",
                 value: getSessionValue(store: store),
-                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
                 minimumScaleFactor: 0.75,
                 action: {
@@ -66,7 +65,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Feedback",
-                value: FEEDBACK_MODES[store.state.session.feedbackModeIndex],
+                value: store.state.feedbackMode,
                 hasIndicator: true,
                 index: Int(ceil(
                     convertRange(
@@ -75,7 +74,7 @@ func controllerView(
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
+                maxIndex: store.state.feedbackMode == "Audio"
                     ? Int(ceil(
                         convertRange(
                             value: Float(VOLUME_RANGE[1]),
@@ -83,16 +82,14 @@ func controllerView(
                             newRange: [Float(0), Float(10)]
                         )) - 1)
                     : 0,
-                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isShort: true,
                 isTall: false,
-                isEnabled: isSessionActive(store: store),
-                opacity: isSessionActive(store: store) ? 1 : 0.33,
                 minimumScaleFactor: 0.75,
                 action: {
                     store.state.session.feedbackModeIndex = store.state.session.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.session.feedbackModeIndex + 1
                         : 0
+                    store.state.feedbackMode = FEEDBACK_MODES[store.state.session.feedbackModeIndex]
                 }
             )
 
@@ -103,7 +100,6 @@ func controllerView(
                 label: "Activity",
                 value: store.state.preset.key.capitalized,
                 unit: store.state.activity.label,
-                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
                 isTall: false,
                 action: {
                     incrementPreset(store)

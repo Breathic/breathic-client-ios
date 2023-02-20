@@ -23,6 +23,7 @@ struct AppState {
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
+    var feedbackMode: String = FEEDBACK_MODES[0]
     var activity: Activity = ACTIVITIES[0]
     var preset: Preset = ACTIVITIES[0].presets[0]
     var metricType: MetricType = METRIC_TYPES["heart"]!
