@@ -14,6 +14,8 @@ certifi==2020.6.20
 cffi==1.15.1
 chardet==4.0.0
 chrome-gnome-shell==0.0.0
+colorama==0.4.6
+colorlog==6.7.0
 comm==0.1.2
 contourpy==1.0.7
 cupshelpers==1.0
@@ -28,6 +30,8 @@ docopt==0.6.2
 dtw==1.4.0
 executing==1.2.0
 fastjsonschema==2.16.3
+ffmpeg-normalize==1.26.4
+ffmpeg-progress-yield==0.7.1
 fonttools==4.38.0
 fqdn==1.5.1
 grpcio==1.30.2
@@ -140,6 +144,7 @@ terminado==0.17.1
 threadpoolctl==3.1.0
 tinycss2==1.2.1
 tornado==6.2
+tqdm==4.64.1
 traitlets==5.9.0
 typing-extensions==4.5.0
 ufw==0.36
