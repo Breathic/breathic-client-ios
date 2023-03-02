@@ -1,6 +1,9 @@
 # dependencies
 node_modules/
 
+
+xuserdata/
+
 # misc
 processed/
 __pycache__/
