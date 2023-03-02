@@ -194,6 +194,10 @@ let FEEDBACK_MODES: [String] = [
     "Haptic",
     "Muted",
 ]
+let AUDIO_PANNING_MODES: [String] = [
+    "Vertical",
+    "Horizontal",
+]
 let TIMESERIES_SAVER_INTERVAL_S: Double = 60
 let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
 let STORE_ACTIVE_SESSION: String = "ActiveSession"

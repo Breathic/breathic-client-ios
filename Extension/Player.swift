@@ -16,7 +16,7 @@ class Player {
     var panScale: [Float] = []
     var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
-    var isLoopStarted = false
+    var isLoopStarted: Bool = false
     var coordinator = WKExtendedRuntimeSession()
 
     init() {
@@ -124,7 +124,7 @@ class Player {
 
     func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
         do {
-            guard let url = Bundle.main.url(
+            guard let url: URL = Bundle.main.url(
                 forResource: forResource.replacingOccurrences(of: "." + withExtension, with: ""),
                 withExtension: withExtension
             ) else {
@@ -202,7 +202,7 @@ class Player {
     ) {
         let channel = audios[audioIndex].channels[channelIndex]
         let forResource = channel[sampleIndex]
-        let pansScaleIndex = !isPanningReversed
+        let pansScaleIndex: Int = !isPanningReversed
             ? sampleIndex
             : panScale.count - 1 - sampleIndex
         let hasResources: Bool = forResource.count > 0
@@ -307,7 +307,7 @@ class Player {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
         if !loopInterval.isInfinite && store.state.isAudioPlaying {
-            Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { timer in
+            Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { (timer: Timer) in
                 self.loop()
             }
 
@@ -317,15 +317,15 @@ class Player {
             }
         }
         else {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer: Timer) in
                 self.loop()
             }
         }
     }
 
     func updateGraph() {
-        let timestamp = Date()
-        let loopIntervalSum = getLoopIntervalSum()
+        let timestamp: Date = Date()
+        let loopIntervalSum: TimeInterval = getLoopIntervalSum()
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
         store.state.setMetricValue(store.state.metricType.metric + "-to-breath", store.state.getMetricValue("breath"))

@@ -53,13 +53,13 @@ class Distance {
 }
 
 class UI {
-    let horizontalPadding = -8.0
-    let verticalPadding = -8.0
-    let width = 0.45
-    let height = 0.9
-    let primaryTextSize = 8.0
-    let secondaryTextSize = 14.0
-    let tertiaryTextSize = 6.0
+    let horizontalPadding: Double = -8.0
+    let verticalPadding: Double = -8.0
+    let width: Double = 0.45
+    let height: Double = 0.9
+    let primaryTextSize: Double = 8.0
+    let secondaryTextSize: Double = 14.0
+    let tertiaryTextSize: Double = 6.0
 }
 
 struct SeedInput {
@@ -91,7 +91,7 @@ class Audio {
     }
 
     func copy() -> Any {
-        let copy = Audio(
+        let copy: Audio = Audio(
             fadeIndex: fadeIndex,
             sampleIndex: sampleIndex,
             channels: channels,
@@ -116,6 +116,11 @@ struct SeriesData: Identifiable {
 
 class Session: Codable {
     var activityKey: String = ACTIVITIES.map { $0.key }[0] {
+        didSet {
+            save()
+        }
+    }
+    var audioPanningIndex: Int = 0 {
         didSet {
             save()
         }
@@ -187,7 +192,7 @@ class Session: Codable {
     }
 
     func save() {
-        guard let data = try? JSONEncoder().encode(self) else { return }
+        guard let data: Data = try? JSONEncoder().encode(self) else { return }
         writeToFile(key: STORE_ACTIVE_SESSION, data: data)
     }
 }
@@ -201,6 +206,6 @@ class ChartDomain {
 
 struct PageOption {
     var dragIndex: Int = 0
-    var dragXOffset = CGFloat(0)
-    var wasDragged = false
+    var dragXOffset: CGFloat = CGFloat(0)
+    var wasDragged: Bool = false
 }

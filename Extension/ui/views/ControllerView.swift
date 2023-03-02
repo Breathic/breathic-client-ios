@@ -66,6 +66,9 @@ func controllerView(
                 geometry: geometry,
                 label: "Feedback",
                 value: store.state.feedbackMode,
+                unit: store.state.feedbackMode == "Audio"
+                    ? store.state.audioPanningMode
+                    : "",
                 hasIndicator: true,
                 index: Int(ceil(
                     convertRange(
@@ -90,6 +93,14 @@ func controllerView(
                         ? store.state.session.feedbackModeIndex + 1
                         : 0
                     store.state.feedbackMode = FEEDBACK_MODES[store.state.session.feedbackModeIndex]
+                },
+                longAction: {
+                    if store.state.feedbackMode == "Audio" {
+                        store.state.session.audioPanningIndex = store.state.session.audioPanningIndex + 1 < AUDIO_PANNING_MODES.count
+                            ? store.state.session.audioPanningIndex + 1
+                            : 0
+                        store.state.audioPanningMode = AUDIO_PANNING_MODES[store.state.session.audioPanningIndex]
+                    }
                 }
             )
 
