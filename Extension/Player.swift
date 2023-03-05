@@ -50,12 +50,13 @@ class Player {
         }
 
         startElapsedTimer()
-        cachePlayers()
+        cachePlayers(Breathe.BreatheIn.rawValue)
+        cachePlayers(Breathe.BreatheOut.rawValue)
     }
 
-    func cachePlayers() {
+    func cachePlayers(_ type: String = "") {
         for key in store.state.distances.keys {
-            let forResource = SAMPLE_PATH + String(key) + "." + SAMPLE_EXTENSION
+            let forResource = SAMPLE_PATH + String(key) + "-" + type + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
             player?.prepareToPlay()
             players[forResource] = player
@@ -155,7 +156,7 @@ class Player {
 
     func getAllSeeds(seedInputs: [SeedInput]) -> [Seed] {
         var seeds: [Seed] = []
-        
+
         for seedInput in seedInputs {
             let seed = Seed()
 
@@ -181,7 +182,7 @@ class Player {
     }
 
     func getPlayerId(channelIndex: Int, forResource: String) -> String {
-        return String(channelIndex) + forResource
+        String(channelIndex) + forResource
     }
 
     func setHaptic() {
@@ -200,8 +201,17 @@ class Player {
         channelIndex: Int,
         sampleIndex: Int
     ) {
+        let isVerticalPanning = store.state.audioPanningMode == "Vertical"
+        let isHorizontalPanning = store.state.audioPanningMode == "Horizontal"
         let channel = audios[audioIndex].channels[channelIndex]
-        let forResource = channel[sampleIndex]
+        let breathType = isVerticalPanning && isPanningReversed
+            ? Breathe.BreatheOut.rawValue
+            : Breathe.BreatheIn.rawValue
+        let separator = "." + SAMPLE_EXTENSION
+        let forResource = channel[sampleIndex].split(separator: separator)[0] + "-" + breathType + separator
+        if Platform.isSimulator {
+            print(forResource)
+        }
         let pansScaleIndex: Int = !isPanningReversed
             ? sampleIndex
             : panScale.count - 1 - sampleIndex
@@ -210,7 +220,9 @@ class Player {
             let playerId = forResource
 
             players[playerId]?.currentTime = 0
-            players[playerId]?.pan = panScale[pansScaleIndex]
+            players[playerId]?.pan = isHorizontalPanning
+                ? panScale[pansScaleIndex]
+                : 0
             let fade = audios[audioIndex].fadeIndex > -1
                 ? fadeScale[audios[audioIndex].fadeIndex]
                 : 0
@@ -261,7 +273,7 @@ class Player {
                 let isHaptic = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Haptic"
                 let isMuted = !(Float(store.state.session.volume) > 0)
 
-                if audioIndex == 0 && channelIndex == 0 && (audio.sampleIndex == 0 || audio.sampleIndex == DOWN_SCALE - 1) {
+                if audio.sampleIndex == 0 {
                     isPanningReversed = !isPanningReversed
                     incrementSelectedRhythmIndex()
 

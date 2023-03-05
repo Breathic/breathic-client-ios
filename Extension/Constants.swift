@@ -15,7 +15,7 @@ let VOLUME: Float = 1250
 let RHYTHM_RANGE: [Float] = [0.5, 10]
 let RHYTHMS: [Float] = [2, 2]
 let SEED_INPUTS = [
-    SeedInput(durationRange: [0, 8], interval: [1])
+    SeedInput(durationRange: [0, 8], interval: [1, 1])
 ]
 let PRESETS: [Preset] = [
     Preset(
@@ -91,7 +91,7 @@ let METRIC_TYPES: [String: MetricType] = [
         isSource: true,
         isChartable: true,
         color: colorize("red"),
-        defaultValue: Platform.isSimulator ? 60 : 0
+        defaultValue: Platform.isSimulator ? 150 : 0
     ),
     "step": MetricType(
         metric: "step",
