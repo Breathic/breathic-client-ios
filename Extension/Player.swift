@@ -226,6 +226,7 @@ class Player {
             let fade = audios[audioIndex].fadeIndex > -1
                 ? fadeScale[audios[audioIndex].fadeIndex]
                 : 0
+
             players[playerId]?.volume = store.state.session.volume / 100 * Float(fade)
             players[playerId]?.play()
         }
@@ -266,7 +267,7 @@ class Player {
         return loopIntervalSum
     }
 
-    func updateFeedback(loopInterval: TimeInterval) {
+    func updateFeedback() {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
                 let isAudio = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
@@ -324,8 +325,8 @@ class Player {
             }
 
             if self.store.state.session.isPlaying {
+                self.updateFeedback()
                 self.updateGraph()
-                self.updateFeedback(loopInterval: loopInterval)
             }
         }
         else {
