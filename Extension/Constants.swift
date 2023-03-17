@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 
+let API_URL: String = "https://api.breathic.com"
 let SAMPLE_PATH: String = "/data/samples/"
 let SAMPLE_EXTENSION: String = "m4a"
 let MAX_READING_TIMEOUT_S: Double = 15
@@ -198,8 +199,7 @@ let AUDIO_PANNING_MODES: [String] = [
     "Vertical",
     "Horizontal",
 ]
-let TIMESERIES_SAVER_INTERVAL_S: Double = 60
-let DEFAULT_TIME_RESOLUTION: String = "1-min-avg"
+let TIMESERIES_SAVER_INTERVAL_S: Double = 1
 let STORE_ACTIVE_SESSION: String = "ActiveSession"
 let STORE_SESSION_LOGS: String = "SessionLogs"
 let DRAG_INDEXES: [String: Int] = [

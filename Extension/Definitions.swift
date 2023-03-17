@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import SwiftDate
 
 enum Breathe: String, Codable {
     case BreatheIn = "breathe-in"
@@ -72,6 +73,13 @@ class Reading: Codable {
     var value: Float = 0
 }
 
+enum UploadStatus: String, Codable {
+    case UploadStart = "upload"
+    case Uploading = "uploading"
+    case Uploaded = "uploaded"
+    case UploadRetry = "retry upload"
+}
+
 class Audio {
     var fadeIndex: Int = 0
     var sampleIndex: Int = 0
@@ -113,6 +121,8 @@ struct SeriesData: Identifiable {
     let color: Color
     var id: String { metric }
 }
+
+typealias TimeseriesData = [String: [Reading]]
 
 class Session: Codable {
     var activityKey: String = ACTIVITIES.map { $0.key }[0] {
@@ -171,6 +181,12 @@ class Session: Codable {
         }
     }
     var metricTypeIndex: Int = 0 {
+        didSet {
+            save()
+        }
+    }
+
+    var uploadStatus: UploadStatus = UploadStatus.UploadStart {
         didSet {
             save()
         }

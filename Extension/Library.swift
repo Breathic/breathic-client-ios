@@ -88,7 +88,8 @@ func getTimeseriesUpdateId(uuid: String, date: Date) -> String {
         uuid + "-" +
         String(Calendar.current.component(.day, from: date)) + "-" +
         String(Calendar.current.component(.hour, from: date)) + "-" +
-        String(Calendar.current.component(.minute, from: date))
+        String(Calendar.current.component(.minute, from: date)) + "-" +
+        String(Calendar.current.component(.second, from: date))
 }
 
 func parseProgressData(timeseries: [Reading], startTime: Date) -> [ProgressData] {
@@ -174,4 +175,16 @@ func getAverages(timeseries: [String: [Reading]]) -> [String: [Reading]] {
 func saveSessionLogs(sessionLogs: [Session]) {
     guard let data = try? JSONEncoder().encode(sessionLogs) else { return }
     writeToFile(key: STORE_SESSION_LOGS, data: data)
+}
+
+func buildSessionPayload(timeseriesData: TimeseriesData) -> String {
+    var csv: String = "metric,timestamp,value"
+    var index = 0
+    for metric in timeseriesData {
+        for value in metric.value {
+            csv = csv + "\n" + metric.key + "," + value.timestamp.ISO8601Format() + "," + String(value.value)
+            index = index + 1
+        }
+    }
+    return csv
 }

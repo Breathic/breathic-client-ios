@@ -24,7 +24,9 @@ func controllerView(
                 geometry: geometry,
                 label: "Source",
                 value: store.state.metricType.label,
-                valueColor: isSessionActive(store: store) ? store.state.metricType.color : colorize("white"),
+                valueColor: isSessionActive(store: store)
+                    ? store.state.metricType.color
+                    : colorize("white"),
                 isShort: true,
                 isTall: false,
                 minimumScaleFactor: 0.5,
@@ -38,6 +40,8 @@ func controllerView(
                         : 0
                     store.state.metricType = METRIC_TYPES[sourceMetricTypes[store.state.session.metricTypeIndex]]!
                     store.state.setMetricValuesToDefault()
+
+                    uploadSession(session: store.state.sessionLogs.reversed()[1])
                 }
             )
 

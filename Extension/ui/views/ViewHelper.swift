@@ -101,16 +101,28 @@ func getChartableMetrics(timeseries: [String: [Reading]]) -> [String: Float] {
     return chartableMetrics
 }
 
-func getTimeseriesData(store: Store) -> [String: [Reading]] {
+func getTimeseriesData(
+    uuid: String,
+    startTime: Date,
+    endTime: Date,
+    average: Bool
+) -> TimeseriesData {
     var result: [String: [Reading]] = [:]
-    var addedMinutes = 0
+    var time: Double = 0
 
-    while (store.state.selectedSession.startTime.adding(minutes: addedMinutes) <= store.state.selectedSession.endTime) {
-        let id = getTimeseriesUpdateId(uuid: store.state.selectedSession.uuid, date: store.state.selectedSession.startTime.adding(minutes: addedMinutes)) + "|" + DEFAULT_TIME_RESOLUTION
+    while (startTime.addingTimeInterval(time) <= endTime) {
+        let id = getTimeseriesUpdateId(
+            uuid: uuid,
+            date: startTime.addingTimeInterval(time)
+        )
         let data = readFromFile(key: id)
 
         do {
-            let timeseries = try JSONDecoder().decode([String: [Reading]].self, from: data)
+            var timeseries = try JSONDecoder().decode([String: [Reading]].self, from: data)
+
+            if average {
+                timeseries = getAverages(timeseries: timeseries)
+            }
 
             timeseries.keys.forEach {
                 let readings = timeseries[$0]!
@@ -124,7 +136,7 @@ func getTimeseriesData(store: Store) -> [String: [Reading]] {
         }
         catch {}
 
-        addedMinutes = addedMinutes + 1
+        time = time + 1
     }
 
     return result
@@ -170,21 +182,26 @@ func onLogSelect(store: Store) {
         store.state.selectedSession = store.state.sessionLogs.reversed()[index]
         clearTimeseries(store: store)
 
-        store.state.timeseries = getTimeseriesData(store: store)
+        let timeseriesData = getTimeseriesData(
+            uuid: store.state.selectedSession.uuid,
+            startTime: store.state.selectedSession.startTime,
+            endTime: store.state.selectedSession.endTime,
+            average: true
+        )
+
+        store.state.timeseries = timeseriesData
+        store.state.chartableMetrics = getChartableMetrics(timeseries: timeseriesData)
         store.state.timeseries = parseScale(timeseries: store.state.timeseries, chartScales: store.state.chartScales)
 
         let allProgressData: [String: [ProgressData]] = getAllProgressData(store: store)
         store.state.chartDomain = getChartDomain(timeseries: store.state.timeseries, allProgressData: allProgressData)
-        store.state.chartableMetrics = getChartableMetrics(timeseries: getTimeseriesData(store: store))
-
         store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressData)
-
         store.state.activeSubView = store.state.selectedSessionId
     }
 }
 
 func hasSessionLogs(store: Store) -> Bool {
-    return store.state.sessionLogs.count > 0
+    store.state.sessionLogs.count > 0
 }
 
 func clearTimeseries(store: Store) {

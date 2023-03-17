@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 import AVFAudio
 import MediaPlayer
-import WatchKit
 //import Sentry
 
 class Player {
@@ -72,11 +71,10 @@ class Player {
     }
 
     func saveReadings() {
-        let readings: [String: [Reading]] = getAverages(timeseries: store.state.readings)
-        let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date()) + "|" + DEFAULT_TIME_RESOLUTION
+        let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date())
 
         do {
-            let data = try JSONEncoder().encode(readings)
+            let data = try JSONEncoder().encode(store.state.readings)
             writeToFile(key: id, data: data)
         } catch {}
 
@@ -417,7 +415,6 @@ class Player {
                 }
 
                 store.state.isAudioPlaying = true
-
             }
             catch {
                 print("startAudioSession()", error)
