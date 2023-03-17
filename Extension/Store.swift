@@ -29,8 +29,8 @@ struct AppState {
     var preset: Preset = ACTIVITIES[0].presets[0]
     var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics: [String: Float] = [:]
-    var readings: [String: [Reading]] = [:]
-    var timeseries: [String: [Reading]] = [:]
+    var readings: ReadingContainer = [:]
+    var timeseries: ReadingContainer = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
     var chartDomain = ChartDomain()

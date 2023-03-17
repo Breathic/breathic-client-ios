@@ -65,16 +65,16 @@ class Player {
     func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_S, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
-                self.saveReadings()
+                self.saveReadings(readingContainer: self.store.state.readings)
             }
         }
     }
 
-    func saveReadings() {
+    func saveReadings(readingContainer: ReadingContainer) {
         let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date())
 
         do {
-            let data = try JSONEncoder().encode(store.state.readings)
+            let data = try JSONEncoder().encode(readingContainer)
             writeToFile(key: id, data: data)
         } catch {}
 
@@ -101,7 +101,7 @@ class Player {
 
     func stop() {
         pause()
-        saveReadings()
+        saveReadings(readingContainer: store.state.readings)
         store.state.elapsedTime = ""
         store.state.setMetricValuesToDefault()
         sessionPause()

@@ -29,7 +29,7 @@ func highlightFirstLogItem(store: Store) {
 }
 
 func getAverageMetricValue(
-    timeseries: [String: [Reading]],
+    timeseries: ReadingContainer,
     metric: String
 ) -> Float {
     let metrics = (timeseries[metric] ?? [])
@@ -66,7 +66,10 @@ func getSeriesData(store: Store, allProgressData: [String: [ProgressData]]) -> [
         }
 }
 
-func getChartDomain(timeseries: [String: [Reading]], allProgressData: [String: [ProgressData]]) -> ChartDomain {
+func getChartDomain(
+    timeseries: ReadingContainer,
+    allProgressData: [String: [ProgressData]]
+) -> ChartDomain {
     let chartDomain = ChartDomain()
 
     for metric in timeseries.keys {
@@ -87,7 +90,7 @@ func getChartDomain(timeseries: [String: [Reading]], allProgressData: [String: [
     return chartDomain
 }
 
-func getChartableMetrics(timeseries: [String: [Reading]]) -> [String: Float] {
+func getChartableMetrics(timeseries: ReadingContainer) -> [String: Float] {
     var chartableMetrics: [String: Float] = [:]
 
     timeseries.keys.forEach {
@@ -106,8 +109,8 @@ func getTimeseriesData(
     startTime: Date,
     endTime: Date,
     average: Bool
-) -> TimeseriesData {
-    var result: [String: [Reading]] = [:]
+) -> ReadingContainer {
+    var result: ReadingContainer = [:]
     var time: Double = 0
 
     while (startTime.addingTimeInterval(time) <= endTime) {
@@ -118,7 +121,7 @@ func getTimeseriesData(
         let data = readFromFile(key: id)
 
         do {
-            var timeseries = try JSONDecoder().decode([String: [Reading]].self, from: data)
+            var timeseries = try JSONDecoder().decode(ReadingContainer.self, from: data)
 
             if average {
                 timeseries = getAverages(timeseries: timeseries)
@@ -143,9 +146,9 @@ func getTimeseriesData(
 }
 
 func parseScale(
-    timeseries: [String: [Reading]],
+    timeseries: ReadingContainer,
     chartScales: [String: Bool]
-) -> [String: [Reading]] {
+) -> ReadingContainer {
     var result = timeseries
 
     if chartScales["Percentage"] == true {

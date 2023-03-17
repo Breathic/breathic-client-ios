@@ -1,6 +1,6 @@
 import Foundation
 
-func updateReadings(readings: [Reading], value: Float) -> [Reading] {
+func trimReadings(readings: [Reading], value: Float) -> [Reading] {
     var result = readings
     let reading = Reading()
 
@@ -39,13 +39,18 @@ func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
     }
 }
 
-func updateMetric(store: Store, metric: String, metricValue: Float, readings: [Reading]) -> [Reading] {
+func updateMetric(
+    store: Store,
+    metric: String,
+    metricValue: Float,
+    readings: [Reading]
+) -> [Reading] {
     if !store.state.session.isActive {
         store.state.setMetricValuesToDefault()
         return []
     }
 
-    let result = updateReadings(readings: readings, value: metricValue)
+    let result = trimReadings(readings: readings, value: metricValue)
     let prevValue = store.state.getMetricValue(metric)
     let value = getAverageByMetric(metric: metric, readings: result)
 

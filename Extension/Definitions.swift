@@ -122,7 +122,7 @@ struct SeriesData: Identifiable {
     var id: String { metric }
 }
 
-typealias TimeseriesData = [String: [Reading]]
+typealias ReadingContainer = [String: [Reading]]
 
 class Session: Codable {
     var activityKey: String = ACTIVITIES.map { $0.key }[0] {

@@ -12,7 +12,7 @@ func uploadSession(session: Session) {
 
     if WKInterfaceDevice.current().identifierForVendor != nil {
         Task {
-            let timeseriesData: TimeseriesData = getTimeseriesData(
+            let timeseriesData: ReadingContainer = getTimeseriesData(
                 uuid: session.uuid,
                 startTime: session.startTime,
                 endTime: session.endTime,

@@ -153,8 +153,8 @@ func getPanScale() -> [Float] {
     return left + right
 }
 
-func getAverages(timeseries: [String: [Reading]]) -> [String: [Reading]] {
-    var result: [String: [Reading]] = [:]
+func getAverages(timeseries: ReadingContainer) -> ReadingContainer {
+    var result: ReadingContainer = [:]
 
     timeseries.keys.forEach {
         let timeserie = Reading()
@@ -177,7 +177,7 @@ func saveSessionLogs(sessionLogs: [Session]) {
     writeToFile(key: STORE_SESSION_LOGS, data: data)
 }
 
-func buildSessionPayload(timeseriesData: TimeseriesData) -> String {
+func buildSessionPayload(timeseriesData: ReadingContainer) -> String {
     var csv: String = "metric,timestamp,value"
     var index = 0
     for metric in timeseriesData {
