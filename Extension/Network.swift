@@ -16,7 +16,7 @@ func uploadSession(session: Session) {
                 uuid: session.uuid,
                 startTime: session.startTime,
                 endTime: session.endTime,
-                average: false
+                timeUnit: TimeUnit.Second.rawValue
             )
             let payload: String = buildSessionPayload(timeseriesData: timeseriesData)
             let url = URL(string: API_URL + "/session")!

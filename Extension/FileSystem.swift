@@ -38,24 +38,53 @@ func readDistances(path: String) -> [Int: [Distance]] {
     return res
 }
 
-func writeToFile(key: String, data: Data) {
+func createFolderIfNotExists(url: URL) {
+    let manager = FileManager.default
+
+    do {
+        if !manager.fileExists(atPath: url.relativePath) {
+            try manager.createDirectory(
+                at: url,
+                withIntermediateDirectories: false,
+                attributes: nil
+            )
+        }
+    }
+    catch {
+        print("createFolderIfNotExists()", error)
+    }
+}
+
+func writeToFile(url: URL, data: Data) {
     do {
         let json = String(data: data, encoding: .utf8) ?? ""
-        let filename = getDocumentsDirectory().appendingPathComponent(key)
-        try json.write(to: filename, atomically: true, encoding: .utf8)
+        try json.write(to: url, atomically: true, encoding: .utf8)
     }
     catch {
         print("writeToFile()", error)
     }
 }
 
-func readFromFile(key: String) -> Data {
+func readFromFile(url: URL) -> Data {
     do {
-        let filename = getDocumentsDirectory().appendingPathComponent(key)
-        let outData = try String(contentsOf: filename, encoding: .utf8)
-        return outData.data(using: .utf8) ?? Data()
+        let outData = try String(contentsOf: url, encoding: .utf8)
+        let data = outData.data(using: .utf8)!
+        return data
     }
     catch {
         return Data()
     }
+}
+
+func readFromFolder(_ folder: String) -> [String] {
+    var result: [String] = []
+    let documentDirectoryPath: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    let myFilesPath = "\(documentDirectoryPath)/" + folder
+    let files = FileManager.default.enumerator(atPath: myFilesPath)
+
+    while let file = files?.nextObject() as? String {
+        result.append(String(file))
+    }
+
+    return result
 }

@@ -199,7 +199,8 @@ let AUDIO_PANNING_MODES: [String] = [
     "Vertical",
     "Horizontal",
 ]
-let TIMESERIES_SAVER_INTERVAL_S: Double = 1
+let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
+let TIMESERIES_SAVER_INTERVAL_MINUTELY: Double = 60
 let STORE_ACTIVE_SESSION: String = "ActiveSession"
 let STORE_SESSION_LOGS: String = "SessionLogs"
 let DRAG_INDEXES: [String: Int] = [

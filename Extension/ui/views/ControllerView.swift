@@ -41,7 +41,7 @@ func controllerView(
                     store.state.metricType = METRIC_TYPES[sourceMetricTypes[store.state.session.metricTypeIndex]]!
                     store.state.setMetricValuesToDefault()
 
-                    uploadSession(session: store.state.sessionLogs.reversed()[1])
+                    uploadSession(session: store.state.sessionLogs.reversed()[0])
                 }
             )
 

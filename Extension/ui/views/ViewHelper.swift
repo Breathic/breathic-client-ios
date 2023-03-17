@@ -108,39 +108,31 @@ func getTimeseriesData(
     uuid: String,
     startTime: Date,
     endTime: Date,
-    average: Bool
+    timeUnit: String
 ) -> ReadingContainer {
     var result: ReadingContainer = [:]
-    var time: Double = 0
 
-    while (startTime.addingTimeInterval(time) <= endTime) {
-        let id = getTimeseriesUpdateId(
-            uuid: uuid,
-            date: startTime.addingTimeInterval(time)
-        )
-        let data = readFromFile(key: id)
+    do {
+        try readFromFolder(uuid + "-" + timeUnit)
+            .forEach {
+                let url = getDocumentsDirectory()
+                    .appendingPathComponent(uuid + "-" + timeUnit)
+                    .appendingPathComponent($0)
+                let data = readFromFile(url: url)
+                let timeseries = try JSONDecoder().decode(ReadingContainer.self, from: data)
 
-        do {
-            var timeseries = try JSONDecoder().decode(ReadingContainer.self, from: data)
+                timeseries.keys.forEach {
+                    let readings = timeseries[$0]!
 
-            if average {
-                timeseries = getAverages(timeseries: timeseries)
-            }
+                    if result[$0] == nil {
+                        result[$0] = []
+                    }
 
-            timeseries.keys.forEach {
-                let readings = timeseries[$0]!
-
-                if result[$0] == nil {
-                    result[$0] = []
+                    result[$0] = result[$0]! + readings
                 }
-
-                result[$0] = result[$0]! + readings
             }
-        }
-        catch {}
-
-        time = time + 1
     }
+    catch {}
 
     return result
 }
@@ -189,7 +181,7 @@ func onLogSelect(store: Store) {
             uuid: store.state.selectedSession.uuid,
             startTime: store.state.selectedSession.startTime,
             endTime: store.state.selectedSession.endTime,
-            average: true
+            timeUnit: TimeUnit.Minute.rawValue
         )
 
         store.state.timeseries = timeseriesData

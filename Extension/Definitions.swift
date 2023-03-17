@@ -1,12 +1,16 @@
 import Foundation
 import SwiftUI
-import SwiftDate
 
 enum Breathe: String, Codable {
     case BreatheIn = "breathe-in"
     case BreatheInHold = "breathe-in-hold"
     case BreatheOut = "breathe-out"
     case BreatheOutHold = "breathe-out-hold"
+}
+
+enum TimeUnit: String, Codable {
+    case Second = "second"
+    case Minute = "minute"
 }
 
 struct BreathingType: Codable {
@@ -209,7 +213,8 @@ class Session: Codable {
 
     func save() {
         guard let data: Data = try? JSONEncoder().encode(self) else { return }
-        writeToFile(key: STORE_ACTIVE_SESSION, data: data)
+        let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION)
+        writeToFile(url: url, data: data)
     }
 }
 

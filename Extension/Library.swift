@@ -83,10 +83,8 @@ func getSessionIds(sessions: [Session]) -> [String] {
     return result.reversed()
 }
 
-func getTimeseriesUpdateId(uuid: String, date: Date) -> String {
-    return "Timeseries-" +
-        uuid + "-" +
-        String(Calendar.current.component(.day, from: date)) + "-" +
+func getTimeseriesUpdateId(date: Date) -> String {
+    return String(Calendar.current.component(.day, from: date)) + "-" +
         String(Calendar.current.component(.hour, from: date)) + "-" +
         String(Calendar.current.component(.minute, from: date)) + "-" +
         String(Calendar.current.component(.second, from: date))
@@ -174,7 +172,8 @@ func getAverages(timeseries: ReadingContainer) -> ReadingContainer {
 
 func saveSessionLogs(sessionLogs: [Session]) {
     guard let data = try? JSONEncoder().encode(sessionLogs) else { return }
-    writeToFile(key: STORE_SESSION_LOGS, data: data)
+    let url = getDocumentsDirectory().appendingPathComponent(STORE_SESSION_LOGS)
+    writeToFile(url: url, data: data)
 }
 
 func buildSessionPayload(timeseriesData: ReadingContainer) -> String {

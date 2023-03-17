@@ -32,15 +32,22 @@ class Player {
         panScale = getPanScale()
 
         do {
-            let data = readFromFile(key: STORE_SESSION_LOGS)
+            let url = getDocumentsDirectory().appendingPathComponent(STORE_SESSION_LOGS)
+            let data = readFromFile(url: url)
             store.state.sessionLogs = try JSONDecoder().decode([Session].self, from: data)
             store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        } catch {}
+        } catch {
+            print("Player[]: Get session log Ids error")
+        }
 
         do {
-            let data = readFromFile(key: STORE_ACTIVE_SESSION)
+            let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION)
+            let data = readFromFile(url: url)
             store.state.session = try JSONDecoder().decode(Session.self, from: data)
-        } catch {}
+        } catch {
+            print("Player[]: Get session error")
+            print(error)
+        }
 
         initIntervals()
 
@@ -63,23 +70,33 @@ class Player {
     }
 
     func initIntervals() {
-        Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_S, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_SECONDLY, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
-                self.saveReadings(readingContainer: self.store.state.readings)
+                self.saveReadings(TimeUnit.Second.rawValue)
+            }
+        }
+
+        Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_MINUTELY, repeats: true) { timer in
+            if self.store.state.session.isActive && !self.store.state.isResumable  {
+                self.saveReadings(TimeUnit.Minute.rawValue)
             }
         }
     }
 
-    func saveReadings(readingContainer: ReadingContainer) {
-        let id = getTimeseriesUpdateId(uuid: store.state.session.uuid, date: Date())
+    func saveReadings(_ timeUnit: String) {
+        let readingContainer: ReadingContainer = getAverages(timeseries: store.state.readings[timeUnit]!)
+        let id = getTimeseriesUpdateId(date: Date())
 
         do {
             let data = try JSONEncoder().encode(readingContainer)
-            writeToFile(key: id, data: data)
+            let folderURL = getDocumentsDirectory().appendingPathComponent(store.state.session.uuid + "-" + timeUnit)
+            createFolderIfNotExists(url: folderURL)
+            let fileURL = folderURL.appendingPathComponent(id)
+            writeToFile(url: fileURL, data: data)
         } catch {}
 
-        store.state.readings.keys.forEach {
-            store.state.readings[$0] = []
+        store.state.readings[timeUnit]!.keys.forEach {
+            store.state.readings[timeUnit]![$0] = []
         }
     }
 
@@ -101,7 +118,8 @@ class Player {
 
     func stop() {
         pause()
-        saveReadings(readingContainer: store.state.readings)
+        saveReadings(TimeUnit.Second.rawValue)
+        saveReadings(TimeUnit.Minute.rawValue)
         store.state.elapsedTime = ""
         store.state.setMetricValuesToDefault()
         sessionPause()
@@ -348,14 +366,17 @@ class Player {
             let value: Float = store.state.getMetricValue(metric)
 
             if canUpdate(value) {
-                if store.state.readings[metric] == nil {
-                    store.state.readings[metric] = []
-                }
-
                 let reading = Reading()
                 reading.timestamp = timestamp
                 reading.value = value
-                store.state.readings[metric]?.append(reading)
+
+                store.state.readings.forEach {
+                    if store.state.readings[$0.key]![metric] == nil {
+                        store.state.readings[$0.key]![metric] = []
+                    }
+
+                    store.state.readings[$0.key]![metric]?.append(reading)
+                }
             }
         }
     }

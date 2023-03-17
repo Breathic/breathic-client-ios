@@ -29,7 +29,10 @@ struct AppState {
     var preset: Preset = ACTIVITIES[0].presets[0]
     var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics: [String: Float] = [:]
-    var readings: ReadingContainer = [:]
+    var readings: [TimeUnit.RawValue: ReadingContainer] = [
+        TimeUnit.Second.rawValue: ReadingContainer(),
+        TimeUnit.Minute.rawValue: ReadingContainer()
+    ]
     var timeseries: ReadingContainer = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
