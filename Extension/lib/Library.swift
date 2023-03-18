@@ -15,15 +15,13 @@ func colorize(_ color: String) -> Color {
 }
 
 func getRhythms(_ store: Store) -> [Float] {
-    return store.state.preset.breathingTypes.map { $0.rhythm }
+    return PRESETS[store.state.session.presetIndex].breathingTypes.map { $0.rhythm }
 }
 
 func incrementPreset(_ store: Store) {
     store.state.session.presetIndex = store.state.session.presetIndex + 1 == store.state.activity.presets.count
         ? 0
-        : store.state.session.presetIndex + 1
-    store.state.preset = store.state.activity.presets[store.state.session.presetIndex]
-}
+        : store.state.session.presetIndex + 1}
 
 func getMetric(_ metric: String) -> MetricType {
     return METRIC_TYPES[metric] != nil
@@ -186,4 +184,12 @@ func buildSessionPayload(timeseriesData: ReadingContainer) -> String {
         }
     }
     return csv
+}
+
+func getSourceMetricTypes() -> [String] {
+    return METRIC_TYPES.keys
+        .filter {
+            METRIC_TYPES[$0]!.isSource
+        }
+        .sorted { $0 < $1 }
 }

@@ -23,7 +23,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Source",
-                value: store.state.metricType.label,
+                value: METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!.label,
                 valueColor: isSessionActive(store: store)
                     ? store.state.metricType.color
                     : colorize("white"),
@@ -31,15 +31,14 @@ func controllerView(
                 isTall: false,
                 minimumScaleFactor: 0.5,
                 action: {
-                    let sourceMetricTypes: [String] = METRIC_TYPES.keys.filter {
-                        METRIC_TYPES[$0]!.isSource
-                    }
+                    let sourceMetricTypes: [String] = getSourceMetricTypes()
 
                     store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < sourceMetricTypes.count
-                        ? store.state.session.metricTypeIndex + 1
-                        : 0
+                            ? store.state.session.metricTypeIndex + 1
+                            : 0
                     store.state.metricType = METRIC_TYPES[sourceMetricTypes[store.state.session.metricTypeIndex]]!
                     store.state.setMetricValuesToDefault()
+                    store.state.propagate()
 
                     uploadSession(session: store.state.sessionLogs.reversed()[0])
                 }
@@ -69,12 +68,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Feedback",
-                value: store.state.feedbackMode,
-                /*
-                unit: store.state.feedbackMode == "Audio"
-                    ? store.state.audioPanningMode
-                    : "",
-                */
+                value: FEEDBACK_MODES[store.state.session.feedbackModeIndex],
                 hasIndicator: true,
                 index: Int(ceil(
                     convertRange(
@@ -83,7 +77,7 @@ func controllerView(
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: store.state.feedbackMode == "Audio"
+                maxIndex: FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
                     ? Int(ceil(
                         convertRange(
                             value: Float(VOLUME_RANGE[1]),
@@ -98,18 +92,8 @@ func controllerView(
                     store.state.session.feedbackModeIndex = store.state.session.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.session.feedbackModeIndex + 1
                         : 0
-                    store.state.feedbackMode = FEEDBACK_MODES[store.state.session.feedbackModeIndex]
+                    store.state.propagate()
                 }
-                /*
-                longAction: {
-                    if store.state.feedbackMode == "Audio" {
-                        store.state.session.audioPanningIndex = store.state.session.audioPanningIndex + 1 < AUDIO_PANNING_MODES.count
-                            ? store.state.session.audioPanningIndex + 1
-                            : 0
-                        store.state.audioPanningMode = AUDIO_PANNING_MODES[store.state.session.audioPanningIndex]
-                    }
-                }
-                */
             )
 
             Spacer(minLength: 8)
@@ -117,25 +101,18 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Activity",
-                value: store.state.preset.key.capitalized,
-                unit: store.state.activity.label,
+                value: ACTIVITIES[store.state.session.activityIndex].presets[store.state.session.presetIndex].key.capitalized,
+                unit: ACTIVITIES[store.state.session.activityIndex].label,
                 isTall: false,
                 action: {
                     incrementPreset(store)
+                    store.state.propagate()
                 },
                 longAction: {
-                    let activityKeys: [String] = ACTIVITIES.map { $0.key }
-                    let currentActivityKey = store.state.session.activityKey
-                    let currentActivityIndex = activityKeys.firstIndex { $0 == currentActivityKey } ?? -1
-                    let newActivityIndex = currentActivityIndex + 1 == activityKeys.count
-                        ? 0
-                        : currentActivityIndex + 1
-                    let newActivityKey = activityKeys[newActivityIndex]
-
-                    store.state.session.presetIndex = -1
-                    incrementPreset(store)
-                    store.state.session.activityKey = newActivityKey
-                    store.state.activity = ACTIVITIES[newActivityIndex]
+                    store.state.session.activityIndex = store.state.session.activityIndex + 1 < ACTIVITIES.count
+                        ? store.state.session.activityIndex + 1
+                        : 0
+                    store.state.propagate()
                 }
             )
         }

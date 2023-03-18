@@ -249,15 +249,13 @@ class Player {
     }
 
     func incrementSelectedRhythmIndex() {
-        store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1
-
-        if store.state.selectedRhythmIndex == getRhythms(store).count {
-            store.state.selectedRhythmIndex = 0
-        }
+        store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1 < getRhythms(store).count
+            ? store.state.selectedRhythmIndex + 1
+            : 0
     }
 
     func getSelectedRhythm() -> Double {
-        return Double(getRhythms(store)[store.state.selectedRhythmIndex])
+        Double(getRhythms(store)[store.state.selectedRhythmIndex])
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
@@ -265,7 +263,6 @@ class Player {
         let pace = store.state.getMetricValue(metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = getSelectedRhythm()
-
         var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
         loopInterval = loopInterval / Double(DOWN_SCALE)
         loopInterval = loopInterval <= 0 ? 1 : loopInterval
@@ -290,9 +287,12 @@ class Player {
                 let isHaptic = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Haptic"
                 let isMuted = !(Float(store.state.session.volume) > 0)
 
+                if audioIndex == 0 {
+                    incrementSelectedRhythmIndex()
+                }
+
                 if audio.sampleIndex == 0 {
                     isPanningReversed = !isPanningReversed
-                    incrementSelectedRhythmIndex()
 
                     if isHaptic {
                         setHaptic()
@@ -358,7 +358,8 @@ class Player {
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
         store.state.setMetricValue(store.state.metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
-        store.state.preset.breathingTypes.forEach {
+
+        PRESETS[store.state.session.presetIndex].breathingTypes.forEach {
             store.state.setMetricValue($0.key.rawValue, $0.rhythm)
         }
 

@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 struct AppState {
+    var propagationIncrement: Int = 0
     var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: DEFAULT_MENU_VIEWS.keys.map { ($0, PageOption()) })
     var page: String = DEFAULT_PAGE
     var activeSubView: String = DEFAULT_ACTIVE_SUB_VIEW
@@ -23,10 +24,8 @@ struct AppState {
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
-    var feedbackMode: String = FEEDBACK_MODES[0]
     var audioPanningMode: String = AUDIO_PANNING_MODES[0]
     var activity: Activity = ACTIVITIES[0]
-    var preset: Preset = ACTIVITIES[0].presets[0]
     var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics: [String: Float] = [:]
     var readings: [TimeUnit: ReadingContainer] = [
@@ -57,6 +56,10 @@ struct AppState {
         METRIC_TYPES.keys.forEach {
             self.metrics[$0] = METRIC_TYPES[$0]?.defaultValue
         }
+    }
+
+    mutating func propagate() {
+        self.propagationIncrement = self.propagationIncrement + 1
     }
 }
 

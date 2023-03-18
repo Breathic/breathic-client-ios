@@ -1,12 +1,7 @@
 import Foundation
 
-class Session: Codable {
-    var activityKey: String = ACTIVITIES.map { $0.key }[0] {
-        didSet {
-            save()
-        }
-    }
-    var audioPanningIndex: Int = 0 {
+class Session: ObservableObject, Codable {
+    var activityIndex: Int = 0  {
         didSet {
             save()
         }
