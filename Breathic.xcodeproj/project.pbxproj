@@ -163,11 +163,10 @@
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
 				FD1E04BA29781389006791C5 /* data */,
 				FD359C542933802700F14B68 /* ExtensionDebug.entitlements */,
-				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
+				FDF9A8D029C5C5AA00DC24E8 /* src */,
 				FDF9A8CF29C5C3F900DC24E8 /* lib */,
 				FD2D392D28BBDD9A009F1861 /* Preview Content */,
 				FDFC2F1F291FA9B600E4C8C8 /* readers */,
-				FD2D393E28BBDE4A009F1861 /* Store.swift */,
 				FDFC2F19291FA5F200E4C8C8 /* ui */,
 			);
 			path = Extension;
@@ -195,12 +194,21 @@
 				FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FDC09FC228F0A58200F42253 /* Library.swift */,
-				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
 				FD2D395128BBE012009F1861 /* Extensions.swift */,
 				FD9ABDE129C2588A00C60F25 /* Network.swift */,
 				FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		FDF9A8D029C5C5AA00DC24E8 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
+				FD2D393E28BBDE4A009F1861 /* Store.swift */,
+				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		FDFC2F19291FA5F200E4C8C8 /* ui */ = {
