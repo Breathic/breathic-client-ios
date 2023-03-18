@@ -72,24 +72,24 @@ class Player {
     func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_SECONDLY, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
-                self.saveReadings(TimeUnit.Second.rawValue)
+                self.saveReadings(TimeUnit.Second)
             }
         }
 
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_MINUTELY, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable  {
-                self.saveReadings(TimeUnit.Minute.rawValue)
+                self.saveReadings(TimeUnit.Minute)
             }
         }
     }
 
-    func saveReadings(_ timeUnit: String) {
+    func saveReadings(_ timeUnit: TimeUnit) {
         let readingContainer: ReadingContainer = getAverages(timeseries: store.state.readings[timeUnit]!)
         let id = getTimeseriesUpdateId(date: Date())
 
         do {
             let data = try JSONEncoder().encode(readingContainer)
-            let folderURL = getDocumentsDirectory().appendingPathComponent(store.state.session.uuid + "-" + timeUnit)
+            let folderURL = getDocumentsDirectory().appendingPathComponent(store.state.session.uuid + "-" + timeUnit.rawValue)
             createFolderIfNotExists(url: folderURL)
             let fileURL = folderURL.appendingPathComponent(id)
             writeToFile(url: fileURL, data: data)
@@ -118,8 +118,8 @@ class Player {
 
     func stop() {
         pause()
-        saveReadings(TimeUnit.Second.rawValue)
-        saveReadings(TimeUnit.Minute.rawValue)
+        saveReadings(TimeUnit.Second)
+        saveReadings(TimeUnit.Minute)
         store.state.elapsedTime = ""
         store.state.setMetricValuesToDefault()
         sessionPause()

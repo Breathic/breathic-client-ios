@@ -44,7 +44,7 @@
 		FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D12911BAEF0059F5D6 /* Speed.swift */; };
 		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
 		FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D52911BC3D0059F5D6 /* Heart.swift */; };
-		FDFC2F16291FA43800E4C8C8 /* FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC2F15291FA43800E4C8C8 /* FileSystem.swift */; };
+		FDF9A8CE29C5330800DC24E8 /* Filesystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */; };
 		FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC2F17291FA4A000E4C8C8 /* Readings.swift */; };
 /* End PBXBuildFile section */
 
@@ -110,7 +110,7 @@
 		FDF1E1D12911BAEF0059F5D6 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		FDF1E1D32911BB960059F5D6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		FDF1E1D52911BC3D0059F5D6 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
-		FDFC2F15291FA43800E4C8C8 /* FileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystem.swift; sourceTree = "<group>"; };
+		FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filesystem.swift; sourceTree = "<group>"; };
 		FDFC2F17291FA4A000E4C8C8 /* Readings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Readings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,8 +166,8 @@
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
 				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
 				FD9ABDE129C2588A00C60F25 /* Network.swift */,
+				FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */,
 				FD2D395128BBE012009F1861 /* Extensions.swift */,
-				FDFC2F15291FA43800E4C8C8 /* FileSystem.swift */,
 				FDC09FC228F0A58200F42253 /* Library.swift */,
 				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD2D392D28BBDD9A009F1861 /* Preview Content */,
@@ -350,7 +350,6 @@
 				FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */,
 				FD17240729A23FAA003DAC6E /* IntroductionView.swift in Sources */,
 				FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */,
-				FDFC2F16291FA43800E4C8C8 /* FileSystem.swift in Sources */,
 				FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */,
 				FDC09FC328F0A58200F42253 /* Library.swift in Sources */,
 				FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */,
@@ -372,6 +371,7 @@
 				FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */,
 				FDBDAF75292051BC00F57DC1 /* MenuView.swift in Sources */,
 				FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */,
+				FDF9A8CE29C5330800DC24E8 /* Filesystem.swift in Sources */,
 				FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */,
 				FDBDAF792920544400F57DC1 /* RhythmView.swift in Sources */,
 				FD2D395228BBE012009F1861 /* Extensions.swift in Sources */,

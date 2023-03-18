@@ -29,9 +29,9 @@ struct AppState {
     var preset: Preset = ACTIVITIES[0].presets[0]
     var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics: [String: Float] = [:]
-    var readings: [TimeUnit.RawValue: ReadingContainer] = [
-        TimeUnit.Second.rawValue: ReadingContainer(),
-        TimeUnit.Minute.rawValue: ReadingContainer()
+    var readings: [TimeUnit: ReadingContainer] = [
+        TimeUnit.Second: ReadingContainer(),
+        TimeUnit.Minute: ReadingContainer()
     ]
     var timeseries: ReadingContainer = [:]
     var seriesData: [SeriesData] = []

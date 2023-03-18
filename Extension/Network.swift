@@ -39,24 +39,24 @@ func uploadSession(session: Session) {
             request.httpMethod = "POST"
 
             if Platform.isSimulator {
-                uploadSimulator(request: request, requestData: requestData)
+                uploadFromSimulator(request: request, requestData: requestData)
             }
             else {
                 request.httpBody = requestData
-                uploadDevice(request: request)
+                uploadFromDevice(request: request)
             }
         }
     }
 }
 
-func uploadSimulator(request: URLRequest, requestData: Data) {
+func uploadFromSimulator(request: URLRequest, requestData: Data) {
     Task {
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
         print(data, response)
     }
 }
 
-func uploadDevice(request: URLRequest) {
+func uploadFromDevice(request: URLRequest) {
     let task = URLSession.shared.dataTask(
         with: request,
         completionHandler: { data, response, error in
