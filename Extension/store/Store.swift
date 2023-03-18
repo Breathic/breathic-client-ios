@@ -26,7 +26,6 @@ struct AppState {
     var selectedRhythmIndex: Int = 0
     var audioPanningMode: String = AUDIO_PANNING_MODES[0]
     var activity: Activity = ACTIVITIES[0]
-    var metricType: MetricType = METRIC_TYPES["heart"]!
     var metrics: [String: Float] = [:]
     var readings: [TimeUnit: ReadingContainer] = [
         TimeUnit.Second: ReadingContainer(),

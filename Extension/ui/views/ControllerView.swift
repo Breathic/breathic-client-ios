@@ -25,7 +25,7 @@ func controllerView(
                 label: "Source",
                 value: METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!.label,
                 valueColor: isSessionActive(store: store)
-                    ? store.state.metricType.color
+                    ? METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!.color
                     : colorize("white"),
                 isShort: true,
                 isTall: false,
@@ -36,7 +36,6 @@ func controllerView(
                     store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < sourceMetricTypes.count
                             ? store.state.session.metricTypeIndex + 1
                             : 0
-                    store.state.metricType = METRIC_TYPES[sourceMetricTypes[store.state.session.metricTypeIndex]]!
                     store.state.setMetricValuesToDefault()
                     store.state.propagate()
 

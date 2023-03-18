@@ -259,7 +259,7 @@ class Player {
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
-        let metricType = store.state.metricType
+        let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!
         let pace = store.state.getMetricValue(metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = getSelectedRhythm()
@@ -355,9 +355,10 @@ class Player {
     func updateGraph() {
         let timestamp: Date = Date()
         let loopIntervalSum: TimeInterval = getLoopIntervalSum()
+        let metricType: MetricType = METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
-        store.state.setMetricValue(store.state.metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
+        store.state.setMetricValue(metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
 
         PRESETS[store.state.session.presetIndex].breathingTypes.forEach {
             store.state.setMetricValue($0.key.rawValue, $0.rhythm)
