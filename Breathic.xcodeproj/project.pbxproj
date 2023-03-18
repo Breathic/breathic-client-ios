@@ -45,6 +45,8 @@
 		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
 		FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D52911BC3D0059F5D6 /* Heart.swift */; };
 		FDF9A8CE29C5330800DC24E8 /* Filesystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */; };
+		FDF9A8D329C5C63500DC24E8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8D229C5C63500DC24E8 /* Session.swift */; };
+		FDF9A8D629C5C68100DC24E8 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8D529C5C68100DC24E8 /* Audio.swift */; };
 		FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC2F17291FA4A000E4C8C8 /* Readings.swift */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +113,8 @@
 		FDF1E1D32911BB960059F5D6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		FDF1E1D52911BC3D0059F5D6 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
 		FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filesystem.swift; sourceTree = "<group>"; };
+		FDF9A8D229C5C63500DC24E8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		FDF9A8D529C5C68100DC24E8 /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		FDFC2F17291FA4A000E4C8C8 /* Readings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Readings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,6 +211,8 @@
 				FD2D393E28BBDE4A009F1861 /* Store.swift */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
 				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
+				FDF9A8D229C5C63500DC24E8 /* Session.swift */,
+				FDF9A8D529C5C68100DC24E8 /* Audio.swift */,
 			);
 			path = store;
 			sourceTree = "<group>";
@@ -381,10 +387,12 @@
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,
 				FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */,
 				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
+				FDF9A8D329C5C63500DC24E8 /* Session.swift in Sources */,
 				FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */,
 				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
 				FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */,
 				FDBDAF75292051BC00F57DC1 /* MenuView.swift in Sources */,
+				FDF9A8D629C5C68100DC24E8 /* Audio.swift in Sources */,
 				FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */,
 				FDF9A8CE29C5330800DC24E8 /* Filesystem.swift in Sources */,
 				FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */,

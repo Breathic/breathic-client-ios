@@ -84,35 +84,6 @@ enum UploadStatus: String, Codable {
     case UploadRetry = "retry upload"
 }
 
-class Audio {
-    var fadeIndex: Int = 0
-    var sampleIndex: Int = 0
-    var channels: [[String]] = []
-    var forResources: [String] = []
-
-    init(
-        fadeIndex: Int,
-        sampleIndex: Int,
-        channels: [[String]],
-        forResources: [String]
-    ) {
-        self.fadeIndex = fadeIndex
-        self.sampleIndex = sampleIndex
-        self.channels = channels
-        self.forResources = forResources
-    }
-
-    func copy() -> Any {
-        let copy: Audio = Audio(
-            fadeIndex: fadeIndex,
-            sampleIndex: sampleIndex,
-            channels: channels,
-            forResources: forResources
-        )
-        return copy
-    }
-}
-
 struct ProgressData: Identifiable {
     let timestamp: Int
     let value: Float
@@ -127,96 +98,6 @@ struct SeriesData: Identifiable {
 }
 
 typealias ReadingContainer = [String: [Reading]]
-
-class Session: Codable {
-    var activityKey: String = ACTIVITIES.map { $0.key }[0] {
-        didSet {
-            save()
-        }
-    }
-    var audioPanningIndex: Int = 0 {
-        didSet {
-            save()
-        }
-    }
-    var presetIndex: Int = 0 {
-        didSet {
-            save()
-        }
-    }
-    var isActive: Bool = false {
-        didSet {
-            save()
-        }
-    }
-    var isPlaying: Bool = false {
-        didSet {
-            save()
-        }
-    }
-    var uuid: String = UUID().uuidString {
-        didSet {
-            save()
-        }
-    }
-    var id: String = "" {
-        didSet {
-            save()
-        }
-    }
-    var startTime: Date = Date() {
-        didSet {
-            save()
-        }
-    }
-    var endTime: Date = Date() {
-        didSet {
-            save()
-        }
-    }
-    var feedbackModeIndex: Int = 0 {
-        didSet {
-            save()
-        }
-    }
-    var volume: Float = VOLUME {
-        didSet {
-            save()
-        }
-    }
-    var metricTypeIndex: Int = 0 {
-        didSet {
-            save()
-        }
-    }
-
-    var uploadStatus: UploadStatus = UploadStatus.UploadStart {
-        didSet {
-            save()
-        }
-    }
-
-    func start() {
-        if !isActive {
-            startTime = Date()
-            uuid = UUID().uuidString
-            id = generateSessionId(session: self)
-        }
-
-        isActive = true
-    }
-
-    func stop() {
-        endTime = Date()
-        isActive = false
-    }
-
-    func save() {
-        guard let data: Data = try? JSONEncoder().encode(self) else { return }
-        let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION)
-        writeToFile(url: url, data: data)
-    }
-}
 
 class ChartDomain {
     var xMin: Float = 0
