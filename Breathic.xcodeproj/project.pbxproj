@@ -315,7 +315,6 @@
 			mainGroup = FD2D390A28BBDD97009F1861;
 			packageReferences = (
 				FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */,
-				FD9ABDE329C27CE900C60F25 /* XCRemoteSwiftPackageReference "SwiftDate" */,
 			);
 			productRefGroup = FD2D391228BBDD97009F1861 /* Products */;
 			projectDirPath = "";
@@ -650,14 +649,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FD9ABDE329C27CE900C60F25 /* XCRemoteSwiftPackageReference "SwiftDate" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/malcommac/SwiftDate.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
 		FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/buh/CompactSlider.git";
