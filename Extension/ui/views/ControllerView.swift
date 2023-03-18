@@ -37,7 +37,7 @@ func controllerView(
                             ? store.state.session.metricTypeIndex + 1
                             : 0
                     store.state.setMetricValuesToDefault()
-                    store.state.propagate()
+                    store.state.render()
 
                     uploadSession(session: store.state.sessionLogs.reversed()[0])
                 }
@@ -91,7 +91,7 @@ func controllerView(
                     store.state.session.feedbackModeIndex = store.state.session.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.session.feedbackModeIndex + 1
                         : 0
-                    store.state.propagate()
+                    store.state.render()
                 }
             )
 
@@ -105,13 +105,13 @@ func controllerView(
                 isTall: false,
                 action: {
                     incrementPreset(store)
-                    store.state.propagate()
+                    store.state.render()
                 },
                 longAction: {
                     store.state.session.activityIndex = store.state.session.activityIndex + 1 < ACTIVITIES.count
                         ? store.state.session.activityIndex + 1
                         : 0
-                    store.state.propagate()
+                    store.state.render()
                 }
             )
         }

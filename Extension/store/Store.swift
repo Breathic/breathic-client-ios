@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct AppState {
-    var propagationIncrement: Int = 0
+    var renderIncrement: Int = 0
     var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: MENU_VIEWS.keys.map { ($0, PageOption()) })
     var page: String = DEFAULT_PAGE
     var activeSubView: String = DEFAULT_ACTIVE_SUB_VIEW
@@ -56,8 +56,8 @@ struct AppState {
         }
     }
 
-    mutating func propagate() {
-        self.propagationIncrement = self.propagationIncrement + 1
+    mutating func render() {
+        self.renderIncrement = self.renderIncrement + 1
     }
 }
 

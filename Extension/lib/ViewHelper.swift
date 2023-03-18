@@ -108,15 +108,16 @@ func getTimeseriesData(
     uuid: String,
     startTime: Date,
     endTime: Date,
-    timeUnit: String
+    timeUnit: TimeUnit
 ) -> ReadingContainer {
     var result: ReadingContainer = [:]
 
     do {
-        try readFromFolder(uuid + "-" + timeUnit)
+        try readFromFolder(uuid + "-" + timeUnit.rawValue)
+            .sorted { $0 < $1 }
             .forEach {
                 let url = getDocumentsDirectory()
-                    .appendingPathComponent(uuid + "-" + timeUnit)
+                    .appendingPathComponent(uuid + "-" + timeUnit.rawValue)
                     .appendingPathComponent($0)
                 let data = readFromFile(url: url)
                 let timeseries = try JSONDecoder().decode(ReadingContainer.self, from: data)
@@ -181,7 +182,7 @@ func onLogSelect(store: Store) {
             uuid: store.state.selectedSession.uuid,
             startTime: store.state.selectedSession.startTime,
             endTime: store.state.selectedSession.endTime,
-            timeUnit: TimeUnit.Minute.rawValue
+            timeUnit: TimeUnit.Minute
         )
 
         store.state.timeseries = timeseriesData

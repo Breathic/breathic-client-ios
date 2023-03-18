@@ -81,13 +81,6 @@ func getSessionIds(sessions: [Session]) -> [String] {
     return result.reversed()
 }
 
-func getTimeseriesUpdateId(date: Date) -> String {
-    return String(Calendar.current.component(.day, from: date)) + "-" +
-        String(Calendar.current.component(.hour, from: date)) + "-" +
-        String(Calendar.current.component(.minute, from: date)) + "-" +
-        String(Calendar.current.component(.second, from: date))
-}
-
 func parseProgressData(timeseries: [Reading], startTime: Date) -> [ProgressData] {
     let startHour = Calendar.current.component(.hour, from: startTime)
     let startMinute = Calendar.current.component(.minute, from: startTime)
@@ -175,11 +168,11 @@ func saveSessionLogs(sessionLogs: [Session]) {
 }
 
 func buildSessionPayload(timeseriesData: ReadingContainer) -> String {
-    var csv: String = "metric,timestamp,value"
+    var csv: String = "timestamp,metric,value"
     var index = 0
     for metric in timeseriesData {
         for value in metric.value {
-            csv = csv + "\n" + metric.key + "," + value.timestamp.ISO8601Format() + "," + String(value.value)
+            csv = csv + "\n" + value.timestamp.ISO8601Format() + "," + metric.key + "," + String(value.value)
             index = index + 1
         }
     }

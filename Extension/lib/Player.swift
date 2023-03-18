@@ -85,7 +85,7 @@ class Player {
 
     func saveReadings(_ timeUnit: TimeUnit) {
         let readingContainer: ReadingContainer = getAverages(timeseries: store.state.readings[timeUnit]!)
-        let id = getTimeseriesUpdateId(date: Date())
+        let id: String = String(Date().timeIntervalSince1970)
 
         do {
             let data = try JSONEncoder().encode(readingContainer)
