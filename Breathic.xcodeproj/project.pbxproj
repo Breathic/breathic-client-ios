@@ -163,7 +163,7 @@
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
 				FD1E04BA29781389006791C5 /* data */,
 				FD359C542933802700F14B68 /* ExtensionDebug.entitlements */,
-				FDF9A8D029C5C5AA00DC24E8 /* src */,
+				FDF9A8D129C5C5EB00DC24E8 /* store */,
 				FDF9A8CF29C5C3F900DC24E8 /* lib */,
 				FD2D392D28BBDD9A009F1861 /* Preview Content */,
 				FDFC2F1F291FA9B600E4C8C8 /* readers */,
@@ -201,14 +201,14 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
-		FDF9A8D029C5C5AA00DC24E8 /* src */ = {
+		FDF9A8D129C5C5EB00DC24E8 /* store */ = {
 			isa = PBXGroup;
 			children = (
-				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
 				FD2D393E28BBDE4A009F1861 /* Store.swift */,
 				FD2D394B28BBDF9E009F1861 /* Constants.swift */,
+				FD2D394928BBDF7B009F1861 /* Definitions.swift */,
 			);
-			path = src;
+			path = store;
 			sourceTree = "<group>";
 		};
 		FDFC2F19291FA5F200E4C8C8 /* ui */ = {
