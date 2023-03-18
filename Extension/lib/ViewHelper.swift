@@ -11,7 +11,7 @@ func slide(geometry: GeometryProxy, store: Store) {
 
 func selectMainMenu(geometry: GeometryProxy, store: Store) {
     if store.state.tempActiveSubView == "" {
-        store.state.tempActiveSubView = store.state.menuViews[store.state.page]![0]
+        store.state.tempActiveSubView = MENU_VIEWS[store.state.page]![0]
     }
 
     store.state.activeSubView = store.state.tempActiveSubView
@@ -221,7 +221,7 @@ func deleteSession(store: Store, sessionId: String) {
     }
 
     if !hasSessionLogs(store: store) {
-        store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+        store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
     }
     else {
         store.state.activeSubView = "Log"

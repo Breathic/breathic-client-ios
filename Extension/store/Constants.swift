@@ -208,7 +208,7 @@ let DRAG_INDEXES: [String: Int] = [
     "Status": 1,
     "Log": 0
 ]
-let DEFAULT_MENU_VIEWS: [String: [String]] = [
+let MENU_VIEWS: [String: [String]] = [
     "Main": ["Controller", "Status", "Log"],
     "Overview": ["", ""]
 ]

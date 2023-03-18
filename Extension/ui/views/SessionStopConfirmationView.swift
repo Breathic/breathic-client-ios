@@ -15,7 +15,7 @@ func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: 
 
             Button(action: {
                 player.stop()
-                store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+                store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
             }) {
                 Text("Save")
             }
@@ -31,7 +31,7 @@ func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: 
 
         HStack {
             Button(action: {
-                store.state.activeSubView = store.state.menuViews[store.state.page]![0]
+                store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
             }) {
                 Text("Cancel")
             }

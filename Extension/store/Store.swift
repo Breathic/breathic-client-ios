@@ -3,10 +3,9 @@ import SwiftUI
 
 struct AppState {
     var propagationIncrement: Int = 0
-    var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: DEFAULT_MENU_VIEWS.keys.map { ($0, PageOption()) })
+    var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: MENU_VIEWS.keys.map { ($0, PageOption()) })
     var page: String = DEFAULT_PAGE
     var activeSubView: String = DEFAULT_ACTIVE_SUB_VIEW
-    var menuViews = DEFAULT_MENU_VIEWS
     var tempActiveSubView: String = ""
     var session: Session = Session()
     var selectedSessionId: String = ""
