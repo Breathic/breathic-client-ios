@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FD17240729A23FAA003DAC6E /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD17240629A23FAA003DAC6E /* IntroductionView.swift */; };
-		FD1E04BB29781389006791C5 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FD1E04BA29781389006791C5 /* data */; };
 		FD2D391628BBDD98009F1861 /* Breathic.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Breathic.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
 		FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D392528BBDD99009F1861 /* ContentView.swift */; };
@@ -47,6 +46,7 @@
 		FDF9A8CE29C5330800DC24E8 /* Filesystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */; };
 		FDF9A8D329C5C63500DC24E8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8D229C5C63500DC24E8 /* Session.swift */; };
 		FDF9A8D629C5C68100DC24E8 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF9A8D529C5C68100DC24E8 /* Audio.swift */; };
+		FDF9A8D829C71B8A00DC24E8 /* data in Resources */ = {isa = PBXBuildFile; fileRef = FDF9A8D729C71B8A00DC24E8 /* data */; };
 		FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC2F17291FA4A000E4C8C8 /* Readings.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +76,6 @@
 
 /* Begin PBXFileReference section */
 		FD17240629A23FAA003DAC6E /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
-		FD1E04BA29781389006791C5 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FD2D391128BBDD97009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391528BBDD98009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391A28BBDD99009F1861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -115,6 +114,7 @@
 		FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filesystem.swift; sourceTree = "<group>"; };
 		FDF9A8D229C5C63500DC24E8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FDF9A8D529C5C68100DC24E8 /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		FDF9A8D729C71B8A00DC24E8 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		FDFC2F17291FA4A000E4C8C8 /* Readings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Readings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,7 +165,7 @@
 				FD2D392728BBDD99009F1861 /* App.swift */,
 				FD2D392B28BBDD9A009F1861 /* Assets.xcassets */,
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
-				FD1E04BA29781389006791C5 /* data */,
+				FDF9A8D729C71B8A00DC24E8 /* data */,
 				FD359C542933802700F14B68 /* ExtensionDebug.entitlements */,
 				FDF9A8D129C5C5EB00DC24E8 /* store */,
 				FDF9A8CF29C5C3F900DC24E8 /* lib */,
@@ -355,9 +355,9 @@
 			files = (
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
-				FD1E04BB29781389006791C5 /* data in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
 				FD7F1A8F299E9E6F006D449C /* Breathic-WatchKit-App-Info.plist in Resources */,
+				FDF9A8D829C71B8A00DC24E8 /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
