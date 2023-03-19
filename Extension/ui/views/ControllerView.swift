@@ -34,8 +34,8 @@ func controllerView(
                     let sourceMetricTypes: [String] = getSourceMetricTypes()
 
                     store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < sourceMetricTypes.count
-                            ? store.state.session.metricTypeIndex + 1
-                            : 0
+                        ? store.state.session.metricTypeIndex + 1
+                        : 0
                     store.state.setMetricValuesToDefault()
                     store.state.render()
 

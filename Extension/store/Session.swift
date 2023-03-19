@@ -56,7 +56,6 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-
     var uploadStatus: UploadStatus = UploadStatus.UploadStart {
         didSet {
             save()
