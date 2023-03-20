@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import EFQRCode
 
 func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
    return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
@@ -235,4 +236,14 @@ func getSourceMetricTypes() -> [String] {
             METRIC_TYPES[$0]!.isSource
         }
         .sorted { $0 < $1 }
+}
+
+func generateQRCode(_ string: String) -> Image {
+    let cgImage = EFQRCode.generate(
+        for: string
+    )
+    let uiImage = UIImage(cgImage: cgImage!)
+
+    // and convert that to a SwiftUI image
+    return Image(uiImage: uiImage)
 }

@@ -100,6 +100,20 @@ func chartSettingsView(
         }
 
         Group {
+            Text("Export")
+                .font(.system(size: 10))
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            generateQRCode(API_URL + "/session/" + store.state.selectedSession.uuid + "/readings")
+                .resizable()
+                .scaledToFit()
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .padding(.trailing, 16)
+
+            Spacer(minLength: 24)
+        }
+
+        Group {
             secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
                 .frame(minWidth: geometry.size.width, maxHeight: .infinity, alignment: .bottom)
                 .padding(.trailing, 16)
