@@ -47,11 +47,14 @@ func uploadSession(_ session: Session) async -> Bool {
                 response = _response as? HTTPURLResponse
             }
 
-            if response != nil && response?.statusCode != nil && response?.statusCode != 200 {
-                return false
+            if response != nil && response?.statusCode != nil && (
+                response?.statusCode == 200 ||
+                response?.statusCode == 409
+            ) {
+                return true
             }
 
-            return true
+            return false
         }
     }
     catch {}

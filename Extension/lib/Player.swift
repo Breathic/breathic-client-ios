@@ -94,7 +94,7 @@ class Player {
 
         Task {
             let sessions = sessions.filter { session in
-                if session.endTime != nil && session.syncStatus == SyncStatus.Syncable {
+                if session.endTime != nil && session.syncStatus != SyncStatus.Synced {
                     return true
                 }
 
@@ -115,7 +115,6 @@ class Player {
                 print("uploadSession result success:", success)
 
                 store.state.isSyncInProgress = false
-                sync(store.state.sessions)
             }
         }
 

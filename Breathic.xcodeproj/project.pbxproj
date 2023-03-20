@@ -31,15 +31,15 @@
 		FDBDAF75292051BC00F57DC1 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF74292051BC00F57DC1 /* MenuView.swift */; };
 		FDBDAF772920530900F57DC1 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF762920530900F57DC1 /* LogView.swift */; };
 		FDBDAF792920544400F57DC1 /* RhythmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF782920544400F57DC1 /* RhythmView.swift */; };
-		FDBDAF7B2920551A00F57DC1 /* SessionStopConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7A2920551A00F57DC1 /* SessionStopConfirmationView.swift */; };
-		FDBDAF7D2920559200F57DC1 /* DeleteSessionConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */; };
+		FDBDAF7B2920551A00F57DC1 /* StopConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7A2920551A00F57DC1 /* StopConfirmationView.swift */; };
+		FDBDAF7D2920559200F57DC1 /* DeleteConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7C2920559200F57DC1 /* DeleteConfirmationView.swift */; };
 		FDBDAF812920576900F57DC1 /* DragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF802920576900F57DC1 /* DragView.swift */; };
 		FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF822920593700F57DC1 /* ToolbarView.swift */; };
 		FDC09FC328F0A58200F42253 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC09FC228F0A58200F42253 /* Library.swift */; };
-		FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */; };
+		FDC2B0F22922B23D006F53C6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC2B0F12922B23D006F53C6 /* ChartView.swift */; };
 		FDC878A329A144E400579008 /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = FDC878A229A144E400579008 /* CompactSlider */; };
 		FDC878A529A152B700579008 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC878A429A152B700579008 /* Styles.swift */; };
-		FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */; };
+		FDDA8F8229709DEB00CBDA58 /* DiscardConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA8F8129709DEB00CBDA58 /* DiscardConfirmationView.swift */; };
 		FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D12911BAEF0059F5D6 /* Speed.swift */; };
 		FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D32911BB960059F5D6 /* Step.swift */; };
 		FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF1E1D52911BC3D0059F5D6 /* Heart.swift */; };
@@ -100,14 +100,14 @@
 		FDBDAF74292051BC00F57DC1 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		FDBDAF762920530900F57DC1 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		FDBDAF782920544400F57DC1 /* RhythmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmView.swift; sourceTree = "<group>"; };
-		FDBDAF7A2920551A00F57DC1 /* SessionStopConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStopConfirmationView.swift; sourceTree = "<group>"; };
-		FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSessionConfirmationView.swift; sourceTree = "<group>"; };
+		FDBDAF7A2920551A00F57DC1 /* StopConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopConfirmationView.swift; sourceTree = "<group>"; };
+		FDBDAF7C2920559200F57DC1 /* DeleteConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationView.swift; sourceTree = "<group>"; };
 		FDBDAF802920576900F57DC1 /* DragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragView.swift; sourceTree = "<group>"; };
 		FDBDAF822920593700F57DC1 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		FDC09FC228F0A58200F42253 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
-		FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSettingsView.swift; sourceTree = "<group>"; };
+		FDC2B0F12922B23D006F53C6 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		FDC878A429A152B700579008 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
-		FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscardSessionConfirmationView.swift; sourceTree = "<group>"; };
+		FDDA8F8129709DEB00CBDA58 /* DiscardConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscardConfirmationView.swift; sourceTree = "<group>"; };
 		FDF1E1D12911BAEF0059F5D6 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		FDF1E1D32911BB960059F5D6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		FDF1E1D52911BC3D0059F5D6 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
@@ -230,19 +230,19 @@
 		FDFC2F1A291FA62F00E4C8C8 /* views */ = {
 			isa = PBXGroup;
 			children = (
-				FDC2B0F12922B23D006F53C6 /* ChartSettingsView.swift */,
+				FDC2B0F12922B23D006F53C6 /* ChartView.swift */,
 				FD2D392528BBDD99009F1861 /* ContentView.swift */,
 				FD17240629A23FAA003DAC6E /* IntroductionView.swift */,
 				FDBDAF6E29204CDD00F57DC1 /* ControllerView.swift */,
-				FDBDAF7C2920559200F57DC1 /* DeleteSessionConfirmationView.swift */,
+				FDBDAF7C2920559200F57DC1 /* DeleteConfirmationView.swift */,
 				FDBDAF802920576900F57DC1 /* DragView.swift */,
 				FDBDAF762920530900F57DC1 /* LogView.swift */,
 				FDBDAF74292051BC00F57DC1 /* MenuView.swift */,
 				FDBDAF782920544400F57DC1 /* RhythmView.swift */,
-				FDBDAF7A2920551A00F57DC1 /* SessionStopConfirmationView.swift */,
+				FDBDAF7A2920551A00F57DC1 /* StopConfirmationView.swift */,
 				FDBDAF722920516E00F57DC1 /* StatusView.swift */,
 				FDBDAF822920593700F57DC1 /* ToolbarView.swift */,
-				FDDA8F8129709DEB00CBDA58 /* DiscardSessionConfirmationView.swift */,
+				FDDA8F8129709DEB00CBDA58 /* DiscardConfirmationView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -370,17 +370,17 @@
 			files = (
 				FD2D394A28BBDF7B009F1861 /* Definitions.swift in Sources */,
 				FD17240729A23FAA003DAC6E /* IntroductionView.swift in Sources */,
-				FDDA8F8229709DEB00CBDA58 /* DiscardSessionConfirmationView.swift in Sources */,
+				FDDA8F8229709DEB00CBDA58 /* DiscardConfirmationView.swift in Sources */,
 				FDBDAF832920593700F57DC1 /* ToolbarView.swift in Sources */,
 				FDC09FC328F0A58200F42253 /* Library.swift in Sources */,
 				FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */,
 				FD2D392628BBDD99009F1861 /* ContentView.swift in Sources */,
 				FDF1E1D22911BAEF0059F5D6 /* Speed.swift in Sources */,
 				FDBDAF6F29204CDD00F57DC1 /* ControllerView.swift in Sources */,
-				FDBDAF7B2920551A00F57DC1 /* SessionStopConfirmationView.swift in Sources */,
+				FDBDAF7B2920551A00F57DC1 /* StopConfirmationView.swift in Sources */,
 				FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */,
 				FDBDAF812920576900F57DC1 /* DragView.swift in Sources */,
-				FDBDAF7D2920559200F57DC1 /* DeleteSessionConfirmationView.swift in Sources */,
+				FDBDAF7D2920559200F57DC1 /* DeleteConfirmationView.swift in Sources */,
 				FDBDAF772920530900F57DC1 /* LogView.swift in Sources */,
 				FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */,
 				FDC878A529A152B700579008 /* Styles.swift in Sources */,
@@ -390,7 +390,7 @@
 				FDF9A8D329C5C63500DC24E8 /* Session.swift in Sources */,
 				FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */,
 				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
-				FDC2B0F22922B23D006F53C6 /* ChartSettingsView.swift in Sources */,
+				FDC2B0F22922B23D006F53C6 /* ChartView.swift in Sources */,
 				FDBDAF75292051BC00F57DC1 /* MenuView.swift in Sources */,
 				FDF9A8D629C5C68100DC24E8 /* Audio.swift in Sources */,
 				FD2D393F28BBDE4A009F1861 /* Store.swift in Sources */,

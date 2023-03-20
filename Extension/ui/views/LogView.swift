@@ -38,7 +38,8 @@ func logView(
 
         if hasSessionLogs(store: store) {
             HStack {
-                secondaryButton(text: "Select", color: "green", action: { onLogSelect(store: store) })
+                secondaryButton(text: "Select", color: "green", action: { onLogSelect(store: store)
+                })
             }
         }
     }

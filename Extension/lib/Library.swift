@@ -65,7 +65,7 @@ func readSessions() -> [Session] {
                 let data = readFromFile(url: fileURL)
                 return try JSONDecoder().decode(Session.self, from: data)
             }
-            .sorted { $0.startTime > $1.startTime }
+            .sorted { $0.startTime < $1.startTime }
     } catch {
         print("readSessions(): error", error)
     }
@@ -79,7 +79,7 @@ func getSessionIds(sessions: [Session]) -> [String] {
     var saves = 1
 
     sessions
-        .sorted { $0.startTime > $1.startTime }
+        .sorted { $0.startTime < $1.startTime }
         .forEach { session in
             var id = generateSessionId(session: session)
             let isDuplicate = prevId == id

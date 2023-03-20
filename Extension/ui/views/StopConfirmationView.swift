@@ -15,7 +15,9 @@ func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: 
 
             Button(action: {
                 player.stop()
-                store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
+                let sessionIds: [String] = getSessionIds(sessions: store.state.sessions)
+                store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
+                onLogSelect(store: store)
             }) {
                 Text("Save")
             }

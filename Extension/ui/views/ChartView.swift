@@ -9,33 +9,37 @@ func chartSettingsView(
         .chunks(2)
 
     return ScrollView(showsIndicators: false) {
-        Group {
-            Text("Status")
-                .foregroundColor(Color.white)
-                .font(.system(size: 10))
-                .frame(maxWidth: .infinity, alignment: .leading)
+        HStack {
+            VStack {
+                Text("Duration")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 10))
+                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-            Text(store.state.selectedSession.syncStatus.rawValue.capitalized)
-                .foregroundColor(Color.white)
-                .font(.system(size: 20))
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Text(getElapsedTime(from: store.state.selectedSession.startTime, to: store.state.selectedSession.endTime!))
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 20))
+                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
 
-            Spacer(minLength: 24)
+            VStack {
+                Text("Status")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 10))
+                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+
+                Text(store.state.selectedSession.syncStatus.rawValue.capitalized)
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 20))
+                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
         }
 
-        Group {
-            Text("Duration")
-                .foregroundColor(Color.white)
-                .font(.system(size: 10))
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            Text(getElapsedTime(from: store.state.selectedSession.startTime, to: store.state.selectedSession.endTime!))
-                .foregroundColor(Color.white)
-                .font(.system(size: 20))
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            Spacer(minLength: 24)
-        }
+        Spacer(minLength: 24)
 
         Group {
             Text("Progress")
