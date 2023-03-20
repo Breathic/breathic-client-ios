@@ -51,6 +51,7 @@ class Player {
         cachePlayers(Breathe.BreatheIn.rawValue)
         cachePlayers(Breathe.BreatheOut.rawValue)
         sync(store.state.sessions.shuffled())
+        print(API_URL)
     }
 
     func cachePlayers(_ type: String = "") {
