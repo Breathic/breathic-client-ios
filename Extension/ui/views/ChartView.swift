@@ -77,8 +77,8 @@ func chartSettingsView(
                                 value: String(format: getMetric(metric).format, store.state.chartableMetrics[metric]!),
                                 unit: getMetric(metric).unit,
                                 valueColor: store.state.chartedMetricsVisibility[metric]!
-                                ? getMetric(metric).color
-                                : colorize("gray"),
+                                    ? getMetric(metric).color
+                                    : colorize("gray"),
                                 isShort: false,
                                 isTall: true,
                                 minimumScaleFactor: 0.5,
@@ -91,11 +91,11 @@ func chartSettingsView(
                             Spacer(minLength: 8)
                         }
                     }.frame(width: geometry.size.width + 8)
-                    
+
                     Spacer(minLength: 8)
                 }
             }.frame(maxWidth: .infinity, alignment: .leading)
-            
+
             Spacer(minLength: 24)
         }
 
@@ -118,7 +118,6 @@ func chartSettingsView(
                 .frame(minWidth: geometry.size.width, maxHeight: .infinity, alignment: .bottom)
                 .padding(.trailing, 16)
         }
-        
     }
     .edgesIgnoringSafeArea(.all)
 }

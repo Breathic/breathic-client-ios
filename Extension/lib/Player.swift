@@ -112,8 +112,6 @@ class Player {
                     _update(session)
                 }
 
-                print("uploadSession result success:", success)
-
                 store.state.isSyncInProgress = false
             }
         }
