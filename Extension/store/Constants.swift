@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-let API_URL: String = "https://api.breathic.com"
+let API_URL: String = Bundle.main.infoDictionary!["API_URL"]! as! String
 let SAMPLE_PATH: String = "/data/samples/"
 let SAMPLE_EXTENSION: String = "m4a"
 let MAX_READING_TIMEOUT_S: Double = 15

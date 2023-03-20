@@ -92,6 +92,9 @@
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FD359C542933802700F14B68 /* ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ExtensionDebug.entitlements; sourceTree = "<group>"; };
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FD877D0229C8DD15007D95F6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
+		FD877D0529C8DD3F007D95F6 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		FD9ABDE129C2588A00C60F25 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -165,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				FD2D392728BBDD99009F1861 /* App.swift */,
+				FD877D0129C8DCD9007D95F6 /* configs */,
 				FD2D392B28BBDD9A009F1861 /* Assets.xcassets */,
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
 				FDF9A8D729C71B8A00DC24E8 /* data */,
@@ -192,6 +196,16 @@
 				FD54540228C74BD6002E24C1 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FD877D0129C8DCD9007D95F6 /* configs */ = {
+			isa = PBXGroup;
+			children = (
+				FD877D0229C8DD15007D95F6 /* Development.xcconfig */,
+				FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */,
+				FD877D0529C8DD3F007D95F6 /* Production.xcconfig */,
+			);
+			path = configs;
 			sourceTree = "<group>";
 		};
 		FDF9A8CF29C5C3F900DC24E8 /* lib */ = {
@@ -418,8 +432,9 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		FD2D393128BBDD9A009F1861 /* Debug */ = {
+		FD877CEF29C8D97F007D95F6 /* Debug (Development) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0229C8DD15007D95F6 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -476,10 +491,295 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Debug;
+			name = "Debug (Development)";
 		};
-		FD2D393228BBDD9A009F1861 /* Release */ = {
+		FD877CF029C8D97F007D95F6 /* Debug (Development) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0229C8DD15007D95F6 /* Development.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Debug (Development)";
+		};
+		FD877CF129C8D97F007D95F6 /* Debug (Development) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0229C8DD15007D95F6 /* Development.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = Breathic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Debug (Development)";
+		};
+		FD877CF229C8D98A007D95F6 /* Debug (Staging) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Debug (Staging)";
+		};
+		FD877CF329C8D98A007D95F6 /* Debug (Staging) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Debug (Staging)";
+		};
+		FD877CF429C8D98A007D95F6 /* Debug (Staging) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).watchkitapp";
+				PRODUCT_NAME = Breathic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Debug (Staging)";
+		};
+		FD877CF529C8D993007D95F6 /* Debug (Production) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0529C8DD3F007D95F6 /* Production.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Debug (Production)";
+		};
+		FD877CF629C8D993007D95F6 /* Debug (Production) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0529C8DD3F007D95F6 /* Production.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Debug (Production)";
+		};
+		FD877CF729C8D993007D95F6 /* Debug (Production) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0529C8DD3F007D95F6 /* Production.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).watchkitapp";
+				PRODUCT_NAME = Breathic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Debug (Production)";
+		};
+		FD877CF829C8D99C007D95F6 /* Release (Development) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0229C8DD15007D95F6 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -530,10 +830,25 @@
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Release;
+			name = "Release (Development)";
 		};
-		FD2D393828BBDD9A009F1861 /* Debug */ = {
+		FD877CF929C8D99C007D95F6 /* Release (Development) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0229C8DD15007D95F6 /* Development.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Release (Development)";
+		};
+		FD877CFA29C8D99C007D95F6 /* Release (Development) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0229C8DD15007D95F6 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -560,7 +875,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).watchkitapp";
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -569,10 +884,80 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Debug;
+			name = "Release (Development)";
 		};
-		FD2D393928BBDD9A009F1861 /* Release */ = {
+		FD877CFB29C8D9A5007D95F6 /* Release (Staging) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Release (Staging)";
+		};
+		FD877CFC29C8D9A5007D95F6 /* Release (Staging) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FRDNTT895P;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Release (Staging)";
+		};
+		FD877CFD29C8D9A5007D95F6 /* Release (Staging) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -599,7 +984,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).watchkitapp";
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -608,10 +993,66 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Release;
+			name = "Release (Staging)";
 		};
-		FD2D393C28BBDD9A009F1861 /* Debug */ = {
+		FD877CFE29C8D9AF007D95F6 /* Release (Production) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0529C8DD3F007D95F6 /* Production.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = "Release (Production)";
+		};
+		FD877CFF29C8D9AF007D95F6 /* Release (Production) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0529C8DD3F007D95F6 /* Production.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -621,20 +1062,47 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
-			name = Debug;
+			name = "Release (Production)";
 		};
-		FD2D393D28BBDD9A009F1861 /* Release */ = {
+		FD877D0029C8D9AF007D95F6 /* Release (Production) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD877D0529C8DD3F007D95F6 /* Production.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Extension/ExtensionDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App uses location derived speed data in order to determine breathing rate for you";
+				INFOPLIST_KEY_NSMotionUsageDescription = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).watchkitapp";
+				PRODUCT_NAME = Breathic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Release;
+			name = "Release (Production)";
 		};
 /* End XCBuildConfiguration section */
 
@@ -642,29 +1110,41 @@
 		FD2D390E28BBDD97009F1861 /* Build configuration list for PBXProject "Breathic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FD2D393128BBDD9A009F1861 /* Debug */,
-				FD2D393228BBDD9A009F1861 /* Release */,
+				FD877CF529C8D993007D95F6 /* Debug (Production) */,
+				FD877CF229C8D98A007D95F6 /* Debug (Staging) */,
+				FD877CEF29C8D97F007D95F6 /* Debug (Development) */,
+				FD877CFE29C8D9AF007D95F6 /* Release (Production) */,
+				FD877CFB29C8D9A5007D95F6 /* Release (Staging) */,
+				FD877CF829C8D99C007D95F6 /* Release (Development) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Debug (Production)";
 		};
 		FD2D393728BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "Breathic WatchKit App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FD2D393828BBDD9A009F1861 /* Debug */,
-				FD2D393928BBDD9A009F1861 /* Release */,
+				FD877CF729C8D993007D95F6 /* Debug (Production) */,
+				FD877CF429C8D98A007D95F6 /* Debug (Staging) */,
+				FD877CF129C8D97F007D95F6 /* Debug (Development) */,
+				FD877D0029C8D9AF007D95F6 /* Release (Production) */,
+				FD877CFD29C8D9A5007D95F6 /* Release (Staging) */,
+				FD877CFA29C8D99C007D95F6 /* Release (Development) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Debug (Production)";
 		};
 		FD2D393B28BBDD9A009F1861 /* Build configuration list for PBXNativeTarget "Breathic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FD2D393C28BBDD9A009F1861 /* Debug */,
-				FD2D393D28BBDD9A009F1861 /* Release */,
+				FD877CF629C8D993007D95F6 /* Debug (Production) */,
+				FD877CF329C8D98A007D95F6 /* Debug (Staging) */,
+				FD877CF029C8D97F007D95F6 /* Debug (Development) */,
+				FD877CFF29C8D9AF007D95F6 /* Release (Production) */,
+				FD877CFC29C8D9A5007D95F6 /* Release (Staging) */,
+				FD877CF929C8D99C007D95F6 /* Release (Development) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Debug (Production)";
 		};
 /* End XCConfigurationList section */
 

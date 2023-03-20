@@ -31,7 +31,6 @@ struct AppState {
     var timeseries: ReadingContainer = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
-    //var selectedSessionIndex: Int = 0
     var chartDomain = ChartDomain()
     var chartableMetrics: [String: Float] = [:]
     var chartedMetricsVisibility: [String: Bool] = [:]
