@@ -56,7 +56,6 @@ func updateMetric(
 
     if canUpdate(value) && value != prevValue {
         store.state.setMetricValue(metric, value)
-        store.state.lastDataChangeTime = .now()
     }
 
     return result
