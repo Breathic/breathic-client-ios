@@ -6,7 +6,7 @@ func logView(
     selectedSessionId: Binding<String>
 ) -> some View {
     VStack {
-        if store.state.sessionLogIds.count == 0 {
+        if getSessionIds(sessions: store.state.sessions).count == 0 {
             Text("Your saved sessions will be soon appearing here, hopefully!")
                 .foregroundColor(Color.white)
                 .font(.system(size: 12))
@@ -15,7 +15,7 @@ func logView(
         }
 
         Picker("", selection: selectedSessionId) {
-            ForEach(store.state.sessionLogIds.reversed(), id: \.self) {
+            ForEach(getSessionIds(sessions: store.state.sessions).reversed(), id: \.self) {
                 if $0 == store.state.selectedSessionId {
                     Text($0)
                         .font(.system(size: 14))

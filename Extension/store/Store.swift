@@ -14,8 +14,7 @@ struct AppState {
     var rhythms: [Track] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
-    var sessionLogs: [Session] = []
-    var sessionLogIds: [String] = []
+    var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
     var lastDataChangeTime: DispatchTime = .now()
@@ -33,10 +32,12 @@ struct AppState {
     var timeseries: ReadingContainer = [:]
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
+    //var selectedSessionIndex: Int = 0
     var chartDomain = ChartDomain()
     var chartableMetrics: [String: Float] = [:]
     var chartedMetricsVisibility: [String: Bool] = [:]
     var chartScales: [String: Bool] = DEFAULT_CHART_SCALES
+    var isSyncInProgress: Bool = false
 
     func getMetricValue(_ metric: String) -> Float {
         metrics[metric] ?? 0

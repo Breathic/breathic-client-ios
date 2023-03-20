@@ -26,17 +26,12 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var id: String = "" {
-        didSet {
-            save()
-        }
-    }
     var startTime: Date = Date() {
         didSet {
             save()
         }
     }
-    var endTime: Date = Date() {
+    var endTime: Date? = nil {
         didSet {
             save()
         }
@@ -56,7 +51,7 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var uploadStatus: UploadStatus = UploadStatus.UploadStart {
+    var syncStatus: SyncStatus = SyncStatus.Syncable {
         didSet {
             save()
         }
@@ -66,7 +61,6 @@ class Session: ObservableObject, Codable {
         if !isActive {
             startTime = Date()
             uuid = UUID().uuidString
-            id = generateSessionId(session: self)
         }
 
         isActive = true
@@ -79,7 +73,7 @@ class Session: ObservableObject, Codable {
 
     func save() {
         guard let data: Data = try? JSONEncoder().encode(self) else { return }
-        let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION)
+        let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION_NAME)
         writeToFile(url: url, data: data)
     }
 }

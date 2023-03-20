@@ -201,8 +201,8 @@ let AUDIO_PANNING_MODES: [String] = [
 ]
 let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
 let TIMESERIES_SAVER_INTERVAL_MINUTELY: Double = 60
-let STORE_ACTIVE_SESSION: String = "ActiveSession"
-let STORE_SESSION_LOGS: String = "SessionLogs"
+let STORE_ACTIVE_SESSION_NAME: String = "ActiveSession"
+let STORE_SESSION_NAME: String = "Sessions"
 let DRAG_INDEXES: [String: Int] = [
     "Controller": 0,
     "Status": 1,
@@ -221,4 +221,5 @@ let DEFAULT_CHART_SCALES: [String: Bool] = [
 ]
 let CONFIRMATION_DEFAULT_VALUE: Double = 0.25
 let CONFIRMATION_ENOUGH_VALUE: Double = 0.9
+let SYNC_INTERVAL_S: Double = 60
 //let SENTRY_DSN = "https://104bfdd0d1f9498bba4cbaca12988611@o1399372.ingest.sentry.io/6726680"

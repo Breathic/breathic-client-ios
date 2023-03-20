@@ -21,10 +21,10 @@ func selectMainMenu(geometry: GeometryProxy, store: Store) {
 }
 
 func highlightFirstLogItem(store: Store) {
-    let sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+    let sessionIds = getSessionIds(sessions: store.state.sessions)
 
-    if sessionLogIds.count > 0 {
-        store.state.selectedSessionId = sessionLogIds[sessionLogIds.count - 1]
+    if sessionIds.count > 0 {
+        store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
     }
 }
 
@@ -171,17 +171,17 @@ func parseScale(
 }
 
 func onLogSelect(store: Store) {
-    let index = store.state.sessionLogIds.reversed()
+    let index = getSessionIds(sessions: store.state.sessions).reversed()
         .firstIndex(where: { $0 == store.state.selectedSessionId }) ?? -1
 
     if index > -1 {
-        store.state.selectedSession = store.state.sessionLogs.reversed()[index]
+        store.state.selectedSession = store.state.sessions.reversed()[index]
         clearTimeseries(store: store)
 
         let timeseriesData = getTimeseriesData(
             uuid: store.state.selectedSession.uuid,
             startTime: store.state.selectedSession.startTime,
-            endTime: store.state.selectedSession.endTime,
+            endTime: store.state.selectedSession.endTime!,
             timeUnit: TimeUnit.Minute
         )
 
@@ -197,7 +197,7 @@ func onLogSelect(store: Store) {
 }
 
 func hasSessionLogs(store: Store) -> Bool {
-    store.state.sessionLogs.count > 0
+    store.state.sessions.count > 0
 }
 
 func clearTimeseries(store: Store) {
@@ -209,16 +209,15 @@ func clearTimeseries(store: Store) {
 func deleteSession(store: Store, sessionId: String) {
     var sessionIndex = -1
 
-    for (index, item) in getSessionIds(sessions: store.state.sessionLogs).enumerated() {
+    for (index, item) in getSessionIds(sessions: store.state.sessions).enumerated() {
         if item == sessionId {
             sessionIndex = index
         }
     }
     
     if sessionIndex > -1 {
-        store.state.sessionLogs.remove(at: sessionIndex)
-        saveSessionLogs(sessionLogs: store.state.sessionLogs)
-        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
+        deleteSession(store.state.sessions[sessionIndex])
+        store.state.sessions.remove(at: sessionIndex)
     }
 
     if !hasSessionLogs(store: store) {

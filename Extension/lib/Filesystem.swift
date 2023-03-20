@@ -88,3 +88,15 @@ func readFromFolder(_ folder: String) -> [String] {
 
     return result
 }
+
+func deleteFileOrFolder(url: URL) {
+    let manager = FileManager.default
+
+    if manager.fileExists(atPath: url.path) {
+        do {
+            try manager.removeItem(atPath: url.path)
+        } catch {
+            print("deleteFile(): Could not delete file, probably read-only filesystem")
+        }
+    }
+}

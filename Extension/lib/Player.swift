@@ -30,18 +30,10 @@ class Player {
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
         fadeScale = getFadeScale()
         panScale = getPanScale()
+        store.state.sessions = readSessions()
 
         do {
-            let url = getDocumentsDirectory().appendingPathComponent(STORE_SESSION_LOGS)
-            let data = readFromFile(url: url)
-            store.state.sessionLogs = try JSONDecoder().decode([Session].self, from: data)
-            store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        } catch {
-            print("Player[]: Get session log Ids error")
-        }
-
-        do {
-            let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION)
+            let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION_NAME)
             let data = readFromFile(url: url)
             store.state.session = try JSONDecoder().decode(Session.self, from: data)
         } catch {
@@ -58,6 +50,7 @@ class Player {
         startElapsedTimer()
         cachePlayers(Breathe.BreatheIn.rawValue)
         cachePlayers(Breathe.BreatheOut.rawValue)
+        sync(store.state.sessions.shuffled())
     }
 
     func cachePlayers(_ type: String = "") {
@@ -81,6 +74,52 @@ class Player {
                 self.saveReadings(TimeUnit.Minute)
             }
         }
+
+        Timer.scheduledTimer(withTimeInterval: SYNC_INTERVAL_S, repeats: true) { timer in
+            self.sync(self.store.state.sessions.shuffled())
+        }
+    }
+
+    func sync(_ sessions: [Session]) {
+        func _update(_ session: Session) {
+            saveSession(session)
+            store.state.sessions = readSessions()
+        }
+
+        if store.state.isSyncInProgress {
+            return
+        }
+
+        store.state.isSyncInProgress = true
+
+        Task {
+            let sessions = sessions.filter { session in
+                if session.endTime != nil && session.syncStatus == SyncStatus.Syncable {
+                    return true
+                }
+
+                return false
+            }
+
+            if sessions.count > 0 {
+                let session = sessions[0]
+                session.syncStatus = SyncStatus.Syncing
+                _update(session)
+
+                let success = await uploadSession(session)
+                if success {
+                    session.syncStatus = SyncStatus.Synced
+                    _update(session)
+                }
+
+                print("uploadSession result success:", success)
+
+                store.state.isSyncInProgress = false
+                sync(store.state.sessions)
+            }
+        }
+
+        store.state.isSyncInProgress = false
     }
 
     func saveReadings(_ timeUnit: TimeUnit) {
@@ -89,7 +128,10 @@ class Player {
 
         do {
             let data = try JSONEncoder().encode(readingContainer)
-            let folderURL = getDocumentsDirectory().appendingPathComponent(store.state.session.uuid + "-" + timeUnit.rawValue)
+            let folderURL = getFolderURLForReading(
+                session: store.state.session,
+                timeUnit: timeUnit
+            )
             createFolderIfNotExists(url: folderURL)
             let fileURL = folderURL.appendingPathComponent(id)
             writeToFile(url: fileURL, data: data)
@@ -101,6 +143,7 @@ class Player {
     }
 
     func start() {
+        store.state.session = Session()
         store.state.isResumable = false
         store.state.setMetricValuesToDefault()
         putToBackground()
@@ -124,11 +167,11 @@ class Player {
         store.state.setMetricValuesToDefault()
         sessionPause()
         store.state.session.stop()
-        store.state.sessionLogs.append(store.state.session)
-        store.state.sessionLogIds = getSessionIds(sessions: store.state.sessionLogs)
-        saveSessionLogs(sessionLogs: store.state.sessionLogs)
+        store.state.sessions.append(store.state.session)
+        saveSession(store.state.session)
         store.state.session = Session()
         coordinator.invalidate()
+        sync([store.state.sessions[store.state.sessions.count - 1]])
     }
 
     func startElapsedTimer() {

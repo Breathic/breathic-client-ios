@@ -38,8 +38,6 @@ func controllerView(
                         : 0
                     store.state.setMetricValuesToDefault()
                     store.state.render()
-
-                    uploadSession(session: store.state.sessionLogs.reversed()[0])
                 }
             )
 

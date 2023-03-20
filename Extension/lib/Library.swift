@@ -56,29 +56,48 @@ func generateSessionId(session: Session) -> String {
         .components(separatedBy: " ")[0]
 }
 
+func readSessions() -> [Session] {
+    do {
+        return try readFromFolder(STORE_SESSION_NAME)
+            .map {
+                let fileURL = getSessionLogsFolderURL()
+                    .appendingPathComponent($0)
+                let data = readFromFile(url: fileURL)
+                return try JSONDecoder().decode(Session.self, from: data)
+            }
+            .sorted { $0.startTime > $1.startTime }
+    } catch {
+        print("readSessions(): error", error)
+    }
+
+    return []
+}
+
 func getSessionIds(sessions: [Session]) -> [String] {
     var result: [String] = []
     var prevId = ""
     var saves = 1
 
-    for session in sessions.reversed() {
-        var id = generateSessionId(session: session)
-        let isDuplicate = prevId == id
+    sessions
+        .sorted { $0.startTime > $1.startTime }
+        .forEach { session in
+            var id = generateSessionId(session: session)
+            let isDuplicate = prevId == id
 
-        prevId = id
-        saves = isDuplicate
-            ? saves + 1
-            : 1
+            prevId = id
+            saves = isDuplicate
+                ? saves + 1
+                : 1
 
-        // Display the latest session for each minute.
-        if saves == 1 {
-            let elapsedTime = getElapsedTime(from: session.startTime, to: session.endTime)
-            id = id + " (" + elapsedTime + ")"
-            result.append(id)
+            // Display the latest session for each minute.
+            if saves == 1 {
+                let elapsedTime = getElapsedTime(from: session.startTime, to: session.endTime!)
+                id = id + " (" + elapsedTime + ")"
+                result.append(id)
+            }
         }
-    }
 
-    return result.reversed()
+    return result
 }
 
 func parseProgressData(timeseries: [Reading], startTime: Date) -> [ProgressData] {
@@ -161,22 +180,53 @@ func getAverages(timeseries: ReadingContainer) -> ReadingContainer {
     return result
 }
 
-func saveSessionLogs(sessionLogs: [Session]) {
-    guard let data = try? JSONEncoder().encode(sessionLogs) else { return }
-    let url = getDocumentsDirectory().appendingPathComponent(STORE_SESSION_LOGS)
-    writeToFile(url: url, data: data)
+func getFolderURLForReading(session: Session, timeUnit: TimeUnit) -> URL {
+    getDocumentsDirectory().appendingPathComponent(session.uuid + "-" + timeUnit.rawValue)
+}
+
+func saveSession(_ session: Session) {
+    guard let data = try? JSONEncoder().encode(session) else { return }
+    createFolderIfNotExists(url: getSessionLogsFolderURL())
+    let fileURL = getSessionLogsFolderURL()
+        .appendingPathComponent(session.uuid)
+    writeToFile(url: fileURL, data: data)
+}
+
+func getSessionLogsFolderURL() -> URL {
+    getDocumentsDirectory().appendingPathComponent(STORE_SESSION_NAME)
+}
+
+func deleteSession(_ session: Session) {
+    let fileURL = getSessionLogsFolderURL()
+        .appendingPathComponent(session.uuid)
+    deleteFileOrFolder(url: fileURL)
+    deleteSessionReadings(session)
+}
+
+func deleteSessionReadings(_ session: Session) {
+    [TimeUnit.Minute, TimeUnit.Second].forEach { timeUnit in
+        let folderURL = getFolderURLForReading(
+            session: session,
+            timeUnit: timeUnit
+        )
+        deleteFileOrFolder(url: folderURL)
+    }
 }
 
 func buildSessionPayload(timeseriesData: ReadingContainer) -> String {
-    var csv: String = "timestamp,metric,value"
+    let header: String = "timestamp,metric,value"
+    var body: String = ""
     var index = 0
     for metric in timeseriesData {
         for value in metric.value {
-            csv = csv + "\n" + value.timestamp.ISO8601Format() + "," + metric.key + "," + String(value.value)
+            body = body + "\n" + value.timestamp.ISO8601Format() + "," + metric.key + "," + String(value.value)
             index = index + 1
         }
     }
-    return csv
+
+    return body.count > 0
+        ? header + body
+        : ""
 }
 
 func getSourceMetricTypes() -> [String] {

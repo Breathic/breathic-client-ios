@@ -1,21 +1,21 @@
 import WatchKit
 import WatchConnectivity
 
-func uploadSession(session: Session) {
-    struct RequestData: Encodable {
-        let sessionUuid: String
-        let deviceUuid: String
-        let payload: String
-        let startTimeEpoch: Int
-        let endTimeEpoch: Int
-    }
+func uploadSession(_ session: Session) async -> Bool {
+    do {
+        struct RequestData: Encodable {
+            let sessionUuid: String
+            let deviceUuid: String
+            let payload: String
+            let startTimeEpoch: Int
+            let endTimeEpoch: Int
+        }
 
-    if WKInterfaceDevice.current().identifierForVendor != nil {
-        Task {
+        if WKInterfaceDevice.current().identifierForVendor != nil {
             let timeseriesData: ReadingContainer = getTimeseriesData(
                 uuid: session.uuid,
                 startTime: session.startTime,
-                endTime: session.endTime,
+                endTime: session.endTime!,
                 timeUnit: TimeUnit.Second
             )
             let payload: String = buildSessionPayload(timeseriesData: timeseriesData)
@@ -29,44 +29,32 @@ func uploadSession(session: Session) {
                     deviceUuid: deviceUuid,
                     payload: payload,
                     startTimeEpoch: Int(session.startTime.timeIntervalSince1970),
-                    endTimeEpoch: Int(session.endTime.timeIntervalSince1970)
+                    endTimeEpoch: Int(session.endTime!.timeIntervalSince1970)
                 )
             )
-
             var request = URLRequest(url: url)
-
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpMethod = "POST"
 
+            var response: HTTPURLResponse? = nil
             if Platform.isSimulator {
-                uploadFromSimulator(request: request, requestData: requestData)
+                let (_, _response) = try await URLSession.shared.upload(for: request, from: requestData)
+                response = _response as? HTTPURLResponse
             }
             else {
                 request.httpBody = requestData
-                uploadFromDevice(request: request)
+                let (_, _response) = try await URLSession.shared.data(for: request)
+                response = _response as? HTTPURLResponse
             }
+
+            if response != nil && response?.statusCode != nil && response?.statusCode != 200 {
+                return false
+            }
+
+            return true
         }
     }
-}
+    catch {}
 
-func uploadFromSimulator(request: URLRequest, requestData: Data) {
-    Task {
-        let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
-        print(data, response)
-    }
-}
-
-func uploadFromDevice(request: URLRequest) {
-    let task = URLSession.shared.dataTask(
-        with: request,
-        completionHandler: { data, response, error in
-            print(
-                data ?? "",
-                response ?? "",
-                error ?? ""
-            )
-        }
-    )
-
-    task.resume()
+    return false
 }

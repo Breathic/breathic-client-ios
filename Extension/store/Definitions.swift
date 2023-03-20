@@ -77,11 +77,10 @@ class Reading: Codable {
     var value: Float = 0
 }
 
-enum UploadStatus: String, Codable {
-    case UploadStart = "upload"
-    case Uploading = "uploading"
-    case Uploaded = "uploaded"
-    case UploadRetry = "retry upload"
+enum SyncStatus: String, Codable {
+    case Syncable = "syncable"
+    case Syncing = "syncing"
+    case Synced = "synced"
 }
 
 struct ProgressData: Identifiable {
