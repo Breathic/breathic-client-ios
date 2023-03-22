@@ -56,7 +56,7 @@ struct ContentView: View {
                                 selectedSessionId: $store.state.selectedSessionId
                             )
 
-                        case "Confirm":
+                        case "Session":
                             sessionStopConfirmationView(
                                 geometry: geometry,
                                 store: store,

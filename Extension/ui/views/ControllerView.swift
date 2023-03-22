@@ -50,11 +50,8 @@ func controllerView(
                 isTall: false,
                 minimumScaleFactor: 0.75,
                 action: {
-                    player.togglePlay()
-                },
-                longAction: {
                     if !store.state.session.isActive || store.state.isResumable { player.start() }
-                    else { store.state.activeSubView = "Confirm" }
+                    else { store.state.activeSubView = "Session" }
                 }
             )
         }
