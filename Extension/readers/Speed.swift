@@ -8,8 +8,10 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var last: CLLocation?
     var timer: Timer?
-    var readings: [Reading] = []
-    let metric: String = "speed"
+    var readings: [String: [Reading]] = [:]
+    var startLocation: CLLocation!
+    var lastLocation: CLLocation!
+    var traveledDistance: Float = 0
 
     override init() {
         super.init()
@@ -57,22 +59,23 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     func stop() {
         timer?.invalidate()
         timer = nil
-        readings = []
+
+        readings.keys.forEach { metric in
+            readings[metric] = []
+        }
     }
 
-    func process(current: CLLocation) {
-        guard last != nil else {
-            last = current
-            return
+    func process(metric: String, value: Float) {
+        if readings[metric] == nil {
+            readings[metric] = []
         }
 
-        readings = updateMetric(
+        readings[metric] = updateMetric(
             store: store,
             metric: metric,
-            metricValue: Float(current.speed),
-            readings: readings
+            metricValue: value,
+            readings: readings[metric]!
         )
-        last = current
     }
 }
 
@@ -90,7 +93,28 @@ extension Speed {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
             DispatchQueue.main.async {
-                self.process(current: location)
+                if location.speedAccuracy >= 0 {
+                    self.process(metric: "speed", value: Float(location.speed))
+                }
+
+                if location.verticalAccuracy > 0 {
+                    self.process(metric: "altitude", value: Float(location.altitude))
+                }
+
+                self.process(metric: "longitude", value: Float(location.coordinate.longitude))
+                self.process(metric: "latitude", value: Float(location.coordinate.latitude))
+
+                if self.startLocation == nil {
+                    self.startLocation = locations.first
+                }
+                else {
+                    let lastLocation = locations.last!
+                    let distance = self.startLocation.distance(from: lastLocation)
+                    self.startLocation = lastLocation
+                    self.traveledDistance = self.traveledDistance + Float(distance)
+                }
+
+                self.process(metric: "distance", value: self.traveledDistance)
             }
         }
     }

@@ -16,14 +16,18 @@ func trimReadings(readings: [Reading], value: Float) -> [Reading] {
     return result
 }
 
-func getAverageValue(readings: [Reading]) -> Float {
+func getAverageValue(_ readings: [Reading]) -> Float {
     return readings.reduce(0) { Float($0) + Float($1.value) } / Float(readings.count)
 }
 
-func getIntervalDerivedValue(readings: [Reading]) -> Float {
+func getIntervalDerivedValue(_ readings: [Reading]) -> Float {
     let intervalDuration = readings[0].timestamp.distance(to: readings[readings.count - 1].timestamp)
     let intervalSteps = readings[readings.count - 1].value - readings[0].value
     return Float(intervalDuration) / intervalSteps
+}
+
+func getLastValue(_ readings: [Reading]) -> Float {
+    return readings[readings.count - 1].value
 }
 
 func canUpdate(_ value: Float) -> Bool {
@@ -32,9 +36,13 @@ func canUpdate(_ value: Float) -> Bool {
 
 func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
     switch metric {
-        case "heart": return getAverageValue(readings: readings)
-        case "step": return getIntervalDerivedValue(readings: readings) * 60
-        case "speed": return getAverageValue(readings: readings) * 3.6
+        case "heart": return getAverageValue(readings)
+        case "step": return getIntervalDerivedValue(readings) * 60
+        case "speed": return getAverageValue(readings) * 3.6
+        case "altitude": return getLastValue(readings)
+        case "longitude": return getLastValue(readings)
+        case "latitude": return getLastValue(readings)
+        case "distance": return getLastValue(readings)
         default: fatalError("metric is undefined")
     }
 }
