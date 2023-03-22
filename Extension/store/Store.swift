@@ -38,20 +38,23 @@ struct AppState {
     var isSyncInProgress: Bool = false
 
     func getMetricValue(_ metric: String) -> Float {
-        metrics[metric] ?? 0
+        self.metrics[metric] ?? 0
     }
 
     mutating func setMetricValue(_ metric: String, _ value: Float) {
-        if metrics[metric] == nil {
-            metrics[metric] = 0
-        }
-
-        metrics[metric] = value
+        self.metrics[metric] = value
     }
 
     mutating func setMetricValuesToDefault() {
-        METRIC_TYPES.keys.forEach {
-            self.metrics[$0] = METRIC_TYPES[$0]?.defaultValue
+        if !Platform.isSimulator {
+            self.metrics = [:]
+        }
+        else {
+            METRIC_TYPES.keys.forEach {
+                if METRIC_TYPES[$0]!.isChartable {
+                    self.metrics[$0] = METRIC_TYPES[$0]?.defaultValue
+                }
+            }
         }
     }
 

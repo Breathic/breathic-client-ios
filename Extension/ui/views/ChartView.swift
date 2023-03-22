@@ -7,6 +7,11 @@ func chartSettingsView(
     let columns = METRIC_ORDER
         .filter { store.state.chartableMetrics[$0] != nil }
         .chunks(2)
+    let readingsURL: String = API_URL + "/session/" + store.state.selectedSession.uuid + "/readings"
+
+    if Platform.isSimulator {
+        print(readingsURL)
+    }
 
     return ScrollView(showsIndicators: false) {
         HStack {
@@ -99,19 +104,21 @@ func chartSettingsView(
             Spacer(minLength: 24)
         }
 
-        Group {
-            Text("Export")
-                .font(.system(size: 10))
-                .frame(maxWidth: .infinity, alignment: .leading)
+        if store.state.selectedSession.syncStatus == SyncStatus.Synced {
+            Group {
+                Text("Export")
+                    .font(.system(size: 10))
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-            generateQRCode(API_URL + "/session/" + store.state.selectedSession.uuid + "/readings")
-                .resizable()
-                .scaledToFit()
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .padding(.trailing, 16)
+                generateQRCode(readingsURL)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .padding(.trailing, 16)
+
+                Spacer(minLength: 24)
+            }
         }
-
-        Spacer(minLength: 24)
 
         Group {
             Text("Danger Zone")

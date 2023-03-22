@@ -24,11 +24,11 @@ let PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2.2
+                rhythm: 3
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2.2
+                rhythm: 3
             )
         ]
     ),
@@ -37,11 +37,11 @@ let PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2
+                rhythm: 2.5
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2
+                rhythm: 2.5
             )
         ]
     ),
@@ -50,11 +50,11 @@ let PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 1.8
+                rhythm: 2
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 1.8
+                rhythm: 2
             )
         ]
     ),
@@ -63,11 +63,11 @@ let PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2.2
+                rhythm: 3
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 4.4
+                rhythm: 6
             )
         ]
     )
@@ -87,6 +87,7 @@ let ACTIVITIES: [Activity] = [
 let METRIC_TYPES: [String: MetricType] = [
     "heart": MetricType(
         metric: "heart",
+        abbreviation: "h",
         label: "Heartbeats",
         unit: "per minute",
         isSource: true,
@@ -96,6 +97,7 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "step": MetricType(
         metric: "step",
+        abbreviation: "s",
         label: "Steps",
         unit: "per minute",
         isSource: true,
@@ -104,6 +106,7 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "speed": MetricType(
         metric: "speed",
+        abbreviation: "sp",
         label: "Speed",
         unit: "m / s",
         isChartable: true,
@@ -112,6 +115,7 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "distance": MetricType(
         metric: "distance",
+        abbreviation: "d",
         label: "Distance",
         unit: "m",
         isChartable: true,
@@ -120,39 +124,40 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "altitude": MetricType(
         metric: "altitude",
+        abbreviation: "a",
         label: "Altitude",
         unit: "m",
         isChartable: false,
-        color: colorize("brown"),
+        color: colorize("yellow"),
         defaultValue: Platform.isSimulator ? 10 : 0
     ),
     "breath": MetricType(
         metric: "breath",
+        abbreviation: "b",
         label: "Breaths",
         unit: "per minute",
         isChartable: true,
         color: colorize("green")
     ),
+    /*
     "heart-to-breath": MetricType(
         metric: "heart-to-breath",
+        abbreviation: "h2b",
         label: "Heartbreaths",
         unit: "per minute",
         color: colorize("pink")
     ),
     "step-to-breath": MetricType(
         metric: "step-to-breath",
+        abbreviation: "s2b",
         label: "Stepbreaths",
         unit: "per minute",
         color: colorize("teal")
     ),
-    "speed-to-breath": MetricType(
-        metric: "speed-to-breath",
-        label: "Speedbreaths",
-        unit: "per minute",
-        color: colorize("yellow")
-    ),
+    */
     "breathe-in": MetricType(
         metric: "breathe-in",
+        abbreviation: "bi",
         label: "Breathe in",
         unit: "per pace",
         color: colorize("blue"),
@@ -160,6 +165,7 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "breathe-in-hold": MetricType(
         metric: "breathe-in-hold",
+        abbreviation: "bih",
         label: "Breathe in & hold",
         unit: "per pace",
         color: colorize("blue"),
@@ -167,6 +173,7 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "breathe-out": MetricType(
         metric: "breathe-out",
+        abbreviation: "bo",
         label: "Breathe out",
         unit: "per pace",
         color: colorize("orange"),
@@ -174,10 +181,23 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "breathe-out-hold": MetricType(
         metric: "breathe-out-hold",
+        abbreviation: "boh",
         label: "Breathe out & hold",
         unit: "per pace",
         color: colorize("orange"),
         format: "%.1f"
+    ),
+    "sample-id": MetricType(
+        metric: "sample-id",
+        abbreviation: "sid"
+    ),
+    "longitude": MetricType(
+        metric: "longitude",
+        abbreviation: "lon"
+    ),
+    "latitude": MetricType(
+        metric: "latitude",
+        abbreviation: "lat"
     )
 ]
 let COLORS: [String: (Double, Double, Double)] = [

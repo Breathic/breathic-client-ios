@@ -31,7 +31,7 @@ func getLastValue(_ readings: [Reading]) -> Float {
 }
 
 func canUpdate(_ value: Float) -> Bool {
-    return value >= 0 && !value.isInfinite && !value.isNaN
+    return !value.isInfinite && !value.isNaN
 }
 
 func parseMetric(metric: String, readings: [Reading]) -> Float {

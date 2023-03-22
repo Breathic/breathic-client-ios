@@ -217,11 +217,29 @@ func deleteSessionReadings(_ session: Session) {
 func buildSessionPayload(timeseriesData: ReadingContainer) -> String {
     let header: String = "timestamp,metric,value"
     var body: String = ""
-    var index = 0
+
     for metric in timeseriesData {
-        for value in metric.value {
-            body = body + "\n" + value.timestamp.ISO8601Format() + "," + metric.key + "," + String(value.value)
-            index = index + 1
+        var lastKeyVal: String?
+
+        metric.value.forEach {
+            if METRIC_TYPES[metric.key] != nil {
+                let abbreviation: String = METRIC_TYPES[metric.key]!.abbreviation
+                var value = String($0.value)
+                let suffix = ".0"
+
+                if value.hasSuffix(suffix) {
+                    value = value.replacingOccurrences(of: suffix, with: "")
+                }
+
+                let keyVal = abbreviation + "," + value
+                let keyValExists: Bool = lastKeyVal != nil && lastKeyVal == keyVal
+
+                if !keyValExists {
+                    body = body + "\n" + String($0.timestamp.timeIntervalSince1970) + "," + keyVal
+                }
+
+                lastKeyVal = keyVal
+            }
         }
     }
 
@@ -239,11 +257,7 @@ func getSourceMetricTypes() -> [String] {
 }
 
 func generateQRCode(_ string: String) -> Image {
-    let cgImage = EFQRCode.generate(
-        for: string
-    )
+    let cgImage = EFQRCode.generate(for: string)
     let uiImage = UIImage(cgImage: cgImage!)
-
-    // and convert that to a SwiftUI image
     return Image(uiImage: uiImage)
 }

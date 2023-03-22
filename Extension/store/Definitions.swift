@@ -31,6 +31,7 @@ struct Activity: Codable {
 
 struct MetricType {
     var metric: String = ""
+    var abbreviation: String = ""
     var label: String = ""
     var unit: String = ""
     var isReversed: Bool = false

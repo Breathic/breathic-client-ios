@@ -262,8 +262,8 @@ class Player {
         let isHorizontalPanning = store.state.audioPanningMode == "Horizontal"
         let channel = audios[audioIndex].channels[channelIndex]
         let breathType = isVerticalPanning && isPanningReversed
-            ? Breathe.BreatheOut.rawValue
-            : Breathe.BreatheIn.rawValue
+            ? Breathe.BreatheIn.rawValue
+            : Breathe.BreatheOut.rawValue
         let separator = "." + SAMPLE_EXTENSION
         let forResource = channel[sampleIndex].split(separator: separator)[0] + "-" + breathType + separator
         if Platform.isSimulator {
@@ -286,6 +286,11 @@ class Player {
 
             players[playerId]?.volume = store.state.session.volume / 100 * Float(fade)
             players[playerId]?.play()
+
+            let sampleId = Float(playerId
+                .split(separator: "/")[2]
+                .split(separator: "-")[0])!
+            store.state.setMetricValue("sample-id", sampleId)
         }
     }
 
@@ -399,13 +404,15 @@ class Player {
         let metricType: MetricType = METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
-        store.state.setMetricValue(metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
+        //store.state.setMetricValue(metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
 
         PRESETS[store.state.session.presetIndex].breathingTypes.forEach {
-            store.state.setMetricValue($0.key.rawValue, $0.rhythm)
+            if $0.rhythm > 0 {
+                store.state.setMetricValue($0.key.rawValue, $0.rhythm)
+            }
         }
 
-        for metric in METRIC_TYPES.keys {
+        for metric in store.state.metrics.keys {
             let value: Float = store.state.getMetricValue(metric)
 
             if canUpdate(value) {
