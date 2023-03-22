@@ -34,7 +34,7 @@ func canUpdate(_ value: Float) -> Bool {
     return value >= 0 && !value.isInfinite && !value.isNaN
 }
 
-func getAverageByMetric(metric: String, readings: [Reading]) -> Float {
+func parseMetric(metric: String, readings: [Reading]) -> Float {
     switch metric {
         case "heart": return getAverageValue(readings)
         case "step": return getIntervalDerivedValue(readings) * 60
@@ -60,7 +60,7 @@ func updateMetric(
 
     let result = trimReadings(readings: readings, value: metricValue)
     let prevValue = store.state.getMetricValue(metric)
-    let value = getAverageByMetric(metric: metric, readings: result)
+    let value = parseMetric(metric: metric, readings: result)
 
     if canUpdate(value) && value != prevValue {
         store.state.setMetricValue(metric, value)

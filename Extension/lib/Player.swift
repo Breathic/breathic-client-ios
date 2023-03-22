@@ -8,7 +8,7 @@ class Player {
     @ObservedObject private var store: Store = .shared
 
     let step = Step()
-    var speed = Speed()
+    var location = Location()
     var heart = Heart()
     var isPanningReversed: Bool = true
     var fadeScale: [Float] = []
@@ -432,14 +432,14 @@ class Player {
     func sessionPlay() {
         heart.start()
         step.start()
-        speed.start()
+        location.start()
         store.state.session.isPlaying = true
     }
 
     func sessionPause() {
         heart.stop()
         step.stop()
-        speed.stop()
+        location.stop()
         store.state.session.isPlaying = false
     }
 

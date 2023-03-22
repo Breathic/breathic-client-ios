@@ -2,7 +2,7 @@ import Foundation
 import CoreLocation
 import SwiftUI
 
-class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
+class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     @ObservedObject private var store: Store = .shared
 
     let locationManager = CLLocationManager()
@@ -79,7 +79,7 @@ class Speed: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 }
 
-extension Speed {
+extension Location {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
          print("error: \(error.localizedDescription)")
     }
