@@ -20,7 +20,6 @@ func uploadSession(_ session: Session) async -> Bool {
             let sessionUuid = session.uuid;
             let deviceUuid = WKInterfaceDevice.current().identifierForVendor!.uuidString
             let sessionData = String(data: try JSONEncoder().encode(session), encoding: String.Encoding.utf8)!
-
             let requestData = try JSONEncoder().encode(
                 RequestData(
                     sessionUuid: sessionUuid,
