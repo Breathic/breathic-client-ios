@@ -9,7 +9,7 @@ func controllerView(
     func getSessionValue(store: Store) -> String {
         if store.state.session.isActive {
             if store.state.isResumable { return "Resume" }
-            if !store.state.session.isPlaying { return "Unpause" }
+            if !store.state.session.isPlaying { return "Resume" }
             else if store.state.session.elapsedSeconds > 0 { return getElapsedTime(store.state.session.elapsedSeconds) }
             else { return "" }
         }
@@ -50,7 +50,15 @@ func controllerView(
                 isTall: false,
                 minimumScaleFactor: 0.75,
                 action: {
-                    if !store.state.session.isActive || store.state.isResumable { player.start() }
+                    if !store.state.isResumable {
+                        player.togglePlay()
+                    }
+                    else {
+                        player.start()
+                    }
+                },
+                longAction: {
+                    if !store.state.session.isActive { player.start() }
                     else { store.state.activeSubView = "Session" }
                 }
             )

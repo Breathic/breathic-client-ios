@@ -37,17 +37,6 @@ func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: 
             .fontWeight(.bold)
             .buttonStyle(.bordered)
             .tint(colorize("teal"))
-
-            Button(action: {
-                player.togglePlay()
-                store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
-            }) {
-                Text(store.state.session.isPlaying ? "Pause" : "Play")
-            }
-            .font(.system(size: 12))
-            .fontWeight(.bold)
-            .buttonStyle(.bordered)
-            .tint(colorize("yellow"))
         }
         .frame(maxHeight: .infinity, alignment: .bottom)
         .edgesIgnoringSafeArea(.all)
