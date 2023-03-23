@@ -106,8 +106,6 @@ func getChartableMetrics(timeseries: ReadingContainer) -> [String: Float] {
 
 func getTimeseriesData(
     uuid: String,
-    startTime: Date,
-    endTime: Date,
     timeUnit: TimeUnit
 ) -> ReadingContainer {
     var result: ReadingContainer = [:]
@@ -180,8 +178,6 @@ func onLogSelect(store: Store) {
 
         let timeseriesData = getTimeseriesData(
             uuid: store.state.selectedSession.uuid,
-            startTime: store.state.selectedSession.startTime,
-            endTime: store.state.selectedSession.endTime!,
             timeUnit: TimeUnit.Minute
         )
 

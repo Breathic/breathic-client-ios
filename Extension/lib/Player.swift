@@ -141,7 +141,10 @@ class Player {
     }
 
     func start() {
-        store.state.session = Session()
+        if !store.state.isResumable {
+            store.state.session = Session()
+        }
+
         store.state.isResumable = false
         store.state.setMetricValuesToDefault()
         putToBackground()
@@ -161,7 +164,6 @@ class Player {
         pause()
         saveReadings(TimeUnit.Second)
         saveReadings(TimeUnit.Minute)
-        store.state.elapsedTime = ""
         store.state.setMetricValuesToDefault()
         sessionPause()
         store.state.session.stop()
@@ -175,7 +177,7 @@ class Player {
     func startElapsedTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if self.store.state.session.isActive && !self.store.state.isResumable {
-                self.store.state.elapsedTime = getElapsedTime(from: self.store.state.session.startTime, to: Date())
+                self.store.state.session.elapsedSeconds = self.store.state.session.elapsedSeconds + 1
             }
         }
     }

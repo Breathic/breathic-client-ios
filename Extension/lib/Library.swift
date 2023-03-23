@@ -30,15 +30,17 @@ func getMetric(_ metric: String) -> MetricType {
         : MetricType()
 }
 
-func getElapsedTime(from: Date, to: Date) -> String {
-    let difference = Calendar.current.dateComponents([.hour, .minute, .second], from: from, to: to)
+func getElapsedTime(_ seconds: Int = 0) -> String {
+    let hour = seconds / 3600
+    let minute = seconds / 60 % 60
+    let second = seconds % 60
     var elapsedTime = "00:00"
 
-    if difference.second! > 0 || difference.minute! > 0 || difference.hour! > 0 {
-        elapsedTime = String(format: "%02ld:%02ld", difference.minute!, difference.second!)
+    if second > 0 || minute > 0 || hour > 0 {
+        elapsedTime = String(format: "%02ld:%02ld", minute, second)
 
-        if difference.hour! > 0 {
-            elapsedTime = String(format: "%01ld:%02ld:%02ld", difference.hour!, difference.minute!, difference.second!)
+        if hour > 0 {
+            elapsedTime = String(format: "%01ld:%02ld:%02ld", hour, minute, second)
         }
     }
 
@@ -92,7 +94,7 @@ func getSessionIds(sessions: [Session]) -> [String] {
 
             // Display the latest session for each minute.
             if saves == 1 {
-                let elapsedTime = getElapsedTime(from: session.startTime, to: session.endTime!)
+                let elapsedTime = getElapsedTime(session.elapsedSeconds)
                 id = id + " (" + elapsedTime + ")"
                 result.append(id)
             }

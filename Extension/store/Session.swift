@@ -26,6 +26,11 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
+    var elapsedSeconds: Int = 0 {
+        didSet {
+            save()
+        }
+    }
     var startTime: Date = Date() {
         didSet {
             save()

@@ -21,7 +21,7 @@ func chartSettingsView(
                     .font(.system(size: 10))
                     .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-                Text(getElapsedTime(from: store.state.selectedSession.startTime, to: store.state.selectedSession.endTime!))
+                Text(getElapsedTime(store.state.selectedSession.elapsedSeconds))
                     .foregroundColor(Color.white)
                     .font(.system(size: 20))
                     .frame(maxWidth: geometry.size.width / 2, alignment: .leading)

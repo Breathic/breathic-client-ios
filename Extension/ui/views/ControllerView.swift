@@ -10,7 +10,7 @@ func controllerView(
         if store.state.session.isActive {
             if store.state.isResumable { return "Resume" }
             if !store.state.session.isPlaying { return "Unpause" }
-            else if store.state.elapsedTime.count > 0 { return store.state.elapsedTime }
+            else if store.state.session.elapsedSeconds > 0 { return getElapsedTime(store.state.session.elapsedSeconds) }
             else { return "" }
         }
         else {

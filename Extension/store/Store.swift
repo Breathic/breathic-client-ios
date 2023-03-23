@@ -17,7 +17,6 @@ struct AppState {
     var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var elapsedTime: String = ""
     var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
