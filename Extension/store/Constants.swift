@@ -118,7 +118,7 @@ let METRIC_TYPES: [String: MetricType] = [
         abbreviation: "d",
         label: "Distance",
         unit: "m",
-        isChartable: true,
+        isChartable: false,
         color: colorize("purple"),
         defaultValue: Platform.isSimulator ? 10 : 0
     ),

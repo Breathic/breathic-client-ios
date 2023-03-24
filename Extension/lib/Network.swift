@@ -1,7 +1,7 @@
 import WatchKit
 import WatchConnectivity
 
-func uploadSession(_ session: Session) async -> Bool {
+func uploadSession(_ session: Session) async throws -> Bool {
     do {
         struct RequestData: Encodable {
             let sessionUuid: String
@@ -53,7 +53,9 @@ func uploadSession(_ session: Session) async -> Bool {
             return false
         }
     }
-    catch {}
+    catch {
+        throw(error)
+    }
 
     return false
 }

@@ -14,37 +14,61 @@ func chartSettingsView(
     }
 
     return ScrollView(showsIndicators: false) {
-        HStack {
-            VStack {
-                Text("Duration")
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 10))
-                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+        Group {
+            HStack {
+                VStack {
+                    Text("Duration")
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 10))
+                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-                Text(getElapsedTime(store.state.selectedSession.elapsedSeconds))
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 20))
-                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                    Text(getElapsedTime(store.state.selectedSession.elapsedSeconds))
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 20))
+                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                }
+
+                VStack {
+                    Text("Distance")
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 10))
+                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+
+                    Text(getDistance(store.state.selectedSession))
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 20))
+                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                }
             }
+            .padding(.trailing, 16)
 
-            VStack {
-                Text("Status")
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 10))
-                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
-
-                Text(store.state.selectedSession.syncStatus.rawValue.capitalized)
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 20))
-                    .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
+            Spacer(minLength: 24)
         }
 
-        Spacer(minLength: 24)
+        Group {
+            HStack {
+                VStack {
+                    Text("Status")
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 10))
+                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+
+                    Text(store.state.selectedSession.syncStatus.rawValue.capitalized)
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 20))
+                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+
+                    Spacer(minLength: 24)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
 
         Group {
             Text("Progress")

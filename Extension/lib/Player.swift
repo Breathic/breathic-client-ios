@@ -94,26 +94,29 @@ class Player {
         store.state.isSyncInProgress = true
 
         Task {
-            let sessions = sessions.filter { session in
-                if session.endTime != nil && session.syncStatus != SyncStatus.Synced {
-                    return true
+            do {
+                let sessions = sessions.filter { session in
+                    if session.endTime != nil && session.syncStatus != SyncStatus.Synced {
+                        return true
+                    }
+
+                    return false
                 }
 
-                return false
-            }
-
-            if sessions.count > 0 {
-                let session = sessions[0]
-                session.syncStatus = SyncStatus.Syncing
-                _update(session)
-
-                let success = await uploadSession(session)
-                if success {
-                    session.syncStatus = SyncStatus.Synced
+                if sessions.count > 0 {
+                    let session = sessions[0]
+                    session.syncStatus = SyncStatus.Syncing
                     _update(session)
-                }
 
-                store.state.isSyncInProgress = false
+                    let success = try await uploadSession(session)
+                    if success {
+                        session.syncStatus = SyncStatus.Synced
+                        _update(session)
+                    }
+                }
+            }
+            catch {
+                print("sync()", error)
             }
         }
 

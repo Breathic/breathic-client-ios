@@ -47,6 +47,24 @@ func getElapsedTime(_ seconds: Int = 0) -> String {
     return elapsedTime
 }
 
+func getDistance(_ session: Session) -> String {
+    let timeseriesData = getTimeseriesData(
+        uuid: session.uuid,
+        timeUnit: TimeUnit.Second
+    )
+    let key: String = "distance"
+    let distances = timeseriesData.filter {
+        if $0.key == key {
+            return true
+        }
+        return false
+    }[key] ?? []
+
+    return distances.count > 0
+        ? String(Int(distances[distances.count - 1].value)) + "m"
+        : ""
+}
+
 func getMonthLabel(index: Int) -> String {
     let monthChars = Array(DateFormatter().monthSymbols[index].capitalized)
     return String(monthChars[0..<3])
