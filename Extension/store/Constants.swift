@@ -116,11 +116,7 @@ let METRIC_TYPES: [String: MetricType] = [
     "distance": MetricType(
         metric: "distance",
         abbreviation: "d",
-        label: "Distance",
-        unit: "m",
-        isChartable: false,
-        color: colorize("purple"),
-        defaultValue: Platform.isSimulator ? 10 : 0
+        format: "%.1f"
     ),
     "altitude": MetricType(
         metric: "altitude",
@@ -128,7 +124,7 @@ let METRIC_TYPES: [String: MetricType] = [
         label: "Altitude",
         unit: "m",
         isChartable: false,
-        color: colorize("yellow"),
+        color: colorize("purple"),
         defaultValue: Platform.isSimulator ? 10 : 0
     ),
     "breath": MetricType(
@@ -219,7 +215,6 @@ let METRIC_ORDER: [String] = [
     "heart",
     "step",
     "speed",
-    "distance",
     "altitude",
     "heart-to-breath",
     "step-to-breath",

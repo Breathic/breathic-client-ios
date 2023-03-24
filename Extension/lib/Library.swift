@@ -50,7 +50,7 @@ func getElapsedTime(_ seconds: Int = 0) -> String {
 func getDistance(_ session: Session) -> String {
     let timeseriesData = getTimeseriesData(
         uuid: session.uuid,
-        timeUnit: TimeUnit.Second
+        timeUnit: TimeUnit.Minute
     )
     let key: String = "distance"
     let distances = timeseriesData.filter {
@@ -60,8 +60,8 @@ func getDistance(_ session: Session) -> String {
         return false
     }[key] ?? []
 
-    return distances.count > 0
-        ? String(Int(distances[distances.count - 1].value)) + "m"
+    return distances.count > 0 && METRIC_TYPES[key] != nil
+        ? String(format: METRIC_TYPES[key]!.format, Float(distances[distances.count - 1].value) / 1000) + "km"
         : ""
 }
 
