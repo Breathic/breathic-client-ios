@@ -36,7 +36,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-                    Text(getDistance(store.state.selectedSession))
+                    Text(String(format: "%.1f", store.state.selectedSession.distance / 1000) + "km")
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)

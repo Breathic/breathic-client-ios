@@ -36,6 +36,11 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
+    var distance: Float = 0 {
+        didSet {
+            save()
+        }
+    }
     var endTime: Date? = nil {
         didSet {
             save()

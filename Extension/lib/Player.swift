@@ -170,6 +170,7 @@ class Player {
         store.state.setMetricValuesToDefault()
         sessionPause()
         store.state.session.stop()
+        store.state.session.distance = getDistance(store.state.selectedSession)
         store.state.sessions.append(store.state.session)
         saveSession(store.state.session)
         store.state.session = Session()

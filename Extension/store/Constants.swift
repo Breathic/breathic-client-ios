@@ -113,20 +113,6 @@ let METRIC_TYPES: [String: MetricType] = [
         color: colorize("yellow"),
         defaultValue: Platform.isSimulator ? 10 : 0
     ),
-    "distance": MetricType(
-        metric: "distance",
-        abbreviation: "d",
-        format: "%.1f"
-    ),
-    "altitude": MetricType(
-        metric: "altitude",
-        abbreviation: "a",
-        label: "Altitude",
-        unit: "m",
-        isChartable: false,
-        color: colorize("purple"),
-        defaultValue: Platform.isSimulator ? 10 : 0
-    ),
     "breath": MetricType(
         metric: "breath",
         abbreviation: "b",
@@ -194,7 +180,20 @@ let METRIC_TYPES: [String: MetricType] = [
     "latitude": MetricType(
         metric: "latitude",
         abbreviation: "lat"
-    )
+    ),
+    "distance": MetricType(
+        metric: "distance",
+        abbreviation: "d"
+    ),
+    "altitude": MetricType(
+        metric: "altitude",
+        abbreviation: "a",
+        label: "Altitude",
+        unit: "m",
+        isChartable: false,
+        color: colorize("purple"),
+        defaultValue: Platform.isSimulator ? 10 : 0
+    ),
 ]
 let COLORS: [String: (Double, Double, Double)] = [
     "black": (0, 0, 0),
