@@ -215,19 +215,20 @@ let METRIC_ORDER: [String] = [
     "heart",
     "step",
     "speed",
-    "altitude",
     "heart-to-breath",
     "step-to-breath",
     "speed-to-breath",
     "breathe-in",
     "breathe-in-hold",
     "breathe-out",
-    "breathe-out-hold"
+    "breathe-out-hold",
+    "altitude",
 ]
-let FEEDBACK_MODES: [String] = [
-    "Audio",
-    "Haptic",
-    "Muted",
+let FEEDBACK_MODES: [Feedback] = [
+    Feedback.Audio,
+    Feedback.Haptic,
+    Feedback.AudioHaptic,
+    Feedback.Muted,
 ]
 let AUDIO_PANNING_MODES: [String] = [
     "Vertical",

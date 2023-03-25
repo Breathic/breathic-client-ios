@@ -41,7 +41,7 @@ func primaryButton(
                         Spacer(minLength: 8)
 
                         Text(value)
-                            .lineLimit(1)
+                            .lineLimit(2)
                             .minimumScaleFactor(minimumScaleFactor)
                             .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
                             .fontWeight(.bold)
@@ -171,7 +171,7 @@ func chart(
                     .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
                     .chartLegend(.hidden)
                     .frame(width: geometry.size.width)
-                    .frame(height: geometry.size.height)
+                    .frame(height: geometry.size.height - 32)
 
                     Spacer(minLength: 16)
                 }

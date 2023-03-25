@@ -327,15 +327,13 @@ class Player {
     func updateFeedback() {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
-                let isAudio = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == "Audio"
-                let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == "Haptic"
+                let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
+                let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
+                let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
                 let isMuted = !(Float(store.state.activeSession.volume) > 0)
 
                 if audioIndex == 0 {
                     incrementSelectedRhythmIndex()
-                }
-
-                if audio.sampleIndex == 0 {
                     isPanningReversed = !isPanningReversed
 
                     if isHaptic {

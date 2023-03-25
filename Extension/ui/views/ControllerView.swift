@@ -70,7 +70,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Feedback",
-                value: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex],
+                value: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex].rawValue.capitalized,
                 hasIndicator: true,
                 index: Int(ceil(
                     convertRange(
@@ -79,7 +79,7 @@ func controllerView(
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == "Audio"
+                maxIndex: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
                     ? Int(ceil(
                         convertRange(
                             value: Float(VOLUME_RANGE[1]),

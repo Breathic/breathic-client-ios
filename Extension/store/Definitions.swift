@@ -8,6 +8,13 @@ enum Breathe: String, Codable {
     case BreatheOutHold = "breathe-out-hold"
 }
 
+enum Feedback: String {
+    case Audio = "audio"
+    case Haptic = "haptic"
+    case AudioHaptic = "audio haptic"
+    case Muted = "muted"
+}
+
 enum TimeUnit: String, Codable {
     case Second = "second"
     case Minute = "minute"
