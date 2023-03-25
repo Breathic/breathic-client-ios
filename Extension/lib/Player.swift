@@ -399,7 +399,6 @@ class Player {
     func updateGraph() {
         let timestamp: Date = Date()
         let loopIntervalSum: TimeInterval = getLoopIntervalSum()
-        let metricType: MetricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
 
