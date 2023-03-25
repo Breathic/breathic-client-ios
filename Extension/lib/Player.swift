@@ -35,7 +35,7 @@ class Player {
 
         initIntervals()
 
-        if store.state.activeSession.isActive {
+        if store.state.activeSession.isStarted {
             store.state.isResumable = true
         }
 
@@ -57,13 +57,13 @@ class Player {
 
     func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_SECONDLY, repeats: true) { timer in
-            if self.store.state.activeSession.isActive && !self.store.state.isResumable  {
+            if self.store.state.activeSession.isStarted && !self.store.state.isResumable  {
                 self.saveReadings(TimeUnit.Second)
             }
         }
 
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_MINUTELY, repeats: true) { timer in
-            if self.store.state.activeSession.isActive && !self.store.state.isResumable  {
+            if self.store.state.activeSession.isStarted && !self.store.state.isResumable  {
                 self.saveReadings(TimeUnit.Minute)
             }
         }
@@ -172,7 +172,7 @@ class Player {
 
     func startElapsedTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if self.store.state.activeSession.isActive && !self.store.state.isResumable {
+            if self.store.state.activeSession.isStarted && !self.store.state.isResumable {
                 self.store.state.activeSession.elapsedSeconds = self.store.state.activeSession.elapsedSeconds + 1
             }
         }

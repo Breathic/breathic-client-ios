@@ -11,7 +11,7 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var isActive: Bool = false {
+    var isStarted: Bool = false {
         didSet {
             save()
         }
@@ -68,17 +68,17 @@ class Session: ObservableObject, Codable {
     }
 
     func start() {
-        if !isActive {
+        if !isStarted {
             startTime = Date()
             uuid = UUID().uuidString
         }
 
-        isActive = true
+        isStarted = true
     }
 
     func stop() {
         endTime = Date()
-        isActive = false
+        isStarted = false
     }
 
     func save() {

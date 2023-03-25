@@ -7,7 +7,7 @@ func controllerView(
     volume: Binding<Float>
 ) -> some View {
     func getSessionValue(store: Store) -> String {
-        if store.state.activeSession.isActive {
+        if store.state.activeSession.isStarted {
             if store.state.isResumable { return "Resume" }
             if !store.state.activeSession.isPlaying { return "Resume" }
             else if store.state.activeSession.elapsedSeconds > 0 { return getElapsedTime(store.state.activeSession.elapsedSeconds) }
@@ -58,7 +58,7 @@ func controllerView(
                     }
                 },
                 longAction: {
-                    if !store.state.activeSession.isActive { player.start() }
+                    if !store.state.activeSession.isStarted { player.start() }
                     else { store.state.activeSubView = "Session" }
                 }
             )
