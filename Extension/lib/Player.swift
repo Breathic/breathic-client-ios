@@ -142,7 +142,7 @@ class Player {
 
         store.state.isResumable = false
         store.state.setMetricValuesToDefault()
-        putToBackground()
+        putToBackground(store: store)
 
         if !isLoopStarted {
             loop()
@@ -500,9 +500,12 @@ class Player {
         }
     }
 
-    func putToBackground() {
+    func putToBackground(store: Store) {
         takeFromBackground()
-        coordinator.start()
+
+        if store.state.activeSession.isPlaying {
+            coordinator.start()
+        }
     }
 
     func takeFromBackground() {
