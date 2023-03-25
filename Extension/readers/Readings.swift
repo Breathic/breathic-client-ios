@@ -53,7 +53,7 @@ func updateMetric(
     metricValue: Float,
     readings: [Reading]
 ) -> [Reading] {
-    if !store.state.session.isActive {
+    if !store.state.activeSession.isActive {
         store.state.setMetricValuesToDefault()
         return []
     }

@@ -8,6 +8,7 @@ let MAX_READING_TIMEOUT_S: Double = 15
 let MAX_READING_COUNT: Int = 100
 let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 256
+let FADE_MIN: Float = 0.25
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
@@ -234,8 +235,8 @@ let AUDIO_PANNING_MODES: [String] = [
 ]
 let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
 let TIMESERIES_SAVER_INTERVAL_MINUTELY: Double = 60
-let STORE_ACTIVE_SESSION_NAME: String = "ActiveSession"
-let STORE_SESSION_NAME: String = "Sessions"
+let ACTIVE_SESSION_FILE_NAME: String = "ActiveSession"
+let SESSIONS_FOLDER_NAME: String = "Sessions"
 let DRAG_INDEXES: [String: Int] = [
     "Controller": 0,
     "Status": 1,

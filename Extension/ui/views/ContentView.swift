@@ -36,7 +36,7 @@ struct ContentView: View {
                             dragView(
                                 children: Group {
                                     HStack {
-                                        controllerView(geometry: geometry, store: store, player: player, volume: $store.state.session.volume)
+                                        controllerView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
                                         !isSessionActive(store: store)
                                             ? AnyView(introductionView(geometry: geometry, store: store))
                                             : AnyView(statusView(geometry: geometry, store: store))

@@ -31,19 +31,11 @@ class Player {
         fadeScale = getFadeScale()
         panScale = getPanScale()
         store.state.sessions = readSessions()
-
-        do {
-            let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION_NAME)
-            let data = readFromFile(url: url)
-            store.state.session = try JSONDecoder().decode(Session.self, from: data)
-        } catch {
-            print("Player[]: Get session error")
-            print(error)
-        }
+        store.state.activeSession = readActiveSession()
 
         initIntervals()
 
-        if store.state.session.isActive {
+        if store.state.activeSession.isActive {
             store.state.isResumable = true
         }
 
@@ -65,13 +57,13 @@ class Player {
 
     func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_SECONDLY, repeats: true) { timer in
-            if self.store.state.session.isActive && !self.store.state.isResumable  {
+            if self.store.state.activeSession.isActive && !self.store.state.isResumable  {
                 self.saveReadings(TimeUnit.Second)
             }
         }
 
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_MINUTELY, repeats: true) { timer in
-            if self.store.state.session.isActive && !self.store.state.isResumable  {
+            if self.store.state.activeSession.isActive && !self.store.state.isResumable  {
                 self.saveReadings(TimeUnit.Minute)
             }
         }
@@ -130,7 +122,7 @@ class Player {
         do {
             let data = try JSONEncoder().encode(readingContainer)
             let folderURL = getFolderURLForReading(
-                session: store.state.session,
+                session: store.state.activeSession,
                 timeUnit: timeUnit
             )
             createFolderIfNotExists(url: folderURL)
@@ -145,7 +137,7 @@ class Player {
 
     func start() {
         if !store.state.isResumable {
-            store.state.session = Session()
+            store.state.activeSession = Session()
         }
 
         store.state.isResumable = false
@@ -159,7 +151,7 @@ class Player {
 
         create()
         play()
-        store.state.session.start()
+        store.state.activeSession.start()
         sessionPlay()
     }
 
@@ -169,19 +161,19 @@ class Player {
         saveReadings(TimeUnit.Minute)
         store.state.setMetricValuesToDefault()
         sessionPause()
-        store.state.session.stop()
-        store.state.session.distance = getDistance(store.state.selectedSession)
-        store.state.sessions.append(store.state.session)
-        saveSession(store.state.session)
-        store.state.session = Session()
+        store.state.activeSession.stop()
+        store.state.activeSession.distance = getDistance(store.state.selectedSession)
+        store.state.sessions.append(store.state.activeSession)
+        saveSession(store.state.activeSession)
+        store.state.activeSession = Session()
         coordinator.invalidate()
         sync([store.state.sessions[store.state.sessions.count - 1]])
     }
 
     func startElapsedTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if self.store.state.session.isActive && !self.store.state.isResumable {
-                self.store.state.session.elapsedSeconds = self.store.state.session.elapsedSeconds + 1
+            if self.store.state.activeSession.isActive && !self.store.state.isResumable {
+                self.store.state.activeSession.elapsedSeconds = self.store.state.activeSession.elapsedSeconds + 1
             }
         }
     }
@@ -290,7 +282,7 @@ class Player {
                 ? fadeScale[audios[audioIndex].fadeIndex]
                 : 0
 
-            players[playerId]?.volume = store.state.session.volume / 100 * Float(fade)
+            players[playerId]?.volume = store.state.activeSession.volume / 100 * Float(fade)
             players[playerId]?.play()
 
             let sampleId = Float(playerId
@@ -311,7 +303,7 @@ class Player {
     }
 
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
-        let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!
+        let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
         let pace = store.state.getMetricValue(metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = getSelectedRhythm()
@@ -335,9 +327,9 @@ class Player {
     func updateFeedback() {
         for (audioIndex, audio) in audios.enumerated() {
             for (channelIndex, channel) in audio.channels.enumerated() {
-                let isAudio = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
-                let isHaptic = FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Haptic"
-                let isMuted = !(Float(store.state.session.volume) > 0)
+                let isAudio = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == "Audio"
+                let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == "Haptic"
+                let isMuted = !(Float(store.state.activeSession.volume) > 0)
 
                 if audioIndex == 0 {
                     incrementSelectedRhythmIndex()
@@ -392,7 +384,7 @@ class Player {
                 self.loop()
             }
 
-            if self.store.state.session.isPlaying {
+            if self.store.state.activeSession.isPlaying {
                 self.updateFeedback()
                 self.updateGraph()
             }
@@ -407,12 +399,11 @@ class Player {
     func updateGraph() {
         let timestamp: Date = Date()
         let loopIntervalSum: TimeInterval = getLoopIntervalSum()
-        let metricType: MetricType = METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!
+        let metricType: MetricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
-        //store.state.setMetricValue(metricType.metric + "-to-breath", store.state.getMetricValue("breath"))
 
-        PRESETS[store.state.session.presetIndex].breathingTypes.forEach {
+        PRESETS[store.state.activeSession.presetIndex].breathingTypes.forEach {
             if $0.rhythm > 0 {
                 store.state.setMetricValue($0.key.rawValue, $0.rhythm)
             }
@@ -438,7 +429,7 @@ class Player {
     }
 
     func togglePlay() {
-        if store.state.session.isPlaying { sessionPause() }
+        if store.state.activeSession.isPlaying { sessionPause() }
         else { sessionPlay() }
     }
 
@@ -446,14 +437,14 @@ class Player {
         heart.start()
         step.start()
         location.start()
-        store.state.session.isPlaying = true
+        store.state.activeSession.isPlaying = true
     }
 
     func sessionPause() {
         heart.stop()
         step.stop()
         location.stop()
-        store.state.session.isPlaying = false
+        store.state.activeSession.isPlaying = false
     }
 
     func create() {

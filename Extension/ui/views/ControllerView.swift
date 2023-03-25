@@ -7,10 +7,10 @@ func controllerView(
     volume: Binding<Float>
 ) -> some View {
     func getSessionValue(store: Store) -> String {
-        if store.state.session.isActive {
+        if store.state.activeSession.isActive {
             if store.state.isResumable { return "Resume" }
-            if !store.state.session.isPlaying { return "Resume" }
-            else if store.state.session.elapsedSeconds > 0 { return getElapsedTime(store.state.session.elapsedSeconds) }
+            if !store.state.activeSession.isPlaying { return "Resume" }
+            else if store.state.activeSession.elapsedSeconds > 0 { return getElapsedTime(store.state.activeSession.elapsedSeconds) }
             else { return "" }
         }
         else {
@@ -23,9 +23,9 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Source",
-                value: METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!.label,
+                value: METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!.label,
                 valueColor: isSessionActive(store: store)
-                    ? METRIC_TYPES[getSourceMetricTypes()[store.state.session.metricTypeIndex]]!.color
+                    ? METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!.color
                     : colorize("white"),
                 isShort: true,
                 isTall: false,
@@ -33,8 +33,8 @@ func controllerView(
                 action: {
                     let sourceMetricTypes: [String] = getSourceMetricTypes()
 
-                    store.state.session.metricTypeIndex = store.state.session.metricTypeIndex + 1 < sourceMetricTypes.count
-                        ? store.state.session.metricTypeIndex + 1
+                    store.state.activeSession.metricTypeIndex = store.state.activeSession.metricTypeIndex + 1 < sourceMetricTypes.count
+                        ? store.state.activeSession.metricTypeIndex + 1
                         : 0
                     store.state.setMetricValuesToDefault()
                     store.state.render()
@@ -58,7 +58,7 @@ func controllerView(
                     }
                 },
                 longAction: {
-                    if !store.state.session.isActive { player.start() }
+                    if !store.state.activeSession.isActive { player.start() }
                     else { store.state.activeSubView = "Session" }
                 }
             )
@@ -70,16 +70,16 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Feedback",
-                value: FEEDBACK_MODES[store.state.session.feedbackModeIndex],
+                value: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex],
                 hasIndicator: true,
                 index: Int(ceil(
                     convertRange(
-                        value: Float(store.state.session.volume),
+                        value: Float(store.state.activeSession.volume),
                         oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: FEEDBACK_MODES[store.state.session.feedbackModeIndex] == "Audio"
+                maxIndex: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == "Audio"
                     ? Int(ceil(
                         convertRange(
                             value: Float(VOLUME_RANGE[1]),
@@ -91,8 +91,8 @@ func controllerView(
                 isTall: false,
                 minimumScaleFactor: 0.75,
                 action: {
-                    store.state.session.feedbackModeIndex = store.state.session.feedbackModeIndex + 1 < FEEDBACK_MODES.count
-                        ? store.state.session.feedbackModeIndex + 1
+                    store.state.activeSession.feedbackModeIndex = store.state.activeSession.feedbackModeIndex + 1 < FEEDBACK_MODES.count
+                        ? store.state.activeSession.feedbackModeIndex + 1
                         : 0
                     store.state.render()
                 }
@@ -103,16 +103,16 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Activity",
-                value: ACTIVITIES[store.state.session.activityIndex].presets[store.state.session.presetIndex].key.capitalized,
-                unit: ACTIVITIES[store.state.session.activityIndex].label,
+                value: ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].key.capitalized,
+                unit: ACTIVITIES[store.state.activeSession.activityIndex].label,
                 isTall: false,
                 action: {
                     incrementPreset(store)
                     store.state.render()
                 },
                 longAction: {
-                    store.state.session.activityIndex = store.state.session.activityIndex + 1 < ACTIVITIES.count
-                        ? store.state.session.activityIndex + 1
+                    store.state.activeSession.activityIndex = store.state.activeSession.activityIndex + 1 < ACTIVITIES.count
+                        ? store.state.activeSession.activityIndex + 1
                         : 0
                     store.state.render()
                 }
@@ -129,12 +129,12 @@ func controllerView(
         isContinuous: true,
         isHapticFeedbackEnabled: true
     )
-    .onChange(of: store.state.session.volume) { value in
+    .onChange(of: store.state.activeSession.volume) { value in
         if value < VOLUME_RANGE[0] {
-            store.state.session.volume = VOLUME_RANGE[0]
+            store.state.activeSession.volume = VOLUME_RANGE[0]
         }
         else if value > VOLUME_RANGE[1] {
-            store.state.session.volume = VOLUME_RANGE[1]
+            store.state.activeSession.volume = VOLUME_RANGE[1]
         }
     }
 }

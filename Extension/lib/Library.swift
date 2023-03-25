@@ -16,13 +16,13 @@ func colorize(_ color: String) -> Color {
 }
 
 func getRhythms(_ store: Store) -> [Float] {
-    return PRESETS[store.state.session.presetIndex].breathingTypes.map { $0.rhythm }
+    return PRESETS[store.state.activeSession.presetIndex].breathingTypes.map { $0.rhythm }
 }
 
 func incrementPreset(_ store: Store) {
-    store.state.session.presetIndex = store.state.session.presetIndex + 1 == store.state.activity.presets.count
+    store.state.activeSession.presetIndex = store.state.activeSession.presetIndex + 1 == store.state.activity.presets.count
         ? 0
-        : store.state.session.presetIndex + 1}
+        : store.state.activeSession.presetIndex + 1}
 
 func getMetric(_ metric: String) -> MetricType {
     return METRIC_TYPES[metric] != nil
@@ -78,10 +78,12 @@ func generateSessionId(session: Session) -> String {
 }
 
 func readSessions() -> [Session] {
+    let sessionsURL = getSessionsFolderURL()
+
     do {
-        return try readFromFolder(STORE_SESSION_NAME)
+        return try readFromFolder(SESSIONS_FOLDER_NAME)
             .map {
-                let fileURL = getSessionLogsFolderURL()
+                let fileURL = sessionsURL
                     .appendingPathComponent($0)
                 let data = readFromFile(url: fileURL)
                 return try JSONDecoder().decode(Session.self, from: data)
@@ -89,9 +91,24 @@ func readSessions() -> [Session] {
             .sorted { $0.startTime < $1.startTime }
     } catch {
         print("readSessions(): error", error)
+        deleteFileOrFolder(url: sessionsURL)
     }
 
     return []
+}
+
+func readActiveSession() -> Session {
+    let activeSessionURL = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
+
+    do {
+        let data = readFromFile(url: activeSessionURL)
+        return try JSONDecoder().decode(Session.self, from: data)
+    } catch {
+        print("readActiveSession(): error", error)
+        deleteFileOrFolder(url: activeSessionURL)
+    }
+
+    return Session()
 }
 
 func getSessionIds(sessions: [Session]) -> [String] {
@@ -150,7 +167,7 @@ func getFadeScale() -> [Float] {
             convertRange(
                 value: Float($0),
                 oldRange: [0, Float(fadeMax)],
-                newRange: [0, 1]
+                newRange: [FADE_MIN, 1]
             )
         )
     }
@@ -207,18 +224,18 @@ func getFolderURLForReading(session: Session, timeUnit: TimeUnit) -> URL {
 
 func saveSession(_ session: Session) {
     guard let data = try? JSONEncoder().encode(session) else { return }
-    createFolderIfNotExists(url: getSessionLogsFolderURL())
-    let fileURL = getSessionLogsFolderURL()
+    createFolderIfNotExists(url: getSessionsFolderURL())
+    let fileURL = getSessionsFolderURL()
         .appendingPathComponent(session.uuid)
     writeToFile(url: fileURL, data: data)
 }
 
-func getSessionLogsFolderURL() -> URL {
-    getDocumentsDirectory().appendingPathComponent(STORE_SESSION_NAME)
+func getSessionsFolderURL() -> URL {
+    getDocumentsDirectory().appendingPathComponent(SESSIONS_FOLDER_NAME)
 }
 
 func deleteSession(_ session: Session) {
-    let fileURL = getSessionLogsFolderURL()
+    let fileURL = getSessionsFolderURL()
         .appendingPathComponent(session.uuid)
     deleteFileOrFolder(url: fileURL)
     deleteSessionReadings(session)

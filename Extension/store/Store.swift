@@ -7,7 +7,7 @@ struct AppState {
     var page: String = DEFAULT_PAGE
     var activeSubView: String = DEFAULT_ACTIVE_SUB_VIEW
     var tempActiveSubView: String = ""
-    var session: Session = Session()
+    var activeSession: Session = Session()
     var selectedSessionId: String = ""
     var isResumable: Bool = false
     var seeds: [Seed] = []

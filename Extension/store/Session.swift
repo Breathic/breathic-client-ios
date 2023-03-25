@@ -83,7 +83,7 @@ class Session: ObservableObject, Codable {
 
     func save() {
         guard let data: Data = try? JSONEncoder().encode(self) else { return }
-        let url = getDocumentsDirectory().appendingPathComponent(STORE_ACTIVE_SESSION_NAME)
+        let url = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
         writeToFile(url: url, data: data)
     }
 }

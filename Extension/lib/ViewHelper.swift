@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 func isSessionActive(store: Store) -> Bool {
-    return store.state.session.isActive && !store.state.isResumable
+    return store.state.activeSession.isActive && !store.state.isResumable
 }
 
 func slide(geometry: GeometryProxy, store: Store) {
