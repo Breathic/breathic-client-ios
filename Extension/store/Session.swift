@@ -74,17 +74,18 @@ class Session: ObservableObject, Codable {
     }
 
     func save() {
-        saveActiveSession(self)
+        if self.isPlaying {
+            saveActiveSession(self)
+        }
     }
 
     func copy() -> Session {
         var result = Session()
-        let encoder = JSONEncoder()
-        let decoder = JSONDecoder()
 
         do {
-            let encodedData = try encoder.encode(self)
-            let session = try decoder.decode(Session.self, from: encodedData)
+            let encodedData = try JSONEncoder().encode(self)
+            let session = try JSONDecoder().decode(Session.self, from: encodedData)
+            session.isPlaying = false
             session.endTime = nil
             session.elapsedSeconds = 0
             session.distance = 0
@@ -94,7 +95,6 @@ class Session: ObservableObject, Codable {
             print("Error: \(error)")
         }
 
-        saveActiveSession(result)
         return result
     }
 

@@ -54,10 +54,9 @@ func getDistance(_ session: Session) -> Float {
     )
     let key: String = "distance"
     let distances = timeseriesData.filter {
-        if $0.key == key {
-            return true
-        }
-        return false
+        $0.key == key
+            ? true
+            : false
     }[key] ?? []
 
     return distances.count > 0
@@ -102,7 +101,8 @@ func readActiveSession() -> Session {
 
     do {
         let data = readFromFile(url: activeSessionURL)
-        return try JSONDecoder().decode(Session.self, from: data)
+        let session = try JSONDecoder().decode(Session.self, from: data)
+        return session
     } catch {
         print("readActiveSession(): error", error)
         deleteFileOrFolder(url: activeSessionURL)
@@ -252,9 +252,14 @@ func deleteSessionReadings(_ session: Session) {
 }
 
 func saveActiveSession(_ session: Session) {
-    guard let data: Data = try? JSONEncoder().encode(session) else { return }
-    let url = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
-    writeToFile(url: url, data: data)
+    do {
+        let data: Data = try JSONEncoder().encode(session)
+        let url = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
+        writeToFile(url: url, data: data)
+    }
+    catch {
+        print("saveActiveSession()", error)
+    }
 }
 
 func buildSessionPayload(timeseriesData: ReadingContainer) -> String {

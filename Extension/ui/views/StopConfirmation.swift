@@ -1,6 +1,10 @@
 import SwiftUI
 
-func sessionStopConfirmationView(geometry: GeometryProxy, store: Store, player: Player) -> some View {
+func sessionStopConfirmationView(
+    geometry: GeometryProxy,
+    store: Store,
+    player: Player
+) -> some View {
     VStack {
         HStack {
             Button(action: {
