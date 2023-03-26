@@ -15,7 +15,6 @@ class Player {
     var panScale: [Float] = []
     var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
-    var isLoopStarted: Bool = false
     var coordinator = WKExtendedRuntimeSession()
 
     init() {
@@ -28,21 +27,17 @@ class Player {
         */
         store.state.setMetricValuesToDefault()
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
+        create()
         fadeScale = getFadeScale()
         panScale = getPanScale()
         store.state.sessions = readSessions()
         store.state.activeSession = readActiveSession()
-
         initIntervals()
-
-        if store.state.activeSession.isStarted {
-            store.state.isResumable = true
-        }
-
         startElapsedTimer()
         cachePlayers(Breathe.BreatheIn.rawValue)
         cachePlayers(Breathe.BreatheOut.rawValue)
         sync(store.state.sessions.shuffled())
+        loop()
         print(API_URL)
     }
 
@@ -57,13 +52,13 @@ class Player {
 
     func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_SECONDLY, repeats: true) { timer in
-            if self.store.state.activeSession.isStarted && !self.store.state.isResumable  {
+            if self.store.state.activeSession.isPlaying {
                 self.saveReadings(TimeUnit.Second)
             }
         }
 
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_MINUTELY, repeats: true) { timer in
-            if self.store.state.activeSession.isStarted && !self.store.state.isResumable  {
+            if self.store.state.activeSession.isPlaying {
                 self.saveReadings(TimeUnit.Minute)
             }
         }
@@ -135,44 +130,9 @@ class Player {
         }
     }
 
-    func start() {
-        if !store.state.isResumable {
-            store.state.activeSession = Session()
-        }
-
-        store.state.isResumable = false
-        store.state.setMetricValuesToDefault()
-        putToBackground(store: store)
-
-        if !isLoopStarted {
-            loop()
-            isLoopStarted = true
-        }
-
-        create()
-        play()
-        store.state.activeSession.start()
-        sessionPlay()
-    }
-
-    func stop() {
-        pause()
-        saveReadings(TimeUnit.Second)
-        saveReadings(TimeUnit.Minute)
-        store.state.setMetricValuesToDefault()
-        sessionPause()
-        store.state.activeSession.stop()
-        store.state.activeSession.distance = getDistance(store.state.selectedSession)
-        store.state.sessions.append(store.state.activeSession)
-        saveSession(store.state.activeSession)
-        store.state.activeSession = Session()
-        coordinator.invalidate()
-        sync([store.state.sessions[store.state.sessions.count - 1]])
-    }
-
     func startElapsedTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if self.store.state.activeSession.isStarted && !self.store.state.isResumable {
+            if self.store.state.activeSession.isPlaying {
                 self.store.state.activeSession.elapsedSeconds = self.store.state.activeSession.elapsedSeconds + 1
             }
         }
@@ -425,9 +385,33 @@ class Player {
         }
     }
 
+    func start() {
+        store.state.setMetricValuesToDefault()
+        putToBackground(store: store)
+        playAudio()
+        store.state.activeSession.start()
+        sessionPlay()
+    }
+
+    func stop() {
+        pause()
+        saveReadings(TimeUnit.Second)
+        saveReadings(TimeUnit.Minute)
+        store.state.setMetricValuesToDefault()
+        sessionPause()
+        store.state.activeSession.stop()
+        store.state.activeSession.distance = getDistance(store.state.activeSession)
+        store.state.sessions.append(store.state.activeSession)
+        saveSession(store.state.activeSession)
+        store.state.activeSession = store.state.activeSession.copy()
+        coordinator.invalidate()
+        sync([store.state.sessions[store.state.sessions.count - 1]])
+        create()
+    }
+
     func togglePlay() {
         if store.state.activeSession.isPlaying { sessionPause() }
-        else { sessionPlay() }
+        else { start() }
     }
 
     func sessionPlay() {
@@ -435,6 +419,7 @@ class Player {
         step.start()
         location.start()
         store.state.activeSession.isPlaying = true
+        store.state.render()
     }
 
     func sessionPause() {
@@ -442,6 +427,7 @@ class Player {
         step.stop()
         location.stop()
         store.state.activeSession.isPlaying = false
+        store.state.render()
     }
 
     func create() {
@@ -466,7 +452,7 @@ class Player {
         resetFadeIndexes()
     }
 
-    func play() {
+    func playAudio() {
         Task {
             do {
                 if !store.state.isAudioSessionLoaded {
@@ -588,6 +574,6 @@ class Player {
         }
 
         setChannels(audioIndex: audioIndex)
-        play()
+        playAudio()
     }
 }

@@ -11,11 +11,6 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var isStarted: Bool = false {
-        didSet {
-            save()
-        }
-    }
     var isPlaying: Bool = false {
         didSet {
             save()
@@ -36,12 +31,12 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var distance: Float = 0 {
+    var endTime: Date? = nil {
         didSet {
             save()
         }
     }
-    var endTime: Date? = nil {
+    var distance: Float = 0 {
         didSet {
             save()
         }
@@ -68,22 +63,42 @@ class Session: ObservableObject, Codable {
     }
 
     func start() {
-        if !isStarted {
+        if elapsedSeconds == 0 {
             startTime = Date()
             uuid = UUID().uuidString
         }
-
-        isStarted = true
     }
 
     func stop() {
         endTime = Date()
-        isStarted = false
     }
 
     func save() {
-        guard let data: Data = try? JSONEncoder().encode(self) else { return }
-        let url = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
-        writeToFile(url: url, data: data)
+        saveActiveSession(self)
+    }
+
+    func copy() -> Session {
+        var result = Session()
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+
+        do {
+            let encodedData = try encoder.encode(self)
+            let session = try decoder.decode(Session.self, from: encodedData)
+            session.endTime = nil
+            session.elapsedSeconds = 0
+            session.distance = 0
+            session.syncStatus = SyncStatus.Syncable
+            result = session
+        } catch {
+            print("Error: \(error)")
+        }
+
+        saveActiveSession(result)
+        return result
+    }
+
+    func isStarted() -> Bool {
+        self.elapsedSeconds > 0
     }
 }

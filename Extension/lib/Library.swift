@@ -251,6 +251,12 @@ func deleteSessionReadings(_ session: Session) {
     }
 }
 
+func saveActiveSession(_ session: Session) {
+    guard let data: Data = try? JSONEncoder().encode(session) else { return }
+    let url = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
+    writeToFile(url: url, data: data)
+}
+
 func buildSessionPayload(timeseriesData: ReadingContainer) -> String {
     let header: String = "timestamp,metric,value"
     var body: String = ""
