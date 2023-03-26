@@ -32,18 +32,19 @@ class Player {
         panScale = getPanScale()
         store.state.sessions = readSessions()
         store.state.activeSession = readActiveSession()
+        store.state.activeSession.isPlaying = false
         initIntervals()
         startElapsedTimer()
-        cachePlayers(Breathe.BreatheIn.rawValue)
-        cachePlayers(Breathe.BreatheOut.rawValue)
+        cachePlayers(Breathe.BreatheIn)
+        cachePlayers(Breathe.BreatheOut)
         sync(store.state.sessions.shuffled())
         loop()
         print(API_URL)
     }
 
-    func cachePlayers(_ type: String = "") {
+    func cachePlayers(_ breathe: Breathe) {
         for key in store.state.distances.keys {
-            let forResource = SAMPLE_PATH + String(key) + "-" + type + "." + SAMPLE_EXTENSION
+            let forResource = SAMPLE_PATH + String(key) + "-" + breathe.rawValue + "." + SAMPLE_EXTENSION
             let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
             player?.prepareToPlay()
             players[forResource] = player
@@ -485,10 +486,7 @@ class Player {
 
     func putToBackground(store: Store) {
         takeFromBackground()
-
-        if store.state.activeSession.isPlaying {
-            coordinator.start()
-        }
+        coordinator.start()
     }
 
     func takeFromBackground() {

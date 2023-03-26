@@ -48,9 +48,7 @@ func controllerView(
                 isTall: false,
                 minimumScaleFactor: 0.75,
                 action: {
-                    if store.state.activeSession.isStarted() {
-                        player.togglePlay()
-                    }
+                    player.togglePlay()
                 },
                 longAction: {
                     if !store.state.activeSession.isStarted() { player.start() }
