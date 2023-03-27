@@ -17,14 +17,39 @@ struct ContentView: View {
     }
 
     var body: some View {
-        ZStack {
+        var activeSubView = store.state.activeSubView
+        var canShowToolbar: Bool = true
+
+        if store.state.isGuideSeen == nil {
+            activeSubView = "Guide"
+            canShowToolbar = false
+        }
+
+        if store.state.isPrivacyPolicyApproved == nil {
+            activeSubView = "Privacy Policy"
+            canShowToolbar = false
+        }
+
+        return ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
 
             GeometryReader { geometry in
                 VStack() {
                     Spacer(minLength: 4)
 
-                    switch store.state.activeSubView {
+                    switch activeSubView {
+                        case "Guide":
+                            GuideView(
+                                geometry: geometry,
+                                store: store
+                            )
+
+                        case "Privacy Policy":
+                            PrivacyPolicyView(
+                                geometry: geometry,
+                                store: store
+                            )
+
                         case "Menu":
                             menuView(
                                 geometry: geometry,
@@ -86,7 +111,7 @@ struct ContentView: View {
 
                 if (
                     (store.state.page == "Main" &&
-                        store.state.activeSubView == "Controller" || store.state.activeSubView == "Status")
+                        activeSubView == "Controller" || activeSubView == "Status")
                 ) {
                     ZStack {
                         HStack {
@@ -98,7 +123,7 @@ struct ContentView: View {
                 }
             }
         }
-        .toolbar(content: { toolbarView(store: store) }
+        .toolbar(content: { canShowToolbar ? toolbarView(store: store) : nil }
     ).onChange(of: scenePhase) { newPhase in
         if newPhase == .active {
             player.putToBackground(store: store)

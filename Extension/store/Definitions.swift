@@ -86,9 +86,9 @@ class Reading: Codable {
 }
 
 enum SyncStatus: String, Codable {
-    case Syncable = "syncable"
-    case Syncing = "syncing"
-    case Synced = "synced"
+    case Syncable = "Syncable"
+    case Syncing = "Syncing"
+    case Synced = "Synced"
 }
 
 struct ProgressData: Identifiable {

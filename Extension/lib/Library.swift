@@ -77,12 +77,12 @@ func generateSessionId(session: Session) -> String {
 }
 
 func readSessions() -> [Session] {
-    let sessionsURL = getSessionsFolderURL()
+    let url = getSessionsFolderURL()
 
     do {
         return try readFromFolder(SESSIONS_FOLDER_NAME)
             .map {
-                let fileURL = sessionsURL
+                let fileURL = url
                     .appendingPathComponent($0)
                 let data = readFromFile(url: fileURL)
                 return try JSONDecoder().decode(Session.self, from: data)
@@ -90,22 +90,22 @@ func readSessions() -> [Session] {
             .sorted { $0.startTime < $1.startTime }
     } catch {
         print("readSessions(): error", error)
-        deleteFileOrFolder(url: sessionsURL)
+        deleteFileOrFolder(url: url)
     }
 
     return []
 }
 
 func readActiveSession() -> Session {
-    let activeSessionURL = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
+    let url = getDocumentsDirectory().appendingPathComponent(ACTIVE_SESSION_FILE_NAME)
 
     do {
-        let data = readFromFile(url: activeSessionURL)
+        let data = readFromFile(url: url)
         let session = try JSONDecoder().decode(Session.self, from: data)
         return session
     } catch {
         print("readActiveSession(): error", error)
-        deleteFileOrFolder(url: activeSessionURL)
+        deleteFileOrFolder(url: url)
     }
 
     return Session()
@@ -308,4 +308,30 @@ func generateQRCode(_ string: String) -> Image {
     let cgImage = EFQRCode.generate(for: string)
     let uiImage = UIImage(cgImage: cgImage!)
     return Image(uiImage: uiImage)
+}
+
+func saveBoolean(name: String, bool: Bool?) {
+    do {
+        let data: Data = try JSONEncoder().encode(bool)
+        let url = getDocumentsDirectory().appendingPathComponent(name)
+        writeToFile(url: url, data: data)
+    }
+    catch {
+        print("saveBoolean()", error)
+    }
+}
+
+func readBoolean(name: String) -> Bool? {
+    let url = getDocumentsDirectory().appendingPathComponent(name)
+
+    do {
+        let data = readFromFile(url: url)
+        let res = try JSONDecoder().decode(Bool.self, from: data)
+        return res
+    } catch {
+        print("readBoolean(): error", error)
+        deleteFileOrFolder(url: url)
+    }
+
+    return nil
 }

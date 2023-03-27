@@ -55,13 +55,13 @@ func chartSettingsView(
                     Text("Status")
                         .foregroundColor(Color.white)
                         .font(.system(size: 10))
-                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
+                        .frame(maxWidth: geometry.size.width, alignment: .leading)
 
-                    Text(store.state.selectedSession.syncStatus.rawValue.capitalized)
+                    Text(store.state.selectedSession.syncStatus.rawValue)
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
-                        .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
-                        .lineLimit(1)
+                        .frame(maxWidth: geometry.size.width, alignment: .leading)
+                        .lineLimit(2)
                         .minimumScaleFactor(0.8)
 
                     Spacer(minLength: 24)
@@ -134,11 +134,7 @@ func chartSettingsView(
                     .font(.system(size: 10))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                generateQRCode(readingsURL)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .padding(.trailing, 16)
+                qrCode(geometry: geometry, url: readingsURL)
 
                 Spacer(minLength: 24)
             }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD11F27229D20A3800E213EC /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD11F27129D20A3800E213EC /* PrivacyPolicy.swift */; };
+		FD11F27429D21F3C00E213EC /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD11F27329D21F3C00E213EC /* Guide.swift */; };
 		FD17240729A23FAA003DAC6E /* Introduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD17240629A23FAA003DAC6E /* Introduction.swift */; };
 		FD2D391628BBDD98009F1861 /* Breathic.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD2D391528BBDD98009F1861 /* Breathic.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2D391A28BBDD99009F1861 /* Assets.xcassets */; };
@@ -76,6 +78,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FD11F27129D20A3800E213EC /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
+		FD11F27329D21F3C00E213EC /* Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
 		FD17240629A23FAA003DAC6E /* Introduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Introduction.swift; sourceTree = "<group>"; };
 		FD2D391128BBDD97009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2D391528BBDD98009F1861 /* Breathic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -247,9 +251,11 @@
 			isa = PBXGroup;
 			children = (
 				FDC2B0F12922B23D006F53C6 /* Overview.swift */,
+				FD11F27329D21F3C00E213EC /* Guide.swift */,
 				FD2D392528BBDD99009F1861 /* Content.swift */,
 				FD17240629A23FAA003DAC6E /* Introduction.swift */,
 				FDBDAF6E29204CDD00F57DC1 /* Controller.swift */,
+				FD11F27129D20A3800E213EC /* PrivacyPolicy.swift */,
 				FDBDAF7C2920559200F57DC1 /* DeleteConfirmation.swift */,
 				FDBDAF802920576900F57DC1 /* Drag.swift */,
 				FDBDAF762920530900F57DC1 /* Log.swift */,
@@ -396,6 +402,8 @@
 				FDF1E1D22911BAEF0059F5D6 /* Location.swift in Sources */,
 				FDBDAF6F29204CDD00F57DC1 /* Controller.swift in Sources */,
 				FDBDAF7B2920551A00F57DC1 /* StopConfirmation.swift in Sources */,
+				FD11F27429D21F3C00E213EC /* Guide.swift in Sources */,
+				FD11F27229D20A3800E213EC /* PrivacyPolicy.swift in Sources */,
 				FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */,
 				FDBDAF812920576900F57DC1 /* Drag.swift in Sources */,
 				FDBDAF7D2920559200F57DC1 /* DeleteConfirmation.swift in Sources */,

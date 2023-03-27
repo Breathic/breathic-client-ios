@@ -171,7 +171,7 @@ func chart(
                     .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
                     .chartLegend(.hidden)
                     .frame(width: geometry.size.width)
-                    .frame(height: geometry.size.height - 32)
+                    .frame(height: geometry.size.height - 24)
 
                     Spacer(minLength: 16)
                 }
@@ -179,4 +179,15 @@ func chart(
             }
         }
     }
+}
+
+func qrCode(
+    geometry: GeometryProxy,
+    url: String
+) -> some View {
+    generateQRCode(url)
+        .resizable()
+        .scaledToFit()
+        .frame(width: geometry.size.width, height: geometry.size.height)
+        .padding(.trailing, 16)
 }
