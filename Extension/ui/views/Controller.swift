@@ -52,7 +52,7 @@ func controllerView(
                 },
                 longAction: {
                     if !store.state.activeSession.isStarted() { player.start() }
-                    else { store.state.activeSubView = "Session" }
+                    else { store.state.activeSubView = "Finish" }
                 }
             )
         }

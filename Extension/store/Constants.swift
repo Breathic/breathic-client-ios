@@ -22,17 +22,30 @@ let RHYTHMS: [Float] = [2, 2]
 let SEED_INPUTS = [
     SeedInput(durationRange: [0, 8], interval: [1, 1])
 ]
-let PRESETS: [Preset] = [
+let RUN_PRESETS: [Preset] = [
+    Preset(
+        key: "slowest",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 4
+            )
+        ]
+    ),
     Preset(
         key: "slow",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 3
+                rhythm: 3.5
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 3
+                rhythm: 3.5
             )
         ]
     ),
@@ -41,11 +54,11 @@ let PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2.5
+                rhythm: 3
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2.5
+                rhythm: 3
             )
         ]
     ),
@@ -54,6 +67,19 @@ let PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
+                rhythm: 2.5
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 2.5
+            )
+        ]
+    ),
+    Preset(
+        key: "fastest",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
                 rhythm: 2
             ),
             BreathingType(
@@ -61,9 +87,50 @@ let PRESETS: [Preset] = [
                 rhythm: 2
             )
         ]
+    )
+]
+let RIDE_PRESETS: [Preset] = [
+    Preset(
+        key: "slowest",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 6
+            )
+        ]
     ),
     Preset(
-        key: "rest",
+        key: "slow",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 5
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 5
+            )
+        ]
+    ),
+    Preset(
+        key: "normal",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 4
+            )
+        ]
+    ),
+    Preset(
+        key: "fast",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -71,21 +138,38 @@ let PRESETS: [Preset] = [
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 6
+                rhythm: 3
+            )
+        ]
+    ),
+    Preset(
+        key: "fastest",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 2
             )
         ]
     )
+]
+let ACTIVITY_PRESETS: [String: [Preset]] = [
+    "run": RUN_PRESETS,
+    "ride": RIDE_PRESETS,
 ]
 let ACTIVITIES: [Activity] = [
     Activity(
         key: "run",
         label: "Run",
-        presets: PRESETS
+        presets: RUN_PRESETS
     ),
     Activity(
         key: "ride",
         label: "Ride",
-        presets: PRESETS
+        presets: RIDE_PRESETS
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [

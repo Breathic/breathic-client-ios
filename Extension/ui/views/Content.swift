@@ -81,8 +81,8 @@ struct ContentView: View {
                                 selectedSessionId: $store.state.selectedSessionId
                             )
 
-                        case "Session":
-                            sessionStopConfirmationView(
+                        case "Finish":
+                            finishView(
                                 geometry: geometry,
                                 store: store,
                                 player: player

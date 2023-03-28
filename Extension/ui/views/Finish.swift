@@ -1,11 +1,13 @@
 import SwiftUI
 
-func sessionStopConfirmationView(
+func finishView(
     geometry: GeometryProxy,
     store: Store,
     player: Player
 ) -> some View {
-    VStack {
+    var isAlreadySaving: Bool = false
+
+    return VStack {
         HStack {
             Button(action: {
                 store.state.activeSubView = "Discard"
@@ -18,10 +20,13 @@ func sessionStopConfirmationView(
             .tint(colorize("red"))
 
             Button(action: {
-                player.stop()
-                let sessionIds: [String] = getSessionIds(sessions: store.state.sessions)
-                store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
-                onLogSelect(store: store)
+                if !isAlreadySaving {
+                    isAlreadySaving = true
+                    player.stop()
+                    let sessionIds: [String] = getSessionIds(sessions: store.state.sessions)
+                    store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
+                    onLogSelect(store: store)
+                }
             }) {
                 Text("Save")
             }
