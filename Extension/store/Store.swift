@@ -34,7 +34,7 @@ struct AppState {
     var chartedMetricsVisibility: [String: Bool] = [:]
     var chartScales: [String: Bool] = DEFAULT_CHART_SCALES
     var isSyncInProgress: Bool = false
-    var isPrivacyPolicyApproved: Bool? = nil
+    var isTermsApproved: Bool? = nil
     var isGuideSeen: Bool? = nil
 
     func getMetricValue(_ metric: String) -> Float {

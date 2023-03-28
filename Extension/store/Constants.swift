@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 let API_URL: String = Bundle.main.infoDictionary!["API_URL"]! as! String
+let TERMS_AND_CONDITIONS_URL: String = "https://breathic.com/terms-and-conditions.html"
 let PRIVACY_POLICY_URL: String = "https://breathic.com/privacy-policy.html"
 let GUIDE_URL: String = "https://breathic.com"
 let SAMPLE_PATH: String = "/data/samples/"
@@ -240,14 +241,14 @@ let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
 let TIMESERIES_SAVER_INTERVAL_MINUTELY: Double = 60
 let ACTIVE_SESSION_FILE_NAME: String = "ActiveSession"
 let SESSIONS_FOLDER_NAME: String = "Sessions"
-let PRIVACY_POLICY_APPROVAL_NAME: String = "PrivacyPolicyApproval"
+let TERMS_APPROVAL_NAME: String = "TermsApproval"
 let GUIDE_SEEN_NAME: String = "GuideSeen"
 let DRAG_INDEXES: [String: Int] = [
     "Controller": 0,
     "Status": 1
 ]
 let MENU_VIEWS: [String: [String]] = [
-    "Main": ["Controller", "Status", "Guide", "Privacy Policy", "Log"],
+    "Main": ["Controller", "Status", "Guide", "Terms", "Log"],
     "Overview": ["", ""]
 ]
 let DEFAULT_PAGE: String = "Main"

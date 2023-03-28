@@ -20,13 +20,13 @@ struct ContentView: View {
         var activeSubView = store.state.activeSubView
         var canShowToolbar: Bool = true
 
-        if store.state.isGuideSeen == nil {
-            activeSubView = "Guide"
+        if store.state.isTermsApproved == nil {
+            activeSubView = "Terms"
             canShowToolbar = false
         }
 
-        if store.state.isPrivacyPolicyApproved == nil {
-            activeSubView = "Privacy Policy"
+        if store.state.isGuideSeen == nil {
+            activeSubView = "Guide"
             canShowToolbar = false
         }
 
@@ -44,8 +44,8 @@ struct ContentView: View {
                                 store: store
                             )
 
-                        case "Privacy Policy":
-                            PrivacyPolicyView(
+                        case "Terms":
+                            TermsView(
                                 geometry: geometry,
                                 store: store
                             )

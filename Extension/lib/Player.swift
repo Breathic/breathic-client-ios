@@ -32,7 +32,7 @@ class Player {
         panScale = getPanScale()
         store.state.sessions = readSessions()
         store.state.activeSession = readActiveSession()
-        store.state.isPrivacyPolicyApproved = readBoolean(name: PRIVACY_POLICY_APPROVAL_NAME)
+        store.state.isTermsApproved = readBoolean(name: TERMS_APPROVAL_NAME)
         store.state.isGuideSeen = readBoolean(name: GUIDE_SEEN_NAME)
         store.state.activeSession.isPlaying = false
         initIntervals()
