@@ -28,12 +28,12 @@ func finishView(
                     onLogSelect(store: store)
                 }
             }) {
-                Text("Save")
+                Text(!isAlreadySaving ? "Save" : "Saving")
             }
             .font(.system(size: 12))
             .fontWeight(.bold)
             .buttonStyle(.bordered)
-            .tint(colorize("green"))
+            .tint(!isAlreadySaving ? colorize("green") : colorize("gray"))
         }
 
         HStack {
