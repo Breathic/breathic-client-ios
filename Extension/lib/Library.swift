@@ -168,7 +168,7 @@ func getFadeScale() -> [Float] {
             convertRange(
                 value: Float($0),
                 oldRange: [0, Float(fadeMax)],
-                newRange: [FADE_MIN, 1]
+                newRange: [0, 1]
             )
         )
     }
