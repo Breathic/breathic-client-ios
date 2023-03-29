@@ -72,7 +72,8 @@ class Player {
     }
 
     func sync(_ sessions: [Session]) {
-        func _update(_ session: Session) {
+        func _update(session: Session, status: SyncStatus) {
+            session.syncStatus = status
             saveSession(session)
             store.state.sessions = readSessions()
         }
@@ -84,30 +85,28 @@ class Player {
         store.state.isSyncInProgress = true
 
         Task {
-            do {
-                let sessions = sessions.filter { session in
-                    if session.endTime != nil && session.syncStatus != SyncStatus.Synced {
-                        return true
-                    }
-
-                    return false
+            let sessions = sessions.filter { session in
+                if session.endTime != nil && session.syncStatus != SyncStatus.Synced {
+                    return true
                 }
 
-                if sessions.count > 0 {
-                    let session = sessions[0]
-
-                    session.syncStatus = SyncStatus.Syncing
-                    _update(session)
+                return false
+            }
+            if sessions.count > 0 {
+                let session = sessions[0]
+                
+                do {
+                    _update(session: session, status: SyncStatus.Syncing)
 
                     let success = try await uploadSession(session)
                     if success {
-                        session.syncStatus = SyncStatus.Synced
-                        _update(session)
+                        _update(session: session, status: SyncStatus.Synced)
                     }
                 }
-            }
-            catch {
-                print("sync()", error)
+                catch {
+                    print("sync()", error)
+                    _update(session: session, status: SyncStatus.Syncable)
+                }
             }
         }
 

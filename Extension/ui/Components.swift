@@ -188,6 +188,6 @@ func qrCode(
     generateQRCode(url)
         .resizable()
         .scaledToFit()
-        .frame(width: geometry.size.width, height: geometry.size.height)
+        .frame(width: geometry.size.width - 16, height: geometry.size.height - 16)
         .padding(.trailing, 16)
 }
