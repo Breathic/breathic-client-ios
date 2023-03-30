@@ -9,6 +9,7 @@ struct AppState {
     var tempActiveSubView: String = ""
     var activeSession: Session = Session()
     var selectedSessionId: String = ""
+    var selectedActivityId: String = ""
     var seeds: [Seed] = []
     var rhythms: [Track] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")

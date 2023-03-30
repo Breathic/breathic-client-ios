@@ -1,6 +1,25 @@
 import Foundation
 import SwiftUI
 
+enum Page: String, Codable {
+    case Main = "Main"
+    case Overview = "Overview"
+}
+
+enum SubView: String, Codable {
+    case Guide = "Guide"
+    case Terms = "Terms"
+    case Menu = "Menu"
+    case Controller = "Controller"
+    case Status = "Status"
+    case Activity = "Activity"
+    case Log = "Log"
+    case Finish = "Finish"
+    case Discard = "Discard"
+    case Delete = "Delete"
+    case Settings = "Settings"
+}
+
 enum Breathe: String, Codable {
     case BreatheIn = "breathe-in"
     case BreatheInHold = "breathe-in-hold"

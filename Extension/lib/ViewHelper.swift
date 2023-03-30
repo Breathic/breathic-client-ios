@@ -220,7 +220,7 @@ func deleteSession(store: Store, sessionId: String) {
         store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
     }
     else {
-        store.state.activeSubView = "Log"
+        store.state.activeSubView = SubView.Log.rawValue
         highlightFirstLogItem(store: store)
     }
 }

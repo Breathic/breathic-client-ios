@@ -327,21 +327,27 @@ let SESSIONS_FOLDER_NAME: String = "Sessions"
 let TERMS_APPROVAL_NAME: String = "TermsApproval"
 let GUIDE_SEEN_NAME: String = "GuideSeen"
 let DRAG_INDEXES: [String: Int] = [
-    "Controller": 0,
-    "Status": 1
+    SubView.Controller.rawValue: 0,
+    SubView.Status.rawValue: 1
 ]
 let MENU_VIEWS: [String: [String]] = [
-    "Main": ["Controller", "Status", "Guide", "Terms", "Log"],
-    "Overview": ["", ""]
+    Page.Main.rawValue: [
+        SubView.Controller.rawValue,
+        SubView.Status.rawValue,
+        SubView.Guide.rawValue,
+        SubView.Terms.rawValue,
+        SubView.Log.rawValue,
+    ],
+    Page.Overview.rawValue: ["", ""]
 ]
-let DEFAULT_PAGE: String = "Main"
-let DEFAULT_ACTIVE_SUB_VIEW: String = "Controller"
+let DEFAULT_PAGE: String = Page.Main.rawValue
+let DEFAULT_ACTIVE_SUB_VIEW: String = SubView.Controller.rawValue
 let CROWN_MULTIPLIER: Float = 2
 let DEFAULT_CHART_SCALES: [String: Bool] = [
     "Numeric": true,
     "Percentage": false
 ]
 let CONFIRMATION_DEFAULT_VALUE: Double = 0.25
-let CONFIRMATION_ENOUGH_VALUE: Double = 0.9
+let CONFIRMATION_ENOUGH_VALUE: Double = 0.75
 let SYNC_INTERVAL_S: Double = 60
 //let SENTRY_DSN = "https://104bfdd0d1f9498bba4cbaca12988611@o1399372.ingest.sentry.io/6726680"

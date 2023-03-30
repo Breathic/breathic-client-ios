@@ -51,8 +51,11 @@ func controllerView(
                     if store.state.activeSession.isStarted() { player.togglePlay() }
                 },
                 longAction: {
-                    if !store.state.activeSession.isStarted() { player.start() }
-                    else { store.state.activeSubView = "Finish" }
+                    if !store.state.activeSession.isStarted() {
+                        store.state.selectedActivityId = ACTIVITIES[0].key
+                        store.state.activeSubView = SubView.Activity.rawValue
+                    }
+                    else { store.state.activeSubView = SubView.Finish.rawValue }
                 }
             )
         }
@@ -97,16 +100,12 @@ func controllerView(
                 geometry: geometry,
                 label: "Activity",
                 value: ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].key.capitalized,
-                unit: ACTIVITIES[store.state.activeSession.activityIndex].label,
+                unit: store.state.activeSession.isStarted()
+                    ? ACTIVITIES[store.state.activeSession.activityIndex].label
+                    : "",
                 isTall: false,
                 action: {
                     incrementPreset(store)
-                    store.state.render()
-                },
-                longAction: {
-                    store.state.activeSession.activityIndex = store.state.activeSession.activityIndex + 1 < ACTIVITIES.count
-                        ? store.state.activeSession.activityIndex + 1
-                        : 0
                     store.state.render()
                 }
             )

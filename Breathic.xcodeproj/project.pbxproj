@@ -26,13 +26,14 @@
 		FD7F1A8F299E9E6F006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
 		FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
 		FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = FD877CED29C89A6B007D95F6 /* EFQRCode */; };
+		FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
 		FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABDE129C2588A00C60F25 /* Network.swift */; };
 		FDBDAF6F29204CDD00F57DC1 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF6E29204CDD00F57DC1 /* Controller.swift */; };
 		FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */; };
 		FDBDAF732920516E00F57DC1 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF722920516E00F57DC1 /* Status.swift */; };
 		FDBDAF75292051BC00F57DC1 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF74292051BC00F57DC1 /* Menu.swift */; };
-		FDBDAF772920530900F57DC1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF762920530900F57DC1 /* Log.swift */; };
+		FDBDAF772920530900F57DC1 /* LogPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF762920530900F57DC1 /* LogPicker.swift */; };
 		FDBDAF792920544400F57DC1 /* Rhythm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF782920544400F57DC1 /* Rhythm.swift */; };
 		FDBDAF7B2920551A00F57DC1 /* Finish.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7A2920551A00F57DC1 /* Finish.swift */; };
 		FDBDAF7D2920559200F57DC1 /* DeleteConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7C2920559200F57DC1 /* DeleteConfirmation.swift */; };
@@ -99,6 +100,7 @@
 		FD877D0229C8DD15007D95F6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
 		FD877D0529C8DD3F007D95F6 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		FD9ABDE129C2588A00C60F25 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -106,7 +108,7 @@
 		FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
 		FDBDAF722920516E00F57DC1 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		FDBDAF74292051BC00F57DC1 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
-		FDBDAF762920530900F57DC1 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		FDBDAF762920530900F57DC1 /* LogPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogPicker.swift; sourceTree = "<group>"; };
 		FDBDAF782920544400F57DC1 /* Rhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rhythm.swift; sourceTree = "<group>"; };
 		FDBDAF7A2920551A00F57DC1 /* Finish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finish.swift; sourceTree = "<group>"; };
 		FDBDAF7C2920559200F57DC1 /* DeleteConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmation.swift; sourceTree = "<group>"; };
@@ -252,13 +254,14 @@
 			children = (
 				FDC2B0F12922B23D006F53C6 /* Overview.swift */,
 				FD11F27329D21F3C00E213EC /* Guide.swift */,
+				FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */,
 				FD2D392528BBDD99009F1861 /* Content.swift */,
 				FD17240629A23FAA003DAC6E /* Introduction.swift */,
 				FDBDAF6E29204CDD00F57DC1 /* Controller.swift */,
 				FD11F27129D20A3800E213EC /* Terms.swift */,
 				FDBDAF7C2920559200F57DC1 /* DeleteConfirmation.swift */,
 				FDBDAF802920576900F57DC1 /* Drag.swift */,
-				FDBDAF762920530900F57DC1 /* Log.swift */,
+				FDBDAF762920530900F57DC1 /* LogPicker.swift */,
 				FDBDAF74292051BC00F57DC1 /* Menu.swift */,
 				FDBDAF782920544400F57DC1 /* Rhythm.swift */,
 				FDBDAF7A2920551A00F57DC1 /* Finish.swift */,
@@ -396,6 +399,7 @@
 				FD17240729A23FAA003DAC6E /* Introduction.swift in Sources */,
 				FDDA8F8229709DEB00CBDA58 /* DiscardConfirmation.swift in Sources */,
 				FDBDAF832920593700F57DC1 /* Toolbar.swift in Sources */,
+				FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */,
 				FDC09FC328F0A58200F42253 /* Library.swift in Sources */,
 				FDF1E1D42911BB960059F5D6 /* Step.swift in Sources */,
 				FD2D392628BBDD99009F1861 /* Content.swift in Sources */,
@@ -407,7 +411,7 @@
 				FDFC2F18291FA4A000E4C8C8 /* Readings.swift in Sources */,
 				FDBDAF812920576900F57DC1 /* Drag.swift in Sources */,
 				FDBDAF7D2920559200F57DC1 /* DeleteConfirmation.swift in Sources */,
-				FDBDAF772920530900F57DC1 /* Log.swift in Sources */,
+				FDBDAF772920530900F57DC1 /* LogPicker.swift in Sources */,
 				FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */,
 				FDC878A529A152B700579008 /* Styles.swift in Sources */,
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,

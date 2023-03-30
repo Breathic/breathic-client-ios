@@ -6,11 +6,11 @@ func toolbarView(
         ToolbarItem(placement: .cancellationAction) {
             Button(
                 action: {
-                    store.state.activeSubView = store.state.activeSubView != "Menu"
-                        ? "Menu"
+                    store.state.activeSubView = store.state.activeSubView != SubView.Menu.rawValue
+                        ? SubView.Menu.rawValue
                         : MENU_VIEWS[DEFAULT_PAGE]![0]
                     store.state.activeSubView = isOverviewSelected(store: store)
-                        ? "Log"
+                        ? SubView.Log.rawValue
                         : store.state.activeSubView
                 },
                 label: {

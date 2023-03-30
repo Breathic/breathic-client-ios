@@ -145,7 +145,7 @@ func chartSettingsView(
                 .font(.system(size: 10))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = "Delete" })
+            secondaryButton(text: "Delete", color: "red", action: { store.state.activeSubView = SubView.Delete.rawValue })
                 .frame(minWidth: geometry.size.width, maxHeight: .infinity, alignment: .bottom)
                 .padding(.trailing, 16)
         }

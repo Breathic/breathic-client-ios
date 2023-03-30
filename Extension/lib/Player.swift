@@ -92,9 +92,10 @@ class Player {
 
                 return false
             }
+
             if sessions.count > 0 {
                 let session = sessions[0]
-                
+
                 do {
                     _update(session: session, status: SyncStatus.Syncing)
 

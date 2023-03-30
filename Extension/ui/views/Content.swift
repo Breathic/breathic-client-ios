@@ -21,12 +21,12 @@ struct ContentView: View {
         var canShowToolbar: Bool = true
 
         if store.state.isTermsApproved == nil {
-            activeSubView = "Terms"
+            activeSubView = SubView.Terms.rawValue
             canShowToolbar = false
         }
 
         if store.state.isGuideSeen == nil {
-            activeSubView = "Guide"
+            activeSubView = SubView.Guide.rawValue
             canShowToolbar = false
         }
 
@@ -38,26 +38,26 @@ struct ContentView: View {
                     Spacer(minLength: 4)
 
                     switch activeSubView {
-                        case "Guide":
+                        case SubView.Guide.rawValue:
                             GuideView(
                                 geometry: geometry,
                                 store: store
                             )
 
-                        case "Terms":
+                        case SubView.Terms.rawValue:
                             TermsView(
                                 geometry: geometry,
                                 store: store
                             )
 
-                        case "Menu":
+                        case SubView.Menu.rawValue:
                             menuView(
                                 geometry: geometry,
                                 store: store,
                                 tempActiveSubView: $store.state.tempActiveSubView
                             )
 
-                        case "Controller", "Status":
+                        case SubView.Controller.rawValue, SubView.Status.rawValue:
                             dragView(
                                 children: Group {
                                     HStack {
@@ -74,34 +74,42 @@ struct ContentView: View {
                                 store: store
                             )
 
-                        case "Log":
-                            logView(
+                        case SubView.Activity.rawValue:
+                            activityPickerView(
+                                geometry: geometry,
+                                store: store,
+                                player: player,
+                                selectedActivityId: $store.state.selectedActivityId
+                            )
+
+                        case SubView.Log.rawValue:
+                            logPickerView(
                                 geometry: geometry,
                                 store: store,
                                 selectedSessionId: $store.state.selectedSessionId
                             )
 
-                        case "Finish":
+                        case SubView.Finish.rawValue:
                             finishView(
                                 geometry: geometry,
                                 store: store,
                                 player: player
                             )
 
-                        case "Discard":
+                        case SubView.Discard.rawValue:
                             DiscardSessionConfirmationView(
                                 geometry: geometry,
                                 store: store,
                                 player: player
                             )
 
-                        case "Delete":
+                        case SubView.Delete.rawValue:
                             DeleteSessionConfirmationView(
                                 geometry: geometry,
                                 store: store
                             )
 
-                        case store.state.selectedSessionId, "Settings":
+                        case store.state.selectedSessionId, SubView.Settings.rawValue:
                             chartSettingsView(geometry: geometry, store: store)
 
                         default:
@@ -111,7 +119,7 @@ struct ContentView: View {
 
                 if (
                     (store.state.page == "Main" &&
-                        activeSubView == "Controller" || activeSubView == "Status")
+                        activeSubView == SubView.Controller.rawValue || activeSubView == SubView.Status.rawValue)
                 ) {
                     ZStack {
                         HStack {

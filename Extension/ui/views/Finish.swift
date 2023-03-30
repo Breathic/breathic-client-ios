@@ -10,7 +10,7 @@ func finishView(
     return VStack {
         HStack {
             Button(action: {
-                store.state.activeSubView = "Discard"
+                store.state.activeSubView = SubView.Discard.rawValue
             }) {
                 Text("Discard")
             }

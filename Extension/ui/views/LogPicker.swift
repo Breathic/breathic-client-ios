@@ -1,6 +1,6 @@
 import SwiftUI
 
-func logView(
+func logPickerView(
     geometry: GeometryProxy,
     store: Store,
     selectedSessionId: Binding<String>
