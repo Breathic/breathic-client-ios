@@ -16,8 +16,7 @@ func colorize(_ color: String) -> Color {
 }
 
 func getRhythms(_ store: Store) -> [Float] {
-    let activityKey: String = ACTIVITIES[store.state.activeSession.activityIndex].key
-    return ACTIVITY_PRESETS[activityKey]![store.state.activeSession.presetIndex].breathingTypes.map { $0.rhythm }
+    return ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.map { $0.rhythm }
 }
 
 func incrementPreset(_ store: Store) {

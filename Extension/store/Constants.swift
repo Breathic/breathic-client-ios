@@ -155,10 +155,6 @@ let RIDE_PRESETS: [Preset] = [
         ]
     )
 ]
-let ACTIVITY_PRESETS: [String: [Preset]] = [
-    "run": RUN_PRESETS,
-    "ride": RIDE_PRESETS,
-]
 let ACTIVITIES: [Activity] = [
     Activity(
         key: "run",
@@ -187,7 +183,6 @@ let METRIC_TYPES: [String: MetricType] = [
         abbreviation: "s",
         label: "Steps",
         unit: "per minute",
-        isSource: true,
         color: colorize("teal"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),

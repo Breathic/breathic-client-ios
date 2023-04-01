@@ -58,21 +58,24 @@ struct ContentView: View {
                             )
 
                         case SubView.Controller.rawValue, SubView.Status.rawValue:
-                            dragView(
-                                children: Group {
-                                    HStack {
-                                        controllerView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
-                                        !isSessionActive(store: store)
-                                            ? AnyView(introductionView(geometry: geometry, store: store))
-                                            : AnyView(statusView(geometry: geometry, store: store))
-                                    }
-                                    .onAppear {
-                                        store.state.page = DEFAULT_PAGE
-                                    }
-                                },
-                                geometry: geometry,
-                                store: store
-                            )
+                            if store.state.activeSession.isStarted() {
+                                dragView(
+                                    children: Group {
+                                        HStack {
+                                            controllerView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
+                                            AnyView(statusView(geometry: geometry, store: store))
+                                        }
+                                        .onAppear {
+                                            store.state.page = DEFAULT_PAGE
+                                        }
+                                    },
+                                    geometry: geometry,
+                                    store: store
+                                )
+                            }
+                            else {
+                                controllerView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
+                            }
 
                         case SubView.Activity.rawValue:
                             activityPickerView(
@@ -118,7 +121,7 @@ struct ContentView: View {
                 }
 
                 if (
-                    (store.state.page == "Main" &&
+                    (store.state.page == "Main" && store.state.activeSession.isStarted() &&
                         activeSubView == SubView.Controller.rawValue || activeSubView == SubView.Status.rawValue)
                 ) {
                     ZStack {

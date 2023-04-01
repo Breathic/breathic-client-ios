@@ -66,7 +66,7 @@ func primaryButton(
         }
     }
     .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4)
-    .frame(height: geometry.size.height / (isWide ? 4 : 2) - 4)
+    .frame(height: geometry.size.height / (isWide ? 1 : 2) - 4)
     .foregroundColor(.white)
     .tint(.black)
     .overlay(

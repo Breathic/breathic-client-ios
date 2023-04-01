@@ -364,8 +364,7 @@ class Player {
 
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
 
-        let activityKey: String = ACTIVITIES[store.state.activeSession.activityIndex].key
-        ACTIVITY_PRESETS[activityKey]![store.state.activeSession.presetIndex].breathingTypes.forEach {
+        ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.forEach {
             if $0.rhythm > 0 {
                 store.state.setMetricValue($0.key.rawValue, $0.rhythm)
             }
