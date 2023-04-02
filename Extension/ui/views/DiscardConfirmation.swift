@@ -23,7 +23,7 @@ struct DiscardSessionConfirmationView: View {
             .onChange(of: value, perform: {_ in
                 if value > CONFIRMATION_ENOUGH_VALUE {
                     player.stop()
-                    store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
+                    store.state.activeSubView = DEFAULT_ACTIVE_SUB_VIEW
                 }
             })
             .compactSliderStyle(CustomCompactSliderStyle())
@@ -31,7 +31,7 @@ struct DiscardSessionConfirmationView: View {
 
             HStack {
                 Button(action: {
-                    store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
+                    store.state.activeSubView = DEFAULT_ACTIVE_SUB_VIEW
                 }) {
                     Text("Cancel")
                 }
