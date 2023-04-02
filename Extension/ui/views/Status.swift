@@ -13,8 +13,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                         value: String(format: getMetric(metric).format, store.state.getMetricValue(metric)),
                         unit: getMetric(metric).unit,
                         valueColor: getMetric(metric).color,
-                        isEnabled: false,
-                        opacity: isSessionActive(store: store) ? 1 : 0.33
+                        borderWidth: 0,
+                        isEnabled: false
                     )
 
                     Spacer(minLength: 8)

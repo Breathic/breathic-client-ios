@@ -6,22 +6,14 @@ func controllerView(
     player: Player,
     volume: Binding<Float>
 ) -> some View {
-    func getSessionValue(store: Store) -> String {
-        if store.state.activeSession.isStarted() {
-            if store.state.activeSession.isPlaying { return getElapsedTime(store.state.activeSession.elapsedSeconds) }
-            else { return getElapsedTime(store.state.activeSession.elapsedSeconds) }
-        }
-        else {
-            return "Start"
-        }
-    }
-
-    return VStack {
+    VStack {
         HStack {
             primaryButton(
                 geometry: geometry,
                 label: "Session",
-                value: getSessionValue(store: store),
+                value: !store.state.activeSession.isStarted()
+                    ? "Start"
+                    : "Finish",
                 isTall: false,
                 minimumScaleFactor: 0.75,
                 action: {
@@ -38,13 +30,15 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Playback",
-                value: store.state.activeSession.isPlaying
+                value: store.state.activeSession.isStarted()
+                    ? getElapsedTime(store.state.activeSession.elapsedSeconds)
+                    : "",
+                unit: store.state.activeSession.isPlaying
                     ? "Pause"
                     : "Play",
                 isTall: false,
-                opacity: store.state.activeSession.isStarted()
-                    ? 1
-                    : 0.1,
+                isEnabled: store.state.activeSession.isStarted(),
+                isBlurred: !store.state.activeSession.isStarted(),
                 minimumScaleFactor: 0.75,
                 action: {
                     if store.state.activeSession.isStarted() {
@@ -79,15 +73,16 @@ func controllerView(
                 : 0,
                 isShort: true,
                 isTall: false,
-                opacity: store.state.activeSession.isStarted()
-                    ? 1
-                    : 0.1,
+                isEnabled: store.state.activeSession.isStarted(),
+                isBlurred: !store.state.activeSession.isStarted(),
                 minimumScaleFactor: 0.75,
                 action: {
-                    store.state.activeSession.feedbackModeIndex = store.state.activeSession.feedbackModeIndex + 1 < FEEDBACK_MODES.count
+                    if store.state.activeSession.isStarted() {
+                        store.state.activeSession.feedbackModeIndex = store.state.activeSession.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.activeSession.feedbackModeIndex + 1
                         : 0
-                    store.state.render()
+                        store.state.render()
+                    }
                 }
             )
 
@@ -99,12 +94,13 @@ func controllerView(
                 value: ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].key.capitalized,
                 unit: ACTIVITIES[store.state.activeSession.activityIndex].label,
                 isTall: false,
-                opacity: store.state.activeSession.isStarted()
-                    ? 1
-                    : 0.1,
+                isEnabled: store.state.activeSession.isStarted(),
+                isBlurred: !store.state.activeSession.isStarted(),
                 action: {
-                    incrementPreset(store)
-                    store.state.render()
+                    if store.state.activeSession.isStarted() {
+                        incrementPreset(store)
+                        store.state.render()
+                    }
                 }
             )
         }

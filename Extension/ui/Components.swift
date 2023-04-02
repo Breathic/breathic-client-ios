@@ -11,17 +11,21 @@ func primaryButton(
     index: Int = -1,
     maxIndex: Int = -1,
     valueColor: Color = Color.white,
+    borderWidth: Double = 1,
     isWide: Bool = false,
     isShort: Bool = false,
     isTall: Bool = true,
     isActive: Bool = false,
     isEnabled: Bool = true,
-    opacity: Double = 1,
+    isBlurred: Bool = false,
     minimumScaleFactor: CGFloat = 1,
     action: @escaping () -> Void = {},
     longAction: @escaping () -> Void = {}
 ) -> some View {
     @GestureState var pressState: Bool = true
+
+    let blur: Double = 3
+    let blurredOpacity: Double = 0.5
 
     return Button(action: {}) {
         VStack {
@@ -71,9 +75,10 @@ func primaryButton(
     .tint(.black)
     .overlay(
         RoundedRectangle(cornerRadius: 10)
-            .stroke(colorize("gray"), lineWidth: isEnabled ? 1 : 0)
+            .stroke(colorize("gray"), lineWidth: borderWidth)
     )
-    .opacity(opacity)
+    .opacity(isBlurred ? blurredOpacity : 1)
+    .blur(radius: isBlurred ? blur : 0)
     .disabled(!isEnabled)
     .simultaneousGesture(
         LongPressGesture(minimumDuration: 0.1, maximumDistance: 10.0)
