@@ -15,6 +15,7 @@ enum SubView: String, Codable {
     case Activity = "Activity"
     case Log = "Log"
     case Finish = "Finish"
+    case Save = "Save"
     case Discard = "Discard"
     case Delete = "Delete"
     case Settings = "Settings"

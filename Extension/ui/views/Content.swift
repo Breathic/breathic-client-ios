@@ -30,6 +30,10 @@ struct ContentView: View {
             canShowToolbar = false
         }
 
+        if activeSubView == SubView.Save.rawValue {
+            canShowToolbar = false
+        }
+
         return ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
 
@@ -97,6 +101,12 @@ struct ContentView: View {
                                 geometry: geometry,
                                 store: store,
                                 player: player
+                            )
+
+                        case SubView.Save.rawValue:
+                            savingView(
+                                geometry: geometry,
+                                store: store
                             )
 
                         case SubView.Discard.rawValue:

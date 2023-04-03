@@ -27,6 +27,7 @@
 		FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
 		FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = FD877CED29C89A6B007D95F6 /* EFQRCode */; };
 		FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */; };
+		FD8A9AB929DAEFD800A9A746 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB829DAEFD800A9A746 /* Saving.swift */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
 		FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABDE129C2588A00C60F25 /* Network.swift */; };
 		FDBDAF6F29204CDD00F57DC1 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF6E29204CDD00F57DC1 /* Controller.swift */; };
@@ -101,6 +102,7 @@
 		FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
 		FD877D0529C8DD3F007D95F6 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
+		FD8A9AB829DAEFD800A9A746 /* Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saving.swift; sourceTree = "<group>"; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		FD9ABDE129C2588A00C60F25 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -268,6 +270,7 @@
 				FDBDAF722920516E00F57DC1 /* Status.swift */,
 				FDBDAF822920593700F57DC1 /* Toolbar.swift */,
 				FDDA8F8129709DEB00CBDA58 /* DiscardConfirmation.swift */,
+				FD8A9AB829DAEFD800A9A746 /* Saving.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				FDBDAF812920576900F57DC1 /* Drag.swift in Sources */,
 				FDBDAF7D2920559200F57DC1 /* DeleteConfirmation.swift in Sources */,
 				FDBDAF772920530900F57DC1 /* LogPicker.swift in Sources */,
+				FD8A9AB929DAEFD800A9A746 /* Saving.swift in Sources */,
 				FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */,
 				FDC878A529A152B700579008 /* Styles.swift in Sources */,
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,

@@ -37,7 +37,6 @@ struct AppState {
     var isSyncInProgress: Bool = false
     var isTermsApproved: Bool? = nil
     var isGuideSeen: Bool? = nil
-    var isCurrentlySaving: Bool = false
 
     func getMetricValue(_ metric: String) -> Float {
         self.metrics[metric] ?? 0
