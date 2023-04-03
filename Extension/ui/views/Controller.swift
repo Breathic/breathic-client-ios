@@ -6,7 +6,14 @@ func controllerView(
     player: Player,
     volume: Binding<Float>
 ) -> some View {
-    VStack {
+    func _getActivityValue(store: Store) -> String {
+        let presets = ACTIVITIES[store.state.activeSession.activityIndex].presets
+            .sorted { $0.key < $1.key }
+        return String(presets[store.state.activeSession.presetIndex].breathingTypes[0].rhythm) + ":" +
+            String(presets[store.state.activeSession.presetIndex].breathingTypes[1].rhythm)
+    }
+
+    return VStack {
         HStack {
             primaryButton(
                 geometry: geometry,
@@ -91,7 +98,7 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Activity",
-                value: ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].key.capitalized,
+                value: _getActivityValue(store: store),
                 unit: ACTIVITIES[store.state.activeSession.activityIndex].label,
                 isTall: false,
                 isEnabled: store.state.activeSession.isStarted(),

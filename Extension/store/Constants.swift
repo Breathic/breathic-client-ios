@@ -23,7 +23,7 @@ let SEED_INPUTS = [
 ]
 let RUN_PRESETS: [Preset] = [
     Preset(
-        key: "slowest",
+        key: "4",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -36,7 +36,7 @@ let RUN_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "slow",
+        key: "3.5",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -49,7 +49,7 @@ let RUN_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "normal",
+        key: "3",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -62,7 +62,7 @@ let RUN_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "fast",
+        key: "2.5",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -75,7 +75,7 @@ let RUN_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "fastest",
+        key: "2",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -90,7 +90,7 @@ let RUN_PRESETS: [Preset] = [
 ]
 let RIDE_PRESETS: [Preset] = [
     Preset(
-        key: "slowest",
+        key: "6",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -103,7 +103,7 @@ let RIDE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "slow",
+        key: "5",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -116,7 +116,7 @@ let RIDE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "normal",
+        key: "4",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -129,7 +129,7 @@ let RIDE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "fast",
+        key: "3",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -142,7 +142,7 @@ let RIDE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "fastest",
+        key: "2",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
