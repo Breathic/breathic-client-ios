@@ -20,7 +20,7 @@ func finishView(
             Button(action: {
                 store.state.activeSubView = SubView.Save.rawValue
 
-                Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer: Timer) in
+                Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { (timer: Timer) in
                     player.stop()
                     let sessionIds: [String] = getSessionIds(sessions: store.state.sessions)
                     store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
