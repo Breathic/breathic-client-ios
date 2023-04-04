@@ -1,3 +1,0 @@
-API_URL = https:/$()/dev.api.breathic.com
-APP_NAME = Breathic (dev)
-APP_BUNDLE_ID = fringe.breathic.dev

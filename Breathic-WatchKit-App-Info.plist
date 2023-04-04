@@ -13,6 +13,8 @@
 	<array>
 		<string>physical-therapy</string>
 	</array>
+	<key>API_KEY</key>
+	<string>$(API_KEY)</string>
 	<key>WKSupportsAlwaysOnDisplay</key>
 	<true/>
 </dict>

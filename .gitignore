@@ -16,6 +16,6 @@ _site
 Audio Breath.xcodeproj/
 
 # keys
-DevelopmentKeys.xcconfig
-StagingKeys.xcconfig
-ProductionKeys.xcconfig
+Development.xcconfig
+Staging.xcconfig
+Production.xcconfig
