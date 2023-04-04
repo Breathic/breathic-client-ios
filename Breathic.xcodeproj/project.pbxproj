@@ -103,6 +103,9 @@
 		FD877D0529C8DD3F007D95F6 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
 		FD8A9AB829DAEFD800A9A746 /* Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
+		FD8A9ABA29DC2BB100A9A746 /* DevelopmentKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DevelopmentKeys.xcconfig; sourceTree = "<group>"; };
+		FD8A9ABB29DC2BFE00A9A746 /* StagingKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StagingKeys.xcconfig; sourceTree = "<group>"; };
+		FD8A9ABC29DC2C1300A9A746 /* ProductionKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ProductionKeys.xcconfig; sourceTree = "<group>"; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		FD9ABDE129C2588A00C60F25 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -210,8 +213,11 @@
 			isa = PBXGroup;
 			children = (
 				FD877D0229C8DD15007D95F6 /* Development.xcconfig */,
+				FD8A9ABC29DC2C1300A9A746 /* ProductionKeys.xcconfig */,
 				FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */,
 				FD877D0529C8DD3F007D95F6 /* Production.xcconfig */,
+				FD8A9ABA29DC2BB100A9A746 /* DevelopmentKeys.xcconfig */,
+				FD8A9ABB29DC2BFE00A9A746 /* StagingKeys.xcconfig */,
 			);
 			path = configs;
 			sourceTree = "<group>";

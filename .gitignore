@@ -14,3 +14,8 @@ npm-debug.log
 package-lock.json
 _site
 Audio Breath.xcodeproj/
+
+# keys
+DevelopmentKeys.xcconfig
+StagingKeys.xcconfig
+ProductionKeys.xcconfig
