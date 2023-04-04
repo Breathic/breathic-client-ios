@@ -28,8 +28,10 @@ func uploadSession(_ session: Session) async throws -> Bool {
                     payload: payload
                 )
             )
+            let bearerToken = sign(validationKey: sessionUuid)
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer " + bearerToken, forHTTPHeaderField: "Authorization")
             request.httpMethod = "POST"
 
             var response: HTTPURLResponse? = nil

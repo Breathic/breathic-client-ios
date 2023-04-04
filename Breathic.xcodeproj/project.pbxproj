@@ -28,6 +28,9 @@
 		FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = FD877CED29C89A6B007D95F6 /* EFQRCode */; };
 		FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */; };
 		FD8A9AB929DAEFD800A9A746 /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB829DAEFD800A9A746 /* Save.swift */; };
+		FD8A9AC229DC32C100A9A746 /* keys in Resources */ = {isa = PBXBuildFile; fileRef = FD8A9AC129DC32C100A9A746 /* keys */; };
+		FD8A9AC529DC352300A9A746 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = FD8A9AC429DC352300A9A746 /* SwiftJWT */; };
+		FD8A9AC729DC352B00A9A746 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AC629DC352B00A9A746 /* Crypto.swift */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
 		FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABDE129C2588A00C60F25 /* Network.swift */; };
 		FDBDAF6F29204CDD00F57DC1 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF6E29204CDD00F57DC1 /* Controller.swift */; };
@@ -103,6 +106,8 @@
 		FD877D0529C8DD3F007D95F6 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
 		FD8A9AB829DAEFD800A9A746 /* Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
+		FD8A9AC129DC32C100A9A746 /* keys */ = {isa = PBXFileReference; lastKnownFileType = folder; path = keys; sourceTree = "<group>"; };
+		FD8A9AC629DC352B00A9A746 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		FD9ABDE129C2588A00C60F25 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -137,6 +142,7 @@
 			files = (
 				FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */,
 				FDC878A329A144E400579008 /* CompactSlider in Frameworks */,
+				FD8A9AC529DC352300A9A746 /* SwiftJWT in Frameworks */,
 				FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,8 +181,8 @@
 		FD2D392428BBDD99009F1861 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				FD8A9AC029DC312500A9A746 /* keys */,
 				FD2D392728BBDD99009F1861 /* App.swift */,
+				FD8A9AC129DC32C100A9A746 /* keys */,
 				FD877D0129C8DCD9007D95F6 /* configs */,
 				FD2D392B28BBDD9A009F1861 /* Assets.xcassets */,
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
@@ -217,13 +223,6 @@
 			path = configs;
 			sourceTree = "<group>";
 		};
-		FD8A9AC029DC312500A9A746 /* keys */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = keys;
-			sourceTree = "<group>";
-		};
 		FDF9A8CF29C5C3F900DC24E8 /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +232,7 @@
 				FD2D395128BBE012009F1861 /* Extensions.swift */,
 				FD9ABDE129C2588A00C60F25 /* Network.swift */,
 				FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */,
+				FD8A9AC629DC352B00A9A746 /* Crypto.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -332,6 +332,7 @@
 			packageProductDependencies = (
 				FDC878A229A144E400579008 /* CompactSlider */,
 				FD877CED29C89A6B007D95F6 /* EFQRCode */,
+				FD8A9AC429DC352300A9A746 /* SwiftJWT */,
 			);
 			productName = "pacemaker WatchKit App";
 			productReference = FD2D391528BBDD98009F1861 /* Breathic.app */;
@@ -367,6 +368,7 @@
 			packageReferences = (
 				FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */,
 				FD877CEC29C89A6B007D95F6 /* XCRemoteSwiftPackageReference "EFQRCode" */,
+				FD8A9AC329DC352300A9A746 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
 			);
 			productRefGroup = FD2D391228BBDD97009F1861 /* Products */;
 			projectDirPath = "";
@@ -391,6 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD8A9AC229DC32C100A9A746 /* keys in Resources */,
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
@@ -439,6 +442,7 @@
 				FDF9A8CE29C5330800DC24E8 /* Filesystem.swift in Sources */,
 				FDF1E1D62911BC3D0059F5D6 /* Heart.swift in Sources */,
 				FDBDAF792920544400F57DC1 /* Rhythm.swift in Sources */,
+				FD8A9AC729DC352B00A9A746 /* Crypto.swift in Sources */,
 				FD2D395228BBE012009F1861 /* Extensions.swift in Sources */,
 				FDBDAF732920516E00F57DC1 /* Status.swift in Sources */,
 				FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */,
@@ -1189,6 +1193,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		FD8A9AC329DC352300A9A746 /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		FDC878A129A144E400579008 /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/buh/CompactSlider.git";
@@ -1204,6 +1216,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FD877CEC29C89A6B007D95F6 /* XCRemoteSwiftPackageReference "EFQRCode" */;
 			productName = EFQRCode;
+		};
+		FD8A9AC429DC352300A9A746 /* SwiftJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD8A9AC329DC352300A9A746 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
+			productName = SwiftJWT;
 		};
 		FDC878A229A144E400579008 /* CompactSlider */ = {
 			isa = XCSwiftPackageProductDependency;
