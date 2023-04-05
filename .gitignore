@@ -14,4 +14,4 @@ package-lock.json
 _site
 Audio Breath.xcodeproj/
 
-SimulatorDeviceToken.xcconfig
+keys/

@@ -14,7 +14,18 @@ func generateToken() async -> String {
     }
 
     if Platform.isSimulator {
-        return SIMULATOR_DEVICE_TOKEN
+        if let path = Bundle.main.path(
+            forResource: String(SIMULATOR_DEVICE_TOKEN.split(separator: ".")[0]),
+            ofType: String(SIMULATOR_DEVICE_TOKEN.split(separator: ".")[1])
+        ) {
+            do {
+                let data = try String(contentsOfFile: path, encoding: .utf8)
+                return data
+            }
+            catch {
+                print("generateToken()", error)
+            }
+        }
     }
 
     return ""
