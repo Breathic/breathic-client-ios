@@ -1,13 +1,17 @@
 import WatchKit
 import WatchConnectivity
 
-func uploadSession(_ session: Session) async throws -> Bool {
+func uploadSession(
+    session: Session,
+    deviceToken: String
+) async throws -> Bool {
     do {
         struct RequestData: Encodable {
+            let deviceToken: String
             let sessionUuid: String
             let deviceUuid: String
             let session: String
-            let payload: String
+            let readings: String
         }
 
         if WKInterfaceDevice.current().identifierForVendor != nil {
@@ -15,23 +19,22 @@ func uploadSession(_ session: Session) async throws -> Bool {
                 uuid: session.uuid,
                 timeUnit: TimeUnit.Second
             )
-            let payload: String = buildSessionPayload(timeseriesData: timeseriesData)
+            let readings: String = buildSessionPayload(timeseriesData: timeseriesData)
             let url = URL(string: API_URL + "/session")!
             let sessionUuid = session.uuid;
             let deviceUuid = WKInterfaceDevice.current().identifierForVendor!.uuidString
             let sessionData = String(data: try JSONEncoder().encode(session), encoding: String.Encoding.utf8)!
             let requestData = try JSONEncoder().encode(
                 RequestData(
+                    deviceToken: deviceToken,
                     sessionUuid: sessionUuid,
                     deviceUuid: deviceUuid,
                     session: sessionData,
-                    payload: payload
+                    readings: readings
                 )
             )
-            let bearerToken = sign(validationKey: sessionUuid)
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("Bearer " + bearerToken, forHTTPHeaderField: "Authorization")
             request.httpMethod = "POST"
 
             var response: HTTPURLResponse? = nil

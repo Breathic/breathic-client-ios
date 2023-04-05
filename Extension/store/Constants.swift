@@ -3,7 +3,7 @@ import SwiftUI
 
 let API_URL: String = Bundle.main.infoDictionary!["API_URL"]! as! String
 let APP_ENV: String = Bundle.main.infoDictionary!["APP_ENV"]! as! String
-let PRIVATE_KEY_PATH: String = Bundle.main.path(forResource: "keys/" + APP_ENV, ofType: ".key")!
+let SIMULATOR_DEVICE_TOKEN: String = Bundle.main.infoDictionary!["SIMULATOR_DEVICE_TOKEN"]! as! String
 let TERMS_AND_CONDITIONS_URL: String = "https://breathic.com/terms-and-conditions.html"
 let PRIVACY_POLICY_URL: String = "https://breathic.com/privacy-policy.html"
 let GUIDE_URL: String = "https://breathic.com"

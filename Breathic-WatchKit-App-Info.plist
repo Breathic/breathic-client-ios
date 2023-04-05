@@ -6,6 +6,8 @@
 	<string>$(API_URL)</string>
 	<key>APP_ENV</key>
 	<string>$(APP_ENV)</string>
+	<key>SIMULATOR_DEVICE_TOKEN</key>
+	<string>$(SIMULATOR_DEVICE_TOKEN)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

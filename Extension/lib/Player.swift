@@ -25,6 +25,9 @@ class Player {
             options.tracesSampleRate = 1.0
         }
         */
+        Task {
+            store.state.deviceToken = await generateToken()
+        }
         store.state.setMetricValuesToDefault()
         store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
         create()
@@ -96,17 +99,22 @@ class Player {
             if sessions.count > 0 {
                 let session = sessions[0]
 
-                do {
-                    _update(session: session, status: SyncStatus.Syncing)
+                if store.state.deviceToken.count > 0 {
+                    do {
+                        _update(session: session, status: SyncStatus.Syncing)
 
-                    let success = try await uploadSession(session)
-                    if success {
-                        _update(session: session, status: SyncStatus.Synced)
+                        let success = try await uploadSession(
+                            session: session,
+                            deviceToken: store.state.deviceToken
+                        )
+                        if success {
+                            _update(session: session, status: SyncStatus.Synced)
+                        }
                     }
-                }
-                catch {
-                    print("sync()", error)
-                    _update(session: session, status: SyncStatus.Syncable)
+                    catch {
+                        print("sync()", error)
+                        _update(session: session, status: SyncStatus.Syncable)
+                    }
                 }
             }
         }
