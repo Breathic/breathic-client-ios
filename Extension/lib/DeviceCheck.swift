@@ -13,6 +13,7 @@ func generateToken() async -> String {
         }
     }
 
+    /*
     if Platform.isSimulator {
         if let path = Bundle.main.path(
             forResource: String(SIMULATOR_DEVICE_TOKEN.split(separator: ".")[0]),
@@ -27,6 +28,7 @@ func generateToken() async -> String {
             }
         }
     }
+    */
 
     return ""
 }

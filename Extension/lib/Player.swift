@@ -99,25 +99,24 @@ class Player {
             if sessions.count > 0 {
                 let session = sessions[0]
 
-                if store.state.deviceToken.count > 0 {
-                    do {
-                        _update(session: session, status: SyncStatus.Syncing)
+                do {
+                    _update(session: session, status: SyncStatus.Syncing)
 
-                        let success = try await uploadSession(
-                            session: session,
-                            deviceToken: store.state.deviceToken
-                        )
-                        if success {
-                            _update(session: session, status: SyncStatus.Synced)
-                        }
-                        else {
-                            _update(session: session, status: SyncStatus.Syncable)
-                        }
+                    let success = try await uploadSession(
+                        session: session,
+                        deviceToken: store.state.deviceToken
+                    )
+
+                    if success {
+                        _update(session: session, status: SyncStatus.Synced)
                     }
-                    catch {
-                        print("sync()", error)
+                    else {
                         _update(session: session, status: SyncStatus.Syncable)
                     }
+                }
+                catch {
+                    print("sync()", error)
+                    _update(session: session, status: SyncStatus.Syncable)
                 }
             }
         }

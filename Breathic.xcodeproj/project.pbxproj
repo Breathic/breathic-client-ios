@@ -31,8 +31,6 @@
 		FD8A9AC929DD9C4400A9A746 /* DeviceCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AC829DD9C4400A9A746 /* DeviceCheck.swift */; };
 		FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8E3EE6290AC4FF0048B2F7 /* Components.swift */; };
 		FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9ABDE129C2588A00C60F25 /* Network.swift */; };
-		FDA1D88429DDFFF000AFDCD9 /* simulator-device-token.key in Resources */ = {isa = PBXBuildFile; fileRef = FDA1D88329DDFFEF00AFDCD9 /* simulator-device-token.key */; };
-		FDA1D88529DE008D00AFDCD9 /* simulator-device-token.key in Resources */ = {isa = PBXBuildFile; fileRef = FDA1D88329DDFFEF00AFDCD9 /* simulator-device-token.key */; };
 		FDBDAF6F29204CDD00F57DC1 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF6E29204CDD00F57DC1 /* Controller.swift */; };
 		FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */; };
 		FDBDAF732920516E00F57DC1 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBDAF722920516E00F57DC1 /* Status.swift */; };
@@ -110,7 +108,6 @@
 		FD8E3EE6290AC4FF0048B2F7 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		FD9ABDE129C2588A00C60F25 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathic-WatchKit-App-Info.plist"; sourceTree = SOURCE_ROOT; };
-		FDA1D88329DDFFEF00AFDCD9 /* simulator-device-token.key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "simulator-device-token.key"; path = "../../../../Desktop/simulator-device-token.key"; sourceTree = "<group>"; };
 		FDBDAF6E29204CDD00F57DC1 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
 		FDBDAF722920516E00F57DC1 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
@@ -149,14 +146,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FD13C24829DDF90F009F477F /* keys */ = {
-			isa = PBXGroup;
-			children = (
-				FDA1D88329DDFFEF00AFDCD9 /* simulator-device-token.key */,
-			);
-			path = keys;
-			sourceTree = "<group>";
-		};
 		FD2D390A28BBDD97009F1861 = {
 			isa = PBXGroup;
 			children = (
@@ -189,7 +178,6 @@
 			isa = PBXGroup;
 			children = (
 				FD2D392728BBDD99009F1861 /* App.swift */,
-				FD13C24829DDF90F009F477F /* keys */,
 				FD877D0129C8DCD9007D95F6 /* configs */,
 				FD2D392B28BBDD9A009F1861 /* Assets.xcassets */,
 				FD2D392928BBDD99009F1861 /* ComplicationController.swift */,
@@ -390,7 +378,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDA1D88429DDFFF000AFDCD9 /* simulator-device-token.key in Resources */,
 				FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,7 +386,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDA1D88529DE008D00AFDCD9 /* simulator-device-token.key in Resources */,
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
