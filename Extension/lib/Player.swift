@@ -110,6 +110,9 @@ class Player {
                         if success {
                             _update(session: session, status: SyncStatus.Synced)
                         }
+                        else {
+                            _update(session: session, status: SyncStatus.Syncable)
+                        }
                     }
                     catch {
                         print("sync()", error)

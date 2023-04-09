@@ -205,22 +205,6 @@ let METRIC_TYPES: [String: MetricType] = [
         isChartable: true,
         color: colorize("green")
     ),
-    /*
-    "heart-to-breath": MetricType(
-        metric: "heart-to-breath",
-        abbreviation: "h2b",
-        label: "Heartbreaths",
-        unit: "per minute",
-        color: colorize("pink")
-    ),
-    "step-to-breath": MetricType(
-        metric: "step-to-breath",
-        abbreviation: "s2b",
-        label: "Stepbreaths",
-        unit: "per minute",
-        color: colorize("teal")
-    ),
-    */
     "breathe-in": MetricType(
         metric: "breathe-in",
         abbreviation: "bi",
@@ -298,9 +282,6 @@ let METRIC_ORDER: [String] = [
     "heart",
     "step",
     "speed",
-    "heart-to-breath",
-    "step-to-breath",
-    "speed-to-breath",
     "breathe-in",
     "breathe-in-hold",
     "breathe-out",
@@ -310,7 +291,6 @@ let METRIC_ORDER: [String] = [
 let FEEDBACK_MODES: [Feedback] = [
     Feedback.Audio,
     Feedback.Haptic,
-    Feedback.AudioHaptic,
     Feedback.Muted,
 ]
 let AUDIO_PANNING_MODES: [String] = [

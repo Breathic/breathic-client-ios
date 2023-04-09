@@ -8,7 +8,7 @@ func controllerView(
 ) -> some View {
     func _getActivityValue(store: Store) -> String {
         let presets = ACTIVITIES[store.state.activeSession.activityIndex].presets
-            .sorted { $0.key < $1.key }
+            .sorted { $0.key > $1.key }
         return String(presets[store.state.activeSession.presetIndex].breathingTypes[0].rhythm) + ":" +
             String(presets[store.state.activeSession.presetIndex].breathingTypes[1].rhythm)
     }
