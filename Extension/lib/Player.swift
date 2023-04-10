@@ -405,6 +405,7 @@ class Player {
         playAudio()
         store.state.activeSession.start()
         sessionPlay()
+        store.state.render()
     }
 
     func stop() {
@@ -429,19 +430,28 @@ class Player {
     }
 
     func sessionPlay() {
-        heart.start()
-        step.start()
-        location.start()
+        startReaders()
         store.state.activeSession.isPlaying = true
         store.state.render()
     }
 
     func sessionPause() {
+        stopReaders()
+        store.state.activeSession.isPlaying = false
+        store.state.render()
+    }
+
+    func startReaders() {
+        stopReaders()
+        heart.start()
+        step.start()
+        location.start()
+    }
+
+    func stopReaders() {
         heart.stop()
         step.stop()
         location.stop()
-        store.state.activeSession.isPlaying = false
-        store.state.render()
     }
 
     func create() {
