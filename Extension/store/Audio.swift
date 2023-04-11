@@ -17,12 +17,11 @@ class Audio {
     }
 
     func copy() -> Any {
-        let copy: Audio = Audio(
+        Audio(
             fadeIndex: fadeIndex,
             sampleIndex: sampleIndex,
             channels: channels,
             forResources: forResources
         )
-        return copy
     }
 }

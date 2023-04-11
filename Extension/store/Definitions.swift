@@ -69,14 +69,14 @@ struct MetricType {
     var defaultValue: Float = 0
 }
 
-class Track: Codable {
-    var id: Int = 0
-    var samples: [String] = []
-}
-
 class Seed: Codable {
     var tracks: [Track] = []
     var isPanning: Bool = false
+}
+
+class Track: Codable {
+    var id: Int = 0
+    var samples: [String] = []
 }
 
 class Distance {
