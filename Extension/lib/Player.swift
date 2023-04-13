@@ -117,9 +117,9 @@ class Player {
                     _update(session: session, status: SyncStatus.Syncable)
                 }
             }
-        }
 
-        store.state.isSyncInProgress = false
+            store.state.isSyncInProgress = false
+        }
     }
 
     func saveReadings(_ timeUnit: TimeUnit) {
