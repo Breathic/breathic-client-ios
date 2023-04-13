@@ -10,8 +10,7 @@ struct AppState {
     var activeSession: Session = Session()
     var selectedSessionId: String = ""
     var selectedActivityId: String = ""
-    var seeds: [Seed] = []
-    var rhythms: [Track] = []
+    var channels: [Channel] = []
     var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
     var ui: UI = UI()
     var sessions: [Session] = []

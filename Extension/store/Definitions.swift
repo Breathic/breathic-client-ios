@@ -69,9 +69,8 @@ struct MetricType {
     var defaultValue: Float = 0
 }
 
-class Seed: Codable {
+class Channel: Codable {
     var tracks: [Track] = []
-    var isPanning: Bool = false
 }
 
 class Track: Codable {

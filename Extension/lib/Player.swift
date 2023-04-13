@@ -29,7 +29,7 @@ class Player {
             store.state.deviceToken = await generateToken()
         }
         store.state.setMetricValuesToDefault()
-        store.state.seeds = getAllSeeds(seedInputs: SEED_INPUTS)
+        store.state.channels = getAllChannels(seedInputs: SEED_INPUTS)
         create()
         fadeScale = getFadeScale()
         panScale = getPanScale()
@@ -183,27 +183,27 @@ class Player {
         return track
     }
 
-    func getAllSeeds(seedInputs: [SeedInput]) -> [Seed] {
-        var seeds: [Seed] = []
+    func getAllChannels(seedInputs: [SeedInput]) -> [Channel] {
+        var channels: [Channel] = []
 
         for seedInput in seedInputs {
-            let seed = Seed()
+            let channel = Channel()
 
-            seed.tracks = store.state.distances
+            channel.tracks = store.state.distances
                 .map {
                     getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, seedInput: seedInput)
                 }
                 .shuffled()
-            seeds.append(seed)
+            channels.append(channel)
         }
 
-        return seeds
+        return channels
     }
 
     func setChannels(audioIndex: Int) {
         audios[audioIndex].channels = []
 
-        for seed in store.state.seeds {
+        for seed in store.state.channels {
             let channel: [String] = seed.tracks[store.state.queueIndex + audioIndex].samples
 
             audios[audioIndex].channels.append(channel)
@@ -519,12 +519,12 @@ class Player {
     }
 
     func shuffle() {
-        var channels: [Seed] = []
-        for channel in store.state.seeds {
+        var channels: [Channel] = []
+        for channel in store.state.channels {
             channel.tracks = channel.tracks.shuffled()
             channels.append(channel)
         }
-        store.state.seeds = channels
+        store.state.channels = channels
     }
 
     func resetFadeIndexes() {
@@ -556,11 +556,11 @@ class Player {
         if regenerate {
             shuffle()
 
-            for (channelIndex, _) in store.state.seeds.enumerated() {
+            for (channelIndex, _) in store.state.channels.enumerated() {
                 store.state.queueIndex = 0
 
-                for (trackIndex, _) in store.state.seeds[channelIndex].tracks.enumerated() {
-                    let lastTrack = store.state.seeds[channelIndex].tracks[trackIndex]
+                for (trackIndex, _) in store.state.channels[channelIndex].tracks.enumerated() {
+                    let lastTrack = store.state.channels[channelIndex].tracks[trackIndex]
                     let distances: [Distance] = store.state.distances[lastTrack.id] ?? []
                     var summary: [Int: Double] = [:]
 
@@ -579,11 +579,11 @@ class Player {
                     let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...1])
                         .shuffled()
 
-                    let index = store.state.seeds[channelIndex].tracks
+                    let index = store.state.channels[channelIndex].tracks
                         .firstIndex(where: { $0.id == shuffledSummary[0].key }) ?? 0
-                    let element = store.state.seeds[channelIndex].tracks
+                    let element = store.state.channels[channelIndex].tracks
                         .remove(at: index)
-                    store.state.seeds[channelIndex].tracks
+                    store.state.channels[channelIndex].tracks
                         .insert(element, at: trackIndex)
                 }
             }
