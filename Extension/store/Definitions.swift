@@ -94,10 +94,7 @@ class UI {
     let tertiaryTextSize: Double = 6.0
 }
 
-struct SeedInput {
-    var durationRange: [Double] = []
-    var interval: [Float] = []
-}
+typealias InputSequence = [Float]
 
 class Reading: Codable {
     var timestamp: Date = Date()

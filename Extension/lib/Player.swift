@@ -29,7 +29,7 @@ class Player {
             store.state.deviceToken = await generateToken()
         }
         store.state.setMetricValuesToDefault()
-        store.state.channels = getAllChannels(seedInputs: SEED_INPUTS)
+        store.state.channels = getAllChannels(inputSequences: INPUT_SEQUENCES)
         create()
         fadeScale = getFadeScale()
         panScale = getPanScale()
@@ -170,28 +170,27 @@ class Player {
         return nil
     }
 
-    func getTrack(sample: String, seedInput: SeedInput) -> Track {
-        let interval = seedInput.interval
+    func getTrack(sample: String, inputSequence: InputSequence) -> Track {
         let track = Track()
 
         track.id = Int(sample.split(separator: ".")[0])!
 
-        for space in interval {
+        for space in inputSequence {
             track.samples.append(space > 0 ? SAMPLE_PATH + sample : "")
         }
 
         return track
     }
 
-    func getAllChannels(seedInputs: [SeedInput]) -> [Channel] {
+    func getAllChannels(inputSequences: [InputSequence]) -> [Channel] {
         var channels: [Channel] = []
 
-        for seedInput in seedInputs {
+        for inputSequence in inputSequences {
             let channel = Channel()
 
             channel.tracks = store.state.distances
                 .map {
-                    getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, seedInput: seedInput)
+                    getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, inputSequence: inputSequence)
                 }
                 .shuffled()
             channels.append(channel)
@@ -203,10 +202,10 @@ class Player {
     func setChannels(audioIndex: Int) {
         audios[audioIndex].channels = []
 
-        for seed in store.state.channels {
-            let channel: [String] = seed.tracks[store.state.queueIndex + audioIndex].samples
-
-            audios[audioIndex].channels.append(channel)
+        for channel in store.state.channels {
+            audios[audioIndex].channels.append(
+                channel.tracks[store.state.queueIndex + audioIndex].samples
+            )
         }
     }
 
