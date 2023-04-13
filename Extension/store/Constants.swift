@@ -293,10 +293,6 @@ let FEEDBACK_MODES: [Feedback] = [
     Feedback.Haptic,
     Feedback.Muted,
 ]
-let AUDIO_PANNING_MODES: [String] = [
-    "Vertical",
-    "Horizontal",
-]
 let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
 let TIMESERIES_SAVER_INTERVAL_MINUTELY: Double = 60
 let ACTIVE_SESSION_FILE_NAME: String = "ActiveSession"

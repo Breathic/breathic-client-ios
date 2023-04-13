@@ -16,10 +16,8 @@ struct AppState {
     var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var playerIndex: Int = -1
     var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
-    var audioPanningMode: String = AUDIO_PANNING_MODES[0]
     var activity: Activity = ACTIVITIES[0]
     var metrics: [String: Float] = [:]
     var readings: [TimeUnit: ReadingContainer] = [

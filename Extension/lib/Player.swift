@@ -12,7 +12,6 @@ class Player {
     var heart = Heart()
     var isPanningReversed: Bool = true
     var fadeScale: [Float] = []
-    var panScale: [Float] = []
     var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
     var coordinator = WKExtendedRuntimeSession()
@@ -32,7 +31,6 @@ class Player {
         store.state.channels = getAllChannels(sequences: SEQUENCES)
         create()
         fadeScale = getFadeScale()
-        panScale = getPanScale()
         store.state.sessions = readSessions()
         store.state.activeSession = readActiveSession()
         store.state.isTermsApproved = readBoolean(name: TERMS_APPROVAL_NAME)
@@ -229,10 +227,8 @@ class Player {
         channelIndex: Int,
         sampleIndex: Int
     ) {
-        let isVerticalPanning = store.state.audioPanningMode == "Vertical"
-        let isHorizontalPanning = store.state.audioPanningMode == "Horizontal"
         let channel = audios[audioIndex].channels[channelIndex]
-        let breathType = isVerticalPanning && isPanningReversed
+        let breathType = isPanningReversed
             ? Breathe.BreatheIn.rawValue
             : Breathe.BreatheOut.rawValue
         let separator = "." + SAMPLE_EXTENSION
@@ -240,17 +236,11 @@ class Player {
         if Platform.isSimulator {
             print(forResource)
         }
-        let pansScaleIndex: Int = !isPanningReversed
-            ? sampleIndex
-            : panScale.count - 1 - sampleIndex
         let hasResources: Bool = forResource.count > 0
         if hasResources {
             let playerId = forResource
 
             players[playerId]?.currentTime = 0
-            players[playerId]?.pan = isHorizontalPanning
-                ? panScale[pansScaleIndex]
-                : 0
             let fade = audios[audioIndex].fadeIndex > -1
                 ? fadeScale[audios[audioIndex].fadeIndex]
                 : 0
