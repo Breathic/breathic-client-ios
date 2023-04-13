@@ -94,7 +94,7 @@ class UI {
     let tertiaryTextSize: Double = 6.0
 }
 
-typealias InputSequence = [Float]
+typealias Sequence = [Float]
 
 class Reading: Codable {
     var timestamp: Date = Date()

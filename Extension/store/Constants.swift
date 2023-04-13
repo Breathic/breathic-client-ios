@@ -20,8 +20,8 @@ let VOLUME_RANGE: [Float] = [0, 5000]
 let VOLUME: Float = 1250
 let RHYTHM_RANGE: [Float] = [0.5, 10]
 let RHYTHMS: [Float] = [2, 2]
-let INPUT_SEQUENCES = [
-    InputSequence([1, 1])
+let SEQUENCES = [
+    Sequence([1, 1])
 ]
 let RUN_PRESETS: [Preset] = [
     Preset(

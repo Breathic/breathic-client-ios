@@ -29,7 +29,7 @@ class Player {
             store.state.deviceToken = await generateToken()
         }
         store.state.setMetricValuesToDefault()
-        store.state.channels = getAllChannels(inputSequences: INPUT_SEQUENCES)
+        store.state.channels = getAllChannels(sequences: SEQUENCES)
         create()
         fadeScale = getFadeScale()
         panScale = getPanScale()
@@ -170,27 +170,27 @@ class Player {
         return nil
     }
 
-    func getTrack(sample: String, inputSequence: InputSequence) -> Track {
+    func getTrack(sample: String, sequence: Sequence) -> Track {
         let track = Track()
 
         track.id = Int(sample.split(separator: ".")[0])!
 
-        for space in inputSequence {
+        for space in sequence {
             track.samples.append(space > 0 ? SAMPLE_PATH + sample : "")
         }
 
         return track
     }
 
-    func getAllChannels(inputSequences: [InputSequence]) -> [Channel] {
+    func getAllChannels(sequences: [Sequence]) -> [Channel] {
         var channels: [Channel] = []
 
-        for inputSequence in inputSequences {
+        for sequence in sequences {
             let channel = Channel()
 
             channel.tracks = store.state.distances
                 .map {
-                    getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, inputSequence: inputSequence)
+                    getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, sequence: sequence)
                 }
                 .shuffled()
             channels.append(channel)
