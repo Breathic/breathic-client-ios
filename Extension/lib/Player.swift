@@ -28,7 +28,7 @@ class Player {
             store.state.deviceToken = await generateToken()
         }
         store.state.setMetricValuesToDefault()
-        store.state.channels = getAllChannels(sequences: SEQUENCES)
+        store.state.channels = getChannelsFromSequences(SEQUENCES)
         create()
         fadeScale = getFadeScale()
         store.state.sessions = readSessions()
@@ -180,7 +180,7 @@ class Player {
         return track
     }
 
-    func getAllChannels(sequences: [Sequence]) -> [Channel] {
+    func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
         var channels: [Channel] = []
 
         for sequence in sequences {
