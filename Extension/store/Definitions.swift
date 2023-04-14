@@ -83,6 +83,14 @@ class Distance {
     var value: Double = 0.0
 }
 
+typealias Distances = [Int: [Distance]]
+
+struct Instrument {
+    var key: String = ""
+    var distances: Distances = Distances()
+    var queueIndex: Int = 0
+}
+
 class UI {
     let horizontalPadding: Double = -8.0
     let verticalPadding: Double = -8.0
@@ -93,7 +101,7 @@ class UI {
     let tertiaryTextSize: Double = 6.0
 }
 
-typealias Sequence = [Float]
+typealias Sequence = [String]
 
 class Reading: Codable {
     var timestamp: Date = Date()

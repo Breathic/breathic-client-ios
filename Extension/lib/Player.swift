@@ -45,15 +45,6 @@ class Player {
         print(API_URL)
     }
 
-    func cachePlayers(_ breathe: Breathe) {
-        for key in store.state.distances.keys {
-            let forResource = SAMPLE_PATH + String(key) + "-" + breathe.rawValue + "." + SAMPLE_EXTENSION
-            let player = load(forResource: forResource, withExtension: SAMPLE_EXTENSION)
-            player?.prepareToPlay()
-            players[forResource] = player
-        }
-    }
-
     func initIntervals() {
         Timer.scheduledTimer(withTimeInterval: TIMESERIES_SAVER_INTERVAL_SECONDLY, repeats: true) { timer in
             if self.store.state.activeSession.isPlaying {
@@ -150,11 +141,11 @@ class Player {
         }
     }
 
-    func load(forResource: String, withExtension: String) -> AVAudioPlayer? {
+    func load(_ resource: String) -> AVAudioPlayer? {
         do {
             guard let url: URL = Bundle.main.url(
-                forResource: forResource.replacingOccurrences(of: "." + withExtension, with: ""),
-                withExtension: withExtension
+                forResource: resource,
+                withExtension: nil
             ) else {
                 return nil
             }
@@ -168,42 +159,15 @@ class Player {
         return nil
     }
 
-    func getTrack(sample: String, sequence: Sequence) -> Track {
-        let track = Track()
-
-        track.id = Int(sample.split(separator: ".")[0])!
-
-        for space in sequence {
-            track.samples.append(space > 0 ? SAMPLE_PATH + sample : "")
-        }
-
-        return track
-    }
-
-    func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
-        var channels: [Channel] = []
-
-        for sequence in sequences {
-            let channel = Channel()
-
-            channel.tracks = store.state.distances
-                .map {
-                    getTrack(sample: String($0.key) + "." + SAMPLE_EXTENSION, sequence: sequence)
-                }
-                .shuffled()
-            channels.append(channel)
-        }
-
-        return channels
-    }
-
     func setChannels(audioIndex: Int) {
         audios[audioIndex].channels = []
 
-        for channel in store.state.channels {
-            audios[audioIndex].channels.append(
-                channel.tracks[store.state.queueIndex + audioIndex].samples
-            )
+        for instrument in store.state.instruments {
+            for channel in store.state.channels {
+                audios[audioIndex].channels.append(
+                    channel.tracks[instrument.queueIndex + audioIndex].samples
+                )
+            }
         }
     }
 
@@ -233,9 +197,9 @@ class Player {
             : Breathe.BreatheOut.rawValue
         let separator = "." + SAMPLE_EXTENSION
         let forResource = channel[sampleIndex].split(separator: separator)[0] + "-" + breathType + separator
-        if Platform.isSimulator {
-            print(forResource)
-        }
+        //if Platform.isSimulator {
+            //print(forResource)
+        //}
         let hasResources: Bool = forResource.count > 0
         if hasResources {
             let playerId = forResource
@@ -249,8 +213,12 @@ class Player {
             players[playerId]?.play()
 
             let sampleId = Float(playerId
-                .split(separator: "/")[2]
+                .split(separator: "/")[
+                    playerId
+                        .split(separator: "/").count - 1
+                ]
                 .split(separator: "-")[0])!
+            print("sampleId", sampleId)
             store.state.setMetricValue("sample-id", sampleId)
         }
     }
@@ -535,46 +503,102 @@ class Player {
     }
 
     func incrementQueueIndex() {
-        store.state.queueIndex = store.state.queueIndex + 1
+        for (index, _) in store.state.instruments.enumerated() {
+            store.state.instruments[index].queueIndex = store.state.instruments[index].queueIndex + 1
 
-        if store.state.queueIndex == store.state.distances.count - 1 {
-            store.state.queueIndex = 0
+            if store.state.instruments[index].queueIndex == store.state.instruments[index].distances.count - 1 {
+                store.state.instruments[index].queueIndex = 0
+            }
         }
+    }
+
+    func cachePlayers(_ breathe: Breathe) {
+        for instrument in store.state.instruments {
+            for distance in instrument.distances {
+                let resource = "/data/" + instrument.key + "/samples/" + String(distance.key) + "-" + breathe.rawValue + "." + SAMPLE_EXTENSION
+                let player = load(resource)
+                player?.prepareToPlay()
+                players[resource] = player
+            }
+        }
+    }
+
+    func getTrack(sample: String, sequence: Sequence) -> Track {
+        let track = Track()
+
+        track.id = Int(sample.split(separator: ".")[0])!
+
+        for instrumentKey in sequence {
+            track.samples.append(
+                instrumentKey.count > 0
+                    ? "/data/" + instrumentKey + "/samples/" + sample
+                    : ""
+            )
+        }
+
+        return track
+    }
+
+    func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
+        var channels: [Channel] = []
+
+        for instrument in store.state.instruments {
+            let channel = Channel()
+
+            for sequence in sequences {
+                channel.tracks = instrument.distances
+                    .map {
+                        getTrack(
+                            sample: String($0.key) + "." + SAMPLE_EXTENSION,
+                            sequence: sequence
+                        )
+                    }
+                    .shuffled()
+            }
+
+            channels.append(channel)
+        }
+
+        return channels
     }
 
     func pick(audioIndex: Int, regenerate: Bool) {
         if regenerate {
             shuffle()
 
-            for (channelIndex, _) in store.state.channels.enumerated() {
-                store.state.queueIndex = 0
+            for (instrumentIndex, _) in store.state.instruments.enumerated() {
+                for (channelIndex, _) in store.state.channels.enumerated() {
+                    store.state.instruments[instrumentIndex].queueIndex = 0
 
-                for (trackIndex, _) in store.state.channels[channelIndex].tracks.enumerated() {
-                    let lastTrack = store.state.channels[channelIndex].tracks[trackIndex]
-                    let distances: [Distance] = store.state.distances[lastTrack.id] ?? []
-                    var summary: [Int: Double] = [:]
+                    for (trackIndex, _) in store.state.channels[channelIndex].tracks.enumerated() {
+                        let lastTrack = store.state.channels[channelIndex].tracks[trackIndex]
+                        let distances: [Distance] = store.state.instruments[instrumentIndex].distances[lastTrack.id] ?? []
+                        var summary: [Int: Double] = [:]
 
-                    for distance in distances {
-                        let nextDistances: [Distance] = store.state.distances[distance.rightId] ?? []
+                        for distance in distances {
+                            let nextDistances: [Distance] = store.state.instruments[instrumentIndex].distances[distance.rightId] ?? []
 
-                        for nextDistance in nextDistances {
-                            summary[nextDistance.rightId] = distance.value + nextDistance.value
+                            for nextDistance in nextDistances {
+                                summary[nextDistance.rightId] = distance.value + nextDistance.value
+                            }
                         }
+
+                        let sortedSummary: [Dictionary<Int, Double>.Element] = summary
+                            .sorted { Double($0.value) < Double($1.value) }
+
+                        // Introduce some randomness to the audio picker.
+                        let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...1])
+                            .shuffled()
+
+                        let index = store.state.channels[channelIndex].tracks
+                            .firstIndex(where: { $0.id == shuffledSummary[0].key }) ?? 0
+
+                        let element = store.state.channels[channelIndex].tracks
+                            .remove(at: index)
+
+                        store.state.channels[channelIndex].tracks
+                            .insert(element, at: trackIndex)
                     }
-
-                    let sortedSummary: [Dictionary<Int, Double>.Element] = summary
-                        .sorted { Double($0.value) < Double($1.value) }
-
-                    // Introduce some randomness to the audio picker.
-                    let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...1])
-                        .shuffled()
-
-                    let index = store.state.channels[channelIndex].tracks
-                        .firstIndex(where: { $0.id == shuffledSummary[0].key }) ?? 0
-                    let element = store.state.channels[channelIndex].tracks
-                        .remove(at: index)
-                    store.state.channels[channelIndex].tracks
-                        .insert(element, at: trackIndex)
                 }
             }
 

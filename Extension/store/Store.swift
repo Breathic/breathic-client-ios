@@ -3,7 +3,9 @@ import SwiftUI
 
 struct AppState {
     var renderIncrement: Int = 0
-    var pageOptions: [String: PageOption] = Dictionary(uniqueKeysWithValues: MENU_VIEWS.keys.map { ($0, PageOption()) })
+    var pageOptions: [String: PageOption] = Dictionary(
+        uniqueKeysWithValues: MENU_VIEWS.keys.map { ($0, PageOption()) }
+    )
     var page: String = DEFAULT_PAGE
     var activeSubView: String = DEFAULT_ACTIVE_SUB_VIEW
     var tempActiveSubView: String = ""
@@ -11,7 +13,7 @@ struct AppState {
     var selectedSessionId: String = ""
     var selectedActivityId: String = ""
     var channels: [Channel] = []
-    var distances: [Int: [Distance]] = readDistances(path: "data/distances.json")
+    var instruments: [Instrument] = listInstruments("data")
     var ui: UI = UI()
     var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false

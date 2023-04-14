@@ -5,7 +5,7 @@ func getDocumentsDirectory() -> URL {
     return paths[0]
 }
 
-func readDistances(path: String) -> [Int: [Distance]] {
+func readDistances(_ path: String) -> [Int: [Distance]] {
     var res: [Int: [Distance]] = [:]
 
     if let path = Bundle.main.path(forResource: path, ofType: nil) {
@@ -33,6 +33,46 @@ func readDistances(path: String) -> [Int: [Distance]] {
             }
         } catch {}
     }
+    return res
+}
+
+func listAllFolders(_ path: String) -> [String] {
+    do {
+        if let path = Bundle.main.path(forResource: path, ofType: nil) {
+            let folders = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: path), includingPropertiesForKeys: nil)
+                .filter {
+                    $0.hasDirectoryPath
+                }
+                .map {
+                    $0.absoluteString
+                }
+            return folders
+        }
+    } catch {
+        print("listAllFolders()", error)
+    }
+
+    return []
+}
+
+func listInstruments(_ path: String) -> [Instrument] {
+    var res: [Instrument] = []
+
+    listAllFolders(path).forEach {
+        let pathSeparator = "/"
+        let instrumentKey = String(
+            $0.split(separator: pathSeparator)[
+                $0.split(separator: pathSeparator).count - 1
+            ]
+        )
+
+        var instrument = Instrument()
+        instrument.key = instrumentKey
+        instrument.distances = readDistances(path + "/" + instrumentKey + "/distances.json")
+        res.append(instrument)
+
+    }
+
     return res
 }
 
