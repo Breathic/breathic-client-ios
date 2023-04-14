@@ -7,10 +7,8 @@ func getDocumentsDirectory() -> URL {
 
 func readDistances(path: String) -> [Int: [Distance]] {
     var res: [Int: [Distance]] = [:]
-    let forResource = String(path.split(separator: ".")[0])
-    let ofType = String(path.split(separator: ".")[1])
 
-    if let path = Bundle.main.path(forResource: forResource, ofType: ofType) {
+    if let path = Bundle.main.path(forResource: path, ofType: nil) {
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
             let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
@@ -24,9 +22,9 @@ func readDistances(path: String) -> [Int: [Distance]] {
                     for value in values {
                         let distance = Distance()
 
-                        distance.value = value[0] as! Double
-                        distance.duration = value[1] as! Double
-                        distance.rightId = value[2] as! Int
+                        distance.rightId = Int(value[0] as! String)!
+                        distance.value = value[1] as! Double
+
                         distances.append(distance)
                     }
 

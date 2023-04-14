@@ -463,6 +463,7 @@ class Player {
         setChannels(audioIndex: 0)
         setChannels(audioIndex: 1)
         resetFadeIndexes()
+        pick(audioIndex: 0, regenerate: true)
     }
 
     func playAudio() {

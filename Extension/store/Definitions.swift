@@ -81,7 +81,6 @@ class Track: Codable {
 class Distance {
     var rightId: Int = 0
     var value: Double = 0.0
-    var duration: Double = 0.0
 }
 
 class UI {
