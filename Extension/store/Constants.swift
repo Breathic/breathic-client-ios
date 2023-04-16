@@ -12,7 +12,7 @@ let SAMPLE_EXTENSION: String = "m4a"
 let MAX_READING_TIMEOUT_S: Double = 15
 let MAX_READING_COUNT: Int = 100
 let DOWN_SCALE: Int = 1
-let CHANNEL_REPEAT_COUNT: Int = 128
+let CHANNEL_REPEAT_COUNT: Int = 16
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
@@ -26,10 +26,10 @@ let SEQUENCES = [
         instrument: "breathing",
         pattern: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ),
-    Sequence(
-        instrument: "ambient",
-        pattern: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
-    )
+    //Sequence(
+        //instrument: "ambient",
+        //pattern: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+    //)
 ]
 let RUN_PRESETS: [Preset] = [
     Preset(

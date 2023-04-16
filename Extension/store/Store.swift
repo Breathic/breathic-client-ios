@@ -13,12 +13,11 @@ struct AppState {
     var selectedSessionId: String = ""
     var selectedActivityId: String = ""
     var channels: [Channel] = []
-    var instruments: Instruments = listInstruments(DISTANCE_PATH)
+    var instruments: Instruments = [:]
     var ui: UI = UI()
     var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false
     var isAudioPlaying: Bool = false
-    var queueIndex: Int = 0
     var selectedRhythmIndex: Int = 0
     var activity: Activity = ACTIVITIES[0]
     var metrics: [String: Float] = [:]

@@ -1,20 +1,18 @@
 class Audio {
     var fadeIndex: Int = 0
     var sampleIndex: Int = 0
-    var channels: [[String]] = []
+    var samples: [[String]] = []
     var resources: [String] = []
 
     init(
-
         fadeIndex: Int,
         sampleIndex: Int,
-        channels: [[String]],
+        samples: [[String]],
         resources: [String]
     ) {
-
         self.fadeIndex = fadeIndex
         self.sampleIndex = sampleIndex
-        self.channels = channels
+        self.samples = samples
         self.resources = resources
     }
 
@@ -22,7 +20,7 @@ class Audio {
         Audio(
             fadeIndex: fadeIndex,
             sampleIndex: sampleIndex,
-            channels: channels,
+            samples: samples,
             resources: resources
         )
     }
