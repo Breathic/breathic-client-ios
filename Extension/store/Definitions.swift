@@ -69,13 +69,14 @@ struct MetricType {
     var defaultValue: Float = 0
 }
 
-class Channel: Codable {
-    var tracks: [Track] = []
-}
-
 class Track: Codable {
     var id: Int = 0
     var samples: [String] = []
+}
+
+class Channel: Codable {
+    var tracks: [Track] = []
+    var queueIndex: Int = 0
 }
 
 class Distance {
@@ -85,11 +86,7 @@ class Distance {
 
 typealias Distances = [Int: [Distance]]
 
-struct Instrument {
-    var key: String = ""
-    var distances: Distances = Distances()
-    var queueIndex: Int = 0
-}
+typealias Instruments = [String: Distances]
 
 class UI {
     let horizontalPadding: Double = -8.0
@@ -101,7 +98,10 @@ class UI {
     let tertiaryTextSize: Double = 6.0
 }
 
-typealias Sequence = [String]
+struct Sequence: Codable {
+    var instrument: String = ""
+    var pattern: [Int] = []
+}
 
 class Reading: Codable {
     var timestamp: Date = Date()

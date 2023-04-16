@@ -6,21 +6,30 @@ let APP_ENV: String = Bundle.main.infoDictionary!["APP_ENV"]! as! String
 let TERMS_AND_CONDITIONS_URL: String = "https://breathic.com/terms-and-conditions.html"
 let PRIVACY_POLICY_URL: String = "https://breathic.com/privacy-policy.html"
 let GUIDE_URL: String = "https://breathic.com"
-let SAMPLE_PATH: String = "/data/samples/"
+let DISTANCE_PATH: String = "/data/distances"
+let SAMPLE_PATH: String = "/data/samples"
 let SAMPLE_EXTENSION: String = "m4a"
 let MAX_READING_TIMEOUT_S: Double = 15
 let MAX_READING_COUNT: Int = 100
 let DOWN_SCALE: Int = 1
-let CHANNEL_REPEAT_COUNT: Int = 256
+let CHANNEL_REPEAT_COUNT: Int = 128
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
 let READER_INACTIVITY_TIMEOUT_S: Double = 10
 let VOLUME_RANGE: [Float] = [0, 5000]
 let VOLUME: Float = 1250
+let MUSIC_VOLUME_PCT: Float = 0.025
 let RHYTHM_RANGE: [Float] = [0.5, 10]
 let RHYTHMS: [Float] = [2, 2]
 let SEQUENCES = [
-    Sequence(["breathing", "breathing"])
+    Sequence(
+        instrument: "breathing",
+        pattern: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ),
+    Sequence(
+        instrument: "ambient",
+        pattern: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+    )
 ]
 let RUN_PRESETS: [Preset] = [
     Preset(

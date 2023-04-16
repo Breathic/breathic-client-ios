@@ -13,7 +13,7 @@ struct AppState {
     var selectedSessionId: String = ""
     var selectedActivityId: String = ""
     var channels: [Channel] = []
-    var instruments: [Instrument] = listInstruments("data")
+    var instruments: Instruments = listInstruments(DISTANCE_PATH)
     var ui: UI = UI()
     var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false

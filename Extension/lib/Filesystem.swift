@@ -36,16 +36,33 @@ func readDistances(_ path: String) -> [Int: [Distance]] {
     return res
 }
 
+func listAllFiles(_ path: String) -> [String] {
+    do {
+        if let path = Bundle.main.path(forResource: path, ofType: nil) {
+            let folders = try FileManager.default.contentsOfDirectory(
+                at: URL(fileURLWithPath: path),
+                includingPropertiesForKeys: nil
+            )
+                .filter { !$0.hasDirectoryPath }
+                .map { $0.absoluteString }
+            return folders
+        }
+    } catch {
+        print("listAllFiles()", error)
+    }
+
+    return []
+}
+
 func listAllFolders(_ path: String) -> [String] {
     do {
         if let path = Bundle.main.path(forResource: path, ofType: nil) {
-            let folders = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: path), includingPropertiesForKeys: nil)
-                .filter {
-                    $0.hasDirectoryPath
-                }
-                .map {
-                    $0.absoluteString
-                }
+            let folders = try FileManager.default.contentsOfDirectory(
+                at: URL(fileURLWithPath: path),
+                includingPropertiesForKeys: nil
+            )
+                .filter { $0.hasDirectoryPath }
+                .map { $0.absoluteString }
             return folders
         }
     } catch {
@@ -55,22 +72,19 @@ func listAllFolders(_ path: String) -> [String] {
     return []
 }
 
-func listInstruments(_ path: String) -> [Instrument] {
-    var res: [Instrument] = []
+func listInstruments(_ path: String) -> Instruments {
+    var res: Instruments = [:]
 
-    listAllFolders(path).forEach {
+    listAllFiles(path).forEach {
         let pathSeparator = "/"
         let instrumentKey = String(
-            $0.split(separator: pathSeparator)[
-                $0.split(separator: pathSeparator).count - 1
-            ]
+            $0
+                .split(separator: pathSeparator)[
+                    $0.split(separator: pathSeparator).count - 1
+                ]
+                .split(separator: ".")[0]
         )
-
-        var instrument = Instrument()
-        instrument.key = instrumentKey
-        instrument.distances = readDistances(path + "/" + instrumentKey + "/distances.json")
-        res.append(instrument)
-
+        res[instrumentKey] = readDistances(path + "/" + instrumentKey + ".json")
     }
 
     return res
