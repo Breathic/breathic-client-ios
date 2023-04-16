@@ -84,7 +84,7 @@ func listInstruments(_ path: String) -> Instruments {
                 ]
                 .split(separator: ".")[0]
         )
-        res[instrumentKey] = readDistances(path + "/" + instrumentKey + ".json")
+        res[instrumentKey] = readDistances(path + pathSeparator + instrumentKey + ".json")
     }
 
     return res

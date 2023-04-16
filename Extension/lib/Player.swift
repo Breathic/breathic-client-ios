@@ -12,6 +12,8 @@ class Player {
     var heart = Heart()
     var isPanningReversed: Bool = true
     var fadeScale: [Float] = []
+    var instruments: Instruments = [:]
+    var channels: [Channel] = []
     var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
     var coordinator = WKExtendedRuntimeSession()
@@ -28,8 +30,8 @@ class Player {
             store.state.deviceToken = await generateToken()
         }
         store.state.setMetricValuesToDefault()
-        store.state.instruments = listInstruments(DISTANCE_PATH)
-        store.state.channels = getChannelsFromSequences(SEQUENCES)
+        instruments = listInstruments(DISTANCE_PATH)
+        channels = getChannelsFromSequences(SEQUENCES)
         fadeScale = getFadeScale()
         store.state.sessions = readSessions()
         store.state.activeSession = readActiveSession()
@@ -42,7 +44,6 @@ class Player {
         sync(store.state.sessions.shuffled())
         loop()
         create()
-        //pick(audioIndex: 0)
         print(API_URL)
     }
     
@@ -175,51 +176,6 @@ class Player {
         }
     }
     
-    func setAudio(
-        audioIndex: Int,
-        sampleIndex: Int,
-        isBreathingChannel: Bool
-    ) {
-        let channel = audios[audioIndex].samples[sampleIndex]
-        
-        let breathType = sampleIndex == 0
-            ? isPanningReversed
-                ? "-" + Breathe.BreatheIn.rawValue
-                : "-" + Breathe.BreatheOut.rawValue
-            : ""
-        
-        let separator = "." + SAMPLE_EXTENSION
-        let resource = String(channel[sampleIndex].split(separator: separator)[0]) + breathType + separator
-        if Platform.isSimulator {
-            print(resource)
-        }
-        let hasResources: Bool = resource.count > 0
-        if hasResources {
-            let playerId = resource
-            
-            players[playerId]?.currentTime = 0
-            let fade = audios[audioIndex].fadeIndex > -1
-            ? fadeScale[audios[audioIndex].fadeIndex]
-            : 0
-            
-            var volume = store.state.activeSession.volume / 100 * Float(fade)
-            if !isBreathingChannel {
-                volume = volume * MUSIC_VOLUME_PCT
-            }
-            
-            players[playerId]?.volume = volume
-            players[playerId]?.play()
-            players[playerId]?.numberOfLoops = isBreathingChannel
-                ? 0
-                : -1
-            
-            let sampleId = channel[sampleIndex]
-                .split(separator: "-")[0]
-                .split(separator: ".")[0]
-            store.state.setMetricValue("sample-id", Float(sampleId)!)
-        }
-    }
-    
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1 < getRhythms(store).count
             ? store.state.selectedRhythmIndex + 1
@@ -241,7 +197,7 @@ class Player {
         loopInterval = loopInterval * 60
         return loopInterval
     }
-
+    
     func getLoopIntervalSum() -> TimeInterval {
         let loopIntervalSum: TimeInterval = getRhythms(store).enumerated()
             .map { (index, _) in
@@ -251,53 +207,101 @@ class Player {
         
         return loopIntervalSum
     }
+    
+    func setAudio(
+        audioIndex: Int,
+        channelIndex: Int,
+        sampleIndex: Int,
+        isBreathingChannel: Bool
+    ) {
+        let channel = audios[audioIndex].channels[channelIndex]
+        
+        let breathType = channelIndex == 0
+            ? isPanningReversed
+                ? "-" + Breathe.BreatheIn.rawValue
+                : "-" + Breathe.BreatheOut.rawValue
+            : ""
 
+        let separator = "." + SAMPLE_EXTENSION
+        let playerId = String(channel[sampleIndex].split(separator: separator)[0]) + breathType + separator
+        let hasPlayerId: Bool = playerId.count > 0
+
+        if hasPlayerId {
+            if Platform.isSimulator {
+                print(playerId)
+            }
+            
+            players[playerId]?.currentTime = 0
+            let fade = audios[audioIndex].fadeIndex > -1
+                ? fadeScale[audios[audioIndex].fadeIndex]
+                : 0
+            
+            var volume = store.state.activeSession.volume / 100 * Float(fade)
+            if !isBreathingChannel {
+                volume = volume * MUSIC_VOLUME_PCT
+            }
+
+            players[playerId]?.volume = volume
+            players[playerId]?.play()
+            players[playerId]?.numberOfLoops = 0
+            //players[playerId]?.numberOfLoops = isBreathingChannel
+                //? 0
+                //: -1
+            
+            let sampleId = channel[sampleIndex]
+                .split(separator: "-")[0]
+                .split(separator: ".")[0]
+            store.state.setMetricValue("sample-id", Float(sampleId)!)
+        }
+    }
+    
     func updateFeedback() {
         for (audioIndex, audio) in audios.enumerated() {
-            for (sampleIndex, sample) in audio.samples.enumerated() {
+            for (channelIndex, channel) in audio.channels.enumerated() {
                 let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
                 let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
                 let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
                 let isMuted = !(Float(store.state.activeSession.volume) > 0)
-                let isBreathingChannel: Bool = sampleIndex == 0
+                let isBreathingChannel: Bool = channelIndex == 0
                 
                 if audioIndex == 0 && isBreathingChannel {
                     incrementSelectedRhythmIndex()
                     isPanningReversed = !isPanningReversed
-
+                    
                     if isHaptic {
                         setHaptic()
                     }
                 }
-
-                if sampleIndex == audio.samples.count - 1 {
+                
+                if !isMuted && isAudio && channel[audio.sampleIndex] != "" {
+                    setAudio(
+                        audioIndex: audioIndex,
+                        channelIndex: channelIndex,
+                        sampleIndex: audio.sampleIndex,
+                        isBreathingChannel: isBreathingChannel
+                    )
+                }
+                
+                if channelIndex == audio.channels.count - 1 {
                     audio.sampleIndex = audio.sampleIndex + 1
                 }
-
-                if audio.sampleIndex == sample.count {
+                
+                if audio.sampleIndex == channel.count {
                     audio.sampleIndex = 0
                 }
-
+                
                 audio.fadeIndex = audio.fadeIndex + 1
-
+                
                 let islastQuarter = audio.fadeIndex == FADE_DURATION * 3 - 1
                 if islastQuarter {
-                    pick(audioIndex: 1)
+                    pick(audioIndex: 0)
                     audios[1].fadeIndex = 0
                 }
-
+                
                 let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
                 if isTransitioning {
                     audios[0].fadeIndex = -FADE_DURATION * 2 + 1
                     audios = audios.reversed()
-                }
-
-                if !isMuted && isAudio && sample[audio.sampleIndex] != "" {
-                    setAudio(
-                        audioIndex: audioIndex,
-                        sampleIndex: sampleIndex,
-                        isBreathingChannel: isBreathingChannel
-                    )
                 }
             }
         }
@@ -420,7 +424,7 @@ class Player {
         let audio = Audio(
             fadeIndex: 0,
             sampleIndex: 0,
-            samples: [],
+            channels: [],
             resources: []
         )
         let audio2 = audio.copy() as! Audio
@@ -477,12 +481,10 @@ class Player {
     }
     
     func shuffle() {
-        var channels: [Channel] = []
-        for channel in store.state.channels {
-            channel.tracks = channel.tracks.shuffled()
-            channels.append(channel)
+        channels = channels.map {
+            $0.tracks = $0.tracks.shuffled()
+            return $0
         }
-        store.state.channels = channels
     }
     
     func resetFadeIndexes() {
@@ -516,14 +518,26 @@ class Player {
             }
     }
     
-    func setSamplesToChannels(audioIndex: Int) {
-        audios[audioIndex].samples = []
+    func getInstruments() -> [Distances] {
+        var res: [Distances] = []
+                                    
+        SEQUENCES.forEach {
+            if instruments[$0.instrument] != nil {
+                res.append(instruments[$0.instrument]!)
+            }
+        }
         
-        for channel in store.state.channels {
+        return res
+    }
+    
+    func setSamplesToChannels(audioIndex: Int) {
+        audios[audioIndex].channels = []
+        
+        for channel in channels {
             let audioIndexExtra = audioIndex % 2 == 0
                 ? 0
                 : 1
-            audios[audioIndex].samples.append(
+            audios[audioIndex].channels.append(
                 channel.tracks[audioIndexExtra].samples
             )
         }
@@ -547,89 +561,64 @@ class Player {
     func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
         var channels: [Channel] = []
         
-        for sequence in sequences {
+        for (sequenceIndex, sequence) in sequences.enumerated() {
             let channel = Channel()
-            channel.tracks = store.state.instruments[sequence.instrument]?.keys.map {
+            channel.tracks = getInstruments()[sequenceIndex].keys.map {
                 getTrack(
                     id: Int($0), sequence: sequence
                 )
-            } ?? []
-            
+            }
             channels.append(channel)
         }
         
         return channels
     }
     
-    func incrementQueueIndex() {
-        /*
-         store.state.channels = store.state.channels.map { channel in
-         channel.queueIndex = channel.queueIndex + 1
-         
-         if channel.queueIndex == channel.tracks.count - 1 {
-         channel.queueIndex = 0
-         }
-         
-         return channel
-         }
-         */
-    }
-    
     func getTrackIndex(instrumentIndex: Int, id: Int) -> Int {
-        store.state.channels[instrumentIndex].tracks
+        channels[instrumentIndex].tracks
             .firstIndex(where: { $0.id == id }) ?? 0
     }
 
     func pick(audioIndex: Int) {
-        return
-        
-        for (instrumentIndex, instrumentKey) in store.state.instruments.keys.enumerated() {
-            store.state.channels[instrumentIndex].queueIndex = 0
-
-            let lastTrackIndex = 0
-            let lastTrack = store.state.channels[instrumentIndex].tracks[lastTrackIndex]
-
-            store.state.channels[instrumentIndex].tracks.remove(at: lastTrackIndex)
-
-            let distances = store.state.instruments[instrumentKey]?[lastTrack.id] ?? []
-            print("store.state.instruments", store.state.instruments)
-            print("store.state.instruments[instrumentKey]", store.state.instruments[instrumentKey])
+        getInstruments().enumerated().forEach { (instrumentIndex, instrument) in
+            let lastTrack = channels[instrumentIndex].tracks[0]
+            let distances = instrument[lastTrack.id] ?? []
 
             var summary: [Int: Double] = [:]
             for distance in distances {
-                let nextDistances: [Distance] = store.state.instruments[instrumentKey]?[distance.rightId] ?? []
+                let nextDistances: [Distance] = instrument[distance.rightId] ?? []
 
                 for nextDistance in nextDistances {
                     summary[nextDistance.rightId] = distance.value + nextDistance.value
                 }
             }
-            //print(summary)
 
             summary.removeValue(forKey: lastTrack.id)
   
             let sortedSummary = summary.sorted { $0.1 < $1.1 }
-            //print("sortedSummary", sortedSummary)
 
             // Introduce some randomness to the audio picker.
-            let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...3])
+            let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...4])
                 .shuffled()
-            print("shuffledSummary", shuffledSummary)
             
-            let index = getTrackIndex(instrumentIndex: instrumentIndex, id: shuffledSummary[0].key)
-            //print("index", index)
+            let newTrackindex = getTrackIndex(instrumentIndex: instrumentIndex, id: shuffledSummary[0].key)
 
-            let element = store.state.channels[instrumentIndex].tracks
-                .remove(at: index)
-            //print("element.id", element.id)
+            let newTrack = channels[instrumentIndex].tracks
+                .remove(at: newTrackindex)
             
-            store.state.channels[instrumentIndex].tracks
-                .insert(element, at: 0)
+            channels[instrumentIndex].tracks
+                .insert(newTrack, at: 0)
             
-            store.state.channels[instrumentIndex].tracks.append(lastTrack)
+            let lastTrackindex = getTrackIndex(instrumentIndex: instrumentIndex, id: lastTrack.id)
+
+            channels[instrumentIndex].tracks
+                .remove(at: lastTrackindex)
+            
+            channels[instrumentIndex].tracks.append(lastTrack)
         }
 
         flush(audioIndex: audioIndex)
         setSamplesToChannels(audioIndex: audioIndex)
-        //playAudio()
+        playAudio()
     }
 }

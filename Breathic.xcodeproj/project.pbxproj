@@ -221,12 +221,12 @@
 		FDF9A8CF29C5C3F900DC24E8 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */,
-				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FD8A9AC829DD9C4400A9A746 /* DeviceCheck.swift */,
+				FDBDAF7029204D9100F57DC1 /* ViewHelper.swift */,
 				FDC09FC228F0A58200F42253 /* Library.swift */,
 				FD2D395128BBE012009F1861 /* Extensions.swift */,
 				FD9ABDE129C2588A00C60F25 /* Network.swift */,
+				FD2D395728BBE14E009F1861 /* Player.swift */,
 				FDF9A8CD29C5330800DC24E8 /* Filesystem.swift */,
 			);
 			path = lib;

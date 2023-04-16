@@ -76,7 +76,6 @@ class Track: Codable {
 
 class Channel: Codable {
     var tracks: [Track] = []
-    var queueIndex: Int = 0
 }
 
 class Distance {

@@ -24,12 +24,13 @@ let RHYTHMS: [Float] = [2, 2]
 let SEQUENCES = [
     Sequence(
         instrument: "breathing",
-        pattern: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        //pattern: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        pattern: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ),
-    //Sequence(
-        //instrument: "ambient",
-        //pattern: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
-    //)
+    Sequence(
+        instrument: "ambient",
+        pattern: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+    )
 ]
 let RUN_PRESETS: [Preset] = [
     Preset(
