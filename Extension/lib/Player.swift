@@ -17,6 +17,7 @@ class Player {
     var audios: [Audio] = []
     var players: [String: AVAudioPlayer] = [:]
     var coordinator = WKExtendedRuntimeSession()
+    var playback: [[Int]] = []
     
     init() {
         /*
@@ -214,44 +215,43 @@ class Player {
         sampleIndex: Int,
         isBreathingChannel: Bool
     ) {
-        let channel = audios[audioIndex].channels[channelIndex]
+        let sampleId = String(
+            playback[channelIndex][
+                playback[channelIndex].count - 2 + audioIndex
+            ]
+        )
         
         let breathType = channelIndex == 0
-            ? isPanningReversed
+            ? !isPanningReversed
                 ? "-" + Breathe.BreatheIn.rawValue
                 : "-" + Breathe.BreatheOut.rawValue
             : ""
-
+        
         let separator = "." + SAMPLE_EXTENSION
-        let playerId = String(channel[sampleIndex].split(separator: separator)[0]) + breathType + separator
-        let hasPlayerId: Bool = playerId.count > 0
+        let playerId = sampleId + breathType + separator
 
-        if hasPlayerId {
-            if Platform.isSimulator {
-                print(playerId)
-            }
-            
-            players[playerId]?.currentTime = 0
-            let fade = audios[audioIndex].fadeIndex > -1
-                ? fadeScale[audios[audioIndex].fadeIndex]
-                : 0
-            
-            var volume = store.state.activeSession.volume / 100 * Float(fade)
-            if !isBreathingChannel {
-                volume = volume * MUSIC_VOLUME_PCT
-            }
+        let fade = audios[audioIndex].fadeIndex > -1
+            ? fadeScale[audios[audioIndex].fadeIndex]
+            : 0
+        
+        var volume = store.state.activeSession.volume / 100
+        volume = isBreathingChannel
+            ? volume * Float(fade)
+            : volume * MUSIC_VOLUME_PCT
 
-            players[playerId]?.volume = volume
+        players[playerId]?.currentTime = 0
+        players[playerId]?.volume = volume
+        players[playerId]?.numberOfLoops = isBreathingChannel
+            ? 0
+            : -1
+
+        if volume > 0 {
             players[playerId]?.play()
-            players[playerId]?.numberOfLoops = 0
-            //players[playerId]?.numberOfLoops = isBreathingChannel
-                //? 0
-                //: -1
-            
-            let sampleId = channel[sampleIndex]
-                .split(separator: "-")[0]
-                .split(separator: ".")[0]
             store.state.setMetricValue("sample-id", Float(sampleId)!)
+        }
+        
+        if Platform.isSimulator {
+            //print(audioIndex, playerId, fade, audios[audioIndex].fadeIndex)
         }
     }
     
@@ -264,12 +264,24 @@ class Player {
                 let isMuted = !(Float(store.state.activeSession.volume) > 0)
                 let isBreathingChannel: Bool = channelIndex == 0
                 
+                if channelIndex == 0 {
+                    audios[audioIndex].fadeIndex = audio.fadeIndex + 1
+                }
+                
                 if audioIndex == 0 && isBreathingChannel {
                     incrementSelectedRhythmIndex()
                     isPanningReversed = !isPanningReversed
                     
                     if isHaptic {
                         setHaptic()
+                    }
+                }
+                
+                let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
+                if isTransitioning {
+                    if audioIndex == 0 && channelIndex == 0 {
+                        pick(audioIndex: 1)
+                        resetFadeIndices()
                     }
                 }
                 
@@ -283,25 +295,15 @@ class Player {
                 }
                 
                 if channelIndex == audio.channels.count - 1 {
-                    audio.sampleIndex = audio.sampleIndex + 1
-                }
-                
-                if audio.sampleIndex == channel.count {
-                    audio.sampleIndex = 0
-                }
-                
-                audio.fadeIndex = audio.fadeIndex + 1
-                
-                let islastQuarter = audio.fadeIndex == FADE_DURATION * 3 - 1
-                if islastQuarter {
-                    pick(audioIndex: 0)
-                    audios[1].fadeIndex = 0
-                }
-                
-                let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
-                if isTransitioning {
-                    audios[0].fadeIndex = -FADE_DURATION * 2 + 1
-                    audios = audios.reversed()
+                    audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
+                    
+                    if audio.sampleIndex == channel.count - 1 {
+                        audios[audioIndex].sampleIndex = 0
+                        
+                        players.keys.forEach {
+                            players[$0]?.pause()
+                        }
+                    }
                 }
             }
         }
@@ -415,11 +417,18 @@ class Player {
         step.stop()
         location.stop()
     }
+
+    func clearHistory() {
+        playback = getInstruments().map { _ in
+            return []
+        }
+    }
     
     func create() {
         audios = []
         shuffle()
         flushAll()
+        clearHistory()
         
         let audio = Audio(
             fadeIndex: 0,
@@ -428,14 +437,22 @@ class Player {
             resources: []
         )
         let audio2 = audio.copy() as! Audio
-        audio2.fadeIndex = -FADE_DURATION * 3 + 1
         
         audios.append(audio)
         audios.append(audio2)
         
-        setSamplesToChannels(audioIndex: 0)
-        setSamplesToChannels(audioIndex: 1)
-        resetFadeIndexes()
+        setSamplesToChannels(audioIndex: 0, instrumentIndex: 0)
+        setSamplesToChannels(audioIndex: 1, instrumentIndex: 0)
+
+        pick(audioIndex: 0)
+        pick(audioIndex: 1)
+        
+        resetFadeIndices()
+    }
+    
+    func resetFadeIndices() {
+        audios[0].fadeIndex = FADE_DURATION + 1
+        audios[1].fadeIndex = -FADE_DURATION * 2
     }
     
     func playAudio() {
@@ -486,12 +503,7 @@ class Player {
             return $0
         }
     }
-    
-    func resetFadeIndexes() {
-        audios[0].fadeIndex = FADE_DURATION - 1
-        audios[1].fadeIndex = -FADE_DURATION * 2 + 1
-    }
-    
+
     func flushAll() {
         for (audioIndex, _) in audios.enumerated() {
             flush(audioIndex: audioIndex)
@@ -530,15 +542,12 @@ class Player {
         return res
     }
     
-    func setSamplesToChannels(audioIndex: Int) {
+    func setSamplesToChannels(audioIndex: Int, instrumentIndex: Int) {
         audios[audioIndex].channels = []
         
         for channel in channels {
-            let audioIndexExtra = audioIndex % 2 == 0
-                ? 0
-                : 1
             audios[audioIndex].channels.append(
-                channel.tracks[audioIndexExtra].samples
+                channel.tracks[instrumentIndex].samples
             )
         }
     }
@@ -550,8 +559,8 @@ class Player {
         sequence.pattern.forEach {
             track.samples.append(
                 $0 > 0
-                ? String(id) + "." + SAMPLE_EXTENSION
-                : ""
+                    ? String(id) + "." + SAMPLE_EXTENSION
+                    : ""
             )
         }
         
@@ -568,6 +577,7 @@ class Player {
                     id: Int($0), sequence: sequence
                 )
             }
+            channel.tracks = channel.tracks.shuffled()
             channels.append(channel)
         }
         
@@ -581,44 +591,43 @@ class Player {
 
     func pick(audioIndex: Int) {
         getInstruments().enumerated().forEach { (instrumentIndex, instrument) in
-            let lastTrack = channels[instrumentIndex].tracks[0]
+            let lastIndex = playback[instrumentIndex].count < channels[instrumentIndex].tracks.count
+                ? playback[instrumentIndex].count
+                : 0
+            let lastTrack = channels[instrumentIndex].tracks[lastIndex]
             let distances = instrument[lastTrack.id] ?? []
-
             var summary: [Int: Double] = [:]
-            for distance in distances {
-                let nextDistances: [Distance] = instrument[distance.rightId] ?? []
 
+            distances.enumerated().forEach { distanceIndex, distance in
+                let nextDistances: [Distance] = instrument[distance.rightId] ?? []
                 for nextDistance in nextDistances {
-                    summary[nextDistance.rightId] = distance.value + nextDistance.value
+                    if !playback[instrumentIndex].contains(nextDistance.rightId) {
+                        summary[nextDistance.rightId] = distance.value + nextDistance.value
+                    }
                 }
             }
 
-            summary.removeValue(forKey: lastTrack.id)
+            if summary.isEmpty {
+                playback[instrumentIndex] = []
+                playback[instrumentIndex].append(lastTrack.id)
+                pick(audioIndex: audioIndex)
+                return
+            }
   
-            let sortedSummary = summary.sorted { $0.1 < $1.1 }
-
+            var sortedSummary = Array(
+                summary.sorted { $0.1 < $1.1 }
+            )
+            
             // Introduce some randomness to the audio picker.
-            let shuffledSummary: [Dictionary<Int, Double>.Element] = Array(sortedSummary[0...4])
-                .shuffled()
-            
-            let newTrackindex = getTrackIndex(instrumentIndex: instrumentIndex, id: shuffledSummary[0].key)
+            if sortedSummary.count > 1 {
+                sortedSummary = sortedSummary[0...1]
+                    .shuffled()
+            }
 
-            let newTrack = channels[instrumentIndex].tracks
-                .remove(at: newTrackindex)
-            
-            channels[instrumentIndex].tracks
-                .insert(newTrack, at: 0)
-            
-            let lastTrackindex = getTrackIndex(instrumentIndex: instrumentIndex, id: lastTrack.id)
-
-            channels[instrumentIndex].tracks
-                .remove(at: lastTrackindex)
-            
-            channels[instrumentIndex].tracks.append(lastTrack)
+            let id = sortedSummary[0].key
+            playback[instrumentIndex].append(id)
         }
 
-        flush(audioIndex: audioIndex)
-        setSamplesToChannels(audioIndex: audioIndex)
         playAudio()
     }
 }
