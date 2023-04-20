@@ -212,7 +212,6 @@ class Player {
     func setAudio(
         audioIndex: Int,
         channelIndex: Int,
-        sampleIndex: Int,
         isBreathingChannel: Bool
     ) {
         let sampleId = String(
@@ -237,7 +236,7 @@ class Player {
         var volume = store.state.activeSession.volume / 100
         volume = isBreathingChannel
             ? volume * Float(fade)
-            : volume * MUSIC_VOLUME_PCT
+            : volume * MUSIC_VOLUME_PCT * Float(fade)
 
         players[playerId]?.currentTime = 0
         players[playerId]?.volume = volume
@@ -251,13 +250,13 @@ class Player {
         }
         
         if Platform.isSimulator {
-            //print(audioIndex, playerId, fade, audios[audioIndex].fadeIndex)
+            print(audioIndex, playerId, fade, audios[audioIndex].fadeIndex)
         }
     }
     
     func updateFeedback() {
         for (audioIndex, audio) in audios.enumerated() {
-            for (channelIndex, channel) in audio.channels.enumerated() {
+            for (channelIndex, channel) in SEQUENCES.enumerated() {
                 let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
                 let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
                 let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
@@ -284,20 +283,19 @@ class Player {
                         resetFadeIndices()
                     }
                 }
-                
-                if !isMuted && isAudio && channel[audio.sampleIndex] != "" {
+
+                if !isMuted && isAudio && channel.pattern[audio.sampleIndex] > 0 {
                     setAudio(
                         audioIndex: audioIndex,
                         channelIndex: channelIndex,
-                        sampleIndex: audio.sampleIndex,
                         isBreathingChannel: isBreathingChannel
                     )
                 }
                 
-                if channelIndex == audio.channels.count - 1 {
+                if channelIndex == SEQUENCES.count - 1 {
                     audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
                     
-                    if audio.sampleIndex == channel.count - 1 {
+                    if audio.sampleIndex == channel.pattern.count - 1 {
                         audios[audioIndex].sampleIndex = 0
                         
                         players.keys.forEach {
@@ -433,7 +431,6 @@ class Player {
         let audio = Audio(
             fadeIndex: 0,
             sampleIndex: 0,
-            channels: [],
             resources: []
         )
         let audio2 = audio.copy() as! Audio
@@ -441,8 +438,8 @@ class Player {
         audios.append(audio)
         audios.append(audio2)
         
-        setSamplesToChannels(audioIndex: 0, instrumentIndex: 0)
-        setSamplesToChannels(audioIndex: 1, instrumentIndex: 0)
+        //setSamplesToChannels(audioIndex: 0)
+        //setSamplesToChannels(audioIndex: 1)
 
         pick(audioIndex: 0)
         pick(audioIndex: 1)
@@ -542,48 +539,6 @@ class Player {
         return res
     }
     
-    func setSamplesToChannels(audioIndex: Int, instrumentIndex: Int) {
-        audios[audioIndex].channels = []
-        
-        for channel in channels {
-            audios[audioIndex].channels.append(
-                channel.tracks[instrumentIndex].samples
-            )
-        }
-    }
-    
-    func getTrack(id: Int, sequence: Sequence) -> Track {
-        let track = Track()
-        track.id = id
-        
-        sequence.pattern.forEach {
-            track.samples.append(
-                $0 > 0
-                    ? String(id) + "." + SAMPLE_EXTENSION
-                    : ""
-            )
-        }
-        
-        return track
-    }
-    
-    func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
-        var channels: [Channel] = []
-        
-        for (sequenceIndex, sequence) in sequences.enumerated() {
-            let channel = Channel()
-            channel.tracks = getInstruments()[sequenceIndex].keys.map {
-                getTrack(
-                    id: Int($0), sequence: sequence
-                )
-            }
-            channel.tracks = channel.tracks.shuffled()
-            channels.append(channel)
-        }
-        
-        return channels
-    }
-    
     func getTrackIndex(instrumentIndex: Int, id: Int) -> Int {
         channels[instrumentIndex].tracks
             .firstIndex(where: { $0.id == id }) ?? 0
@@ -629,5 +584,43 @@ class Player {
         }
 
         playAudio()
+    }
+    
+    func getTrack(id: Int, sequence: Sequence) -> Track {
+        let track = Track()
+        track.id = id
+        
+        sequence.pattern.forEach {
+            track.samples.append(
+                $0 > 0
+                    ? String(id) + "." + SAMPLE_EXTENSION
+                    : ""
+            )
+        }
+        
+        return track
+    }
+    
+    // channels = getChannelsFromSequences(SEQUENCES)
+    // channels = [
+    //    Breathic.Channel:
+    //         [Breathic.Track, Breathic.Track, Breathic.Track, Breathic.Track, Breathic.Track, ...]
+    //]
+    func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
+        var channels: [Channel] = []
+        
+        for (sequenceIndex, sequence) in sequences.enumerated() {
+            let channel = Channel()
+            channel.tracks = getInstruments()[sequenceIndex].keys.map {
+                getTrack(
+                    id: Int($0), sequence: sequence
+                )
+            }
+            print(channel.tracks[0].samples, channel.tracks[1].samples)
+            channel.tracks = channel.tracks.shuffled()
+            channels.append(channel)
+        }
+        
+        return channels
     }
 }
