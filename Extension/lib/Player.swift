@@ -601,11 +601,6 @@ class Player {
         return track
     }
     
-    // channels = getChannelsFromSequences(SEQUENCES)
-    // channels = [
-    //    Breathic.Channel:
-    //         [Breathic.Track, Breathic.Track, Breathic.Track, Breathic.Track, Breathic.Track, ...]
-    //]
     func getChannelsFromSequences(_ sequences: [Sequence]) -> [Channel] {
         var channels: [Channel] = []
         
@@ -616,7 +611,6 @@ class Player {
                     id: Int($0), sequence: sequence
                 )
             }
-            print(channel.tracks[0].samples, channel.tracks[1].samples)
             channel.tracks = channel.tracks.shuffled()
             channels.append(channel)
         }
