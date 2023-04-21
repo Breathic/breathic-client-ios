@@ -228,6 +228,11 @@ class Player {
         
         let separator = "." + SAMPLE_EXTENSION
         let playerId = sampleId + breathType + separator
+        
+        players[playerId]?.currentTime = 0
+        players[playerId]?.numberOfLoops = isBreathingChannel
+            ? 0
+            : -1
 
         let fade = audios[audioIndex].fadeIndex > -1
             ? fadeScale[audios[audioIndex].fadeIndex]
@@ -237,12 +242,7 @@ class Player {
         volume = isBreathingChannel
             ? volume * Float(fade)
             : volume * MUSIC_VOLUME_PCT * Float(fade)
-
-        players[playerId]?.currentTime = 0
         players[playerId]?.volume = volume
-        players[playerId]?.numberOfLoops = isBreathingChannel
-            ? 0
-            : -1
 
         if volume > 0 {
             players[playerId]?.play()
@@ -261,7 +261,7 @@ class Player {
                 let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
                 let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
                 let isMuted = !(Float(store.state.activeSession.volume) > 0)
-                let isBreathingChannel: Bool = channelIndex == 0
+                let isBreathingChannel: Bool = channel.instrument == "breathing"
                 
                 if channelIndex == 0 {
                     audios[audioIndex].fadeIndex = audio.fadeIndex + 1
