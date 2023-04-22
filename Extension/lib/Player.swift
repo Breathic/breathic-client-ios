@@ -616,8 +616,8 @@ class Player {
             )
                         
             // Introduce some randomness to the audio picker.
-            if sortedSummary.count > 1 {
-                sortedSummary = sortedSummary[0...3]
+            if sortedSummary.count >= PICKER_RANDOM_COUNT {
+                sortedSummary = sortedSummary[0...(PICKER_RANDOM_COUNT - 1)]
                     .shuffled()
             }
 

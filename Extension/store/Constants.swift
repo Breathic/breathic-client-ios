@@ -19,6 +19,7 @@ let READER_INACTIVITY_TIMEOUT_S: Double = 10
 let VOLUME_RANGE: [Float] = [0, 5000]
 let VOLUME: Float = 1250
 let MUSIC_VOLUME_PCT: Float = 0.02
+let PICKER_RANDOM_COUNT: Int = 3
 let RHYTHM_RANGE: [Float] = [0.5, 10]
 let RHYTHMS: [Float] = [2, 2]
 let SEQUENCES = [
