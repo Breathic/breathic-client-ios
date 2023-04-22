@@ -99,6 +99,7 @@ class UI {
 
 struct Sequence: Codable {
     var instrument: String = ""
+    var isBreathing: Bool = false
     var pattern: [Int] = []
 }
 

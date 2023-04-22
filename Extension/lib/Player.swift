@@ -210,36 +210,25 @@ class Player {
     }
     
     func setAudio(
+        sampleId: String,
+        playerId: String,
         audioIndex: Int,
-        channelIndex: Int,
-        isBreathingChannel: Bool
+        hasSample: Bool,
+        isBreathing: Bool
     ) {
-        let sampleId = String(
-            playback[channelIndex][
-                playback[channelIndex].count - 2 + audioIndex
-            ]
-        )
-        
-        let breathType = channelIndex == 0
-            ? !isPanningReversed
-                ? "-" + Breathe.BreatheIn.rawValue
-                : "-" + Breathe.BreatheOut.rawValue
-            : ""
-        
-        let separator = "." + SAMPLE_EXTENSION
-        let playerId = sampleId + breathType + separator
-        
-        players[playerId]?.currentTime = 0
-        players[playerId]?.numberOfLoops = isBreathingChannel
-            ? 0
-            : -1
+        if hasSample {
+            players[playerId]?.currentTime = 0
+            players[playerId]?.numberOfLoops = isBreathing
+                ? 0
+                : -1
+        }
 
         let fade = audios[audioIndex].fadeIndex > -1
             ? fadeScale[audios[audioIndex].fadeIndex]
             : 0
         
         var volume = store.state.activeSession.volume / 100
-        volume = isBreathingChannel
+        volume = isBreathing
             ? volume * Float(fade)
             : volume * MUSIC_VOLUME_PCT * Float(fade)
         players[playerId]?.volume = volume
@@ -256,18 +245,17 @@ class Player {
     
     func updateFeedback() {
         for (audioIndex, audio) in audios.enumerated() {
-            for (channelIndex, channel) in SEQUENCES.enumerated() {
+            for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
                 let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
                 let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
                 let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
                 let isMuted = !(Float(store.state.activeSession.volume) > 0)
-                let isBreathingChannel: Bool = channel.instrument == "breathing"
                 
-                if channelIndex == 0 {
+                if sequenceIndex == 0 {
                     audios[audioIndex].fadeIndex = audio.fadeIndex + 1
                 }
                 
-                if audioIndex == 0 && isBreathingChannel {
+                if audioIndex == 0 && sequence.isBreathing {
                     incrementSelectedRhythmIndex()
                     isPanningReversed = !isPanningReversed
                     
@@ -278,33 +266,89 @@ class Player {
                 
                 let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
                 if isTransitioning {
-                    if audioIndex == 0 && channelIndex == 0 {
+                    if audioIndex == 0 && sequenceIndex == 0 {
                         pick(audioIndex: 1)
                         resetFadeIndices()
                     }
                 }
 
-                if !isMuted && isAudio && channel.pattern[audio.sampleIndex] > 0 {
-                    setAudio(
-                        audioIndex: audioIndex,
-                        channelIndex: channelIndex,
-                        isBreathingChannel: isBreathingChannel
+                if !isMuted && isAudio {
+                    let sampleId = String(
+                        playback[sequenceIndex][
+                            playback[sequenceIndex].count - 2 + audioIndex
+                        ]
                     )
+                    let separator = "." + SAMPLE_EXTENSION
+                    let breathType = sequenceIndex == 0
+                        ? !isPanningReversed
+                            ? "-" + Breathe.BreatheIn.rawValue
+                            : "-" + Breathe.BreatheOut.rawValue
+                        : ""
+                    let playerId = sampleId + breathType + separator
+                    let isSampleStillPlaying = detectSamplePlayingStatus(
+                        sequence: sequence,
+                        sampleIndex: audio.sampleIndex
+                    )
+                    
+                    if isSampleStillPlaying {
+                        setAudio(
+                            sampleId: sampleId,
+                            playerId: playerId,
+                            audioIndex: audioIndex,
+                            hasSample: sequence.pattern[audio.sampleIndex] > 0,
+                            isBreathing: sequence.isBreathing
+                        )
+                    }
+                    else {
+                        players[playerId]?.pause()
+                    }
                 }
                 
-                if channelIndex == SEQUENCES.count - 1 {
+                if sequenceIndex == SEQUENCES.count - 1 {
                     audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
                     
-                    if audio.sampleIndex == channel.pattern.count - 1 {
+                    if audio.sampleIndex == sequence.pattern.count {
                         audios[audioIndex].sampleIndex = 0
-                        
-                        players.keys.forEach {
-                            players[$0]?.pause()
-                        }
                     }
                 }
             }
         }
+    }
+    
+    func detectSamplePlayingStatus(
+        sequence: Sequence,
+        sampleIndex: Int
+    ) -> Bool {
+        var pattern: [Int] = sequence.pattern.reversed()
+        let sampleArray = Array(0...sampleIndex)
+        
+        sampleArray.forEach { _ in
+            let last = pattern.removeLast()
+            pattern.insert(last, at: 0)
+        }
+        
+        var patternIndex = 0
+        for (index, _) in pattern.enumerated() {
+            if pattern[index] > 0 {
+                patternIndex = index
+                break
+            }
+        }
+        
+        let sampleLength = pattern[patternIndex]
+        
+        var sampleLengths = Array(0...sampleLength)
+        sampleLengths.removeFirst()
+        
+        var found = false
+        for (index, _) in sampleLengths.enumerated() {
+            if pattern[index] > 0 {
+                found = true
+                break
+            }
+        }
+
+        return found
     }
     
     func loop() {
@@ -546,6 +590,8 @@ class Player {
 
     func pick(audioIndex: Int) {
         getInstruments().enumerated().forEach { (instrumentIndex, instrument) in
+            channels[instrumentIndex].tracks = channels[instrumentIndex].tracks.shuffled()
+
             let lastIndex = playback[instrumentIndex].count < channels[instrumentIndex].tracks.count
                 ? playback[instrumentIndex].count
                 : 0
@@ -611,7 +657,6 @@ class Player {
                     id: Int($0), sequence: sequence
                 )
             }
-            channel.tracks = channel.tracks.shuffled()
             channels.append(channel)
         }
         
