@@ -236,10 +236,10 @@ class Player {
         if volume > 0 {
             players[playerId]?.play()
             store.state.setMetricValue("sample-id", Float(sampleId)!)
-        }
-        
-        if Platform.isSimulator {
-            print(audioIndex, playerId, fade, audios[audioIndex].fadeIndex)
+            
+            if Platform.isSimulator {
+                print(audioIndex, playerId, volume)
+            }
         }
     }
     
@@ -279,7 +279,7 @@ class Player {
                         ]
                     )
                     let separator = "." + SAMPLE_EXTENSION
-                    let breathType = sequenceIndex == 0
+                    let breathType = sequence.isBreathing
                         ? !isPanningReversed
                             ? "-" + Breathe.BreatheIn.rawValue
                             : "-" + Breathe.BreatheOut.rawValue
@@ -481,9 +481,6 @@ class Player {
         
         audios.append(audio)
         audios.append(audio2)
-        
-        //setSamplesToChannels(audioIndex: 0)
-        //setSamplesToChannels(audioIndex: 1)
 
         pick(audioIndex: 0)
         pick(audioIndex: 1)
@@ -590,11 +587,10 @@ class Player {
 
     func pick(audioIndex: Int) {
         getInstruments().enumerated().forEach { (instrumentIndex, instrument) in
-            channels[instrumentIndex].tracks = channels[instrumentIndex].tracks.shuffled()
-
-            let lastIndex = playback[instrumentIndex].count < channels[instrumentIndex].tracks.count
+            let hasPreviousIndex = playback[instrumentIndex].count > 1 && playback[instrumentIndex].count < channels[instrumentIndex].tracks.count
+            let lastIndex = hasPreviousIndex
                 ? playback[instrumentIndex].count
-                : 0
+                : Int.random(in: 0 ... channels[instrumentIndex].tracks.count - 1)
             let lastTrack = channels[instrumentIndex].tracks[lastIndex]
             let distances = instrument[lastTrack.id] ?? []
             var summary: [Int: Double] = [:]
@@ -618,10 +614,10 @@ class Player {
             var sortedSummary = Array(
                 summary.sorted { $0.1 < $1.1 }
             )
-            
+                        
             // Introduce some randomness to the audio picker.
             if sortedSummary.count > 1 {
-                sortedSummary = sortedSummary[0...1]
+                sortedSummary = sortedSummary[0...3]
                     .shuffled()
             }
 

@@ -5,8 +5,8 @@ func getDocumentsDirectory() -> URL {
     return paths[0]
 }
 
-func readDistances(_ path: String) -> [Int: [Distance]] {
-    var res: [Int: [Distance]] = [:]
+func readDistances(_ path: String) -> Distances {
+    var res: Distances = [:]
 
     if let path = Bundle.main.path(forResource: path, ofType: nil) {
         do {
@@ -33,6 +33,7 @@ func readDistances(_ path: String) -> [Int: [Distance]] {
             }
         } catch {}
     }
+    
     return res
 }
 
