@@ -221,6 +221,7 @@ class Player {
             players[playerId]?.numberOfLoops = isBreathing
                 ? 0
                 : -1
+            players[playerId]?.rate = 0.1
         }
 
         let fade = audios[audioIndex].fadeIndex > -1
