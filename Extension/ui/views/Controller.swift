@@ -70,7 +70,7 @@ func controllerView(
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
+                maxIndex: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
                 ? Int(ceil(
                     convertRange(
                         value: Float(VOLUME_RANGE[1]),
@@ -85,6 +85,7 @@ func controllerView(
                 minimumScaleFactor: 0.75,
                 action: {
                     if store.state.activeSession.isStarted() {
+                        player.pauseAllAudio()
                         store.state.activeSession.feedbackModeIndex = store.state.activeSession.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.activeSession.feedbackModeIndex + 1
                         : 0

@@ -437,10 +437,14 @@ class Player {
         store.state.render()
     }
     
-    func sessionPause() {
+    func pauseAllAudio() {
         players.keys.forEach {
             players[$0]?.pause()
         }
+    }
+    
+    func sessionPause() {
+        pauseAllAudio()
         stopReaders()
         store.state.activeSession.isPlaying = false
         store.state.render()
