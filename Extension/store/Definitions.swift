@@ -29,6 +29,7 @@ enum Breathe: String, Codable {
 }
 
 enum Feedback: String {
+    case Music = "music"
     case Audio = "audio"
     case Haptic = "haptic"
     case AudioHaptic = "audio haptic"

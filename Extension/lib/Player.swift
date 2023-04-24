@@ -245,9 +245,9 @@ class Player {
     }
     
     func updateFeedback() {
-        let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
-        let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
-        let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
+        let isMusic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
+        let isAudio = isMusic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
+        let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
         let isMuted = !(Float(store.state.activeSession.volume) > 0)
         
         incrementSelectedRhythmIndex()
@@ -271,7 +271,9 @@ class Player {
             }
             
             for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
-                if !isMuted && isAudio {
+                let isAudible = sequence.isBreathing || isMusic
+
+                if !isMuted && isAudio && isAudible {
                     let sampleId = String(
                         playback[sequenceIndex][
                             playback[sequenceIndex].count - 2 + audioIndex

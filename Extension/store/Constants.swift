@@ -317,6 +317,7 @@ let METRIC_ORDER: [String] = [
     "altitude",
 ]
 let FEEDBACK_MODES: [Feedback] = [
+    Feedback.Music,
     Feedback.Audio,
     Feedback.Haptic,
     Feedback.Muted,
