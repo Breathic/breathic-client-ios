@@ -521,7 +521,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -556,8 +556,8 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development.watchkit;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -637,7 +637,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -672,8 +672,8 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging.watchkit;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -788,9 +788,8 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "--APP-BUNDLE-ID-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=watchos*]" = fringe.breathic;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkit;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -864,7 +863,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -899,8 +898,8 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development.watchkit;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -970,12 +969,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = "Release (Staging)";
@@ -1009,8 +1010,8 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging.watchkit;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1119,9 +1120,8 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "--APP-BUNDLE-ID-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=watchos*]" = fringe.breathic;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkit;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
