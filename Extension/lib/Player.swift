@@ -109,6 +109,7 @@ class Player {
                 catch {
                     print("sync()", error)
                     _update(session: session, status: SyncStatus.Syncable)
+                    store.state.isSyncInProgress = false
                 }
             }
             
@@ -221,7 +222,6 @@ class Player {
             players[playerId]?.numberOfLoops = isBreathing
                 ? 0
                 : -1
-            players[playerId]?.rate = 0.1
         }
 
         let fade = audios[audioIndex].fadeIndex > -1
@@ -245,34 +245,32 @@ class Player {
     }
     
     func updateFeedback() {
-        for (audioIndex, audio) in audios.enumerated() {
-            for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
-                let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
-                let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
-                let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
-                let isMuted = !(Float(store.state.activeSession.volume) > 0)
-                
-                if sequenceIndex == 0 {
-                    audios[audioIndex].fadeIndex = audio.fadeIndex + 1
-                }
-                
-                if audioIndex == 0 && sequence.isBreathing {
-                    incrementSelectedRhythmIndex()
-                    isPanningReversed = !isPanningReversed
-                    
-                    if isHaptic {
-                        setHaptic()
-                    }
-                }
-                
-                let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
-                if isTransitioning {
-                    if audioIndex == 0 && sequenceIndex == 0 {
-                        pick(audioIndex: 1)
-                        resetFadeIndices()
-                    }
-                }
+        let isAudioHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.AudioHaptic
+        let isAudio = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
+        let isHaptic = isAudioHaptic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
+        let isMuted = !(Float(store.state.activeSession.volume) > 0)
+        
+        incrementSelectedRhythmIndex()
+        isPanningReversed = !isPanningReversed
+        
+        if isHaptic {
+            setHaptic()
+        }
 
+        for (audioIndex, audio) in audios.enumerated() {
+            audios[audioIndex].fadeIndex = audio.fadeIndex + 1
+            
+            let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
+            if isTransitioning {
+                let isLeftAudio = audioIndex == 0
+
+                if isLeftAudio {
+                    pick(audioIndex: 1)
+                    resetFadeIndices()
+                }
+            }
+            
+            for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
                 if !isMuted && isAudio {
                     let sampleId = String(
                         playback[sequenceIndex][
@@ -304,14 +302,12 @@ class Player {
                         players[playerId]?.pause()
                     }
                 }
-                
-                if sequenceIndex == SEQUENCES.count - 1 {
-                    audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
-                    
-                    if audio.sampleIndex == sequence.pattern.count {
-                        audios[audioIndex].sampleIndex = 0
-                    }
-                }
+            }
+            
+            audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
+            
+            if audio.sampleIndex == CHANNEL_REPEAT_COUNT {
+                audios[audioIndex].sampleIndex = 0
             }
         }
     }
