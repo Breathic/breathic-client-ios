@@ -521,7 +521,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -541,7 +541,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "Breathic (staging)";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
@@ -557,7 +557,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development.watchkit;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -637,7 +637,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -657,7 +657,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "Breathic (staging)";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
@@ -673,7 +673,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging.watchkit;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -773,7 +773,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "Breathic (staging)";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
@@ -789,7 +789,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkit;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.production;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -863,7 +863,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -883,7 +883,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "Breathic (staging)";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
@@ -899,7 +899,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development.watchkit;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.development;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -974,7 +974,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -995,7 +995,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "Breathic (staging)";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
@@ -1011,7 +1011,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging.watchkit;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.staging;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1105,7 +1105,7 @@
 				DEVELOPMENT_TEAM = FRDNTT895P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Breathic-WatchKit-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "Breathic (staging)";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = Breathic.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "App uses heart rate data in order to determine breathing rate for you";
@@ -1121,7 +1121,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.watchkit;
+				PRODUCT_BUNDLE_IDENTIFIER = fringe.breathic.production;
 				PRODUCT_NAME = Breathic;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
