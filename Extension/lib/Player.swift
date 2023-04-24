@@ -18,6 +18,7 @@ class Player {
     var players: [String: AVAudioPlayer] = [:]
     var coordinator = WKExtendedRuntimeSession()
     var playback: [[Int]] = []
+    var audioSession = AVAudioSession.sharedInstance()
     
     init() {
         /*
@@ -46,6 +47,38 @@ class Player {
         loop()
         create()
         print(API_URL)
+        setupNotifications()
+    }
+    
+    @objc func handleRouteChange(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+                return
+        }
+
+        // Switch over the route change reason.
+        switch reason {
+            case .newDeviceAvailable: // New device found.
+                audioSession = AVAudioSession.sharedInstance()
+        
+            default: ()
+        }
+    }
+
+
+    func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
+        // Filter the outputs to only those with a port type of headphones.
+        return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
+    }
+    
+    func setupNotifications() {
+        // Get the default notification center instance.
+        let nc = NotificationCenter.default
+        nc.addObserver(self,
+                       selector: #selector(handleRouteChange),
+                       name: AVAudioSession.routeChangeNotification,
+                       object: nil)
     }
     
     func initIntervals() {
@@ -500,7 +533,6 @@ class Player {
         Task {
             do {
                 if !store.state.isAudioSessionLoaded {
-                    let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(
                         .playback,
                         mode: .default,
