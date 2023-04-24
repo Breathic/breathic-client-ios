@@ -18,7 +18,6 @@ class Player {
     var players: [String: AVAudioPlayer] = [:]
     var coordinator = WKExtendedRuntimeSession()
     var playback: [[Int]] = []
-    var audioSession = AVAudioSession.sharedInstance()
     
     init() {
         /*
@@ -42,7 +41,6 @@ class Player {
         store.state.activeSession.isPlaying = false
         initIntervals()
         startElapsedTimer()
-        cachePlayers()
         sync(store.state.sessions.shuffled())
         loop()
         create()
@@ -57,28 +55,22 @@ class Player {
                 return
         }
 
-        // Switch over the route change reason.
-        switch reason {
-            case .newDeviceAvailable: // New device found.
-                audioSession = AVAudioSession.sharedInstance()
-        
-            default: ()
+        if reason == .oldDeviceUnavailable {
+            sessionPause()
+        }
+        else {
+            store.state.isAudioSessionLoaded = false
+            loadAudioSession()
         }
     }
 
-
-    func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
-        // Filter the outputs to only those with a port type of headphones.
-        return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
-    }
-    
     func setupNotifications() {
-        // Get the default notification center instance.
-        let nc = NotificationCenter.default
-        nc.addObserver(self,
-                       selector: #selector(handleRouteChange),
-                       name: AVAudioSession.routeChangeNotification,
-                       object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleRouteChange),
+            name: AVAudioSession.routeChangeNotification,
+            object: nil
+        )
     }
     
     func initIntervals() {
@@ -437,7 +429,7 @@ class Player {
     func start() {
         store.state.setMetricValuesToDefault()
         putToBackground(store: store)
-        playAudio()
+        loadAudioSession()
         store.state.activeSession.start()
         sessionPlay()
         store.state.render()
@@ -529,10 +521,11 @@ class Player {
         audios[1].fadeIndex = -FADE_DURATION * 2
     }
     
-    func playAudio() {
+    func loadAudioSession() {
         Task {
             do {
                 if !store.state.isAudioSessionLoaded {
+                    let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(
                         .playback,
                         mode: .default,
@@ -540,7 +533,7 @@ class Player {
                     )
                     store.state.isAudioSessionLoaded = try await audioSession.activate()
                 }
-                
+                cachePlayers()
                 store.state.isAudioPlaying = true
             }
             catch {
@@ -659,8 +652,6 @@ class Player {
             let id = sortedSummary[0].key
             playback[instrumentIndex].append(id)
         }
-
-        playAudio()
     }
     
     func getTrack(id: Int, sequence: Sequence) -> Track {
