@@ -635,7 +635,9 @@ class Player {
 
             if summary.isEmpty {
                 playback[instrumentIndex] = []
-                playback[instrumentIndex].append(lastTrack.id)
+                let index = Int.random(in: 0 ... channels[instrumentIndex].tracks.count - 1)
+                let track = channels[instrumentIndex].tracks[index]
+                playback[instrumentIndex].append(track.id)
                 pick(audioIndex: audioIndex)
                 return
             }
