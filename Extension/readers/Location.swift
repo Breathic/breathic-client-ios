@@ -59,10 +59,8 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     func stop() {
         timer?.invalidate()
         timer = nil
-
-        readings.keys.forEach { metric in
-            readings[metric] = []
-        }
+        readings = [:]
+        self.traveledDistance = 0
     }
 
     func process(metric: String, value: Float) {
