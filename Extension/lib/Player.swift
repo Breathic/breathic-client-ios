@@ -253,10 +253,11 @@ class Player {
             ? fadeScale[audios[audioIndex].fadeIndex]
             : 0
         
-        var volume = store.state.activeSession.volume / 100
-        volume = isBreathing
-            ? volume * Float(fade)
-            : volume * MUSIC_VOLUME_PCT * Float(fade)
+        var volume = store.state.activeSession.volume / 100 * Float(fade)
+        if !isBreathing {
+            volume = volume * MUSIC_VOLUME_PCT
+        }
+        
         players[playerId]?.volume = volume
 
         if volume > 0 {
@@ -283,6 +284,12 @@ class Player {
         }
 
         for (audioIndex, audio) in audios.enumerated() {
+            audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
+            
+            if audio.sampleIndex == CHANNEL_REPEAT_COUNT {
+                audios[audioIndex].sampleIndex = 0
+            }
+            
             audios[audioIndex].fadeIndex = audio.fadeIndex + 1
             
             let isTransitioning = audio.fadeIndex == CHANNEL_REPEAT_COUNT
@@ -296,9 +303,9 @@ class Player {
             }
             
             for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
-                let isAudible = sequence.isBreathing || isMusic
+                let isAudible = !isMuted && isAudio && (sequence.isBreathing || isMusic)
 
-                if !isMuted && isAudio && isAudible {
+                if isAudible {
                     let sampleId = String(
                         playback[sequenceIndex][
                             playback[sequenceIndex].count - 2 + audioIndex
@@ -329,12 +336,6 @@ class Player {
                         players[playerId]?.pause()
                     }
                 }
-            }
-            
-            audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
-            
-            if audio.sampleIndex == CHANNEL_REPEAT_COUNT {
-                audios[audioIndex].sampleIndex = 0
             }
         }
     }
