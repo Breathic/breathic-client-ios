@@ -447,6 +447,7 @@ class Player {
         store.state.sessions.append(store.state.activeSession)
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
+        location.traveledDistance = 0
         coordinator.invalidate()
         sync([store.state.sessions[store.state.sessions.count - 1]])
         create()
