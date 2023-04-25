@@ -20,6 +20,9 @@ func controllerView(
                 label: "Session",
                 value: !store.state.activeSession.isStarted()
                     ? "Start"
+                    : String(format: "%.1f", store.state.activeSession.distance / 1000) + "km",
+                unit: !store.state.activeSession.isStarted()
+                    ? ""
                     : "Finish",
                 isTall: false,
                 minimumScaleFactor: 0.75,
@@ -62,6 +65,7 @@ func controllerView(
                 geometry: geometry,
                 label: "Feedback",
                 value: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex].rawValue.capitalized,
+                unit: "‎ ",
                 hasIndicator: true,
                 index: Int(ceil(
                     convertRange(

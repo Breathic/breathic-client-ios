@@ -110,6 +110,7 @@ extension Location {
                     let distance = self.startLocation.distance(from: lastLocation)
                     self.startLocation = lastLocation
                     self.traveledDistance = self.traveledDistance + Float(distance)
+                    self.store.state.activeSession.distance = self.traveledDistance
                 }
 
                 self.process(metric: "distance", value: self.traveledDistance)
