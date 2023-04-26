@@ -201,8 +201,8 @@ let METRIC_TYPES: [String: MetricType] = [
     "heart": MetricType(
         metric: "heart",
         abbreviation: "h",
-        label: "Heartbeats",
-        unit: "per minute",
+        label: "Heartrate",
+        unit: "min",
         isSource: true,
         isChartable: true,
         color: colorize("red"),
@@ -212,7 +212,7 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "step",
         abbreviation: "s",
         label: "Steps",
-        unit: "per minute",
+        unit: "min",
         color: colorize("teal"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
@@ -229,7 +229,7 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "breath",
         abbreviation: "b",
         label: "Breaths",
-        unit: "per minute",
+        unit: "min",
         isChartable: true,
         color: colorize("green")
     ),
@@ -237,23 +237,23 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "breathe-in",
         abbreviation: "bi",
         label: "Breathe in",
-        unit: "per pace",
-        color: colorize("blue"),
+        unit: "pace",
+        color: colorize("pink"),
         format: "%.1f"
     ),
     "breathe-in-hold": MetricType(
         metric: "breathe-in-hold",
         abbreviation: "bih",
         label: "Breathe in & hold",
-        unit: "per pace",
-        color: colorize("blue"),
+        unit: "pace",
+        color: colorize("pink"),
         format: "%.1f"
     ),
     "breathe-out": MetricType(
         metric: "breathe-out",
         abbreviation: "bo",
         label: "Breathe out",
-        unit: "per pace",
+        unit: "pace",
         color: colorize("orange"),
         format: "%.1f"
     ),
@@ -261,7 +261,7 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "breathe-out-hold",
         abbreviation: "boh",
         label: "Breathe out & hold",
-        unit: "per pace",
+        unit: "pace",
         color: colorize("orange"),
         format: "%.1f"
     ),
@@ -279,7 +279,9 @@ let METRIC_TYPES: [String: MetricType] = [
     ),
     "distance": MetricType(
         metric: "distance",
-        abbreviation: "d"
+        abbreviation: "d",
+        unit: "m",
+        format: "%.1f"
     ),
     "altitude": MetricType(
         metric: "altitude",

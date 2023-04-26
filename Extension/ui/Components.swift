@@ -11,10 +11,11 @@ func primaryButton(
     index: Int = -1,
     maxIndex: Int = -1,
     valueColor: Color = Color.white,
+    valueTextSize: CGFloat = 14,
     borderWidth: Double = 1,
     isWide: Bool = false,
     isShort: Bool = false,
-    isTall: Bool = true,
+    isTall: Bool = false,
     isActive: Bool = false,
     isEnabled: Bool = true,
     isBlurred: Bool = false,
@@ -42,12 +43,12 @@ func primaryButton(
                     }
 
                     if value.count > 0 {
-                        Spacer(minLength: 8)
+                        Spacer(minLength: isTall ? 8 : 2)
 
                         Text(value)
-                            .lineLimit(2)
+                            .lineLimit(1)
                             .minimumScaleFactor(minimumScaleFactor)
-                            .font(.system(size: isTall ? 32 : isShort ? 12 : 14))
+                            .font(.system(size: isShort ? 12 : valueTextSize))
                             .fontWeight(.bold)
                             .foregroundColor(valueColor)
                             .underline(isActive)
@@ -55,7 +56,7 @@ func primaryButton(
 
                     if unit.count > 0 {
                         Text(unit)
-                            .frame(maxWidth: .infinity, alignment: Alignment.center)
+                            .frame(maxWidth: .infinity, alignment: .center)
                             .font(.system(size: 8))
                     }
                 }
@@ -70,7 +71,7 @@ func primaryButton(
         }
     }
     .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4)
-    .frame(height: geometry.size.height / (isWide ? 1 : 2) - 4)
+    .frame(height: geometry.size.height / (isTall ? 2 : 3) - (isTall ? 4 : 8))
     .foregroundColor(.white)
     .tint(.black)
     .overlay(

@@ -108,6 +108,7 @@ func chartSettingsView(
                                 valueColor: store.state.chartedMetricsVisibility[metric]!
                                     ? getMetric(metric).color
                                     : colorize("gray"),
+                                valueTextSize: 32,
                                 isShort: false,
                                 isTall: true,
                                 minimumScaleFactor: 0.5,

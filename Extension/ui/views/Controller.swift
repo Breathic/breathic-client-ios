@@ -20,11 +20,8 @@ func controllerView(
                 label: "Session",
                 value: !store.state.activeSession.isStarted()
                     ? "Start"
-                    : String(format: "%.1f", store.state.activeSession.distance / 1000) + "km",
-                unit: !store.state.activeSession.isStarted()
-                    ? ""
                     : "Finish",
-                isTall: false,
+                isTall: true,
                 minimumScaleFactor: 0.75,
                 action: {
                     if !store.state.activeSession.isStarted() {
@@ -40,13 +37,10 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Playback",
-                value: store.state.activeSession.isStarted()
-                    ? getElapsedTime(store.state.activeSession.elapsedSeconds)
-                    : "",
-                unit: store.state.activeSession.isPlaying
+                value: store.state.activeSession.isPlaying
                     ? "Pause"
                     : "Play",
-                isTall: false,
+                isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
                 isBlurred: !store.state.activeSession.isStarted(),
                 minimumScaleFactor: 0.75,
@@ -83,7 +77,7 @@ func controllerView(
                     )) - 1)
                 : 0,
                 isShort: true,
-                isTall: false,
+                isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
                 isBlurred: !store.state.activeSession.isStarted(),
                 minimumScaleFactor: 0.75,
@@ -105,7 +99,7 @@ func controllerView(
                 label: "Activity",
                 value: _getActivityValue(store: store),
                 unit: ACTIVITIES[store.state.activeSession.activityIndex].label,
-                isTall: false,
+                isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
                 isBlurred: !store.state.activeSession.isStarted(),
                 action: {
