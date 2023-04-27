@@ -21,7 +21,7 @@ func finishView(
                 store.state.activeSubView = SubView.Save.rawValue
 
                 Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer: Timer) in
-                    player.stop(save: true)
+                    player.finish(save: true)
                     let sessionIds: [String] = getSessionIds(sessions: store.state.sessions)
                     store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
                     onLogSelect(store: store)

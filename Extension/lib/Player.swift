@@ -436,7 +436,7 @@ class Player {
         store.state.render()
     }
     
-    func stop(save: Bool) {
+    func finish(save: Bool) {
         pauseAudio()
         pauseSession()
 
