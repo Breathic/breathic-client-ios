@@ -4,6 +4,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
     let columns = Array(METRIC_ORDER[0...3]).chunks(2)
 
     return VStack {
+        Spacer(minLength: 8)
+        
         ForEach(columns, id: \.self) { column in
             HStack {
                 ForEach(column, id: \.self) { metric in
@@ -21,10 +23,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 }
             }
 
-            Spacer(minLength: 12)
+            Spacer(minLength: 8)
         }
-        
-        Spacer(minLength: 8)
         
         HStack {
             primaryButton(
@@ -40,7 +40,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
             )
 
             Spacer(minLength: 8)
-    
+            
             primaryButton(
                 geometry: geometry,
                 label: "Duration",
@@ -53,8 +53,6 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 isEnabled: false,
                 minimumScaleFactor: 0.45
             )
-
-            Spacer(minLength: 8)
         }
     }
 }
