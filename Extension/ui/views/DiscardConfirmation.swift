@@ -22,7 +22,7 @@ struct DiscardSessionConfirmationView: View {
             }
             .onChange(of: value, perform: {_ in
                 if value > CONFIRMATION_ENOUGH_VALUE {
-                    player.stop()
+                    player.stop(save: false)
                     store.state.activeSubView = DEFAULT_ACTIVE_SUB_VIEW
                 }
             })

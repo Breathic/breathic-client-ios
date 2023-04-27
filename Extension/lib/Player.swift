@@ -56,7 +56,7 @@ class Player {
         }
 
         if reason == .oldDeviceUnavailable {
-            sessionPause()
+            pauseSession()
         }
         else {
             store.state.isAudioSessionLoaded = false
@@ -432,19 +432,23 @@ class Player {
         putToBackground(store: store)
         loadAudioSession()
         store.state.activeSession.start()
-        sessionPlay()
+        playSession()
         store.state.render()
     }
     
-    func stop() {
-        pause()
-        saveReadings(TimeUnit.Second)
-        saveReadings(TimeUnit.Minute)
+    func stop(save: Bool) {
+        pauseAudio()
+        pauseSession()
+
+        if save {
+            saveReadings(TimeUnit.Second)
+            saveReadings(TimeUnit.Minute)
+            store.state.activeSession.stop()
+            store.state.activeSession.distance = getDistance(store.state.activeSession)
+            store.state.sessions.append(store.state.activeSession)
+        }
+        
         store.state.setMetricValuesToDefault()
-        sessionPause()
-        store.state.activeSession.stop()
-        store.state.activeSession.distance = getDistance(store.state.activeSession)
-        store.state.sessions.append(store.state.activeSession)
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
         location.traveledDistance = 0
@@ -454,26 +458,28 @@ class Player {
     }
     
     func togglePlay() {
-        if store.state.activeSession.isPlaying { sessionPause() }
+        if store.state.activeSession.isPlaying { pauseSession() }
         else { start() }
     }
     
-    func sessionPlay() {
+    func playSession() {
         startReaders()
         store.state.activeSession.isPlaying = true
         store.state.render()
     }
     
-    func pauseAllAudio() {
+    func pauseAudio() {
+        store.state.isAudioPlaying = false
+        
         players.keys.forEach {
             players[$0]?.pause()
         }
     }
     
-    func sessionPause() {
-        pauseAllAudio()
-        stopReaders()
+    func pauseSession() {
         store.state.activeSession.isPlaying = false
+        stopReaders()
+        pauseAudio()
         store.state.render()
     }
     
@@ -540,16 +546,6 @@ class Player {
             }
             catch {
                 print("startAudioSession()", error)
-            }
-        }
-    }
-    
-    func pause() {
-        store.state.isAudioPlaying = false
-        
-        for audio in audios {
-            audio.resources.forEach {
-                players[$0]?.pause()
             }
         }
     }

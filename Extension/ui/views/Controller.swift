@@ -83,7 +83,7 @@ func controllerView(
                 minimumScaleFactor: 0.75,
                 action: {
                     if store.state.activeSession.isStarted() {
-                        player.pauseAllAudio()
+                        player.pauseAudio()
                         store.state.activeSession.feedbackModeIndex = store.state.activeSession.feedbackModeIndex + 1 < FEEDBACK_MODES.count
                         ? store.state.activeSession.feedbackModeIndex + 1
                         : 0
