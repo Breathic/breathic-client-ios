@@ -1,4 +1,4 @@
 API_URL = https:/$()/staging.api.breathic.com
-APP_NAME = Breathic (staging)
 APP_BUNDLE_ID = fringe.breathic.staging
 APP_ENV = staging
+APP_NAME = Breathic staging
