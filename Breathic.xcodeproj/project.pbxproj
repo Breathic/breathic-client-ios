@@ -23,8 +23,6 @@
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
-		FD7F1A8F299E9E6F006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
-		FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDA08A8228D49F2C001FE337 /* Breathic-WatchKit-App-Info.plist */; };
 		FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = FD877CED29C89A6B007D95F6 /* EFQRCode */; };
 		FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */; };
 		FD8A9AB929DAEFD800A9A746 /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB829DAEFD800A9A746 /* Save.swift */; };
@@ -340,7 +338,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					FD2D391028BBDD97009F1861 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -378,7 +376,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD7F1A90299E9E83006D449C /* Breathic-WatchKit-App-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +386,6 @@
 				FD2D392F28BBDD9A009F1861 /* Preview Assets.xcassets in Resources */,
 				FD2D392C28BBDD9A009F1861 /* Assets.xcassets in Resources */,
 				FD2D391B28BBDD99009F1861 /* Assets.xcassets in Resources */,
-				FD7F1A8F299E9E6F006D449C /* Breathic-WatchKit-App-Info.plist in Resources */,
 				FDF9A8D829C71B8A00DC24E8 /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -840,6 +836,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -850,6 +847,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
