@@ -5,7 +5,7 @@ func chartSettingsView(
     store: Store
 ) -> some View {
     let columns = METRIC_ORDER
-        .filter { store.state.chartableMetrics[$0] != nil }
+        .filter { store.state.overviewMetrics[$0] != nil }
         .chunks(2)
     let readingsURL: String = API_URL + "/session/" + store.state.selectedSession.uuid + "/readings"
 
@@ -14,6 +14,43 @@ func chartSettingsView(
     }
 
     return ScrollView(showsIndicators: false) {
+        Group {
+            HStack {
+                VStack {
+                    Text("Activity")
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 10))
+                        .frame(maxWidth: geometry.size.width, alignment: .leading)
+
+                    Text(ACTIVITIES[store.state.selectedSession.activityIndex].label)
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 20))
+                        .frame(maxWidth: geometry.size.width, alignment: .leading)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.8)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                VStack {
+                    Text("Status")
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 10))
+                        .frame(maxWidth: geometry.size.width, alignment: .leading)
+
+                    Text(store.state.selectedSession.syncStatus.rawValue)
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 20))
+                        .frame(maxWidth: geometry.size.width, alignment: .leading)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.8)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.trailing, 16)
+        }
+        
+        Spacer(minLength: 16)
+
         Group {
             HStack {
                 VStack {
@@ -29,6 +66,7 @@ func chartSettingsView(
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
 
                 VStack {
                     Text("Distance")
@@ -43,32 +81,11 @@ func chartSettingsView(
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                 }
-            }
-            .padding(.trailing, 16)
-
-            Spacer(minLength: 24)
-        }
-
-        Group {
-            HStack {
-                VStack {
-                    Text("Status")
-                        .foregroundColor(Color.white)
-                        .font(.system(size: 10))
-                        .frame(maxWidth: geometry.size.width, alignment: .leading)
-
-                    Text(store.state.selectedSession.syncStatus.rawValue)
-                        .foregroundColor(Color.white)
-                        .font(.system(size: 20))
-                        .frame(maxWidth: geometry.size.width, alignment: .leading)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.8)
-
-                    Spacer(minLength: 24)
-                }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+        
+        Spacer(minLength: 16)
 
         Group {
             Text("Progress")
@@ -103,9 +120,9 @@ func chartSettingsView(
                             primaryButton(
                                 geometry: geometry,
                                 label: getMetric(metric).label,
-                                value: String(format: getMetric(metric).format, store.state.chartableMetrics[metric]!),
+                                value: String(format: getMetric(metric).format, store.state.overviewMetrics[metric]!),
                                 unit: getMetric(metric).unit,
-                                valueColor: store.state.chartedMetricsVisibility[metric]!
+                                valueColor: store.state.overviewMetricsVisibility[metric]!
                                     ? getMetric(metric).color
                                     : colorize("gray"),
                                 valueTextSize: 32,
@@ -113,7 +130,7 @@ func chartSettingsView(
                                 isTall: true,
                                 minimumScaleFactor: 0.5,
                                 action: {
-                                    store.state.chartedMetricsVisibility[metric]! = !store.state.chartedMetricsVisibility[metric]!
+                                    store.state.overviewMetricsVisibility[metric]! = !store.state.overviewMetricsVisibility[metric]!
                                     onLogSelect(store: store)
                                 }
                             )

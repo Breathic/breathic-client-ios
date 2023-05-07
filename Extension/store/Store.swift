@@ -27,8 +27,8 @@ struct AppState {
     var seriesData: [SeriesData] = []
     var selectedSession = Session()
     var chartDomain = ChartDomain()
-    var chartableMetrics: [String: Float] = [:]
-    var chartedMetricsVisibility: [String: Bool] = [:]
+    var overviewMetrics: Overview = [:]
+    var overviewMetricsVisibility: [String: Bool] = [:]
     var chartScales: [String: Bool] = DEFAULT_CHART_SCALES
     var isSyncInProgress: Bool = false
     var isTermsApproved: Bool? = nil

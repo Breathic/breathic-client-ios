@@ -12,6 +12,7 @@ func uploadSession(
             let deviceUuid: String
             let session: String
             let readings: String
+            let overview: String
         }
 
         if WKInterfaceDevice.current().identifierForVendor != nil {
@@ -24,13 +25,24 @@ func uploadSession(
             let sessionUuid = session.uuid;
             let deviceUuid = WKInterfaceDevice.current().identifierForVendor!.uuidString
             let sessionData = String(data: try JSONEncoder().encode(session), encoding: String.Encoding.utf8)!
+            
+            var overview: Overview = [:]
+            let overviewMetrics = getOverviewMetrics(timeseries: timeseriesData)
+            METRIC_ORDER
+                .filter { overviewMetrics[$0] != nil }
+                .forEach {
+                    overview[$0] = Float(String(format: getMetric($0).format, overviewMetrics[$0]!))
+                }
+            let overviewData = String(data: try JSONEncoder().encode(overview), encoding: String.Encoding.utf8)!
+
             let requestData = try JSONEncoder().encode(
                 RequestData(
                     deviceToken: deviceToken,
                     sessionUuid: sessionUuid,
                     deviceUuid: deviceUuid,
                     session: sessionData,
-                    readings: readings
+                    readings: readings,
+                    overview: overviewData
                 )
             )
             var request = URLRequest(url: url)

@@ -10,8 +10,8 @@ struct ContentView: View {
 
     init() {
         for metric in METRIC_TYPES.keys {
-            if store.state.chartedMetricsVisibility[metric] == nil {
-                store.state.chartedMetricsVisibility[metric] = METRIC_TYPES[metric]?.isChartable
+            if store.state.overviewMetricsVisibility[metric] == nil {
+                store.state.overviewMetricsVisibility[metric] = METRIC_TYPES[metric]?.isChartable
             }
         }
     }

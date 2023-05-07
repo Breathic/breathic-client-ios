@@ -44,7 +44,7 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
     var result: [String: [ProgressData]] = [:]
 
     for metric in store.state.timeseries.keys {
-        let isVisible = store.state.chartedMetricsVisibility[metric] != nil && store.state.chartedMetricsVisibility[metric]!
+        let isVisible = store.state.overviewMetricsVisibility[metric] != nil && store.state.overviewMetricsVisibility[metric]!
 
         if isVisible {
             result[metric] = parseProgressData(
@@ -60,7 +60,7 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
 func getSeriesData(store: Store, allProgressData: [String: [ProgressData]]) -> [SeriesData] {
     METRIC_ORDER
         .filter { allProgressData[$0] != nil }
-        .filter { store.state.chartableMetrics[$0] != nil }
+        .filter { store.state.overviewMetrics[$0] != nil }
         .map {
             .init(metric: $0, data: allProgressData[$0] ?? [], color: getMetric($0).color)
         }
@@ -90,18 +90,18 @@ func getChartDomain(
     return chartDomain
 }
 
-func getChartableMetrics(timeseries: ReadingContainer) -> [String: Float] {
-    var chartableMetrics: [String: Float] = [:]
+func getOverviewMetrics(timeseries: ReadingContainer) -> Overview {
+    var res: Overview = [:]
 
     timeseries.keys.forEach {
         let avgValue = getAverageMetricValue(timeseries: timeseries, metric: $0)
 
         if avgValue > 0 {
-            chartableMetrics[$0] = avgValue
+            res[$0] = avgValue
         }
     }
 
-    return chartableMetrics
+    return res
 }
 
 func getTimeseriesData(
@@ -182,7 +182,7 @@ func onLogSelect(store: Store) {
         )
 
         store.state.timeseries = timeseriesData
-        store.state.chartableMetrics = getChartableMetrics(timeseries: timeseriesData)
+        store.state.overviewMetrics = getOverviewMetrics(timeseries: timeseriesData)
         store.state.timeseries = parseScale(timeseries: store.state.timeseries, chartScales: store.state.chartScales)
 
         let allProgressData: [String: [ProgressData]] = getAllProgressData(store: store)

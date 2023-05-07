@@ -135,10 +135,12 @@ class Player {
                     print("sync()", error)
                     _update(session: session, status: SyncStatus.Syncable)
                     store.state.isSyncInProgress = false
+                    store.state.render()
                 }
             }
             
             store.state.isSyncInProgress = false
+            store.state.render()
         }
     }
     

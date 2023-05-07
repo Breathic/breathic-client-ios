@@ -84,6 +84,8 @@ class Distance {
     var value: Double = 0.0
 }
 
+typealias Overview = [String: Float]
+
 typealias Distances = [Int: [Distance]]
 
 typealias Instruments = [String: Distances]
