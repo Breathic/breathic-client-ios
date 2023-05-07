@@ -3,29 +3,30 @@ import SwiftUI
 import EFQRCode
 
 func convertRange(value: Float, oldRange: [Float], newRange: [Float]) -> Float {
-   return ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
+   ((value - oldRange[0]) * (newRange[1] - newRange[0])) / (oldRange[1] - oldRange[0]) + newRange[0]
 }
 
 func parsePickerRange(range: [Float]) -> [Float] {
-    return Array(Int(range[0] * 10)...Int(range[1] * 10))
+    Array(Int(range[0] * 10)...Int(range[1] * 10))
         .map { Float($0) / 10 }
 }
 
 func colorize(_ color: String) -> Color {
-    return Color(red: COLORS[color]!.0 / 255, green: COLORS[color]!.1 / 255, blue: COLORS[color]!.2 / 255)
+    Color(red: COLORS[color]!.0 / 255, green: COLORS[color]!.1 / 255, blue: COLORS[color]!.2 / 255)
 }
 
 func getRhythms(_ store: Store) -> [Float] {
-    return ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.map { $0.rhythm }
+    ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.map { $0.rhythm }
 }
 
 func incrementPreset(_ store: Store) {
     store.state.activeSession.presetIndex = store.state.activeSession.presetIndex + 1 == store.state.activity.presets.count
         ? 0
-        : store.state.activeSession.presetIndex + 1}
+        : store.state.activeSession.presetIndex + 1
+}
 
 func getMetric(_ metric: String) -> MetricType {
-    return METRIC_TYPES[metric] != nil
+    METRIC_TYPES[metric] != nil
         ? METRIC_TYPES[metric]!
         : MetricType()
 }

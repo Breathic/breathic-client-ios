@@ -6,6 +6,11 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
+    var activityKey: String = ACTIVITIES[0].key {
+        didSet {
+            save()
+        }
+    }
     var presetIndex: Int = 0 {
         didSet {
             save()

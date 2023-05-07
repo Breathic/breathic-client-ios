@@ -15,6 +15,7 @@ func activityPickerView(
             .firstIndex(where: { $0 == store.state.selectedActivityId }) ?? -1
 
         store.state.activeSession.activityIndex = index
+        store.state.activeSession.activityKey = ACTIVITIES[index].key
         player.create()
         player.start()
         store.state.activeSubView = SubView.Controller.rawValue
