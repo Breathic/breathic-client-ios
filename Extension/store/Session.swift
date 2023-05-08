@@ -31,12 +31,12 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var startTime: Date = Date() {
+    var startTime: String = Date().formatted(.iso8601) {
         didSet {
             save()
         }
     }
-    var endTime: Date? = nil {
+    var endTime: String? = nil {
         didSet {
             save()
         }
@@ -69,13 +69,13 @@ class Session: ObservableObject, Codable {
 
     func start() {
         if elapsedSeconds == 0 {
-            startTime = Date()
+            startTime = Date().formatted(.iso8601)
             uuid = UUID().uuidString
         }
     }
 
     func stop() {
-        endTime = Date()
+        endTime = Date().formatted(.iso8601)
     }
 
     func save() {

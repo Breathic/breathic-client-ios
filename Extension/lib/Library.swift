@@ -70,10 +70,17 @@ func getMonthLabel(index: Int) -> String {
     return String(monthChars[0..<3])
 }
 
+func isodateFromString(_ isoDate: String) -> Date {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyyMMdd'T'HHmmssZ"
+    return formatter.date(from: isoDate) ?? Date()
+}
+
 func generateSessionId(session: Session) -> String {
-    return getMonthLabel(index: Calendar.current.component(.month, from: session.startTime) - 1) + " " +
-        String(Calendar.current.component(.day, from: session.startTime)) + " " +
-        String(session.startTime.formatted(.dateTime.hour().minute()))
+    let startTime = isodateFromString(session.startTime)
+    return getMonthLabel(index: Calendar.current.component(.month, from: startTime) - 1) + " " +
+        String(Calendar.current.component(.day, from: startTime)) + " " +
+        String(startTime.formatted(.dateTime.hour().minute()))
         .components(separatedBy: " ")[0]
 }
 

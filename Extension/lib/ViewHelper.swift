@@ -47,9 +47,10 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
         let isVisible = store.state.overviewMetricsVisibility[metric] != nil && store.state.overviewMetricsVisibility[metric]!
 
         if isVisible {
+            let startTime = isodateFromString(store.state.selectedSession.startTime)
             result[metric] = parseProgressData(
                 timeseries: store.state.timeseries[metric] ?? [],
-                startTime: store.state.selectedSession.startTime
+                startTime: startTime
             )
         }
     }
