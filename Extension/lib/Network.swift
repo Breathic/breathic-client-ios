@@ -16,6 +16,11 @@ func uploadSession(
         }
 
         if WKInterfaceDevice.current().identifierForVendor != nil {
+            session.startTimeUtc = session.startTime.formatted(.iso8601)
+                .replacingOccurrences(of: "Z", with: ".000Z")
+            session.endTimeUtc = session.endTime?.formatted(.iso8601)
+                ?? Date().formatted(.iso8601)
+                    .replacingOccurrences(of: "Z", with: ".000Z")
             let timeseriesData: ReadingContainer = getTimeseriesData(
                 uuid: session.uuid,
                 timeUnit: TimeUnit.Second
