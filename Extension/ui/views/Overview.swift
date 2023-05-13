@@ -22,7 +22,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width, alignment: .leading)
 
-                    Text(ACTIVITIES[store.state.selectedSession.activityIndex].label)
+                    Text(ACTIVITIES[store.state.selectedSession.activityIndex].key)
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width, alignment: .leading)

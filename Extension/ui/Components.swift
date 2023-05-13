@@ -56,6 +56,8 @@ func primaryButton(
 
                     if unit.count > 0 {
                         Text(unit)
+                            .lineLimit(1)
+                            .minimumScaleFactor(minimumScaleFactor)
                             .frame(maxWidth: .infinity, alignment: .center)
                             .font(.system(size: 8))
                     }

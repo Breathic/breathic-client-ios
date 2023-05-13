@@ -15,8 +15,16 @@ func colorize(_ color: String) -> Color {
     Color(red: COLORS[color]!.0 / 255, green: COLORS[color]!.1 / 255, blue: COLORS[color]!.2 / 255)
 }
 
+func getPreset(_ store: Store) -> Preset {
+    if store.state.activeSession.presetIndex > ACTIVITIES[store.state.activeSession.activityIndex].presets.count - 1 {
+        store.state.activeSession.presetIndex = 0
+    }
+    
+    return ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex]
+}
+
 func getRhythms(_ store: Store) -> [Float] {
-    ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.map { $0.rhythm }
+    return getPreset(store).breathingTypes.map { $0.rhythm }
 }
 
 func incrementPreset(_ store: Store) {

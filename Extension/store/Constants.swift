@@ -11,7 +11,6 @@ let SAMPLE_PATH: String = "/data/samples"
 let SAMPLE_EXTENSION: String = "m4a"
 let MAX_READING_TIMEOUT_S: Double = 15
 let MAX_READING_COUNT: Int = 100
-let DOWN_SCALE: Int = 1
 let CHANNEL_REPEAT_COUNT: Int = 128
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
@@ -70,11 +69,13 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 3.5
+                rhythm: 3.5,
+                format: "%.1f"
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 3.5
+                rhythm: 3.5,
+                format: "%.1f"
             )
         ]
     ),
@@ -96,11 +97,13 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2.5
+                rhythm: 2.5,
+                format: "%.1f"
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2.5
+                rhythm: 2.5,
+                format: "%.1f"
             )
         ]
     ),
@@ -185,16 +188,166 @@ let RIDE_PRESETS: [Preset] = [
         ]
     )
 ]
+let BOX_TRAINING_PRESETS: [Preset] = [
+    Preset(
+        key: "2",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 2
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                rhythm: 2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                rhythm: 2
+            )
+        ]
+    ),
+    Preset(
+        key: "4",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                rhythm: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                rhythm: 4
+            )
+        ]
+    ),
+    Preset(
+        key: "8",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                rhythm: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                rhythm: 8
+            )
+        ]
+    ),
+    Preset(
+        key: "16",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 16
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                rhythm: 16
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 16
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                rhythm: 16
+            )
+        ]
+    )
+]
+let DOUBLE_OUT_TRAINING_PRESETS: [Preset] = [
+    Preset(
+        key: "2",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 2
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 4
+            ),
+        ]
+    ),
+    Preset(
+        key: "4",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 8
+            ),
+        ]
+    ),
+    Preset(
+        key: "8",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 16
+            ),
+        ]
+    ),
+    Preset(
+        key: "16",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 16
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 32
+            ),
+        ]
+    )
+]
 let ACTIVITIES: [Activity] = [
     Activity(
-        key: "run",
-        label: "Run",
-        presets: RUN_PRESETS
+        key: "Run",
+        presets: RUN_PRESETS,
+        loopIntervalType: LoopIntervalType.Variable
     ),
     Activity(
-        key: "ride",
-        label: "Ride",
-        presets: RIDE_PRESETS
+        key: "Ride",
+        presets: RIDE_PRESETS,
+        loopIntervalType: LoopIntervalType.Variable
+    ),
+    Activity(
+        key: "Box Training",
+        presets: BOX_TRAINING_PRESETS,
+        loopIntervalType: LoopIntervalType.Fixed
+    ),
+    Activity(
+        key: "Double Out Training",
+        presets: DOUBLE_OUT_TRAINING_PRESETS,
+        loopIntervalType: LoopIntervalType.Fixed
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [

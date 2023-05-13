@@ -212,18 +212,33 @@ class Player {
     }
     
     func getSelectedRhythm() -> Double {
-        Double(getRhythms(store)[store.state.selectedRhythmIndex])
+        if store.state.selectedRhythmIndex > getRhythms(store).count - 1 {
+            store.state.selectedRhythmIndex = 0
+        }
+        
+        return Double(getRhythms(store)[store.state.selectedRhythmIndex])
     }
     
+    func getLoopIntervalType() -> LoopIntervalType {
+        return ACTIVITIES[store.state.activeSession.activityIndex].loopIntervalType
+    }
+        
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
         let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
         let pace = store.state.getMetricValue(metricType.metric)
         let isReversed = metricType.isReversed
         let selectedRhythm: Double = getSelectedRhythm()
-        var loopInterval: TimeInterval = isReversed ? selectedRhythm / 1 / Double(pace) : selectedRhythm / Double(pace)
-        loopInterval = loopInterval / Double(DOWN_SCALE)
+        let loopIntervalType: LoopIntervalType = getLoopIntervalType()
+        var loopInterval: TimeInterval = isReversed
+            ? selectedRhythm / 1 / Double(pace)
+            : selectedRhythm / Double(pace)
         loopInterval = loopInterval <= 0 ? 1 : loopInterval
         loopInterval = loopInterval * 60
+        
+        if loopIntervalType == LoopIntervalType.Fixed {
+            loopInterval = selectedRhythm
+        }
+
         return loopInterval
     }
     
@@ -277,10 +292,14 @@ class Player {
         let isAudio = isMusic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
         let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
         let isMuted = !(Float(store.state.activeSession.volume) > 0)
+        let isRhythmIndexAtStart = store.state.selectedRhythmIndex == 0
+        let isRhythmIndexInCentre = store.state.selectedRhythmIndex == getRhythms(store).count / 2
+        if isRhythmIndexAtStart || isRhythmIndexInCentre {
+            isPanningReversed = !isPanningReversed
+        }
         
         incrementSelectedRhythmIndex()
-        isPanningReversed = !isPanningReversed
-        
+                
         if isHaptic {
             setHaptic()
         }
@@ -402,7 +421,7 @@ class Player {
         let timestamp: Date = Date()
         let loopIntervalSum: TimeInterval = getLoopIntervalSum()
         
-        store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) / Float(DOWN_SCALE) * 60)
+        store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) * 60)
         
         ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.forEach {
             if $0.rhythm > 0 {

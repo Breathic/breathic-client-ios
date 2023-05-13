@@ -7,10 +7,18 @@ func controllerView(
     volume: Binding<Float>
 ) -> some View {
     func _getActivityValue(store: Store) -> String {
-        let presets = ACTIVITIES[store.state.activeSession.activityIndex].presets
-            .sorted { $0.key > $1.key }
-        return String(presets[store.state.activeSession.presetIndex].breathingTypes[0].rhythm) + ":" +
-            String(presets[store.state.activeSession.presetIndex].breathingTypes[1].rhythm)
+        let preset = getPreset(store)
+        
+        let labels = preset.breathingTypes.enumerated().map { (index, breathingType) in
+            var label = String(format: breathingType.format, breathingType.rhythm)
+            let isLastBreathingType = index + 1 == preset.breathingTypes.count
+            if !isLastBreathingType {
+                label = label + ":"
+            }
+            
+            return label
+        }
+        return labels.joined(separator: "")
     }
 
     return VStack {
@@ -98,10 +106,11 @@ func controllerView(
                 geometry: geometry,
                 label: "Activity",
                 value: _getActivityValue(store: store),
-                unit: ACTIVITIES[store.state.activeSession.activityIndex].label,
+                unit: ACTIVITIES[store.state.activeSession.activityIndex].key,
                 isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
                 isBlurred: !store.state.activeSession.isStarted(),
+                minimumScaleFactor: 0.75,
                 action: {
                     if store.state.activeSession.isStarted() {
                         incrementPreset(store)

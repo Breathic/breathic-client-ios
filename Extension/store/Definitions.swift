@@ -41,9 +41,15 @@ enum TimeUnit: String, Codable {
     case Minute = "minute"
 }
 
+enum LoopIntervalType: String, Codable {
+    case Variable = "variable"
+    case Fixed = "fixed"
+}
+
 struct BreathingType: Codable {
     var key: Breathe
     var rhythm: Float = 0
+    var format: String = "%.0f"
 }
 
 struct Preset: Codable {
@@ -53,8 +59,8 @@ struct Preset: Codable {
 
 struct Activity: Codable {
     var key: String = ""
-    var label: String = ""
     var presets: [Preset] = []
+    var loopIntervalType: LoopIntervalType
 }
 
 struct MetricType {
