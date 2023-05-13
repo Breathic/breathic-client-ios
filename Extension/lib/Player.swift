@@ -96,6 +96,7 @@ class Player {
             session.syncStatus = status
             saveSession(session)
             store.state.sessions = readSessions()
+            store.state.render()
         }
         
         if store.state.isSyncInProgress {
@@ -474,7 +475,11 @@ class Player {
         saveActiveSession(store.state.activeSession)
         location.traveledDistance = 0
         coordinator.invalidate()
-        sync([store.state.sessions[store.state.sessions.count - 1]])
+
+        if save {
+            sync([store.state.sessions[store.state.sessions.count - 1]])
+        }
+ 
         create()
     }
     
