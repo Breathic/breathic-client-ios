@@ -188,28 +188,7 @@ let RIDE_PRESETS: [Preset] = [
         ]
     )
 ]
-let BOX_TRAINING_PRESETS: [Preset] = [
-    Preset(
-        key: "2",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                rhythm: 2
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                rhythm: 2
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                rhythm: 2
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                rhythm: 2
-            )
-        ]
-    ),
+let BOX_PRESETS: [Preset] = [
     Preset(
         key: "4",
         breathingTypes: [
@@ -232,6 +211,27 @@ let BOX_TRAINING_PRESETS: [Preset] = [
         ]
     ),
     Preset(
+        key: "6",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                rhythm: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                rhythm: 6
+            )
+        ]
+    ),
+    Preset(
         key: "8",
         breathingTypes: [
             BreathingType(
@@ -249,6 +249,27 @@ let BOX_TRAINING_PRESETS: [Preset] = [
             BreathingType(
                 key: Breathe.BreatheOutHold,
                 rhythm: 8
+            )
+        ]
+    ),
+    Preset(
+        key: "12",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 12
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                rhythm: 12
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 12
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                rhythm: 12
             )
         ]
     ),
@@ -274,20 +295,7 @@ let BOX_TRAINING_PRESETS: [Preset] = [
         ]
     )
 ]
-let DOUBLE_OUT_TRAINING_PRESETS: [Preset] = [
-    Preset(
-        key: "2",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                rhythm: 2
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                rhythm: 4
-            ),
-        ]
-    ),
+let DOUBLE_OUT_PRESETS: [Preset] = [
     Preset(
         key: "4",
         breathingTypes: [
@@ -302,6 +310,19 @@ let DOUBLE_OUT_TRAINING_PRESETS: [Preset] = [
         ]
     ),
     Preset(
+        key: "6",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 12
+            ),
+        ]
+    ),
+    Preset(
         key: "8",
         breathingTypes: [
             BreathingType(
@@ -311,6 +332,19 @@ let DOUBLE_OUT_TRAINING_PRESETS: [Preset] = [
             BreathingType(
                 key: Breathe.BreatheOut,
                 rhythm: 16
+            ),
+        ]
+    ),
+    Preset(
+        key: "12",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                rhythm: 12
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                rhythm: 24
             ),
         ]
     ),
@@ -340,13 +374,13 @@ let ACTIVITIES: [Activity] = [
         loopIntervalType: LoopIntervalType.Variable
     ),
     Activity(
-        key: "Box Training",
-        presets: BOX_TRAINING_PRESETS,
+        key: "Box",
+        presets: BOX_PRESETS,
         loopIntervalType: LoopIntervalType.Fixed
     ),
     Activity(
-        key: "Double Out Training",
-        presets: DOUBLE_OUT_TRAINING_PRESETS,
+        key: "Double Out",
+        presets: DOUBLE_OUT_PRESETS,
         loopIntervalType: LoopIntervalType.Fixed
     )
 ]
