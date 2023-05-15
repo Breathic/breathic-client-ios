@@ -31,7 +31,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 geometry: geometry,
                 label: "Distance (k" + getMetric("distance").unit + ")",
                 value: String(format: getMetric("distance").format, store.state.getMetricValue("distance") / 1000),
-                valueColor: colorize("blue"),
+                valueColor: getMetric("distance").color,
                 valueTextSize: 32,
                 borderWidth: 0,
                 isTall: false,

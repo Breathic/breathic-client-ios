@@ -364,9 +364,14 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
 ]
 let ACTIVITIES: [Activity] = [
     Activity(
-        key: "Run",
-        presets: RUN_PRESETS,
-        loopIntervalType: LoopIntervalType.Variable
+        key: "Box Breath",
+        presets: BOX_PRESETS,
+        loopIntervalType: LoopIntervalType.Fixed
+    ),
+    Activity(
+        key: "Double Out Breath",
+        presets: DOUBLE_OUT_PRESETS,
+        loopIntervalType: LoopIntervalType.Fixed
     ),
     Activity(
         key: "Ride",
@@ -374,14 +379,9 @@ let ACTIVITIES: [Activity] = [
         loopIntervalType: LoopIntervalType.Variable
     ),
     Activity(
-        key: "Box",
-        presets: BOX_PRESETS,
-        loopIntervalType: LoopIntervalType.Fixed
-    ),
-    Activity(
-        key: "Double Out",
-        presets: DOUBLE_OUT_PRESETS,
-        loopIntervalType: LoopIntervalType.Fixed
+        key: "Run",
+        presets: RUN_PRESETS,
+        loopIntervalType: LoopIntervalType.Variable
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [
@@ -400,7 +400,7 @@ let METRIC_TYPES: [String: MetricType] = [
         abbreviation: "s",
         label: "Steps",
         unit: "min",
-        color: colorize("teal"),
+        color: colorize("blue"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
     "speed": MetricType(
@@ -468,6 +468,7 @@ let METRIC_TYPES: [String: MetricType] = [
         metric: "distance",
         abbreviation: "d",
         unit: "m",
+        color: colorize("teal"),
         format: "%.1f"
     ),
     "altitude": MetricType(
@@ -484,8 +485,8 @@ let COLORS: [String: (Double, Double, Double)] = [
     "black": (0, 0, 0),
     "white": (255, 255, 255),
     "red": (242, 16, 75),
-    "green": (26, 163, 109),
-    "blue": (0, 122, 255),
+    "green": (30, 217, 83),
+    "blue": (82, 148, 255),
     "yellow": (222, 252, 82),
     "teal": (3, 253, 252),
     "pink": (230, 0, 126),
