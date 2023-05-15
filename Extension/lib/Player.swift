@@ -451,7 +451,6 @@ class Player {
     
     func start() {
         store.state.setMetricValuesToDefault()
-        putToBackground(store: store)
         loadAudioSession()
         store.state.activeSession.start()
         playSession()
@@ -474,7 +473,6 @@ class Player {
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
         location.traveledDistance = 0
-        coordinator.invalidate()
 
         if save {
             sync([store.state.sessions[store.state.sessions.count - 1]])
@@ -489,6 +487,8 @@ class Player {
     }
     
     func playSession() {
+        coordinator.invalidate()
+        putToBackground(store: store)
         startReaders()
         store.state.activeSession.isPlaying = true
         store.state.render()
@@ -504,6 +504,7 @@ class Player {
     
     func pauseSession() {
         store.state.activeSession.isPlaying = false
+        coordinator.invalidate()
         stopReaders()
         pauseAudio()
         store.state.render()
