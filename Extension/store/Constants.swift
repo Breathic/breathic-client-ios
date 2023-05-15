@@ -400,7 +400,7 @@ let METRIC_TYPES: [String: MetricType] = [
         abbreviation: "s",
         label: "Steps",
         unit: "min",
-        color: colorize("blue"),
+        color: colorize("yellow"),
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
     "speed": MetricType(
@@ -409,7 +409,7 @@ let METRIC_TYPES: [String: MetricType] = [
         label: "Speed",
         unit: "m / s",
         isChartable: true,
-        color: colorize("yellow"),
+        color: colorize("blue"),
         defaultValue: Platform.isSimulator ? 10 : 0
     ),
     "breath": MetricType(
@@ -485,10 +485,10 @@ let COLORS: [String: (Double, Double, Double)] = [
     "black": (0, 0, 0),
     "white": (255, 255, 255),
     "red": (242, 16, 75),
-    "green": (30, 217, 83),
+    "green": (33, 196, 80),
     "blue": (82, 148, 255),
-    "yellow": (222, 252, 82),
-    "teal": (3, 253, 252),
+    "yellow": (187, 196, 27),
+    "teal": (17, 189, 188),
     "pink": (230, 0, 126),
     "purple": (160, 32, 240),
     "orange": (255, 87, 51),
