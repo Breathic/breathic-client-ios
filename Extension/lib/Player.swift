@@ -50,20 +50,22 @@ class Player {
     
     @objc func handleRouteChange(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-                return
+              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            return
         }
-
+                
         if reason == .oldDeviceUnavailable {
-            pauseSession()
+            if isAudio() {
+                pauseSession()
+            }
         }
         else {
             store.state.isAudioSessionLoaded = false
             loadAudioSession()
         }
     }
-
+    
     func setupNotifications() {
         NotificationCenter.default.addObserver(
             self,
@@ -208,8 +210,8 @@ class Player {
     
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1 < getRhythms(store).count
-            ? store.state.selectedRhythmIndex + 1
-            : 0
+        ? store.state.selectedRhythmIndex + 1
+        : 0
     }
     
     func getSelectedRhythm() -> Double {
@@ -223,7 +225,7 @@ class Player {
     func getLoopIntervalType() -> LoopIntervalType {
         return ACTIVITIES[store.state.activeSession.activityIndex].loopIntervalType
     }
-        
+    
     func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
         let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
         let pace = store.state.getMetricValue(metricType.metric)
@@ -231,15 +233,15 @@ class Player {
         let selectedRhythm: Double = getSelectedRhythm()
         let loopIntervalType: LoopIntervalType = getLoopIntervalType()
         var loopInterval: TimeInterval = isReversed
-            ? selectedRhythm / 1 / Double(pace)
-            : selectedRhythm / Double(pace)
+        ? selectedRhythm / 1 / Double(pace)
+        : selectedRhythm / Double(pace)
         loopInterval = loopInterval <= 0 ? 1 : loopInterval
         loopInterval = loopInterval * 60
         
         if loopIntervalType == LoopIntervalType.Fixed {
             loopInterval = selectedRhythm
         }
-
+        
         return loopInterval
     }
     
@@ -263,13 +265,13 @@ class Player {
         if hasSample {
             players[playerId]?.currentTime = 0
             players[playerId]?.numberOfLoops = isBreathing
-                ? 0
-                : -1
+            ? 0
+            : -1
         }
-
+        
         let fade = audios[audioIndex].fadeIndex > -1
-            ? fadeScale[audios[audioIndex].fadeIndex]
-            : 0
+        ? fadeScale[audios[audioIndex].fadeIndex]
+        : 0
         
         var volume = store.state.activeSession.volume / 100 * Float(fade)
         if !isBreathing {
@@ -277,7 +279,7 @@ class Player {
         }
         
         players[playerId]?.volume = volume
-
+        
         if volume > 0 {
             players[playerId]?.play()
             store.state.setMetricValue("sample-id", Float(sampleId)!)
@@ -288,9 +290,15 @@ class Player {
         }
     }
     
+    func isMusic() -> Bool {
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
+    }
+    
+    func isAudio() -> Bool {
+        isMusic() || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
+    }
+    
     func updateFeedback() {
-        let isMusic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
-        let isAudio = isMusic || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
         let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
         let isMuted = !(Float(store.state.activeSession.volume) > 0)
         let isRhythmIndexAtStart = store.state.selectedRhythmIndex == 0
@@ -304,7 +312,7 @@ class Player {
         if isHaptic {
             setHaptic()
         }
-
+        
         for (audioIndex, audio) in audios.enumerated() {
             audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
             
@@ -325,7 +333,7 @@ class Player {
             }
             
             for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
-                let isAudible = !isMuted && isAudio && (sequence.isBreathing || isMusic)
+                let isAudible = !isMuted && isAudio() && (sequence.isBreathing || isMusic())
 
                 if isAudible {
                     let sampleId = String(
@@ -400,7 +408,7 @@ class Player {
     
     func loop() {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
-        
+
         if !loopInterval.isInfinite && store.state.isAudioPlaying {
             Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { (timer: Timer) in
                 self.loop()
@@ -458,6 +466,7 @@ class Player {
     }
     
     func finish(save: Bool) {
+        store.state.isAudioPlaying = false
         pauseAudio()
         pauseSession()
 
@@ -495,8 +504,6 @@ class Player {
     }
     
     func pauseAudio() {
-        store.state.isAudioPlaying = false
-        
         players.keys.forEach {
             players[$0]?.pause()
         }
