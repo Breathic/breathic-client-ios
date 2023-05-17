@@ -592,9 +592,7 @@ class Player {
     }
     
     func takeFromBackground() {
-        if coordinator.state == .running {
-            coordinator.invalidate()
-        }
+        coordinator.invalidate()
     }
     
     func shuffle() {
