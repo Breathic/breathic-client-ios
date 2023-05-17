@@ -10,10 +10,10 @@ func controllerView(
         let preset = getPreset(store)
         
         let labels = preset.breathingTypes.enumerated().map { (index, breathingType) in
-            var label = String(format: breathingType.format, breathingType.rhythm)
+            var label = String(format: breathingType.format, breathingType.duration)
             let isLastBreathingType = index + 1 == preset.breathingTypes.count
             if !isLastBreathingType {
-                label = label + ":"
+                label = label + "-"
             }
             
             return label

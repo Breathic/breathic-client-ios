@@ -24,7 +24,7 @@ func getPreset(_ store: Store) -> Preset {
 }
 
 func getRhythms(_ store: Store) -> [Float] {
-    return getPreset(store).breathingTypes.map { $0.rhythm }
+    getPreset(store).breathingTypes.map { $0.duration }
 }
 
 func incrementPreset(_ store: Store) {

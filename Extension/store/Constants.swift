@@ -56,11 +56,11 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 4
+                duration: 4
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 4
+                duration: 4
             )
         ]
     ),
@@ -69,12 +69,12 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 3.5,
+                duration: 3.5,
                 format: "%.1f"
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 3.5,
+                duration: 3.5,
                 format: "%.1f"
             )
         ]
@@ -84,11 +84,11 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 3
+                duration: 3
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 3
+                duration: 3
             )
         ]
     ),
@@ -97,12 +97,12 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2.5,
+                duration: 2.5,
                 format: "%.1f"
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2.5,
+                duration: 2.5,
                 format: "%.1f"
             )
         ]
@@ -112,11 +112,11 @@ let RUN_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2
+                duration: 2
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2
+                duration: 2
             )
         ]
     )
@@ -127,11 +127,11 @@ let RIDE_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 6
+                duration: 6
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 6
+                duration: 6
             )
         ]
     ),
@@ -140,11 +140,11 @@ let RIDE_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 5
+                duration: 5
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 5
+                duration: 5
             )
         ]
     ),
@@ -153,11 +153,11 @@ let RIDE_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 4
+                duration: 4
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 4
+                duration: 4
             )
         ]
     ),
@@ -166,11 +166,11 @@ let RIDE_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 3
+                duration: 3
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 3
+                duration: 3
             )
         ]
     ),
@@ -179,11 +179,11 @@ let RIDE_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 2
+                duration: 2
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 2
+                duration: 2
             )
         ]
     )
@@ -194,19 +194,19 @@ let BOX_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 4
+                duration: 4
             ),
             BreathingType(
                 key: Breathe.BreatheInHold,
-                rhythm: 4
+                duration: 4
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 4
+                duration: 4
             ),
             BreathingType(
                 key: Breathe.BreatheOutHold,
-                rhythm: 4
+                duration: 4
             )
         ]
     ),
@@ -215,19 +215,19 @@ let BOX_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 6
+                duration: 6
             ),
             BreathingType(
                 key: Breathe.BreatheInHold,
-                rhythm: 6
+                duration: 6
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 6
+                duration: 6
             ),
             BreathingType(
                 key: Breathe.BreatheOutHold,
-                rhythm: 6
+                duration: 6
             )
         ]
     ),
@@ -236,19 +236,19 @@ let BOX_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 8
+                duration: 8
             ),
             BreathingType(
                 key: Breathe.BreatheInHold,
-                rhythm: 8
+                duration: 8
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 8
+                duration: 8
             ),
             BreathingType(
                 key: Breathe.BreatheOutHold,
-                rhythm: 8
+                duration: 8
             )
         ]
     ),
@@ -257,19 +257,19 @@ let BOX_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 12
+                duration: 12
             ),
             BreathingType(
                 key: Breathe.BreatheInHold,
-                rhythm: 12
+                duration: 12
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 12
+                duration: 12
             ),
             BreathingType(
                 key: Breathe.BreatheOutHold,
-                rhythm: 12
+                duration: 12
             )
         ]
     ),
@@ -278,19 +278,19 @@ let BOX_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 16
+                duration: 16
             ),
             BreathingType(
                 key: Breathe.BreatheInHold,
-                rhythm: 16
+                duration: 16
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 16
+                duration: 16
             ),
             BreathingType(
                 key: Breathe.BreatheOutHold,
-                rhythm: 16
+                duration: 16
             )
         ]
     )
@@ -301,11 +301,11 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 4
+                duration: 4
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 8
+                duration: 8
             ),
         ]
     ),
@@ -314,11 +314,11 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 6
+                duration: 6
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 12
+                duration: 12
             ),
         ]
     ),
@@ -327,11 +327,11 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 8
+                duration: 8
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 16
+                duration: 16
             ),
         ]
     ),
@@ -340,11 +340,11 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 12
+                duration: 12
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 24
+                duration: 24
             ),
         ]
     ),
@@ -353,11 +353,30 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
-                rhythm: 16
+                duration: 16
             ),
             BreathingType(
                 key: Breathe.BreatheOut,
-                rhythm: 32
+                duration: 32
+            ),
+        ]
+    )
+]
+let SLEEP_PRESETS: [Preset] = [
+    Preset(
+        key: "4-7-8",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 7
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 8
             ),
         ]
     )
@@ -382,6 +401,11 @@ let ACTIVITIES: [Activity] = [
         key: "Run",
         presets: RUN_PRESETS,
         loopIntervalType: LoopIntervalType.Variable
+    ),
+    Activity(
+        key: "Sleep",
+        presets: SLEEP_PRESETS,
+        loopIntervalType: LoopIntervalType.Fixed
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [

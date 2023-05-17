@@ -10,7 +10,7 @@ class Player {
     let step = Step()
     var location = Location()
     var heart = Heart()
-    var isPanningReversed: Bool = true
+    var isPanningReversed: Bool = false
     var fadeScale: [Float] = []
     var instruments: Instruments = [:]
     var channels: [Channel] = []
@@ -433,8 +433,8 @@ class Player {
         store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) * 60)
         
         ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.forEach {
-            if $0.rhythm > 0 {
-                store.state.setMetricValue($0.key.rawValue, $0.rhythm)
+            if $0.duration > 0 {
+                store.state.setMetricValue($0.key.rawValue, $0.duration)
             }
         }
         

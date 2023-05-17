@@ -10,7 +10,7 @@ enum SubView: String, Codable {
     case Guide = "Guide"
     case Terms = "Terms"
     case Menu = "Menu"
-    case Controller = "Controller"
+    case Controller = "Session"
     case Status = "Status"
     case Activity = "Activity"
     case Log = "Log"
@@ -48,7 +48,7 @@ enum LoopIntervalType: String, Codable {
 
 struct BreathingType: Codable {
     var key: Breathe
-    var rhythm: Float = 0
+    var duration: Float = 0
     var format: String = "%.0f"
 }
 
