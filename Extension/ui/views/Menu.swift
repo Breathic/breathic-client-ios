@@ -7,7 +7,7 @@ func menuView(
 ) -> some View {
     VStack {
         Picker("", selection: tempActiveSubView) {
-            ForEach(MENU_VIEWS[DEFAULT_PAGE]!, id: \.self) {
+            ForEach(MENU_VIEWS, id: \.self) {
                 if $0 == store.state.tempActiveSubView {
                     Text($0)
                         .font(.system(size: 18))
@@ -24,7 +24,7 @@ func menuView(
         .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
         .clipped()
         .onAppear() {
-            store.state.tempActiveSubView = MENU_VIEWS[DEFAULT_PAGE]![0]
+            store.state.tempActiveSubView = MENU_VIEWS[0]
         }
         .onTapGesture { selectMainMenu(geometry: geometry, store: store) }
 

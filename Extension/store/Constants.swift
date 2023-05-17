@@ -338,15 +338,15 @@ let DRAG_INDEXES: [String: Int] = [
     SubView.Controller.rawValue: 0,
     SubView.Status.rawValue: 1
 ]
-let MENU_VIEWS: [String: [String]] = [
-    Page.Main.rawValue: [
-        SubView.Controller.rawValue,
-        SubView.Status.rawValue,
-        SubView.Guide.rawValue,
-        SubView.Terms.rawValue,
-        SubView.Log.rawValue,
-    ],
-    Page.Overview.rawValue: ["", ""]
+let MENU_VIEWS: [String] = [
+    SubView.Controller.rawValue,
+    SubView.Guide.rawValue,
+    SubView.Terms.rawValue,
+    SubView.Log.rawValue
+]
+let SUB_VIEW: [String] = [
+    SubView.Controller.rawValue,
+    SubView.Status.rawValue,
 ]
 let DEFAULT_PAGE: String = Page.Main.rawValue
 let DEFAULT_ACTIVE_SUB_VIEW: String = SubView.Controller.rawValue

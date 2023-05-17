@@ -26,11 +26,11 @@ func onDragEnded(
 
     if store.state.pageOptions[store.state.page]!.dragXOffset < -width {
         store.state.pageOptions[store.state.page]!.dragIndex = 1
-        store.state.activeSubView = MENU_VIEWS[store.state.page]![1]
+        store.state.activeSubView = SUB_VIEW[1]
     }
     else if store.state.pageOptions[store.state.page]!.dragXOffset > -width {
         store.state.pageOptions[store.state.page]!.dragIndex = 0
-        store.state.activeSubView = MENU_VIEWS[store.state.page]![0]
+        store.state.activeSubView = SUB_VIEW[0]
     }
     else {
         store.state.pageOptions[store.state.page]!.dragXOffset = CGFloat(width)

@@ -8,7 +8,7 @@ func toolbarView(
                 action: {
                     store.state.activeSubView = store.state.activeSubView != SubView.Menu.rawValue
                         ? SubView.Menu.rawValue
-                        : MENU_VIEWS[DEFAULT_PAGE]![0]
+                        : MENU_VIEWS[0]
                     store.state.activeSubView = isOverviewSelected(store: store)
                         ? SubView.Log.rawValue
                         : store.state.activeSubView
