@@ -16,6 +16,10 @@ func colorize(_ color: String) -> Color {
 }
 
 func getPreset(_ store: Store) -> Preset {
+    if store.state.activeSession.activityIndex + 1 > ACTIVITIES.count {
+        store.state.activeSession.activityIndex = 0
+    }
+
     if store.state.activeSession.presetIndex > ACTIVITIES[store.state.activeSession.activityIndex].presets.count - 1 {
         store.state.activeSession.presetIndex = 0
     }

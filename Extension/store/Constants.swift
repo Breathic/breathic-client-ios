@@ -50,7 +50,30 @@ let SEQUENCES = [
         ]
     )
 ]
-let RUN_PRESETS: [Preset] = [
+let FOCUS_PRESETS: [Preset] = [
+    Preset(
+        key: "4-4-4-4",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 4
+            )
+        ]
+    )
+]
+let MOVE_PRESETS: [Preset] = [
     Preset(
         key: "4",
         breathingTypes: [
@@ -121,183 +144,9 @@ let RUN_PRESETS: [Preset] = [
         ]
     )
 ]
-let RIDE_PRESETS: [Preset] = [
+let RELAX_PRESETS: [Preset] = [
     Preset(
-        key: "6",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 6
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 6
-            )
-        ]
-    ),
-    Preset(
-        key: "5",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 5
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 5
-            )
-        ]
-    ),
-    Preset(
-        key: "4",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 4
-            )
-        ]
-    ),
-    Preset(
-        key: "3",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 3
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 3
-            )
-        ]
-    ),
-    Preset(
-        key: "2",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 2
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 2
-            )
-        ]
-    )
-]
-let BOX_PRESETS: [Preset] = [
-    Preset(
-        key: "4",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                duration: 4
-            )
-        ]
-    ),
-    Preset(
-        key: "6",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 6
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                duration: 6
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 6
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                duration: 6
-            )
-        ]
-    ),
-    Preset(
-        key: "8",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 8
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                duration: 8
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 8
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                duration: 8
-            )
-        ]
-    ),
-    Preset(
-        key: "12",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 12
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                duration: 12
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 12
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                duration: 12
-            )
-        ]
-    ),
-    Preset(
-        key: "16",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 16
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                duration: 16
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 16
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                duration: 16
-            )
-        ]
-    )
-]
-let DOUBLE_OUT_PRESETS: [Preset] = [
-    Preset(
-        key: "4",
+        key: "4-8",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -306,58 +155,6 @@ let DOUBLE_OUT_PRESETS: [Preset] = [
             BreathingType(
                 key: Breathe.BreatheOut,
                 duration: 8
-            ),
-        ]
-    ),
-    Preset(
-        key: "6",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 6
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 12
-            ),
-        ]
-    ),
-    Preset(
-        key: "8",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 8
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 16
-            ),
-        ]
-    ),
-    Preset(
-        key: "12",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 12
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 24
-            ),
-        ]
-    ),
-    Preset(
-        key: "16",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 16
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 32
             ),
         ]
     )
@@ -383,24 +180,19 @@ let SLEEP_PRESETS: [Preset] = [
 ]
 let ACTIVITIES: [Activity] = [
     Activity(
-        key: "Box Breath",
-        presets: BOX_PRESETS,
+        key: "Focus",
+        presets: FOCUS_PRESETS,
         loopIntervalType: LoopIntervalType.Fixed
     ),
     Activity(
-        key: "Double Out Breath",
-        presets: DOUBLE_OUT_PRESETS,
+        key: "Move",
+        presets: MOVE_PRESETS,
+        loopIntervalType: LoopIntervalType.Variable
+    ),
+    Activity(
+        key: "Relax",
+        presets: RELAX_PRESETS,
         loopIntervalType: LoopIntervalType.Fixed
-    ),
-    Activity(
-        key: "Ride",
-        presets: RIDE_PRESETS,
-        loopIntervalType: LoopIntervalType.Variable
-    ),
-    Activity(
-        key: "Run",
-        presets: RUN_PRESETS,
-        loopIntervalType: LoopIntervalType.Variable
     ),
     Activity(
         key: "Sleep",
