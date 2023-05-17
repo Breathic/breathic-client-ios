@@ -10,7 +10,6 @@ class Player {
     let step = Step()
     var location = Location()
     var heart = Heart()
-    var isPanningReversed: Bool = false
     var fadeScale: [Float] = []
     var instruments: Instruments = [:]
     var channels: [Channel] = []
@@ -18,6 +17,8 @@ class Player {
     var players: [String: AVAudioPlayer] = [:]
     var coordinator = WKExtendedRuntimeSession()
     var playback: [[Int]] = []
+    var breathTypes: [Breathe] = []
+    var breathIndex: Int = 0
     
     init() {
         /*
@@ -197,21 +198,10 @@ class Player {
         String(channelIndex) + forResource
     }
     
-    func setHaptic() {
-        if !Platform.isSimulator {
-            if isPanningReversed {
-                WKInterfaceDevice.current().play(.failure)
-            }
-            else {
-                WKInterfaceDevice.current().play(.success)
-            }
-        }
-    }
-    
     func incrementSelectedRhythmIndex() {
         store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1 < getRhythms(store).count
-        ? store.state.selectedRhythmIndex + 1
-        : 0
+            ? store.state.selectedRhythmIndex + 1
+            : 0
     }
     
     func getSelectedRhythm() -> Double {
@@ -220,6 +210,12 @@ class Player {
         }
         
         return Double(getRhythms(store)[store.state.selectedRhythmIndex])
+    }
+    
+    func incrementBreathIndex() {
+        breathIndex = breathIndex + 1 < ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.count
+                ? breathIndex + 1
+                : 0
     }
     
     func getLoopIntervalType() -> LoopIntervalType {
@@ -253,6 +249,12 @@ class Player {
             .reduce(0, +)
         
         return loopIntervalSum
+    }
+    
+    func setHaptic(_ hapticType: WKHapticType) {
+        if !Platform.isSimulator {
+            WKInterfaceDevice.current().play(hapticType)
+        }
     }
     
     func setAudio(
@@ -301,17 +303,6 @@ class Player {
     func updateFeedback() {
         let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
         let isMuted = !(Float(store.state.activeSession.volume) > 0)
-        let isRhythmIndexAtStart = store.state.selectedRhythmIndex == 0
-        let isRhythmIndexInCentre = store.state.selectedRhythmIndex == getRhythms(store).count / 2
-        if isRhythmIndexAtStart || isRhythmIndexInCentre {
-            isPanningReversed = !isPanningReversed
-        }
-        
-        incrementSelectedRhythmIndex()
-                
-        if isHaptic {
-            setHaptic()
-        }
         
         for (audioIndex, audio) in audios.enumerated() {
             audios[audioIndex].sampleIndex = audios[audioIndex].sampleIndex + 1
@@ -333,7 +324,17 @@ class Player {
             }
             
             for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
+                let breathType = sequence.isBreathing
+                    ? "-" + breathTypes[breathIndex].rawValue.replacingOccurrences(of: "-hold", with: "")
+                    : ""
                 let isAudible = !isMuted && isAudio() && (sequence.isBreathing || isMusic())
+                let isHaptable = sequence.isBreathing && isHaptic
+                if isHaptable {
+                    let hapticType: WKHapticType = breathType.contains(Breathe.BreatheIn.rawValue)
+                        ? .failure
+                        : .success
+                    setHaptic(hapticType)
+                }
 
                 if isAudible {
                     let sampleId = String(
@@ -342,11 +343,6 @@ class Player {
                         ]
                     )
                     let separator = "." + SAMPLE_EXTENSION
-                    let breathType = sequence.isBreathing
-                        ? !isPanningReversed
-                            ? "-" + Breathe.BreatheIn.rawValue
-                            : "-" + Breathe.BreatheOut.rawValue
-                        : ""
                     let playerId = sampleId + breathType + separator
                     let isSampleStillPlaying = detectSamplePlayingStatus(
                         sequence: sequence,
@@ -368,6 +364,9 @@ class Player {
                 }
             }
         }
+        
+        incrementSelectedRhythmIndex()
+        incrementBreathIndex()
     }
     
     func detectSamplePlayingStatus(
@@ -460,6 +459,9 @@ class Player {
     func start() {
         store.state.setMetricValuesToDefault()
         loadAudioSession()
+        breathIndex = 0
+        breathTypes = ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes
+            .map { $0.key }
         store.state.activeSession.start()
         playSession()
         store.state.render()
