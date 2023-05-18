@@ -18,14 +18,7 @@ func finishView(
             .tint(colorize("red"))
 
             Button(action: {
-                store.state.activeSubView = SubView.Save.rawValue
-
-                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer: Timer) in
-                    player.finish(save: true)
-                    let sessionIds: [String] = getSessionIds(sessions: store.state.sessions)
-                    store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
-                    onLogSelect(store: store)
-                }
+                player.prepareToFinish()
             }) {
                 Text("Save")
             }

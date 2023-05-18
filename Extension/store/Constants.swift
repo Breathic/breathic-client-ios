@@ -178,26 +178,38 @@ let SLEEP_PRESETS: [Preset] = [
         ]
     )
 ]
+let DEFAULT_DURATION_OPTIONS: [String] = [
+    "∞",
+    "5 minutes",
+    "10 minutes",
+    "15 minutes",
+    "30 minutes",
+    "60 minutes"
+]
 let ACTIVITIES: [Activity] = [
     Activity(
         key: "Focus",
         presets: FOCUS_PRESETS,
-        loopIntervalType: LoopIntervalType.Fixed
+        loopIntervalType: LoopIntervalType.Fixed,
+        durationOptions: DEFAULT_DURATION_OPTIONS
     ),
     Activity(
         key: "Move",
         presets: MOVE_PRESETS,
-        loopIntervalType: LoopIntervalType.Variable
+        loopIntervalType: LoopIntervalType.Variable,
+        durationOptions: DEFAULT_DURATION_OPTIONS
     ),
     Activity(
         key: "Relax",
         presets: RELAX_PRESETS,
-        loopIntervalType: LoopIntervalType.Fixed
+        loopIntervalType: LoopIntervalType.Fixed,
+        durationOptions: DEFAULT_DURATION_OPTIONS
     ),
     Activity(
         key: "Sleep",
         presets: SLEEP_PRESETS,
-        loopIntervalType: LoopIntervalType.Fixed
+        loopIntervalType: LoopIntervalType.Fixed,
+        durationOptions: DEFAULT_DURATION_OPTIONS
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [

@@ -12,6 +12,7 @@ struct AppState {
     var activeSession: Session = Session()
     var selectedSessionId: String = ""
     var selectedActivityId: String = ""
+    var selectedDurationId: String = DEFAULT_DURATION_OPTIONS[0]
     var ui: UI = UI()
     var sessions: [Session] = []
     var isAudioSessionLoaded: Bool = false

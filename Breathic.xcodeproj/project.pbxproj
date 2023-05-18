@@ -22,6 +22,7 @@
 		FD2D394C28BBDF9E009F1861 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D394B28BBDF9E009F1861 /* Constants.swift */; };
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
+		FD3EAA4C2A16174F0048E0A2 /* DurationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3EAA4B2A16174F0048E0A2 /* DurationPicker.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
 		FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = FD877CED29C89A6B007D95F6 /* EFQRCode */; };
 		FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */; };
@@ -96,6 +97,7 @@
 		FD2D395128BBE012009F1861 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FD359C542933802700F14B68 /* ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ExtensionDebug.entitlements; sourceTree = "<group>"; };
+		FD3EAA4B2A16174F0048E0A2 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD877D0229C8DD15007D95F6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				FDC2B0F12922B23D006F53C6 /* Overview.swift */,
 				FD11F27329D21F3C00E213EC /* Guide.swift */,
 				FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */,
+				FD3EAA4B2A16174F0048E0A2 /* DurationPicker.swift */,
 				FD2D392528BBDD99009F1861 /* Content.swift */,
 				FD17240629A23FAA003DAC6E /* Introduction.swift */,
 				FDBDAF6E29204CDD00F57DC1 /* Controller.swift */,
@@ -416,6 +419,7 @@
 				FDBDAF772920530900F57DC1 /* LogPicker.swift in Sources */,
 				FD8A9AB929DAEFD800A9A746 /* Save.swift in Sources */,
 				FD8A9AC929DD9C4400A9A746 /* DeviceCheck.swift in Sources */,
+				FD3EAA4C2A16174F0048E0A2 /* DurationPicker.swift in Sources */,
 				FD8E3EE7290AC4FF0048B2F7 /* Components.swift in Sources */,
 				FDC878A529A152B700579008 /* Styles.swift in Sources */,
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,

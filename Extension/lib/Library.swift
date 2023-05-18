@@ -60,6 +60,17 @@ func getElapsedTime(_ seconds: Int = 0) -> String {
     return elapsedTime
 }
 
+func getRemainingTime(
+    store: Store,
+    _ extraSeconds: Int = 0
+) -> Int {
+    let totalMinutes = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0]) ?? 0
+    let elapsedSeconds = store.state.activeSession.elapsedSeconds + extraSeconds
+    let durationS = totalMinutes * 60
+    let remainingTime = durationS - elapsedSeconds
+    return remainingTime
+}
+
 func getDistance(_ session: Session) -> Float {
     let timeseriesData = getTimeseriesData(
         uuid: session.uuid,

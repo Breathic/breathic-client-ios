@@ -20,17 +20,21 @@ func controllerView(
         }
         return labels.joined(separator: "")
     }
-
+    
     return VStack {
         HStack {
             primaryButton(
                 geometry: geometry,
                 label: "Session",
-                value: !store.state.activeSession.isStarted()
+                value: store.state.activeSession.durationIndex == 0
+                    ? store.state.activeSession.isPlaying
+                        ? DEFAULT_DURATION_OPTIONS[0]
+                        : " "
+                    : getElapsedTime(getRemainingTime(store: store)),
+                unit: !store.state.activeSession.isStarted()
                     ? "Start"
                     : "Finish",
                 isTall: true,
-                minimumScaleFactor: 0.75,
                 action: {
                     if !store.state.activeSession.isStarted() {
                         store.state.selectedActivityId = ACTIVITIES[0].key
@@ -45,13 +49,13 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Playback",
-                value: store.state.activeSession.isPlaying
+                value: " ",
+                unit: store.state.activeSession.isPlaying
                     ? "Pause"
                     : "Play",
                 isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
                 isBlurred: !store.state.activeSession.isStarted(),
-                minimumScaleFactor: 0.75,
                 action: {
                     if store.state.activeSession.isStarted() {
                         player.togglePlay()

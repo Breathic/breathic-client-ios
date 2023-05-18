@@ -89,6 +89,14 @@ struct ContentView: View {
                                 selectedActivityId: $store.state.selectedActivityId
                             )
 
+                        case SubView.Duration.rawValue:
+                            durationPickerView(
+                                geometry: geometry,
+                                store: store,
+                                player: player,
+                                selectedDurationId: $store.state.selectedDurationId
+                            )
+
                         case SubView.Log.rawValue:
                             logPickerView(
                                 geometry: geometry,

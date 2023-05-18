@@ -13,6 +13,7 @@ enum SubView: String, Codable {
     case Controller = "Session"
     case Status = "Status"
     case Activity = "Activity"
+    case Duration = "Duration"
     case Log = "Log"
     case Finish = "Finish"
     case Save = "Save"
@@ -61,6 +62,7 @@ struct Activity: Codable {
     var key: String = ""
     var presets: [Preset] = []
     var loopIntervalType: LoopIntervalType
+    var durationOptions: [String]
 }
 
 struct MetricType {

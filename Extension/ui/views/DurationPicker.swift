@@ -1,28 +1,25 @@
 import SwiftUI
 
-func activityPickerView(
+func durationPickerView(
     geometry: GeometryProxy,
     store: Store,
     player: Player,
-    selectedActivityId: Binding<String>
+    selectedDurationId: Binding<String>
 ) -> some View {
-    func _getActivityIds() -> [String] {
-        ACTIVITIES.map { $0.key }
-    }
+    let durationOptions = ACTIVITIES[store.state.activeSession.activityIndex].durationOptions
 
     func _select() {
-        let index = _getActivityIds()
-            .firstIndex(where: { $0 == store.state.selectedActivityId }) ?? -1
-
-        store.state.activeSession.activityIndex = index
-        store.state.activeSession.activityKey = ACTIVITIES[index].key
-        store.state.activeSubView = SubView.Duration.rawValue
+        let index = durationOptions.firstIndex(where: { $0 == store.state.selectedDurationId }) ?? 0
+        store.state.activeSession.durationIndex = index
+        player.create()
+        player.start()
+        store.state.activeSubView = SubView.Controller.rawValue
     }
-
+    
     return VStack {
-        Picker("", selection: selectedActivityId) {
-            ForEach(_getActivityIds(), id: \.self) {
-                if $0 == store.state.selectedActivityId {
+        Picker("", selection: selectedDurationId) {
+            ForEach(durationOptions, id: \.self) {
+                if $0 == store.state.selectedDurationId {
                     Text($0.capitalized)
                         .font(.system(size: 16))
                         .fontWeight(.bold)
@@ -38,7 +35,7 @@ func activityPickerView(
         .frame(width: geometry.size.width, height: geometry.size.height * store.state.ui.height)
         .clipped()
         .onTapGesture { _select() }
-
+        
         HStack {
             secondaryButton(text: "Select", color: "green", action: { _select() })
         }

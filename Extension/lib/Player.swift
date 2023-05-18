@@ -409,13 +409,20 @@ class Player {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
         if !loopInterval.isInfinite && store.state.isAudioPlaying {
+            let hasTimeLeft: Bool = store.state.activeSession.durationIndex == 0 || getRemainingTime(store: store, Int(loopInterval)) > 0
+            if !hasTimeLeft {
+                store.state.activeSession.elapsedSeconds = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0])! * 60
+                prepareToFinish()
+                return
+            }
+            
             Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { (timer: Timer) in
                 self.loop()
             }
             
             if self.store.state.activeSession.isPlaying {
-                self.updateFeedback()
-                self.updateGraph()
+                updateFeedback()
+                updateGraph()
             }
         }
         else {
@@ -465,6 +472,18 @@ class Player {
         store.state.activeSession.start()
         playSession()
         store.state.render()
+    }
+    
+    func prepareToFinish() {
+        store.state.activeSession.isPlaying = false
+        store.state.activeSubView = SubView.Save.rawValue
+
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer: Timer) in
+            self.finish(save: true)
+            let sessionIds: [String] = getSessionIds(sessions: self.store.state.sessions)
+            self.store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
+            onLogSelect(store: self.store)
+        }
     }
     
     func finish(save: Bool) {
