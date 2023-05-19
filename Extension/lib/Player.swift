@@ -263,9 +263,9 @@ class Player {
     func finishNotification(_ index: Int = 0) {
         playHaptic(.success)
 
-        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY_S / Double(FINISH_NOTIFICATION_COUNT), repeats: false) { timer in
-            let newIndex = index + 1
-            if newIndex < FINISH_NOTIFICATION_COUNT {
+        let newIndex = index + 1
+        if newIndex < FINISH_NOTIFICATION_COUNT {
+            Timer.scheduledTimer(withTimeInterval: FINISH_NOTIFICATION_DELAY_S, repeats: false) { timer in
                 self.finishNotification(newIndex)
             }
         }
