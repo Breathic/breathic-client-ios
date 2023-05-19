@@ -21,7 +21,7 @@ let MUSIC_VOLUME_PCT: Float = 0.02
 let PICKER_RANDOM_COUNT: Int = 3
 let RHYTHM_RANGE: [Float] = [0.5, 10]
 let RHYTHMS: [Float] = [2, 2]
-let FINISH_DELAY: Double = 0.5
+let FINISH_DELAY_S: Double = 2
 let FINISH_NOTIFICATION_COUNT: Int = 5
 let SEQUENCES = [
     Sequence(

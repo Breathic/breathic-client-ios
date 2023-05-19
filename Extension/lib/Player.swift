@@ -294,9 +294,9 @@ class Player {
     }
     
     func finishNotification(_ index: Int = 0) {
-        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY * 2 / Double(FINISH_NOTIFICATION_COUNT), repeats: false) { timer in
-            self.setHaptic(.failure)
+        setHaptic(.success)
 
+        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY_S / Double(FINISH_NOTIFICATION_COUNT), repeats: false) { timer in
             let newIndex = index + 1
             if newIndex < FINISH_NOTIFICATION_COUNT {
                 self.finishNotification(newIndex)
@@ -494,7 +494,7 @@ class Player {
         store.state.activeSubView = SubView.Save.rawValue
         finishNotification()
 
-        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY, repeats: false) { (timer: Timer) in
+        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY_S, repeats: false) { (timer: Timer) in
             self.finish(save: true)
             let sessionIds: [String] = getSessionIds(sessions: self.store.state.sessions)
             self.store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
