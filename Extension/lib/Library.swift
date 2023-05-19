@@ -32,7 +32,7 @@ func getRhythms(_ store: Store) -> [Float] {
 }
 
 func incrementPreset(_ store: Store) {
-    store.state.activeSession.presetIndex = store.state.activeSession.presetIndex + 1 == store.state.activity.presets.count
+    store.state.activeSession.presetIndex = store.state.activeSession.presetIndex + 1 == ACTIVITIES[store.state.activeSession.activityIndex].presets.count
         ? 0
         : store.state.activeSession.presetIndex + 1
 }

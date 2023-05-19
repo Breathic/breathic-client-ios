@@ -105,11 +105,14 @@ class Session: ObservableObject, Codable {
         do {
             let encodedData = try JSONEncoder().encode(self)
             let session = try JSONDecoder().decode(Session.self, from: encodedData)
+            session.activityKey = ACTIVITIES[0].key
             session.isPlaying = false
             session.endTime = nil
             session.elapsedSeconds = 0
             session.distance = 0
             session.syncStatus = SyncStatus.Syncable
+            session.activityIndex = 0
+            session.presetIndex = 0
             session.durationIndex = 0
             result = session
         } catch {

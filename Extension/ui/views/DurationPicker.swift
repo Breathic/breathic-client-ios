@@ -37,6 +37,9 @@ func durationPickerView(
         .onTapGesture { _select() }
         
         HStack {
+            secondaryButton(text: "Cancel", color: "blue", action: {
+                store.state.activeSubView = SubView.Activity.rawValue
+            })
             secondaryButton(text: "Select", color: "green", action: { _select() })
         }
     }

@@ -40,6 +40,9 @@ func activityPickerView(
         .onTapGesture { _select() }
 
         HStack {
+            secondaryButton(text: "Cancel", color: "blue", action: {
+                store.state.activeSubView = DEFAULT_ACTIVE_SUB_VIEW
+            })
             secondaryButton(text: "Select", color: "green", action: { _select() })
         }
     }
