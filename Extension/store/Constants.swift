@@ -198,7 +198,7 @@ let ACTIVITIES: [Activity] = [
     Activity(
         key: "Move",
         presets: MOVE_PRESETS,
-        loopIntervalType: LoopIntervalType.Variable,
+        loopIntervalType: LoopIntervalType.Varied,
         durationOptions: DEFAULT_DURATION_OPTIONS
     ),
     Activity(
@@ -218,7 +218,7 @@ let METRIC_TYPES: [String: MetricType] = [
     "heart": MetricType(
         metric: "heart",
         abbreviation: "h",
-        label: "Heartrate",
+        label: "Heart rate",
         unit: "min",
         isSource: true,
         isChartable: true,
@@ -228,9 +228,10 @@ let METRIC_TYPES: [String: MetricType] = [
     "step": MetricType(
         metric: "step",
         abbreviation: "s",
-        label: "Steps",
+        label: "Step rate",
         unit: "min",
         color: colorize("yellow"),
+        format: "%.1f",
         defaultValue: Platform.isSimulator ? 60 : 0
     ),
     "speed": MetricType(
@@ -240,15 +241,17 @@ let METRIC_TYPES: [String: MetricType] = [
         unit: "m / s",
         isChartable: true,
         color: colorize("blue"),
+        format: "%.1f",
         defaultValue: Platform.isSimulator ? 10 : 0
     ),
     "breath": MetricType(
         metric: "breath",
         abbreviation: "b",
-        label: "Breaths",
+        label: "Breath rate",
         unit: "min",
         isChartable: true,
-        color: colorize("green")
+        color: colorize("green"),
+        format: "%.1f"
     ),
     "breathe-in": MetricType(
         metric: "breathe-in",
@@ -318,7 +321,7 @@ let COLORS: [String: (Double, Double, Double)] = [
     "green": (33, 196, 80),
     "blue": (82, 148, 255),
     "yellow": (187, 196, 27),
-    "teal": (17, 189, 188),
+    "teal": (29, 209, 208),
     "pink": (230, 0, 126),
     "purple": (160, 32, 240),
     "orange": (255, 87, 51),
@@ -330,10 +333,6 @@ let METRIC_ORDER: [String] = [
     "heart",
     "step",
     "speed",
-    "breathe-in",
-    "breathe-in-hold",
-    "breathe-out",
-    "breathe-out-hold",
     "altitude",
 ]
 let FEEDBACK_MODES: [Feedback] = [

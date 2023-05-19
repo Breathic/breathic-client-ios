@@ -27,6 +27,12 @@ func primaryButton(
 
     let blur: Double = 3
     let blurredOpacity: Double = 0.5
+    
+    func _parseValue(_ value: String) -> String {
+        value.count > 0 && Float(value) == 0.0
+            ? "0"
+            : value
+    }
 
     return Button(action: {}) {
         VStack {
@@ -45,7 +51,7 @@ func primaryButton(
                     if value.count > 0 {
                         Spacer(minLength: isTall ? 8 : 2)
 
-                        Text(value)
+                        Text(_parseValue(value))
                             .lineLimit(1)
                             .minimumScaleFactor(minimumScaleFactor)
                             .font(.system(size: isShort ? 12 : valueTextSize))

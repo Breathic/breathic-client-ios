@@ -43,7 +43,7 @@ enum TimeUnit: String, Codable {
 }
 
 enum LoopIntervalType: String, Codable {
-    case Variable = "variable"
+    case Varied = "varied"
     case Fixed = "fixed"
 }
 

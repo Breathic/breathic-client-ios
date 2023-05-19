@@ -36,7 +36,9 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 borderWidth: 0,
                 isTall: false,
                 isEnabled: false,
-                minimumScaleFactor: 0.7
+                minimumScaleFactor: store.state.getMetricValue("distance") > 0
+                    ? 0.7
+                    : 1
             )
 
             Spacer(minLength: 8)

@@ -214,42 +214,9 @@ class Player {
     }
     
     func incrementBreathIndex() {
-        breathIndex = breathIndex + 1 < ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.count
-                ? breathIndex + 1
-                : 0
-    }
-    
-    func getLoopIntervalType() -> LoopIntervalType {
-        return ACTIVITIES[store.state.activeSession.activityIndex].loopIntervalType
-    }
-    
-    func getLoopInterval(selectedRhythmIndex: Int) -> TimeInterval {
-        let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
-        let pace = store.state.getMetricValue(metricType.metric)
-        let isReversed = metricType.isReversed
-        let selectedRhythm: Double = getSelectedRhythm()
-        let loopIntervalType: LoopIntervalType = getLoopIntervalType()
-        var loopInterval: TimeInterval = isReversed
-        ? selectedRhythm / 1 / Double(pace)
-        : selectedRhythm / Double(pace)
-        loopInterval = loopInterval <= 0 ? 1 : loopInterval
-        loopInterval = loopInterval * 60
-        
-        if loopIntervalType == LoopIntervalType.Fixed {
-            loopInterval = selectedRhythm
-        }
-        
-        return loopInterval
-    }
-    
-    func getLoopIntervalSum() -> TimeInterval {
-        let loopIntervalSum: TimeInterval = getRhythms(store).enumerated()
-            .map { (index, _) in
-                return getLoopInterval(selectedRhythmIndex: index)
-            }
-            .reduce(0, +)
-        
-        return loopIntervalSum
+        breathIndex = breathIndex + 1 < getBreathingTypes(store: store).count
+            ? breathIndex + 1
+            : 0
     }
     
     func setHaptic(_ hapticType: WKHapticType) {
@@ -419,7 +386,7 @@ class Player {
     }
     
     func loop() {
-        let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
+        let loopInterval: TimeInterval = getLoopInterval()
 
         if !loopInterval.isInfinite && store.state.isAudioPlaying {
             isLoopStarted = true
@@ -437,7 +404,7 @@ class Player {
             
             if self.store.state.activeSession.isPlaying {
                 updateFeedback()
-                updateGraph()
+                updateGraph(loopInterval: loopInterval)
             }
         }
         else {
@@ -447,17 +414,52 @@ class Player {
         }
     }
     
-    func updateGraph() {
-        let timestamp: Date = Date()
-        let loopIntervalSum: TimeInterval = getLoopIntervalSum()
+    func getLoopIntervalType() -> LoopIntervalType {
+        return ACTIVITIES[store.state.activeSession.activityIndex].loopIntervalType
+    }
+    
+    func getLoopInterval() -> TimeInterval {
+        let metricType = METRIC_TYPES[getSourceMetricTypes()[store.state.activeSession.metricTypeIndex]]!
+        let pace = store.state.getMetricValue(metricType.metric)
+        let isReversed = metricType.isReversed
+        let selectedRhythm: Double = getSelectedRhythm()
+        var loopInterval: TimeInterval = isReversed
+        ? selectedRhythm / 1 / Double(pace)
+        : selectedRhythm / Double(pace)
+        loopInterval = loopInterval <= 0 ? 1 : loopInterval
+        loopInterval = loopInterval * 60
         
-        store.state.setMetricValue("breath", 1 / Float(loopIntervalSum) * 60)
-        
-        ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes.forEach {
-            if $0.duration > 0 {
-                store.state.setMetricValue($0.key.rawValue, $0.duration)
-            }
+        if getLoopIntervalType() == LoopIntervalType.Fixed {
+            loopInterval = selectedRhythm
         }
+        
+        return loopInterval
+    }
+    
+    func getBreathingTypes(store: Store) -> [BreathingType] {
+        ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes
+    }
+
+    func getAverageBreathratePerMinute() -> Float {
+        getLoopIntervalType() == LoopIntervalType.Varied
+            ? 60 / Float(getLoopInterval()) / Float(breathTypes.count)
+            : 60 / getBreathingTypes(store: store)
+                .map { $0.duration }
+                .reduce(0, +)
+    }
+    
+    func getLoopIntervalSum() -> TimeInterval {
+        getRhythms(store)
+            .enumerated()
+            .map { _ in getLoopInterval() }
+            .reduce(0, +)
+    }
+    
+    func updateGraph(loopInterval: TimeInterval) {
+        let timestamp: Date = Date()
+
+        store.state.setMetricValue(breathTypes[breathIndex].rawValue, Float(loopInterval))
+        store.state.setMetricValue("breath", getAverageBreathratePerMinute())
         
         for metric in store.state.metrics.keys {
             let value: Float = store.state.getMetricValue(metric)
@@ -481,7 +483,7 @@ class Player {
     func start() {
         store.state.setMetricValuesToDefault()
         loadAudioSession()
-        breathTypes = ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes
+        breathTypes = getBreathingTypes(store: store)
             .map { $0.key }
         breathIndex = breathTypes.count - 1
         store.state.activeSession.start()
