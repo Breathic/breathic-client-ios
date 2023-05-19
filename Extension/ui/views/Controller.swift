@@ -49,7 +49,13 @@ func controllerView(
             primaryButton(
                 geometry: geometry,
                 label: "Playback",
-                value: " ",
+                value: store.state.activeSession.isPlaying && player.isLoopStarted
+                ? player.breathTypes[player.breathIndex].rawValue
+                    .replacingOccurrences(of: "breathe-", with: "")
+                    .replacingOccurrences(of: "in-hold", with: "hold")
+                    .replacingOccurrences(of: "out-hold", with: "hold")
+                    .capitalized
+                : " ",
                 unit: store.state.activeSession.isPlaying
                     ? "Pause"
                     : "Play",

@@ -19,6 +19,7 @@ class Player {
     var playback: [[Int]] = []
     var breathTypes: [Breathe] = []
     var breathIndex: Int = 0
+    var isLoopStarted: Bool = false
     
     init() {
         /*
@@ -312,6 +313,8 @@ class Player {
     }
     
     func updateFeedback() {
+        incrementBreathIndex()
+        
         let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
         let isMuted = !(Float(store.state.activeSession.volume) > 0)
         
@@ -377,7 +380,6 @@ class Player {
         }
         
         incrementSelectedRhythmIndex()
-        incrementBreathIndex()
     }
     
     func detectSamplePlayingStatus(
@@ -420,6 +422,8 @@ class Player {
         let loopInterval: TimeInterval = getLoopInterval(selectedRhythmIndex: store.state.selectedRhythmIndex)
 
         if !loopInterval.isInfinite && store.state.isAudioPlaying {
+            isLoopStarted = true
+ 
             let hasTimeLeft: Bool = store.state.activeSession.durationIndex == 0 || getRemainingTime(store: store, Int(loopInterval)) > 0
             if !hasTimeLeft {
                 store.state.activeSession.elapsedSeconds = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0])! * 60
@@ -477,9 +481,9 @@ class Player {
     func start() {
         store.state.setMetricValuesToDefault()
         loadAudioSession()
-        breathIndex = 0
         breathTypes = ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes
             .map { $0.key }
+        breathIndex = breathTypes.count - 1
         store.state.activeSession.start()
         playSession()
         store.state.render()
@@ -537,6 +541,7 @@ class Player {
     }
     
     func pauseAudio() {
+        isLoopStarted = false
         players.keys.forEach {
             players[$0]?.pause()
         }
