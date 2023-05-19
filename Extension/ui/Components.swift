@@ -29,7 +29,7 @@ func primaryButton(
     let blurredOpacity: Double = 0.5
     
     func _parseValue(_ value: String) -> String {
-        value.count > 0 && Float(value) == 0.0
+        value.count > 0 && Float(value) != nil && Float(value)! == 0
             ? "0"
             : value
     }
@@ -42,7 +42,7 @@ func primaryButton(
                         HStack {
                             Text(label)
                                 .lineLimit(1)
-                                .minimumScaleFactor(0.8)
+                                .minimumScaleFactor(0.7)
                                 .font(.system(size: 10))
                         }
                         .frame(maxWidth: .infinity, alignment: .topLeading)

@@ -19,7 +19,6 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                         isTall: false,
                         isEnabled: false
                     )
-
                 }
             }
 

@@ -219,13 +219,13 @@ class Player {
             : 0
     }
     
-    func setHaptic(_ hapticType: WKHapticType) {
+    func playHaptic(_ hapticType: WKHapticType) {
         if !Platform.isSimulator {
             WKInterfaceDevice.current().play(hapticType)
         }
     }
     
-    func setAudio(
+    func playAudio(
         sampleId: String,
         playerId: String,
         audioIndex: Int,
@@ -261,7 +261,7 @@ class Player {
     }
     
     func finishNotification(_ index: Int = 0) {
-        setHaptic(.success)
+        playHaptic(.success)
 
         Timer.scheduledTimer(withTimeInterval: FINISH_DELAY_S / Double(FINISH_NOTIFICATION_COUNT), repeats: false) { timer in
             let newIndex = index + 1
@@ -314,7 +314,7 @@ class Player {
                     let hapticType: WKHapticType = breathType.contains(Breathe.BreatheIn.rawValue)
                         ? .failure
                         : .success
-                    setHaptic(hapticType)
+                    playHaptic(hapticType)
                 }
 
                 if isAudible {
@@ -331,7 +331,7 @@ class Player {
                     )
                     
                     if isSampleStillPlaying {
-                        setAudio(
+                        playAudio(
                             sampleId: sampleId,
                             playerId: playerId,
                             audioIndex: audioIndex,
@@ -386,36 +386,42 @@ class Player {
     }
     
     func loop() {
+        func _defaultLoop() {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer: Timer) in
+                self.loop()
+            }
+        }
+
         let loopInterval: TimeInterval = getLoopInterval()
 
         if !loopInterval.isInfinite && store.state.isAudioPlaying {
             isLoopStarted = true
  
             let hasTimeLeft: Bool = store.state.activeSession.durationIndex == 0 || getRemainingTime(store: store, Int(loopInterval)) > 0
-            if !hasTimeLeft {
+
+            if hasTimeLeft {
+                Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { (timer: Timer) in
+                    self.loop()
+                }
+                
+                if self.store.state.activeSession.isPlaying {
+                    updateFeedback()
+                    updateGraph(loopInterval: loopInterval)
+                }
+            }
+            else {
                 store.state.activeSession.elapsedSeconds = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0])! * 60
                 preFinish()
-                return
-            }
-            
-            Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { (timer: Timer) in
-                self.loop()
-            }
-            
-            if self.store.state.activeSession.isPlaying {
-                updateFeedback()
-                updateGraph(loopInterval: loopInterval)
+                _defaultLoop()
             }
         }
         else {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer: Timer) in
-                self.loop()
-            }
+            _defaultLoop()
         }
     }
     
     func getLoopIntervalType() -> LoopIntervalType {
-        return ACTIVITIES[store.state.activeSession.activityIndex].loopIntervalType
+        ACTIVITIES[store.state.activeSession.activityIndex].loopIntervalType
     }
     
     func getLoopInterval() -> TimeInterval {
