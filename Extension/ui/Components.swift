@@ -11,7 +11,7 @@ func primaryButton(
     index: Int = -1,
     maxIndex: Int = -1,
     valueColor: Color = Color.white,
-    valueTextSize: CGFloat = 14,
+    valueTextSize: CGFloat = 16,
     borderWidth: Double = 1,
     isWide: Bool = false,
     isShort: Bool = false,
@@ -39,6 +39,8 @@ func primaryButton(
             HStack {
                 VStack {
                     if label.count > 0 {
+                        Spacer(minLength: 8)
+                        
                         HStack {
                             Text(label)
                                 .lineLimit(1)
@@ -49,7 +51,7 @@ func primaryButton(
                     }
 
                     if value.count > 0 {
-                        Spacer(minLength: isTall ? 8 : 2)
+                        Spacer(minLength: 4)
 
                         Text(_parseValue(value))
                             .lineLimit(1)
@@ -58,12 +60,12 @@ func primaryButton(
                             .fontWeight(.bold)
                             .foregroundColor(valueColor)
                             .underline(isActive)
+                            .frame(minHeight: 32)
                     }
 
                     if unit.count > 0 {
                         Text(unit)
                             .lineLimit(1)
-                            .minimumScaleFactor(minimumScaleFactor)
                             .frame(maxWidth: .infinity, alignment: .center)
                             .font(.system(size: 8))
                     }
@@ -75,7 +77,7 @@ func primaryButton(
             }
             .frame(alignment: .center)
 
-            Spacer(minLength: 4)
+            Spacer(minLength: 8)
         }
     }
     .frame(width: geometry.size.width / (isWide ? 1 : 2) - 4)

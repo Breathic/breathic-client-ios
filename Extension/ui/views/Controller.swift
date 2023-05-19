@@ -13,7 +13,7 @@ func controllerView(
             var label = String(format: breathingType.format, breathingType.duration)
             let isLastBreathingType = index + 1 == preset.breathingTypes.count
             if !isLastBreathingType {
-                label = label + "-"
+                label = label + ":"
             }
             
             return label
@@ -120,7 +120,7 @@ func controllerView(
                 isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
                 isBlurred: !store.state.activeSession.isStarted(),
-                minimumScaleFactor: 0.75,
+                minimumScaleFactor: 0.55,
                 action: {
                     if store.state.activeSession.isStarted() {
                         incrementPreset(store)

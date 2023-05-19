@@ -530,6 +530,8 @@ class Player {
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
         location.traveledDistance = 0
+        location.startLocation = nil
+        location.lastLocation = nil
 
         if save {
             sync([store.state.sessions[store.state.sessions.count - 1]])

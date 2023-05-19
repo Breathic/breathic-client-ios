@@ -34,10 +34,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 valueTextSize: 32,
                 borderWidth: 0,
                 isTall: false,
-                isEnabled: false,
-                minimumScaleFactor: store.state.getMetricValue("distance") > 0
-                    ? 0.7
-                    : 1
+                isEnabled: false
             )
 
             Spacer(minLength: 8)
@@ -46,7 +43,6 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 geometry: geometry,
                 label: "Duration",
                 value: getElapsedTime(store.state.activeSession.elapsedSeconds),
-                unit: " ",
                 valueColor: colorize("white"),
                 valueTextSize: 32,
                 borderWidth: 0,

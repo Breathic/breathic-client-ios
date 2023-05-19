@@ -76,9 +76,116 @@ let FOCUS_PRESETS: [Preset] = [
         ]
     )
 ]
-let MOVE_PRESETS: [Preset] = [
+let MOVE_SLOW_PRESETS: [Preset] = [
     Preset(
-        key: "4",
+        key: "8-8-8-8",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 8
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 8
+            ),
+        ]
+    ),
+    Preset(
+        key: "7-7-7-7",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 7
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 7
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 7
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 7
+            ),
+        ]
+    ),
+    Preset(
+        key: "6-6-6-6",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 6
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 6
+            ),
+        ]
+    ),
+    Preset(
+        key: "5-5-5-5",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 5
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 5
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 5
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 5
+            ),
+        ]
+    ),
+    Preset(
+        key: "4-4-4-4",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 4
+            ),
+        ]
+    )
+]
+let MOVE_FAST_PRESETS: [Preset] = [
+    Preset(
+        key: "4-4",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -91,7 +198,7 @@ let MOVE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "3.5",
+        key: "3.5-3.5",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -106,7 +213,7 @@ let MOVE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "3",
+        key: "3-3",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -119,7 +226,7 @@ let MOVE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "2.5",
+        key: "2.5-2.5",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -134,7 +241,7 @@ let MOVE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "2",
+        key: "2-2",
         breathingTypes: [
             BreathingType(
                 key: Breathe.BreatheIn,
@@ -158,7 +265,7 @@ let RELAX_PRESETS: [Preset] = [
             BreathingType(
                 key: Breathe.BreatheOut,
                 duration: 8
-            ),
+            )
         ]
     )
 ]
@@ -177,7 +284,7 @@ let SLEEP_PRESETS: [Preset] = [
             BreathingType(
                 key: Breathe.BreatheOut,
                 duration: 8
-            ),
+            )
         ]
     )
 ]
@@ -197,8 +304,14 @@ let ACTIVITIES: [Activity] = [
         durationOptions: DEFAULT_DURATION_OPTIONS
     ),
     Activity(
-        key: "Move",
-        presets: MOVE_PRESETS,
+        key: "Move (slow)",
+        presets: MOVE_SLOW_PRESETS,
+        loopIntervalType: LoopIntervalType.Varied,
+        durationOptions: DEFAULT_DURATION_OPTIONS
+    ),
+    Activity(
+        key: "Move (fast)",
+        presets: MOVE_FAST_PRESETS,
         loopIntervalType: LoopIntervalType.Varied,
         durationOptions: DEFAULT_DURATION_OPTIONS
     ),
