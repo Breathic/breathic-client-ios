@@ -20,6 +20,9 @@ class Player {
     var breathTypes: [Breathe] = []
     var breathIndex: Int = 0
     var isLoopStarted: Bool = false
+    var selectedRhythmIndex: Int = 0
+    var isAudioSessionLoaded: Bool = false
+    var isAudioPlaying: Bool = false
     
     init() {
         /*
@@ -63,7 +66,7 @@ class Player {
             }
         }
         else {
-            store.state.isAudioSessionLoaded = false
+            isAudioSessionLoaded = false
             loadAudioSession()
         }
     }
@@ -200,17 +203,17 @@ class Player {
     }
     
     func incrementSelectedRhythmIndex() {
-        store.state.selectedRhythmIndex = store.state.selectedRhythmIndex + 1 < getRhythms(store).count
-            ? store.state.selectedRhythmIndex + 1
+        selectedRhythmIndex = selectedRhythmIndex + 1 < getRhythms(store).count
+            ? selectedRhythmIndex + 1
             : 0
     }
     
     func getSelectedRhythm() -> Double {
-        if store.state.selectedRhythmIndex > getRhythms(store).count - 1 {
-            store.state.selectedRhythmIndex = 0
+        if selectedRhythmIndex > getRhythms(store).count - 1 {
+            selectedRhythmIndex = 0
         }
         
-        return Double(getRhythms(store)[store.state.selectedRhythmIndex])
+        return Double(getRhythms(store)[selectedRhythmIndex])
     }
     
     func incrementBreathIndex() {
@@ -394,7 +397,7 @@ class Player {
 
         let loopInterval: TimeInterval = getLoopInterval()
 
-        if !loopInterval.isInfinite && store.state.isAudioPlaying {
+        if !loopInterval.isInfinite && isAudioPlaying {
             isLoopStarted = true
  
             let hasTimeLeft: Bool = store.state.activeSession.durationIndex == 0 || getRemainingTime(store: store, Int(loopInterval)) > 0
@@ -511,7 +514,7 @@ class Player {
     }
     
     func finish(save: Bool) {
-        store.state.isAudioPlaying = false
+        isAudioPlaying = false
         pauseAudio()
         pauseSession()
 
@@ -612,17 +615,17 @@ class Player {
     func loadAudioSession() {
         Task {
             do {
-                if !store.state.isAudioSessionLoaded {
+                if !isAudioSessionLoaded {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(
                         .playback,
                         mode: .default,
                         options: [.mixWithOthers]
                     )
-                    store.state.isAudioSessionLoaded = try await audioSession.activate()
+                    isAudioSessionLoaded = try await audioSession.activate()
                 }
                 cachePlayers()
-                store.state.isAudioPlaying = true
+                isAudioPlaying = true
             }
             catch {
                 print("startAudioSession()", error)

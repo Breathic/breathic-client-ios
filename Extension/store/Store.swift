@@ -15,9 +15,6 @@ struct AppState {
     var selectedDurationId: String = DEFAULT_DURATION_OPTIONS[0]
     var ui: UI = UI()
     var sessions: [Session] = []
-    var isAudioSessionLoaded: Bool = false
-    var isAudioPlaying: Bool = false
-    var selectedRhythmIndex: Int = 0
     var activity: Activity = ACTIVITIES[0]
     var metrics: [String: Float] = [:]
     var readings: [TimeUnit: ReadingContainer] = [
