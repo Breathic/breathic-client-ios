@@ -79,8 +79,6 @@ func getDistance(_ session: Session) -> Float {
     let key: String = "distance"
     let distances = timeseriesData.filter {
         $0.key == key
-            ? true
-            : false
     }[key] ?? []
 
     return distances.count > 0

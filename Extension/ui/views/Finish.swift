@@ -18,7 +18,7 @@ func finishView(
             .tint(colorize("red"))
 
             Button(action: {
-                player.prepareToFinish()
+                player.preFinish()
             }) {
                 Text("Save")
             }

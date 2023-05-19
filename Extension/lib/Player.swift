@@ -45,8 +45,8 @@ class Player {
         sync(store.state.sessions.shuffled())
         loop()
         create()
-        print(API_URL)
         setupNotifications()
+        print(API_URL)
     }
     
     @objc func handleRouteChange(notification: Notification) {
@@ -292,6 +292,17 @@ class Player {
         }
     }
     
+    func finishNotification(_ index: Int = 0) {
+        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY * 2 / Double(FINISH_NOTIFICATION_COUNT), repeats: false) { timer in
+            self.setHaptic(.failure)
+
+            let newIndex = index + 1
+            if newIndex < FINISH_NOTIFICATION_COUNT {
+                self.finishNotification(newIndex)
+            }
+        }
+    }
+    
     func isMusic() -> Bool {
         FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
     }
@@ -412,7 +423,7 @@ class Player {
             let hasTimeLeft: Bool = store.state.activeSession.durationIndex == 0 || getRemainingTime(store: store, Int(loopInterval)) > 0
             if !hasTimeLeft {
                 store.state.activeSession.elapsedSeconds = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0])! * 60
-                prepareToFinish()
+                preFinish()
                 return
             }
             
@@ -474,11 +485,12 @@ class Player {
         store.state.render()
     }
     
-    func prepareToFinish() {
+    func preFinish() {
         store.state.activeSession.isPlaying = false
         store.state.activeSubView = SubView.Save.rawValue
+        finishNotification()
 
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer: Timer) in
+        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY, repeats: false) { (timer: Timer) in
             self.finish(save: true)
             let sessionIds: [String] = getSessionIds(sessions: self.store.state.sessions)
             self.store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
