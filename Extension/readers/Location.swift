@@ -6,7 +6,6 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     @ObservedObject private var store: Store = .shared
 
     let locationManager = CLLocationManager()
-    var last: CLLocation?
     var timer: Timer?
     var readings: [String: [Reading]] = [:]
     var startLocation: CLLocation!

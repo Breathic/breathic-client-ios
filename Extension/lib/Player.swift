@@ -166,7 +166,11 @@ class Player {
             let fileURL = folderURL.appendingPathComponent(id)
             writeToFile(url: fileURL, data: data)
         } catch {}
-        
+
+        emptyReadings(timeUnit)
+    }
+    
+    func emptyReadings(_ timeUnit: TimeUnit) {
         store.state.readings[timeUnit]!.keys.forEach {
             store.state.readings[timeUnit]![$0] = []
         }
@@ -525,11 +529,13 @@ class Player {
         if save {
             saveReadings(TimeUnit.Second)
             saveReadings(TimeUnit.Minute)
-            store.state.activeSession.stop()
             store.state.activeSession.distance = getDistance(store.state.activeSession)
             store.state.sessions.append(store.state.activeSession)
         }
-        
+
+        emptyReadings(TimeUnit.Second)
+        emptyReadings(TimeUnit.Minute)
+        store.state.activeSession.stop()
         store.state.setMetricValuesToDefault()
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
