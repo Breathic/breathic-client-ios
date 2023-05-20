@@ -25,7 +25,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
             Spacer(minLength: 8)
         }
         
-        HStack { 
+        HStack {
             primaryButton(
                 geometry: geometry,
                 label: "Distance (k" + getMetric("distance").unit + ")",
