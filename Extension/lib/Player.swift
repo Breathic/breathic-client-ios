@@ -492,12 +492,16 @@ class Player {
     func start() {
         store.state.setMetricValuesToDefault()
         loadAudioSession()
-        breathTypes = getBreathingTypes(store: store)
-            .map { $0.key }
-        breathIndex = breathTypes.count - 1
+        resetBreathIndex()
         store.state.activeSession.start()
         playSession()
         store.state.render()
+    }
+    
+    func resetBreathIndex() {
+        breathTypes = getBreathingTypes(store: store)
+            .map { $0.key }
+        breathIndex = breathTypes.count - 1
     }
     
     func preFinish() {

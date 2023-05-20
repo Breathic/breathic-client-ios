@@ -27,7 +27,7 @@ func controllerView(
                 geometry: geometry,
                 label: "Session",
                 value: store.state.activeSession.durationIndex == 0
-                    ? store.state.activeSession.isPlaying
+                    ? store.state.activeSession.isStarted()
                         ? DEFAULT_DURATION_OPTIONS[0]
                         : " "
                     : getElapsedTime(getRemainingTime(store: store)),
