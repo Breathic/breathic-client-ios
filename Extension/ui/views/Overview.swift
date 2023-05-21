@@ -30,6 +30,8 @@ func chartSettingsView(
                         .minimumScaleFactor(0.8)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer(minLength: 16)
 
                 VStack {
                     Text("Status")

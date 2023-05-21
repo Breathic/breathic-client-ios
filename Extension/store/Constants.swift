@@ -53,29 +53,6 @@ let SEQUENCES = [
         ]
     )
 ]
-let FOCUS_PRESETS: [Preset] = [
-    Preset(
-        key: "4-4-4-4",
-        breathingTypes: [
-            BreathingType(
-                key: Breathe.BreatheIn,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheInHold,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheOut,
-                duration: 4
-            ),
-            BreathingType(
-                key: Breathe.BreatheOutHold,
-                duration: 4
-            )
-        ]
-    )
-]
 let MOVE_PRESETS: [Preset] = [
     Preset(
         key: "4-4",
@@ -149,6 +126,27 @@ let MOVE_PRESETS: [Preset] = [
 ]
 let RELAX_PRESETS: [Preset] = [
     Preset(
+        key: "4-4-4-4",
+        breathingTypes: [
+            BreathingType(
+                key: Breathe.BreatheIn,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheInHold,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOut,
+                duration: 4
+            ),
+            BreathingType(
+                key: Breathe.BreatheOutHold,
+                duration: 4
+            )
+        ]
+    ),
+    Preset(
         key: "4-8",
         breathingTypes: [
             BreathingType(
@@ -190,12 +188,6 @@ let DEFAULT_DURATION_OPTIONS: [String] = [
     "60 minutes"
 ]
 let ACTIVITIES: [Activity] = [
-    Activity(
-        key: "Focus",
-        presets: FOCUS_PRESETS,
-        loopIntervalType: LoopIntervalType.Fixed,
-        durationOptions: DEFAULT_DURATION_OPTIONS
-    ),
     Activity(
         key: "Move",
         presets: MOVE_PRESETS,
