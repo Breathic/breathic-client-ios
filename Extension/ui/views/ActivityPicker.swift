@@ -23,12 +23,12 @@ func activityPickerView(
         Picker("", selection: selectedActivityId) {
             ForEach(_getActivityIds(), id: \.self) {
                 if $0 == store.state.selectedActivityId {
-                    Text($0.capitalized)
+                    Text($0)
                         .font(.system(size: 16))
                         .fontWeight(.bold)
                 }
                 else {
-                    Text($0.capitalized)
+                    Text($0)
                         .font(.system(size: 12))
                 }
             }
