@@ -56,12 +56,12 @@ let SEQUENCES = [
 let MOVE_PRESETS: [Preset] = [
     Preset(
         key: "4-4",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 4
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 4
             )
@@ -69,13 +69,13 @@ let MOVE_PRESETS: [Preset] = [
     ),
     Preset(
         key: "3.5-3.5",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 3.5,
                 format: "%.1f"
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 3.5,
                 format: "%.1f"
@@ -84,12 +84,12 @@ let MOVE_PRESETS: [Preset] = [
     ),
     Preset(
         key: "3-3",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 3
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 3
             )
@@ -97,13 +97,13 @@ let MOVE_PRESETS: [Preset] = [
     ),
     Preset(
         key: "2.5-2.5",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 2.5,
                 format: "%.1f"
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 2.5,
                 format: "%.1f"
@@ -112,12 +112,12 @@ let MOVE_PRESETS: [Preset] = [
     ),
     Preset(
         key: "2-2",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 2
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 2
             )
@@ -127,20 +127,20 @@ let MOVE_PRESETS: [Preset] = [
 let RELAX_PRESETS: [Preset] = [
     Preset(
         key: "4-4-4-4",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 4
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheInHold,
                 duration: 4
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 4
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOutHold,
                 duration: 4
             )
@@ -148,12 +148,12 @@ let RELAX_PRESETS: [Preset] = [
     ),
     Preset(
         key: "4-8",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 4
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 8
             )
@@ -163,16 +163,16 @@ let RELAX_PRESETS: [Preset] = [
 let SLEEP_PRESETS: [Preset] = [
     Preset(
         key: "4-7-8",
-        breathingTypes: [
-            BreathingType(
+        breathingSteps: [
+            BreathingStep(
                 key: Breathe.BreatheIn,
                 duration: 4
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheInHold,
                 duration: 7
             ),
-            BreathingType(
+            BreathingStep(
                 key: Breathe.BreatheOut,
                 duration: 8
             )

@@ -47,7 +47,7 @@ enum LoopIntervalType: String, Codable {
     case Fixed = "fixed"
 }
 
-struct BreathingType: Codable {
+struct BreathingStep: Codable {
     var key: Breathe
     var duration: Float = 0
     var format: String = "%.0f"
@@ -55,7 +55,7 @@ struct BreathingType: Codable {
 
 struct Preset: Codable {
     var key: String = ""
-    var breathingTypes: [BreathingType] = []
+    var breathingSteps: [BreathingStep] = []
 }
 
 struct Activity: Codable {

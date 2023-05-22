@@ -9,10 +9,10 @@ func controllerView(
     func _getActivityValue(store: Store) -> String {
         let preset = getPreset(store)
         
-        let labels = preset.breathingTypes.enumerated().map { (index, breathingType) in
-            var label = String(format: breathingType.format, breathingType.duration)
-            let isLastBreathingType = index + 1 == preset.breathingTypes.count
-            if !isLastBreathingType {
+        let labels = preset.breathingSteps.enumerated().map { (index, breathingStep) in
+            var label = String(format: breathingStep.format, breathingStep.duration)
+            let isLastBreathingStep = index + 1 == preset.breathingSteps.count
+            if !isLastBreathingStep {
                 label = label + ":"
             }
             

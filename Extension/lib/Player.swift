@@ -449,8 +449,8 @@ class Player {
         return loopInterval
     }
     
-    func getBreathingTypes(store: Store) -> [BreathingType] {
-        ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingTypes
+    func getBreathingTypes(store: Store) -> [BreathingStep] {
+        ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex].breathingSteps
     }
 
     func getAverageBreathratePerMinute() -> Float {
