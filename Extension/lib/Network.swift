@@ -33,7 +33,7 @@ func uploadSession(
             
             var overview: Overview = [:]
             let overviewMetrics = getOverviewMetrics(timeseries: timeseriesData)
-            METRIC_ORDER
+            DEFAULT_DISPLAY_METRICS
                 .filter { overviewMetrics[$0] != nil }
                 .forEach {
                     overview[$0] = Float(String(format: getMetric($0).format, overviewMetrics[$0]!))

@@ -58,7 +58,8 @@ func getAllProgressData(store: Store) -> [String: [ProgressData]] {
 }
 
 func getSeriesData(store: Store, allProgressData: [String: [ProgressData]]) -> [SeriesData] {
-    METRIC_ORDER
+    getSelectedActivityFromStore(store)
+        .displayMetrics
         .filter { allProgressData[$0] != nil }
         .filter { store.state.overviewMetrics[$0] != nil }
         .map {

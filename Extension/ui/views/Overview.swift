@@ -4,10 +4,12 @@ func chartSettingsView(
     geometry: GeometryProxy,
     store: Store
 ) -> some View {
-    let columns = METRIC_ORDER
+    let session: Session = store.state.selectedSession
+    let activity: Activity = getSelectedActivityFromStore(store)
+    let columns = activity.displayMetrics
         .filter { store.state.overviewMetrics[$0] != nil }
         .chunks(2)
-    let readingsURL: String = API_URL + "/session/" + store.state.selectedSession.uuid + "/readings"
+    let readingsURL: String = API_URL + "/session/" + session.uuid + "/readings"
 
     if Platform.isSimulator {
         print(readingsURL)
@@ -22,7 +24,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width, alignment: .leading)
 
-                    Text(ACTIVITIES[store.state.selectedSession.activityIndex].key)
+                    Text(activity.key)
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width, alignment: .leading)
@@ -39,7 +41,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width, alignment: .leading)
 
-                    Text(store.state.selectedSession.syncStatus.rawValue)
+                    Text(session.syncStatus.rawValue)
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width, alignment: .leading)
@@ -61,7 +63,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-                    Text(getElapsedTime(store.state.selectedSession.elapsedSeconds))
+                    Text(getElapsedTime(session.elapsedSeconds))
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
@@ -76,7 +78,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-                    Text(String(format: "%.1f", store.state.selectedSession.distance / 1000) + "km")
+                    Text(String(format: "%.1f", session.distance / 1000) + "km")
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
@@ -148,7 +150,7 @@ func chartSettingsView(
             Spacer(minLength: 24)
         }
 
-        if store.state.selectedSession.syncStatus == SyncStatus.Synced {
+        if session.syncStatus == SyncStatus.Synced {
             Group {
                 Text("Export")
                     .font(.system(size: 10))

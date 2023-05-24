@@ -27,6 +27,18 @@ func getPreset(_ store: Store) -> Preset {
     return ACTIVITIES[store.state.activeSession.activityIndex].presets[store.state.activeSession.presetIndex]
 }
 
+func getActivityIndexForSession(_ session: Session) -> Int {
+    session.activityIndex > ACTIVITIES.count - 1
+        ? 0
+        : session.activityIndex
+}
+
+func getSelectedActivityFromStore(_ store: Store) -> Activity {
+    let session: Session = store.state.selectedSession
+    let activity: Activity = ACTIVITIES[getActivityIndexForSession(session)]
+    return activity
+}
+
 func getRhythms(_ store: Store) -> [Float] {
     getPreset(store).breathingSteps.map { $0.duration }
 }

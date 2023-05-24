@@ -1,7 +1,7 @@
 import SwiftUI
 
 func statusView(geometry: GeometryProxy, store: Store) -> some View {
-    let columns = Array(METRIC_ORDER[0...3]).chunks(2)
+    let columns = Array(DEFAULT_DISPLAY_METRICS[0...3]).chunks(2)
 
     return VStack {
         Spacer(minLength: 8)

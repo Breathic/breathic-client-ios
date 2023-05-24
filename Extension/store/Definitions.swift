@@ -187,6 +187,7 @@ struct Activity: Codable {
     var presets: [Preset] = []
     var loopIntervalType: LoopIntervalType
     var durationOptions: [String]
+    var displayMetrics: [String]
 }
 
 struct MetricType {

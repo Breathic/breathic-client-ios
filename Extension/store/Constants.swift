@@ -201,7 +201,10 @@ let DEFAULT_DURATION_OPTIONS: [String] = [
     "30 minutes",
     "60 minutes"
 ]
-let METRIC_ORDER: [String] = [
+let MINIMAL_DISPLAY_METRICS: [String] = [
+    "heart"
+]
+let DEFAULT_DISPLAY_METRICS: [String] = [
     "breath",
     "heart",
     "step",
@@ -213,19 +216,22 @@ let ACTIVITIES: [Activity] = [
         key: "Move",
         presets: MOVE_PRESETS,
         loopIntervalType: LoopIntervalType.Varied,
-        durationOptions: DEFAULT_DURATION_OPTIONS
+        durationOptions: DEFAULT_DURATION_OPTIONS,
+        displayMetrics: DEFAULT_DISPLAY_METRICS
     ),
     Activity(
         key: "Relax",
         presets: RELAX_PRESETS,
         loopIntervalType: LoopIntervalType.Fixed,
-        durationOptions: DEFAULT_DURATION_OPTIONS
+        durationOptions: DEFAULT_DURATION_OPTIONS,
+        displayMetrics: MINIMAL_DISPLAY_METRICS
     ),
     Activity(
         key: "Sleep",
         presets: SLEEP_PRESETS,
         loopIntervalType: LoopIntervalType.Fixed,
-        durationOptions: DEFAULT_DURATION_OPTIONS
+        durationOptions: DEFAULT_DURATION_OPTIONS,
+        displayMetrics: MINIMAL_DISPLAY_METRICS
     )
 ]
 let METRIC_TYPES: [String: MetricType] = [
