@@ -61,12 +61,12 @@ struct ContentView: View {
                                 tempActiveSubView: $store.state.tempActiveSubView
                             )
 
-                        case SubView.Controller.rawValue, SubView.Status.rawValue:
+                        case SubView.Session.rawValue, SubView.Status.rawValue:
                             if store.state.activeSession.isStarted() {
                                 dragView(
                                     children: Group {
                                         HStack {
-                                            controllerView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
+                                            sessionView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
                                             AnyView(statusView(geometry: geometry, store: store))
                                         }
                                         .onAppear {
@@ -78,7 +78,7 @@ struct ContentView: View {
                                 )
                             }
                             else {
-                                controllerView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
+                                sessionView(geometry: geometry, store: store, player: player, volume: $store.state.activeSession.volume)
                             }
 
                         case SubView.Activity.rawValue:
@@ -140,7 +140,7 @@ struct ContentView: View {
 
                 if (
                     (store.state.page == "Main" && store.state.activeSession.isStarted() &&
-                        activeSubView == SubView.Controller.rawValue || activeSubView == SubView.Status.rawValue)
+                        activeSubView == SubView.Session.rawValue || activeSubView == SubView.Status.rawValue)
                 ) {
                     ZStack {
                         HStack {

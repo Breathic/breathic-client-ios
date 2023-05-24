@@ -1,6 +1,6 @@
 import SwiftUI
 
-func controllerView(
+func sessionView(
     geometry: GeometryProxy,
     store: Store,
     player: Player,

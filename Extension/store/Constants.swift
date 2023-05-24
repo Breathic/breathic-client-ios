@@ -147,7 +147,20 @@ let RELAX_PRESETS: [Preset] = [
         ]
     ),
     Preset(
-        key: "4-8",
+        key: "Pursed lip: 2-4",
+        breathingSteps: [
+            BreathingStep(
+                key: Breathe.BreatheIn,
+                duration: 2
+            ),
+            BreathingStep(
+                key: Breathe.BreatheOut,
+                duration: 4
+            )
+        ]
+    ),
+    Preset(
+        key: "Pursed lip: 4-8",
         breathingSteps: [
             BreathingStep(
                 key: Breathe.BreatheIn,
@@ -181,11 +194,19 @@ let SLEEP_PRESETS: [Preset] = [
 ]
 let DEFAULT_DURATION_OPTIONS: [String] = [
     "∞",
+    "2 minutes",
     "5 minutes",
     "10 minutes",
     "15 minutes",
     "30 minutes",
     "60 minutes"
+]
+let METRIC_ORDER: [String] = [
+    "breath",
+    "heart",
+    "step",
+    "speed",
+    "altitude",
 ]
 let ACTIVITIES: [Activity] = [
     Activity(
@@ -321,13 +342,6 @@ let COLORS: [String: (Double, Double, Double)] = [
     "gray": (63, 63, 63),
     "brown": (139,69,19),
 ]
-let METRIC_ORDER: [String] = [
-    "breath",
-    "heart",
-    "step",
-    "speed",
-    "altitude",
-]
 let FEEDBACK_MODES: [Feedback] = [
     Feedback.Music,
     Feedback.Audio,
@@ -341,21 +355,21 @@ let SESSIONS_FOLDER_NAME: String = "Sessions"
 let TERMS_APPROVAL_NAME: String = "TermsApproval"
 let GUIDE_SEEN_NAME: String = "GuideSeen"
 let DRAG_INDEXES: [String: Int] = [
-    SubView.Controller.rawValue: 0,
+    SubView.Session.rawValue: 0,
     SubView.Status.rawValue: 1
 ]
 let MENU_VIEWS: [String] = [
-    SubView.Controller.rawValue,
+    SubView.Session.rawValue,
     SubView.Guide.rawValue,
     SubView.Terms.rawValue,
     SubView.Log.rawValue
 ]
 let SUB_VIEW: [String] = [
-    SubView.Controller.rawValue,
+    SubView.Session.rawValue,
     SubView.Status.rawValue,
 ]
 let DEFAULT_PAGE: String = Page.Main.rawValue
-let DEFAULT_ACTIVE_SUB_VIEW: String = SubView.Controller.rawValue
+let DEFAULT_ACTIVE_SUB_VIEW: String = SubView.Session.rawValue
 let CROWN_MULTIPLIER: Float = 2
 let DEFAULT_CHART_SCALES: [String: Bool] = [
     "Numeric": true,

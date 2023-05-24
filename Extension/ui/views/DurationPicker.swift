@@ -13,7 +13,7 @@ func durationPickerView(
         store.state.activeSession.durationIndex = index
         player.create()
         player.start()
-        store.state.activeSubView = SubView.Controller.rawValue
+        store.state.activeSubView = SubView.Session.rawValue
     }
     
     return VStack {
