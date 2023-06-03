@@ -377,9 +377,9 @@ let SUB_VIEW: [String] = [
 let DEFAULT_PAGE: String = Page.Main.rawValue
 let DEFAULT_ACTIVE_SUB_VIEW: String = SubView.Session.rawValue
 let CROWN_MULTIPLIER: Float = 2
-let DEFAULT_CHART_SCALES: [String: Bool] = [
-    "Numeric": true,
-    "Percentage": false
+let DEFAULT_CHART_SCALES: [ChartScale: Bool] = [
+    ChartScale.Numeric: true,
+    ChartScale.Percentage: false
 ]
 let CONFIRMATION_DEFAULT_VALUE: Double = 0.25
 let CONFIRMATION_ENOUGH_VALUE: Double = 0.75

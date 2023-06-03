@@ -27,7 +27,7 @@ struct AppState {
     var chartDomain = ChartDomain()
     var overviewMetrics: Overview = [:]
     var overviewMetricsVisibility: [String: Bool] = [:]
-    var chartScales: [String: Bool] = DEFAULT_CHART_SCALES
+    var chartScales: [ChartScale: Bool] = DEFAULT_CHART_SCALES
     var isSyncInProgress: Bool = false
     var isTermsApproved: Bool? = nil
     var isGuideSeen: Bool? = nil

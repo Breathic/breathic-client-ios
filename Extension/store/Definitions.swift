@@ -166,6 +166,11 @@ enum TimeUnit: String, Codable {
     case Minute = "minute"
 }
 
+enum ChartScale: String, Codable {
+    case Numeric = "numeric"
+    case Percentage = "percentage"
+}
+
 enum LoopIntervalType: String, Codable {
     case Varied = "varied"
     case Fixed = "fixed"

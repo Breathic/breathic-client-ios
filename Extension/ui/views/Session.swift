@@ -13,7 +13,7 @@ func sessionView(
             var label = String(format: breathingStep.format, breathingStep.duration)
             let isLastBreathingStep = index + 1 == preset.breathingSteps.count
             if !isLastBreathingStep {
-                label = label + ":"
+                label = label + "-"
             }
             
             return label
@@ -30,7 +30,9 @@ func sessionView(
                     ? store.state.activeSession.isStarted()
                         ? DEFAULT_DURATION_OPTIONS[0]
                         : " "
-                    : getElapsedTime(getRemainingTime(store: store)),
+                : store.state.activeSession.isPlaying
+                    ? getElapsedTime(getRemainingTime(store: store))
+                    : "■",
                 unit: !store.state.activeSession.isStarted()
                     ? "Start"
                     : "Finish",
@@ -55,7 +57,7 @@ func sessionView(
                     .replacingOccurrences(of: "in-hold", with: "hold")
                     .replacingOccurrences(of: "out-hold", with: "hold")
                     .capitalized
-                : " ",
+                : "▶",
                 unit: store.state.activeSession.isPlaying
                     ? "Pause"
                     : "Play",
