@@ -42,9 +42,12 @@ func getAverageMetricValue(
 
 func getAllProgressData(store: Store) -> [String: [ProgressData]] {
     var result: [String: [ProgressData]] = [:]
+    let displayMetrics = ACTIVITIES[store.state.selectedSession.activityIndex].displayMetrics
 
     for metric in store.state.timeseries.keys {
-        let isVisible = store.state.overviewMetricsVisibility[metric] != nil && store.state.overviewMetricsVisibility[metric]!
+        let isVisible = store.state.overviewMetricsVisibility[metric] != nil &&
+            store.state.overviewMetricsVisibility[metric]! &&
+            displayMetrics.contains(metric)
 
         if isVisible {
             result[metric] = parseProgressData(
@@ -185,7 +188,7 @@ func onLogSelect(store: Store) {
         store.state.timeseries = timeseriesData
         store.state.overviewMetrics = getOverviewMetrics(timeseries: timeseriesData)
         store.state.timeseries = parseTimeseries(timeseries: store.state.timeseries, chartScales: store.state.chartScales)
-
+        
         let allProgressData: [String: [ProgressData]] = getAllProgressData(store: store)
         store.state.chartDomain = getChartDomain(timeseries: store.state.timeseries, allProgressData: allProgressData)
         store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressData)
