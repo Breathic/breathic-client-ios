@@ -72,6 +72,8 @@ func getChartDomain(
     allProgressData: [String: [ProgressData]]
 ) -> ChartDomain {
     let chartDomain = ChartDomain()
+    
+    var values: [Float] = []
 
     for metric in timeseries.keys {
         let progressData = allProgressData[metric] ?? []
@@ -80,21 +82,11 @@ func getChartDomain(
             chartDomain.xMin = Float(progressData[0].timestamp)
             chartDomain.xMax = Float(progressData[progressData.count - 1].timestamp)
         }
-        
-        for timeserie in progressData {
-            if timeserie.value > chartDomain.yMax {
-                chartDomain.yMax = timeserie.value
-            }
-        }
-
-        let yMin = progressData
-            .map { $0.value }
-            .min() ?? 0
-
-        if yMin > 0 && yMin > chartDomain.yMin {
-            chartDomain.yMin = yMin
-        }
+        values = values + progressData.map { $0.value }
     }
+    
+    chartDomain.yMin = values.min() ?? 0
+    chartDomain.yMax = values.max() ?? 0
 
     return chartDomain
 }
@@ -150,7 +142,7 @@ func parseTimeseries(
     chartScales: [ChartScale: Bool]
 ) -> ReadingContainer {
     var result = timeseries
-
+    
     if chartScales[ChartScale.Percentage] == true {
         timeseries.keys.forEach {
             let readings = timeseries[$0]!
@@ -164,44 +156,11 @@ func parseTimeseries(
                     oldRange: [min, max],
                     newRange: [0, 100]
                 )
-
+                
                 if canUpdate(value) {
                     reading.value = value
                 }
-
-                return reading
-            }
-        }
-    }
-
-    return result
-}
-
-func scaleTimeseries(
-    timeseries: ReadingContainer,
-    chartScales: [ChartScale: Bool],
-    chartDomain: ChartDomain
-) -> ReadingContainer {
-    var result = timeseries
-    
-    if chartScales[ChartScale.Numeric] == true {
-        timeseries.keys.forEach {
-            let readings = timeseries[$0]!
-            let min: Float = (readings.map { $0.value }).min() ?? 0
-            let max: Float = (readings.map { $0.value }).max() ?? 0
-            
-            result[$0] = readings.map() {
-                let reading = $0
-                let value = convertRange(
-                    value: reading.value,
-                    oldRange: [min, max],
-                    newRange: [chartDomain.yMin, chartDomain.yMax]
-                )
-
-                if canUpdate(value) {
-                    reading.value = value
-                }
-
+                
                 return reading
             }
         }
@@ -229,13 +188,7 @@ func onLogSelect(store: Store) {
 
         let allProgressData: [String: [ProgressData]] = getAllProgressData(store: store)
         store.state.chartDomain = getChartDomain(timeseries: store.state.timeseries, allProgressData: allProgressData)
-        store.state.timeseries = scaleTimeseries(
-            timeseries: store.state.timeseries,
-            chartScales: store.state.chartScales,
-            chartDomain: store.state.chartDomain
-        )
-        let allProgressDataScaled: [String: [ProgressData]] = getAllProgressData(store: store)
-        store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressDataScaled)
+        store.state.seriesData = getSeriesData(store: store, allProgressData: allProgressData)
         store.state.activeSubView = store.state.selectedSessionId
     }
 }
