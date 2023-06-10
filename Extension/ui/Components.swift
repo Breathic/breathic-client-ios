@@ -186,8 +186,20 @@ func chart(
                     .chartXScale(domain: floor(chartDomain.xMin)...ceil(chartDomain.xMax))
                     .chartYScale(domain: floor(chartDomain.yMin)...ceil(chartDomain.yMax))
                     .chartLegend(.hidden)
-                    .frame(width: geometry.size.width)
+                    .chartXAxis {
+                        AxisMarks(preset: .aligned, values: .automatic) { value in
+                            AxisValueLabel() {
+                                if let intValue = value.as(Int.self) {
+                                    Text("\(intValue) min")
+                                        .font(.system(size: 8))
+                                }
+                            }
+                            AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
+                        }
+                    }
+                    .frame(width: geometry.size.width - 12)
                     .frame(height: geometry.size.height - 24)
+                    .padding(.leading, 12)
 
                     Spacer(minLength: 16)
                 }

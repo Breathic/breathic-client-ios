@@ -8,8 +8,8 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var timer: Timer?
     var readings: [String: [Reading]] = [:]
-    var startLocation: CLLocation!
-    var lastLocation: CLLocation!
+    var startLocation: CLLocation! = nil
+    var lastLocation: CLLocation! = nil
     var traveledDistance: Float = 0
 
     override init() {
@@ -59,6 +59,9 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
         timer?.invalidate()
         timer = nil
         readings = [:]
+        traveledDistance = 0
+        startLocation = nil
+        lastLocation = nil
     }
 
     func process(metric: String, value: Float) {

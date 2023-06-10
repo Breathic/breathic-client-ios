@@ -17,7 +17,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                         valueTextSize: 32,
                         borderWidth: 0,
                         isTall: false,
-                        isEnabled: false
+                        isEnabled: false,
+                        minimumScaleFactor: 0.6
                     )
                 }
             }
@@ -34,7 +35,8 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                 valueTextSize: 32,
                 borderWidth: 0,
                 isTall: false,
-                isEnabled: false
+                isEnabled: false,
+                minimumScaleFactor: 0.6
             )
 
             Spacer(minLength: 8)

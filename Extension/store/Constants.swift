@@ -146,6 +146,7 @@ let RELAX_PRESETS: [Preset] = [
             )
         ]
     ),
+    /*
     Preset(
         key: "Pursed lip: 2-4",
         breathingSteps: [
@@ -172,6 +173,7 @@ let RELAX_PRESETS: [Preset] = [
             )
         ]
     )
+    */
 ]
 let SLEEP_PRESETS: [Preset] = [
     Preset(

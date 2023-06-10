@@ -62,7 +62,7 @@ class Player {
                 
         if reason == .oldDeviceUnavailable {
             if isAudio() {
-                pauseSession()
+                resetSession()
             }
         }
         else {
@@ -404,16 +404,15 @@ class Player {
         if !loopInterval.isInfinite && isAudioPlaying {
             isLoopStarted = true
  
+            if self.store.state.activeSession.isPlaying {
+                updateFeedback()
+                updateGraph(loopInterval: loopInterval)
+            }
+            
             let hasTimeLeft: Bool = store.state.activeSession.durationIndex == 0 || getRemainingTime(store: store, Int(loopInterval)) > 0
-
             if hasTimeLeft {
                 Timer.scheduledTimer(withTimeInterval: loopInterval, repeats: false) { (timer: Timer) in
                     self.loop()
-                }
-                
-                if self.store.state.activeSession.isPlaying {
-                    updateFeedback()
-                    updateGraph(loopInterval: loopInterval)
                 }
             }
             else {
@@ -494,6 +493,7 @@ class Player {
     }
     
     func start() {
+        resetSession()
         store.state.setMetricValuesToDefault()
         loadAudioSession()
         resetBreathIndex()
@@ -524,7 +524,7 @@ class Player {
     func finish(save: Bool) {
         isAudioPlaying = false
         pauseAudio()
-        pauseSession()
+        resetSession()
 
         if save {
             saveReadings(TimeUnit.Second)
@@ -539,9 +539,6 @@ class Player {
         store.state.setMetricValuesToDefault()
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
-        location.traveledDistance = 0
-        location.startLocation = nil
-        location.lastLocation = nil
 
         if save {
             sync([store.state.sessions[store.state.sessions.count - 1]])
@@ -551,7 +548,7 @@ class Player {
     }
     
     func togglePlay() {
-        if store.state.activeSession.isPlaying { pauseSession() }
+        if store.state.activeSession.isPlaying { resetSession() }
         else { start() }
     }
     
@@ -570,7 +567,7 @@ class Player {
         }
     }
     
-    func pauseSession() {
+    func resetSession() {
         store.state.activeSession.isPlaying = false
         coordinator.invalidate()
         stopReaders()

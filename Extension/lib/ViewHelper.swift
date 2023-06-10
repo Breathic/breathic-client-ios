@@ -75,7 +75,6 @@ func getChartDomain(
     allProgressData: [String: [ProgressData]]
 ) -> ChartDomain {
     let chartDomain = ChartDomain()
-    
     var values: [Float] = []
 
     for metric in timeseries.keys {
