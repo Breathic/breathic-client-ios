@@ -354,7 +354,7 @@ let FEEDBACK_MODES: [Feedback] = [
     Feedback.Music,
     Feedback.Audio,
     Feedback.Haptic,
-    Feedback.Muted,
+    //Feedback.Muted,
 ]
 let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
 let TIMESERIES_SAVER_INTERVAL_MINUTELY: Double = 60
