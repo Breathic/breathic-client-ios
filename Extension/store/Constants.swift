@@ -68,6 +68,21 @@ let MOVE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
+        key: "3.75-3.75",
+        breathingSteps: [
+            BreathingStep(
+                key: Breathe.BreatheIn,
+                duration: 3.75,
+                format: "%.2f"
+            ),
+            BreathingStep(
+                key: Breathe.BreatheOut,
+                duration: 3.75,
+                format: "%.2f"
+            )
+        ]
+    ),
+    Preset(
         key: "3.5-3.5",
         breathingSteps: [
             BreathingStep(
@@ -79,6 +94,21 @@ let MOVE_PRESETS: [Preset] = [
                 key: Breathe.BreatheOut,
                 duration: 3.5,
                 format: "%.1f"
+            )
+        ]
+    ),
+    Preset(
+        key: "3.25-3.25",
+        breathingSteps: [
+            BreathingStep(
+                key: Breathe.BreatheIn,
+                duration: 3.25,
+                format: "%.2f"
+            ),
+            BreathingStep(
+                key: Breathe.BreatheOut,
+                duration: 3.25,
+                format: "%.2f"
             )
         ]
     ),
@@ -96,6 +126,21 @@ let MOVE_PRESETS: [Preset] = [
         ]
     ),
     Preset(
+        key: "2.75-2.75",
+        breathingSteps: [
+            BreathingStep(
+                key: Breathe.BreatheIn,
+                duration: 2.75,
+                format: "%.2f"
+            ),
+            BreathingStep(
+                key: Breathe.BreatheOut,
+                duration: 2.75,
+                format: "%.2f"
+            )
+        ]
+    ),
+    Preset(
         key: "2.5-2.5",
         breathingSteps: [
             BreathingStep(
@@ -107,6 +152,21 @@ let MOVE_PRESETS: [Preset] = [
                 key: Breathe.BreatheOut,
                 duration: 2.5,
                 format: "%.1f"
+            )
+        ]
+    ),
+    Preset(
+        key: "2.25-2.25",
+        breathingSteps: [
+            BreathingStep(
+                key: Breathe.BreatheIn,
+                duration: 2.25,
+                format: "%.2f"
+            ),
+            BreathingStep(
+                key: Breathe.BreatheOut,
+                duration: 2.25,
+                format: "%.2f"
             )
         ]
     ),
@@ -145,36 +205,9 @@ let RELAX_PRESETS: [Preset] = [
                 duration: 4
             )
         ]
-    ),
-    /*
-    Preset(
-        key: "Pursed lip: 2-4",
-        breathingSteps: [
-            BreathingStep(
-                key: Breathe.BreatheIn,
-                duration: 2
-            ),
-            BreathingStep(
-                key: Breathe.BreatheOut,
-                duration: 4
-            )
-        ]
-    ),
-    Preset(
-        key: "Pursed lip: 4-8",
-        breathingSteps: [
-            BreathingStep(
-                key: Breathe.BreatheIn,
-                duration: 4
-            ),
-            BreathingStep(
-                key: Breathe.BreatheOut,
-                duration: 8
-            )
-        ]
     )
-    */
 ]
+/*
 let SLEEP_PRESETS: [Preset] = [
     Preset(
         key: "4-7-8",
@@ -194,6 +227,7 @@ let SLEEP_PRESETS: [Preset] = [
         ]
     )
 ]
+*/
 let DEFAULT_DURATION_OPTIONS: [String] = [
     "∞",
     "2 minutes",
@@ -228,6 +262,7 @@ let ACTIVITIES: [Activity] = [
         durationOptions: DEFAULT_DURATION_OPTIONS,
         displayMetrics: MINIMAL_DISPLAY_METRICS
     ),
+    /*
     Activity(
         key: "Sleep",
         presets: SLEEP_PRESETS,
@@ -235,6 +270,7 @@ let ACTIVITIES: [Activity] = [
         durationOptions: DEFAULT_DURATION_OPTIONS,
         displayMetrics: MINIMAL_DISPLAY_METRICS
     )
+    */
 ]
 let METRIC_TYPES: [String: MetricType] = [
     "heart": MetricType(

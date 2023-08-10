@@ -9,6 +9,15 @@ func sessionView(
     func _getActivityValue(store: Store) -> String {
         let preset = getPreset(store)
         
+        if (preset.breathingSteps.count > 0) {
+            return String(format:
+                    preset.breathingSteps[0].format,
+                    preset.breathingSteps[0].duration)
+        }
+        
+        return ""
+        
+        /*
         let labels = preset.breathingSteps.enumerated().map { (index, breathingStep) in
             var label = String(format: breathingStep.format, breathingStep.duration)
             let isLastBreathingStep = index + 1 == preset.breathingSteps.count
@@ -19,6 +28,7 @@ func sessionView(
             return label
         }
         return labels.joined(separator: "")
+        */
     }
     
     return VStack {
@@ -116,7 +126,7 @@ func sessionView(
 
             primaryButton(
                 geometry: geometry,
-                label: "Activity",
+                label: "Pace",
                 value: _getActivityValue(store: store),
                 unit: ACTIVITIES[store.state.activeSession.activityIndex].key,
                 isTall: true,
