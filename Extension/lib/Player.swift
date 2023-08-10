@@ -312,6 +312,9 @@ class Player {
             }
             
             for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
+                // Reset breathIndex until we know better.
+                breathIndex = 1
+
                 let breathType = sequence.isBreathing
                     ? "-" + breathTypes[breathIndex].rawValue.replacingOccurrences(of: "-hold", with: "")
                     : ""
