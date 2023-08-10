@@ -16,9 +16,9 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                         valueColor: getMetric(metric).color,
                         valueTextSize: 32,
                         borderWidth: 0,
+                        isShort: false,
                         isTall: false,
-                        isEnabled: false,
-                        minimumScaleFactor: 0.6
+                        isEnabled: false
                     )
                 }
             }
