@@ -312,19 +312,16 @@ class Player {
             }
             
             for (sequenceIndex, sequence) in SEQUENCES.enumerated() {
-                // Reset breathIndex until we know better.
-                breathIndex = 1
-
                 let breathType = sequence.isBreathing
-                    ? "-" + breathTypes[breathIndex].rawValue.replacingOccurrences(of: "-hold", with: "")
+                    ? "-" + breathTypes[1].rawValue.replacingOccurrences(of: "-hold", with: "")
                     : ""
                 let isAudible = !isMuted && isAudio() && (sequence.isBreathing || isMusic())
                 let isHaptable = sequence.isBreathing && isHaptic
                 if isHaptable {
-                    let hapticType: WKHapticType = breathType.contains(Breathe.BreatheIn.rawValue)
-                        ? .failure
-                        : .success
-                    playHaptic(hapticType)
+                    //let hapticType: WKHapticType = breathType.contains(Breathe.BreatheIn.rawValue)
+                    //    ? .failure
+                    //    : .success
+                    playHaptic(.failure)
                 }
 
                 if isAudible {
