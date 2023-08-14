@@ -11,6 +11,7 @@ let SAMPLE_PATH: String = "/data/samples"
 let SAMPLE_EXTENSION: String = "m4a"
 let MAX_READING_TIMEOUT_S: Double = 15
 let MAX_READING_COUNT: Int = 100
+let MOTION_UPDATE_FREQUENCY: Double = 10
 let CHANNEL_REPEAT_COUNT: Int = 128
 let FADE_DURATION: Int = CHANNEL_REPEAT_COUNT / 4
 let SESSION_COORDINATOR_INTERVAL_S: Double = 60
@@ -422,6 +423,30 @@ let METRIC_TYPES: [String: MetricType] = [
         isChartable: false,
         color: colorize("purple"),
         defaultValue: Platform.isSimulator ? 10 : 0
+    ),
+    "acceleration-x": MetricType(
+        metric: "acceleration-x",
+        abbreviation: "ax"
+    ),
+    "acceleration-y": MetricType(
+        metric: "acceleration-y",
+        abbreviation: "ay"
+    ),
+    "acceleration-z": MetricType(
+        metric: "acceleration-z",
+        abbreviation: "az"
+    ),
+    "rotation-x": MetricType(
+        metric: "rotation-x",
+        abbreviation: "rx"
+    ),
+    "rotation-y": MetricType(
+        metric: "rotation-y",
+        abbreviation: "ry"
+    ),
+    "rotation-z": MetricType(
+        metric: "rotation-z",
+        abbreviation: "rz"
     ),
 ]
 let COLORS: [String: (Double, Double, Double)] = [

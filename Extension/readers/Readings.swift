@@ -43,6 +43,12 @@ func parseMetric(metric: String, readings: [Reading]) -> Float {
         case "longitude": return getLastValue(readings)
         case "latitude": return getLastValue(readings)
         case "distance": return getLastValue(readings)
+        case "acceleration-x": return getLastValue(readings)
+        case "acceleration-y": return getLastValue(readings)
+        case "acceleration-z": return getLastValue(readings)
+        case "rotation-x": return getLastValue(readings)
+        case "rotation-y": return getLastValue(readings)
+        case "rotation-z": return getLastValue(readings)
         default: fatalError("metric is undefined")
     }
 }
