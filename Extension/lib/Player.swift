@@ -62,7 +62,7 @@ class Player {
         }
                 
         if reason == .oldDeviceUnavailable {
-            if isAudio() {
+            if isMusic() {
                 resetSession()
             }
         }
@@ -280,17 +280,23 @@ class Player {
     }
     
     func isMusic() -> Bool {
-        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music ||
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.HapticMusic
     }
     
-    func isAudio() -> Bool {
-        isMusic() || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
+    //func isAudio() -> Bool {
+        //isMusic() || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
+    //}
+    
+    func isHaptic() -> Bool {
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic ||
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.HapticMusic
     }
     
     func updateFeedback() {
         incrementBreathIndex()
         
-        let isHaptic = FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic
+        let isHaptic = isHaptic()
         let isMuted = !(Float(store.state.activeSession.volume) > 0)
         
         for (audioIndex, audio) in audios.enumerated() {
@@ -316,7 +322,7 @@ class Player {
                 let breathType = sequence.isBreathing
                     ? "-" + breathTypes[1].rawValue.replacingOccurrences(of: "-hold", with: "")
                     : ""
-                let isAudible = !isMuted && isAudio() && (sequence.isBreathing || isMusic())
+                let isAudible = !isMuted && isMusic()
                 let isHaptable = sequence.isBreathing && isHaptic
                 if isHaptable {
                     //let hapticType: WKHapticType = breathType.contains(Breathe.BreatheIn.rawValue)
@@ -339,13 +345,15 @@ class Player {
                     )
                     
                     if isSampleStillPlaying {
-                        playAudio(
-                            sampleId: sampleId,
-                            playerId: playerId,
-                            audioIndex: audioIndex,
-                            hasSample: sequence.pattern[audio.sampleIndex] > 0,
-                            isBreathing: sequence.isBreathing
-                        )
+                        if !sequence.isBreathing {
+                            playAudio(
+                                sampleId: sampleId,
+                                playerId: playerId,
+                                audioIndex: audioIndex,
+                                hasSample: sequence.pattern[audio.sampleIndex] > 0,
+                                isBreathing: sequence.isBreathing
+                            )
+                        }
                     }
                     else {
                         players[playerId]?.pause()

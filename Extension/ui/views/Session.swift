@@ -98,14 +98,14 @@ func sessionView(
                         newRange: [Float(0), Float(10)]
                     )) - 1
                 ),
-                maxIndex: FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music
-                ? Int(ceil(
-                    convertRange(
-                        value: Float(VOLUME_RANGE[1]),
-                        oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
-                        newRange: [Float(0), Float(10)]
-                    )) - 1)
-                : 0,
+                maxIndex: player.isMusic()
+                    ? Int(ceil(
+                        convertRange(
+                            value: Float(VOLUME_RANGE[1]),
+                            oldRange: [Float(VOLUME_RANGE[0]), Float(VOLUME_RANGE[1])],
+                            newRange: [Float(0), Float(10)]
+                        )) - 1)
+                    : 0,
                 isShort: true,
                 isTall: true,
                 isEnabled: store.state.activeSession.isStarted(),
