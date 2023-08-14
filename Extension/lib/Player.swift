@@ -281,16 +281,12 @@ class Player {
     
     func isMusic() -> Bool {
         FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Music ||
-        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.HapticMusic
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Both
     }
-    
-    //func isAudio() -> Bool {
-        //isMusic() || FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Audio
-    //}
     
     func isHaptic() -> Bool {
         FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Haptic ||
-        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.HapticMusic
+        FEEDBACK_MODES[store.state.activeSession.feedbackModeIndex] == Feedback.Both
     }
     
     func updateFeedback() {

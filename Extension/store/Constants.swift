@@ -464,9 +464,9 @@ let COLORS: [String: (Double, Double, Double)] = [
     "brown": (139,69,19),
 ]
 let FEEDBACK_MODES: [Feedback] = [
-    Feedback.Music,
-    Feedback.HapticMusic,
     Feedback.Haptic,
+    Feedback.Music,
+    Feedback.Both,
     Feedback.Muted,
 ]
 let TIMESERIES_SAVER_INTERVAL_SECONDLY: Double = 1
