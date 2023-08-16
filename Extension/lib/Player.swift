@@ -9,7 +9,7 @@ class Player {
     
     let step = Step()
     var location = Location()
-    var motion = Motion()
+    //var motion = Motion()
     var heart = Heart()
     var fadeScale: [Float] = []
     var instruments: Instruments = [:]
@@ -581,14 +581,14 @@ class Player {
         heart.start()
         step.start()
         location.start()
-        motion.start()
+        //motion.start()
     }
     
     func stopReaders() {
         heart.stop()
         step.stop()
         location.stop()
-        motion.stop()
+        //motion.stop()
     }
 
     func clearHistory() {
