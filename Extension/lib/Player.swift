@@ -107,7 +107,7 @@ class Player {
             store.state.render()
         }
         
-        if store.state.isSyncInProgress {
+        if store.state.isSyncInProgress || store.state.activeSession.endTime != nil {
             return
         }
         
@@ -534,7 +534,7 @@ class Player {
         if save {
             saveReadings(TimeUnit.Second)
             saveReadings(TimeUnit.Minute)
-            store.state.activeSession.distance = getDistance(store.state.activeSession)
+            store.state.activeSession.distance = store.state.getMetricValue("distance")
             store.state.sessions.append(store.state.activeSession)
         }
 
