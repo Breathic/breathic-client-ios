@@ -107,7 +107,7 @@ class Player {
             store.state.render()
         }
         
-        if store.state.isSyncInProgress || store.state.activeSession.endTime != nil {
+        if store.state.isSyncInProgress {
             return
         }
         
