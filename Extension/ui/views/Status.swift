@@ -3,8 +3,8 @@ import SwiftUI
 func statusView(geometry: GeometryProxy, store: Store) -> some View {
     let columns = Array(DEFAULT_DISPLAY_METRICS[0...3]).chunks(2)
     
-    func _capText(_ input: String) -> String {
-        var capped = String(input.prefix(4))
+    func _capText(text: String, maxLength: Int) -> String {
+        var capped = String(text.prefix(maxLength))
         
         if capped.hasSuffix(".") {
             capped.removeLast()
@@ -22,7 +22,10 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                     primaryButton(
                         geometry: geometry,
                         label: getMetric(metric).label + " (" + getMetric(metric).unit + ")",
-                        value: _capText(String(format: getMetric(metric).format, store.state.getMetricValue(metric))),
+                        value: _capText(
+                            text: String(format: getMetric(metric).format, store.state.getMetricValue(metric)),
+                            maxLength: 4
+                        ),
                         valueColor: getMetric(metric).color,
                         valueTextSize: 32,
                         borderWidth: 0,
