@@ -2,6 +2,16 @@ import SwiftUI
 
 func statusView(geometry: GeometryProxy, store: Store) -> some View {
     let columns = Array(DEFAULT_DISPLAY_METRICS[0...3]).chunks(2)
+    
+    func _capText(_ input: String) -> String {
+        var capped = String(input.prefix(4))
+        
+        if capped.hasSuffix(".") {
+            capped.removeLast()
+        }
+        
+        return capped
+    }
 
     return VStack {
         Spacer(minLength: 8)
@@ -12,7 +22,7 @@ func statusView(geometry: GeometryProxy, store: Store) -> some View {
                     primaryButton(
                         geometry: geometry,
                         label: getMetric(metric).label + " (" + getMetric(metric).unit + ")",
-                        value: String(format: getMetric(metric).format, store.state.getMetricValue(metric)),
+                        value: _capText(String(format: getMetric(metric).format, store.state.getMetricValue(metric))),
                         valueColor: getMetric(metric).color,
                         valueTextSize: 32,
                         borderWidth: 0,
