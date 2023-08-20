@@ -544,6 +544,10 @@ class Player {
         store.state.setMetricValuesToDefault()
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
+        
+        if save {
+            sync([store.state.sessions[store.state.sessions.count - 1]])
+        }
  
         create()
     }
