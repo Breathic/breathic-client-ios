@@ -124,7 +124,7 @@ func readSessions() -> [Session] {
             .sorted { $0.startTime < $1.startTime }
     } catch {
         print("readSessions(): error", error)
-        deleteFileOrFolder(url: url)
+        //deleteFileOrFolder(url: url)
     }
 
     return []
@@ -139,7 +139,7 @@ func readActiveSession() -> Session {
         return session
     } catch {
         print("readActiveSession(): error", error)
-        deleteFileOrFolder(url: url)
+        //deleteFileOrFolder(url: url)
     }
 
     return Session()
@@ -368,4 +368,14 @@ func readBoolean(name: String) -> Bool? {
     }
 
     return nil
+}
+
+func capText(text: String, maxLength: Int) -> String {
+    var capped = String(text.prefix(maxLength))
+    
+    if capped.hasSuffix(".") {
+        capped.removeLast()
+    }
+    
+    return capped
 }

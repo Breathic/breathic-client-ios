@@ -422,7 +422,7 @@ class Player {
             }
             else {
                 store.state.activeSession.elapsedSeconds = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0])! * 60
-                preFinish()
+                self.finish(save: true)
                 _defaultLoop()
             }
         }
@@ -512,26 +512,15 @@ class Player {
             .map { $0.key }
         breathIndex = breathTypes.count - 1
     }
-    
-    func preFinish() {
-        store.state.activeSession.isPlaying = false
-        store.state.activeSubView = SubView.Save.rawValue
-        finishNotification()
 
-        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY_S, repeats: false) { (timer: Timer) in
-            self.finish(save: true)
-            let sessionIds: [String] = getSessionIds(sessions: self.store.state.sessions)
-            self.store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
-            onLogSelect(store: self.store)
-        }
-    }
-    
     func finish(save: Bool) {
         isAudioPlaying = false
+        store.state.activeSession.isPlaying = false
         pauseAudio()
         resetSession()
 
         if save {
+            finishNotification()
             saveReadings(TimeUnit.Second)
             saveReadings(TimeUnit.Minute)
             store.state.activeSession.distance = store.state.getMetricValue("distance")
@@ -544,12 +533,14 @@ class Player {
         store.state.setMetricValuesToDefault()
         store.state.activeSession = store.state.activeSession.copy()
         saveActiveSession(store.state.activeSession)
+        create()
         
         if save {
             sync([store.state.sessions[store.state.sessions.count - 1]])
+            let sessionIds: [String] = getSessionIds(sessions: self.store.state.sessions)
+            self.store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
+            onLogSelect(store: self.store)
         }
- 
-        create()
     }
     
     func togglePlay() {

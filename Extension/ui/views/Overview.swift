@@ -124,7 +124,10 @@ func chartSettingsView(
                             primaryButton(
                                 geometry: geometry,
                                 label: getMetric(metric).label,
-                                value: String(format: getMetric(metric).format, store.state.overviewMetrics[metric]!),
+                                value: capText(
+                                    text: String(format: getMetric(metric).format, store.state.overviewMetrics[metric]!),
+                                    maxLength: 3
+                                ),
                                 unit: getMetric(metric).unit,
                                 valueColor: store.state.overviewMetricsVisibility[metric]!
                                     ? getMetric(metric).color
