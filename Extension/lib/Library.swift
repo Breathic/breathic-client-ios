@@ -369,3 +369,13 @@ func readBoolean(name: String) -> Bool? {
 
     return nil
 }
+
+func capText(text: String, maxLength: Int) -> String {
+    var capped = String(text.prefix(maxLength))
+    
+    if capped.hasSuffix(".") {
+        capped.removeLast()
+    }
+    
+    return capped
+}
