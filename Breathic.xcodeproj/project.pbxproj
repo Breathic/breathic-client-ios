@@ -23,6 +23,7 @@
 		FD2D395228BBE012009F1861 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395128BBE012009F1861 /* Extensions.swift */; };
 		FD2D395828BBE14E009F1861 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D395728BBE14E009F1861 /* Player.swift */; };
 		FD3EAA4C2A16174F0048E0A2 /* DurationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3EAA4B2A16174F0048E0A2 /* DurationPicker.swift */; };
+		FD52E4B42A866C46000DFCEC /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD52E4B32A866C46000DFCEC /* Motion.swift */; };
 		FD54540328C74BD6002E24C1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD54540228C74BD6002E24C1 /* HealthKit.framework */; };
 		FD877CEE29C89A6B007D95F6 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = FD877CED29C89A6B007D95F6 /* EFQRCode */; };
 		FD8A9AB729D5863F00A9A746 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A9AB629D5863F00A9A746 /* ActivityPicker.swift */; };
@@ -97,6 +98,7 @@
 		FD2D395728BBE14E009F1861 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FD359C542933802700F14B68 /* ExtensionDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ExtensionDebug.entitlements; sourceTree = "<group>"; };
 		FD3EAA4B2A16174F0048E0A2 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
+		FD52E4B32A866C46000DFCEC /* Motion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Motion.swift; sourceTree = "<group>"; };
 		FD54540228C74BD6002E24C1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD877D0229C8DD15007D95F6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		FD877D0429C8DD2F007D95F6 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				FDF1E1D52911BC3D0059F5D6 /* Heart.swift */,
 				FDF1E1D12911BAEF0059F5D6 /* Location.swift */,
 				FDF1E1D32911BB960059F5D6 /* Step.swift */,
+				FD52E4B32A866C46000DFCEC /* Motion.swift */,
 			);
 			path = readers;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				FD2D392828BBDD99009F1861 /* App.swift in Sources */,
 				FDBDAF7129204D9100F57DC1 /* ViewHelper.swift in Sources */,
 				FD2D392A28BBDD99009F1861 /* ComplicationController.swift in Sources */,
+				FD52E4B42A866C46000DFCEC /* Motion.swift in Sources */,
 				FD9ABDE229C2588A00C60F25 /* Network.swift in Sources */,
 				FD2D395828BBE14E009F1861 /* Player.swift in Sources */,
 				FDC2B0F22922B23D006F53C6 /* Overview.swift in Sources */,
