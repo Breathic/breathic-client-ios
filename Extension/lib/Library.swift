@@ -86,7 +86,7 @@ func getRemainingTime(
 func getDistance(_ session: Session) -> Float {
     let timeseriesData = getTimeseriesData(
         uuid: session.uuid,
-        timeUnit: TimeUnit.Second
+        timeUnit: TimeUnit.Minute
     )
     let key: String = "distance"
     let distances = timeseriesData.filter {
@@ -124,7 +124,7 @@ func readSessions() -> [Session] {
             .sorted { $0.startTime < $1.startTime }
     } catch {
         print("readSessions(): error", error)
-        //deleteFileOrFolder(url: url)
+        deleteFileOrFolder(url: url)
     }
 
     return []
@@ -139,7 +139,7 @@ func readActiveSession() -> Session {
         return session
     } catch {
         print("readActiveSession(): error", error)
-        //deleteFileOrFolder(url: url)
+        deleteFileOrFolder(url: url)
     }
 
     return Session()

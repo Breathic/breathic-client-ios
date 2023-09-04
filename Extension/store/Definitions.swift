@@ -57,11 +57,6 @@ class Session: ObservableObject, Codable {
             save()
         }
     }
-    var distance: Float = 0 {
-        didSet {
-            save()
-        }
-    }
     var feedbackModeIndex: Int = 0 {
         didSet {
             save()
@@ -109,7 +104,6 @@ class Session: ObservableObject, Codable {
             session.isPlaying = false
             session.endTime = nil
             session.elapsedSeconds = 0
-            session.distance = 0
             session.syncStatus = SyncStatus.Syncable
             session.durationIndex = 0
             result = session

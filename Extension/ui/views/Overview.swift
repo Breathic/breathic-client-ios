@@ -2,7 +2,8 @@ import SwiftUI
 
 func chartSettingsView(
     geometry: GeometryProxy,
-    store: Store
+    store: Store,
+    location: Location
 ) -> some View {
     let session: Session = store.state.selectedSession
     let activity: Activity = getSelectedActivityFromStore(store)
@@ -78,7 +79,7 @@ func chartSettingsView(
                         .font(.system(size: 10))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)
 
-                    Text(String(format: "%.1f", session.distance / 1000) + "km")
+                    Text(String(format: "%.1f", getDistance(session) / 1000) + "km")
                         .foregroundColor(Color.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: geometry.size.width / 2, alignment: .leading)

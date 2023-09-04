@@ -422,7 +422,7 @@ class Player {
             }
             else {
                 store.state.activeSession.elapsedSeconds = Int(ACTIVITIES[store.state.activeSession.activityIndex].durationOptions[store.state.activeSession.durationIndex].split(separator: " ")[0])! * 60
-                self.finish(save: true)
+                self.preFinish()
                 _defaultLoop()
             }
         }
@@ -512,18 +512,25 @@ class Player {
             .map { $0.key }
         breathIndex = breathTypes.count - 1
     }
+    
+    func preFinish() {
+        store.state.activeSession.isPlaying = false
+        store.state.activeSubView = SubView.Save.rawValue
+        finishNotification()
+
+        Timer.scheduledTimer(withTimeInterval: FINISH_DELAY_S, repeats: false) { (timer: Timer) in
+            self.finish(save: true)
+        }
+    }
 
     func finish(save: Bool) {
         isAudioPlaying = false
-        store.state.activeSession.isPlaying = false
         pauseAudio()
         resetSession()
 
         if save {
-            finishNotification()
             saveReadings(TimeUnit.Second)
             saveReadings(TimeUnit.Minute)
-            store.state.activeSession.distance = store.state.getMetricValue("distance")
             store.state.sessions.append(store.state.activeSession)
         }
 

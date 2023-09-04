@@ -131,7 +131,7 @@ struct ContentView: View {
                             )
 
                         case store.state.selectedSessionId, SubView.Settings.rawValue:
-                            chartSettingsView(geometry: geometry, store: store)
+                        chartSettingsView(geometry: geometry, store: store, location: player.location)
 
                         default:
                             Group {}

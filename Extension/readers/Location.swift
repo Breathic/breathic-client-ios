@@ -10,7 +10,7 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     var readings: [String: [Reading]] = [:]
     var startLocation: CLLocation! = nil
     var lastLocation: CLLocation! = nil
-    var traveledDistance: Float = 0
+    var distance: Float = 0
 
     override init() {
         super.init()
@@ -59,7 +59,7 @@ class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
         timer?.invalidate()
         timer = nil
         readings = [:]
-        traveledDistance = 0
+        distance = 0
         startLocation = nil
         lastLocation = nil
     }
@@ -110,11 +110,10 @@ extension Location {
                     let lastLocation = locations.last!
                     let distance = self.startLocation.distance(from: lastLocation)
                     self.startLocation = lastLocation
-                    self.traveledDistance = self.traveledDistance + Float(distance)
-                    self.store.state.activeSession.distance = self.traveledDistance
+                    self.distance = self.distance + Float(distance)
                 }
 
-                self.process(metric: "distance", value: self.traveledDistance)
+                self.process(metric: "distance", value: self.distance)
             }
         }
     }
