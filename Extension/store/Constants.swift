@@ -206,7 +206,6 @@ let RELAX_PRESETS: [Preset] = [
         ]
     )
 ]
-/*
 let SLEEP_PRESETS: [Preset] = [
     Preset(
         key: "4-7-8",
@@ -226,7 +225,6 @@ let SLEEP_PRESETS: [Preset] = [
         ]
     )
 ]
-*/
 let DEFAULT_DURATION_OPTIONS: [String] = [
     "∞",
     "1 minutes",
@@ -283,7 +281,6 @@ let ACTIVITIES: [Activity] = [
         durationOptions: DEFAULT_DURATION_OPTIONS,
         displayMetrics: MINIMAL_DISPLAY_METRICS
     ),
-    /*
     Activity(
         key: "Sleep",
         presets: SLEEP_PRESETS,
@@ -291,7 +288,6 @@ let ACTIVITIES: [Activity] = [
         durationOptions: DEFAULT_DURATION_OPTIONS,
         displayMetrics: MINIMAL_DISPLAY_METRICS
     )
-    */
 ]
 let METRIC_TYPES: [String: MetricType] = [
     "heart": MetricType(
