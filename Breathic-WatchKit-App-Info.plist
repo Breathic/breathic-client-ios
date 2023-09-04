@@ -12,12 +12,10 @@
 	<array>
 		<string>audio</string>
 		<string>location</string>
-		<string>processing</string>
 	</array>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string>physical-therapy</string>
-		<string></string>
 	</array>
 	<key>WKSupportsAlwaysOnDisplay</key>
 	<true/>
