@@ -84,7 +84,7 @@ func uploadSession(
 
 func detectAPIAvailability() async throws -> Bool {
     do {
-        let url = URL(string: GUIDE_URL)
+        let url = URL(string: API_AVAILABILITY_URL)
 
         var response: HTTPURLResponse? = nil
         let (_, _response) = try await URLSession.shared.download(from: url!)

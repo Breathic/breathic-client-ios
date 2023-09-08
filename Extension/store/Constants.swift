@@ -3,6 +3,7 @@ import SwiftUI
 
 let API_URL: String = Bundle.main.infoDictionary!["API_URL"]! as! String
 let APP_ENV: String = Bundle.main.infoDictionary!["APP_ENV"]! as! String
+let API_AVAILABILITY_URL: String = API_URL + "/ping"
 let TERMS_AND_CONDITIONS_URL: String = "https://breathic.com/terms-and-conditions.html"
 let PRIVACY_POLICY_URL: String = "https://breathic.com/privacy-policy.html"
 let GUIDE_URL: String = "https://breathic.com"

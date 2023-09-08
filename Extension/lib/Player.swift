@@ -129,10 +129,14 @@ class Player {
                     let isAPIAvailable = try await detectAPIAvailability()
                     
                     if isAPIAvailable {
-                        print("API is available.")
+                        if Platform.isSimulator {
+                            print("API is available.")
+                        }
                     }
                     else {
-                        print("API is unavailable.")
+                        if Platform.isSimulator {
+                            print("API is unavailable.")
+                        }
                         return
                     }
                     
@@ -142,7 +146,7 @@ class Player {
                         session: session,
                         deviceToken: store.state.deviceToken
                     )
-                    
+                                        
                     if success {
                         _update(session: session, status: SyncStatus.Synced)
                     }
