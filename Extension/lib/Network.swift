@@ -81,3 +81,24 @@ func uploadSession(
 
     return false
 }
+
+func detectAPIAvailability() async throws -> Bool {
+    do {
+        let url = URL(string: GUIDE_URL)
+
+        var response: HTTPURLResponse? = nil
+        let (_, _response) = try await URLSession.shared.download(from: url!)
+        response = _response as? HTTPURLResponse
+
+        if response != nil && response?.statusCode != nil && (
+            response?.statusCode == 200) {
+            return true
+        }
+
+        return false
+
+    }
+    catch {
+        return false
+    }
+}

@@ -132,13 +132,18 @@ func readFromFile(url: URL) -> Data {
 func readFromFolder(_ folder: String) -> [String] {
     var result: [String] = []
     let documentDirectoryPath: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-    let myFilesPath = "\(documentDirectoryPath)/" + folder
-    let files = FileManager.default.enumerator(atPath: myFilesPath)
-
-    while let file = files?.nextObject() as? String {
-        result.append(String(file))
+    let path = "\(documentDirectoryPath)/" + folder
+    
+    do {
+        let files = try FileManager.default.contentsOfDirectory(atPath: path)
+        
+        for file in files {
+            result.append(String(file))
+        }
+    } catch {
+        print("readFromFolder()", error)
     }
-
+    
     return result
 }
 

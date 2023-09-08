@@ -126,7 +126,7 @@ func readSessions() -> [Session] {
         print("readSessions(): error", error)
         deleteFileOrFolder(url: url)
     }
-
+    
     return []
 }
 
@@ -160,13 +160,15 @@ func getSessionIds(sessions: [Session]) -> [String] {
             saves = isDuplicate
                 ? saves + 1
                 : 1
+            
+            let elapsedTime = getElapsedTime(session.elapsedSeconds)
+            id = id + " (" + elapsedTime + ")"
 
-            // Display the latest session for each minute.
-            if saves == 1 {
-                let elapsedTime = getElapsedTime(session.elapsedSeconds)
-                id = id + " (" + elapsedTime + ")"
-                result.append(id)
+            if saves > 1 {
+                id = id + " " + String(saves)
             }
+            
+            result.append(id)
         }
 
     return result

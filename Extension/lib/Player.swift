@@ -126,6 +126,16 @@ class Player {
                 let session = sessions[0]
                 
                 do {
+                    let isAPIAvailable = try await detectAPIAvailability()
+                    
+                    if isAPIAvailable {
+                        print("API is available.")
+                    }
+                    else {
+                        print("API is unavailable.")
+                        return
+                    }
+                    
                     _update(session: session, status: SyncStatus.Syncing)
                     
                     let success = try await uploadSession(
@@ -152,7 +162,7 @@ class Player {
             store.state.render()
         }
     }
-    
+
     func saveReadings(_ timeUnit: TimeUnit) {
         let readingContainer: ReadingContainer = getAverages(timeseries: store.state.readings[timeUnit]!)
         let id: String = String(Date().timeIntervalSince1970)
@@ -543,10 +553,11 @@ class Player {
         create()
         
         if save {
-            sync([store.state.sessions[store.state.sessions.count - 1]])
+            saveSession(store.state.sessions[store.state.sessions.count - 1])
             let sessionIds: [String] = getSessionIds(sessions: self.store.state.sessions)
             self.store.state.selectedSessionId = sessionIds[sessionIds.count - 1]
             onLogSelect(store: self.store)
+            sync([store.state.sessions[store.state.sessions.count - 1]])
         }
     }
     
